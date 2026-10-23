@@ -10,6 +10,27 @@
 <style>
 :root{color-scheme:dark;--bg:#061319;--bg2:#0a1f24;--panel:#10282e;--panel2:#14343a;--line:#28515a;--muted:#a4bdc2;--text:#f4fffd;--teal:#49e3d2;--teal-deep:#0d4545;--amber:#f9c879;--red:#f29da6;--green:#6ae7ad;--radius:20px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 800px 500px at 60% -140px,#12464b 0%,transparent 70%),linear-gradient(180deg,#091c21,var(--bg) 43%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-tap-highlight-color:transparent}button,input,select,textarea{font:inherit}button{cursor:pointer;touch-action:manipulation;color:inherit}button:disabled,select:disabled,input:disabled{cursor:not-allowed;opacity:.42}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}a{color:var(--teal)}.shell{max-width:1110px;margin:0 auto;padding:20px 20px 110px}.topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:6px 0 22px}.identity{display:flex;align-items:center;gap:13px}.mark{width:44px;height:44px;border-radius:13px;background:linear-gradient(140deg,#71ffe3,#188782);color:#002b2c;display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 10px 34px #1dc8bb33;flex-shrink:0}.eyebrow{color:var(--teal);font-weight:800;letter-spacing:.16em;font-size:10px;text-transform:uppercase}.brand{font-size:19px;font-weight:790;letter-spacing:-.04em;line-height:1.05}.subbrand{font-size:12px;color:var(--muted);margin-top:3px}.chip{border:1px solid var(--line);border-radius:99px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:650;background:#0d2429;white-space:nowrap}.led{width:9px;height:9px;border-radius:100%;background:#899ca0;box-shadow:0 0 0 3px #becbcd16;display:inline-block}.led.ready{background:var(--green);box-shadow:0 0 0 4px #6ae7ad1e}.led.demo{background:var(--amber)}.hero{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:25px 28px;border:1px solid #2c6267;border-radius:26px;background:linear-gradient(120deg,#123d43,#0a2228 65%);position:relative;overflow:hidden;margin-bottom:20px}.hero:after{content:"";position:absolute;border:1px solid #38ad9e23;border-radius:50%;width:270px;height:270px;right:-70px;top:-190px;pointer-events:none}.hero h1{font-size:clamp(26px,4vw,41px);line-height:1.04;letter-spacing:-.055em;margin:6px 0 10px;max-width:630px}.hero p{color:#b5d0d1;max-width:640px;margin:0;font-size:14px}.hero .tag{font-size:11px;font-weight:700;color:#6df7e8;letter-spacing:.09em;text-transform:uppercase}.hero-art{width:110px;height:110px;flex-shrink:0;border-radius:30px;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,#49e3d227 0 32%,transparent 33%),conic-gradient(from 15deg,#49e3d2,#102f36 16%,#49e3d2 32%,#102f36 48%,#49e3d2 64%,#102f36 80%,#49e3d2);box-shadow:inset 0 0 0 25px #0c2b30,0 0 45px #0eb5a329;transform:rotate(18deg)}.hero-art:before{content:"SE";font-size:25px;font-weight:900;transform:rotate(-18deg);letter-spacing:-.09em;color:#79fff0}.notice{border:1px solid #7f673e;display:flex;gap:10px;align-items:flex-start;background:#4c381329;border-radius:14px;padding:11px 14px;margin-bottom:20px;font-size:12px;color:#f6d7a1}.notice b{color:#ffe3b2}.layout{display:grid;grid-template-columns:minmax(0,1fr) 295px;gap:20px;align-items:start}.main-stack,.side-stack{display:grid;gap:18px}.panel{background:linear-gradient(180deg,#10292f,#0d2228);border:1px solid var(--line);border-radius:20px;padding:22px;min-width:0;box-shadow:0 12px 30px #00131830}.panel h2{font-size:18px;font-weight:760;margin:0;letter-spacing:-.025em}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:16px}.panel-head p{margin:4px 0 0;font-size:12px;color:var(--muted)}.muted{color:var(--muted)}.small{font-size:12px}.caps{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:780;color:var(--muted)}.tab{display:none}.tab.active{display:block}.button{display:inline-flex;justify-content:center;align-items:center;gap:8px;border-radius:12px;border:1px solid #315a61;background:#183b42;font-weight:690;min-height:43px;padding:10px 15px;white-space:normal;line-height:1.2;transition:background .12s,border .12s}.button:hover{background:#20535a}.button.primary{background:var(--teal);border-color:var(--teal);color:#062a2e}.button.primary:hover{background:#91f7eb}.button.soft{background:#123137;color:var(--teal);border-color:#2b6266}.button.danger{color:#ffd3d5;border-color:#8b454e;background:#45212a}.button.danger:hover{background:#672c37}.button.ghost{background:transparent}.button.tiny{font-size:12px;padding:6px 9px;min-height:34px}.button.block{width:100%}.button.is-selected{background:#103e40;border-color:var(--teal);color:var(--teal)}.actions{display:flex;flex-wrap:wrap;gap:9px}.actions .button{flex:1}.status-card{background:#091d23;border:1px solid #27464d;border-radius:14px;padding:15px;margin-bottom:13px}.status-label{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;color:var(--muted)}.status-value{font-size:20px;font-weight:800;margin:3px 0 2px;letter-spacing:-.025em;overflow-wrap:anywhere}.tiny-good{color:var(--green);font-weight:700}.tiny-alert{color:var(--amber);font-weight:700}.hint{background:#0a2228;border-left:3px solid #2ebeb0;color:#b4d3d1;padding:10px 12px;border-radius:7px;font-size:12px;line-height:1.5;margin:12px 0 0}.side-title{font-size:14px;font-weight:770;margin:0 0 12px}.count{color:var(--teal)}.field{margin:15px 0}.field label{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#c9dcdf;font-weight:650;font-size:13px;margin:0 0 7px}.value{color:var(--teal);font-variant-numeric:tabular-nums}.control{border:1px solid #335a61;border-radius:12px;background:#091c22;color:var(--text);width:100%;padding:11px 12px;min-height:44px;font-size:15px}.control:focus{border-color:var(--teal)}select.control{color-scheme:dark}input[type=range]{width:100%;accent-color:var(--teal);height:33px;cursor:pointer}input[type=color]{background:#0a1b20;border:1px solid #4e777a;border-radius:12px;width:64px;min-width:64px;height:48px;padding:4px;cursor:pointer}.color-controls{display:flex;align-items:center;gap:10px}.color-controls .button{flex:1}.swatches{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin:12px 0}.swatch{height:38px;border:2px solid #ffffff30;border-radius:10px;background:var(--swatch,#48d5c6);min-width:0;padding:0}.swatch:hover,.swatch:focus-visible{border-color:white;transform:translateY(-1px)}.divider{height:1px;background:var(--line);margin:18px 0}.zone-head{display:flex;align-items:center;gap:9px;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}.zone-head .caps{margin:0}.zones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.zone{min-width:0;border:1px solid #31555b;border-radius:14px;background:#112c32;display:flex;flex-direction:column;align-items:stretch;transition:border-color .1s}.zone.selected{border-color:var(--teal);box-shadow:inset 0 0 0 1px #49e3d264;background:linear-gradient(180deg,#173e43,#12343a)}.zone-main{appearance:none;border:0;background:transparent;text-align:left;padding:14px 12px 10px;display:flex;flex-direction:column;min-height:96px;align-items:flex-start;width:100%;gap:4px}.zone-top{display:flex;align-items:center;justify-content:space-between;width:100%;font-size:10px;font-weight:800;color:#95b7ba;letter-spacing:.09em}.zone-main .zone-name{font-size:13px;font-weight:750;line-height:1.2;min-height:29px;overflow-wrap:anywhere}.zone-main .zone-meta{font-size:11px;color:#9fb9be;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;max-width:100%}.zone-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #31515a;padding:7px 9px}.zone-light{height:13px;width:13px;border-radius:50%;background:#516a71;box-shadow:0 0 0 3px #ffffff0c}.zone-light.on{background:var(--zone-color,#49e3d2);box-shadow:0 0 8px var(--zone-color,#49e3d2)}.zone-power{padding:3px 8px;border:1px solid #42676e;background:#17373d;border-radius:8px;font-size:11px;min-height:30px;font-weight:700}.zone.selected .zone-main .zone-top{color:var(--teal)}.zone-power.on{color:#91ffe2}.selected-strip{font-size:12px;color:#add7d3;display:flex;align-items:center;gap:7px;margin:12px 0 0;flex-wrap:wrap}.badge{padding:3px 8px;border:1px solid #386b6d;border-radius:99px;color:var(--teal);font-weight:700;font-size:11px;background:#153a3b}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field-row .field{margin-top:0}.subnav{display:flex;gap:7px;margin:0 0 20px;overflow-x:auto;padding:2px 0 8px}.subnav button{white-space:nowrap;min-height:39px;border:1px solid #35565c;border-radius:11px;padding:7px 14px;background:#0b232a;color:#bad6d5;font-size:13px;font-weight:740}.subnav button.active{background:var(--teal);border-color:var(--teal);color:#04262b}.group-list{display:flex;gap:7px;flex-wrap:wrap;min-height:35px}.group-list .button{font-size:12px;padding:7px 10px;min-height:34px}.effect-heading{display:flex;align-items:center;gap:8px;margin-bottom:7px}.meta-pills{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 0}.meta-pills span{border:1px solid #345d61;background:#0c252a;font-size:11px;color:#c5e3e1;padding:3px 7px;border-radius:20px}.scene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.scene{min-height:66px;display:flex;align-items:flex-start;flex-direction:column;justify-content:center;gap:5px;border:1px solid #35646b;background:#13363b;border-radius:13px;padding:12px;text-align:left}.scene strong{font-size:14px}.scene span{font-size:11px;color:#a0cbc8}.scene:hover{border-color:var(--teal)}.look{display:flex;align-items:center;justify-content:space-between;gap:11px;padding:11px 0;border-bottom:1px solid #28515a}.look:last-child{border:0}.look .look-name{font-weight:760;font-size:13px}.look .small{font-size:11px}.look .actions .button{flex:auto}.log{background:#051217;border:1px solid #23464c;border-radius:12px;padding:13px;white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.55 ui-monospace,Menlo,Consolas,monospace;max-height:360px;min-height:190px;overflow-y:auto;color:#b7e2d9}.kv{display:grid;grid-template-columns:100px 1fr;gap:7px;font-size:12px;border-bottom:1px solid #28515a;padding:8px 0}.kv:last-child{border:0}.kv dt{color:#9fbec2}.kv dd{margin:0;word-break:break-all}.preview{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:16px 0}.preview-cell{height:52px;border:1px solid #336168;border-radius:9px;background:#0c2429;display:flex;align-items:center;justify-content:center;font-size:11px;color:#a5c6c3;font-weight:800}.preview-cell.live{background:#268d89;color:white;box-shadow:0 0 14px #37bdbb49;border-color:var(--teal)}.switchrow{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}.switch{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}.switch input{accent-color:var(--teal);width:18px;height:18px}.command-line{font-size:11px;color:#a2c1c1;background:#071b20;border:1px solid #244a4e;border-radius:9px;padding:8px 10px;margin:10px 0 0}.foot{font-size:12px;color:#9ab5b9;line-height:1.65;margin:21px 3px 0}.foot p{margin:8px 0}.nav{display:none;position:fixed;bottom:calc(8px + env(safe-area-inset-bottom));left:12px;right:12px;z-index:5;margin:0 auto;gap:5px;background:#0a2128eF;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #31575d;border-radius:19px;padding:7px;box-shadow:0 12px 40px #00131990;max-width:700px}.nav button{flex:1;padding:10px 3px;background:transparent;border:0;border-radius:13px;color:#a8c3c5;font-size:11px;font-weight:720;min-height:49px}.nav button.active{color:#092a2b;background:var(--teal)}.nav .nav-icon{font-size:17px;display:block;line-height:1.1;margin-bottom:3px}.toast{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);padding:10px 14px;border-radius:11px;background:#254d50;border:1px solid #7ac8c1;color:#f3fffd;box-shadow:0 10px 30px #0008;font-size:13px;max-width:90vw;width:max-content;z-index:8;opacity:0;pointer-events:none;transition:opacity .15s}.toast.show{opacity:1}.hidden{display:none!important}@media(max-width:850px){.nav{display:flex}.layout{grid-template-columns:1fr}.side-stack{grid-row:1;display:grid;grid-template-columns:1fr 1fr}.side-stack .panel{height:100%}}@media(max-width:600px){.subnav{display:none}.shell{padding:15px 12px 106px}.topbar{padding-bottom:17px}.brand{font-size:17px}.topbar .chip{max-width:150px;overflow:hidden;text-overflow:ellipsis;font-size:11px}.hero{padding:21px 18px;grid-template-columns:1fr}.hero-art{display:none}.hero h1{font-size:30px}.panel{padding:17px}.side-stack{grid-template-columns:1fr}.zones{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.zone-main{min-height:88px}.swatches{grid-template-columns:repeat(4,1fr)}.field-row{grid-template-columns:1fr}.scene-grid{grid-template-columns:repeat(3,1fr)}.nav{bottom:6px;border-radius:16px}.nav button{font-size:10px}.nav .nav-icon{font-size:16px}.actions .button{min-width:0;font-size:13px}.look{align-items:flex-start;flex-direction:column}}
+
+/* v1.2: phone-first controls and better visual hierarchy */
+[hidden]{display:none!important}
+.connection-banner{border:1px solid #e3a375;border-radius:14px;padding:12px 14px;margin:0 0 16px;background:#4d291b;color:#ffe4c4;font-size:13px}
+.connection-banner b{display:block;font-size:14px}
+.preset-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.preset{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:linear-gradient(160deg,#154249,#0b2830);border:1px solid #3b6c70;border-radius:15px;min-height:118px;padding:13px 10px;min-width:0;transition:border-color .12s,transform .12s}
+.preset:active{transform:scale(.97);border-color:var(--teal)}
+.preset-em{font-size:24px;line-height:1.3}.preset strong{font-size:13px;letter-spacing:-.02em}.preset span:last-child{font-size:11px;color:#b9d4d3}
+.footnote{margin:12px 0 0}
+.steps{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px}.steps span{background:#092329;border:1px solid #315b60;border-radius:10px;padding:6px 8px;font-size:11px;color:#b6dbd7}.steps b{display:inline-grid;place-items:center;border-radius:50%;background:#49e3d2;color:#032c2a;height:20px;width:20px;margin-right:4px}
+.studio-zones{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.studio-zone{border:1px solid #426a70;background:#0c252b;border-radius:12px;padding:11px 6px;min-height:58px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;white-space:normal;overflow-wrap:anywhere}.studio-zone strong{font-size:11px}.studio-zone small{font-size:10px;color:#acc7c8}.studio-zone.selected{background:#174e50;border-color:var(--teal);box-shadow:inset 0 0 0 1px #6ae7ad33}.studio-zone.selected small{color:var(--teal)}
+.custom-preview .preview-cell{height:52px;color:#a6c5c3}.custom-preview .preview-cell.live{background:var(--look-color,#49e3d2);color:#052126;border-color:#75fff4;box-shadow:0 0 17px color-mix(in srgb,var(--look-color,#49e3d2) 32%,transparent)}
+.custom-preview .preview-cell.rainbow{background:linear-gradient(100deg,#ff5959,#efbc41,#53c77e,#35a5f7,#ab62ff);color:#052126}
+.custom-look-list{display:grid;gap:8px;margin-top:11px}.design-row{background:#0b2229;border:1px solid #315a61;border-radius:12px;padding:12px;display:flex;justify-content:space-between;gap:12px;align-items:center}.design-row strong{font-size:13px}.design-row .small{font-size:11px}.design-row .actions{flex-shrink:0}
+.pair-details{margin-top:4px;border-radius:10px}.pair-details summary,.support-details summary,.live-builder summary{cursor:pointer;font-size:12px;color:var(--teal);font-weight:750;list-style:none}.pair-details summary::-webkit-details-marker,.support-details summary::-webkit-details-marker,.live-builder summary::-webkit-details-marker{display:none}.pair-details summary:before,.support-details summary:before,.live-builder summary:before{content:'▸';margin-right:7px}.pair-details[open] summary:before,.support-details[open] summary:before,.live-builder[open] summary:before{content:'▾'}
+.live-builder summary{display:block}.live-builder summary .summary-top{display:block;font-size:17px;color:var(--text);margin-bottom:7px}.live-builder summary .summary-top .badge{margin-left:7px}.live-builder summary .small{display:block;font-weight:400;line-height:1.5}.badge.amber{color:#ffe4bb;border-color:#86663b;background:#392913}
+#connectionQuality{font-variant-numeric:tabular-nums}.connect-panel .status-card{margin-bottom:11px}
+@media(max-width:850px){.support-details{display:none}.side-stack{gap:10px}.hero{padding:15px 19px;margin-bottom:12px}.hero h1{font-size:26px;margin:3px 0 6px}.hero p{font-size:12px}.notice{margin-bottom:12px}.layout{gap:13px}}
+@media(max-width:600px){.topbar{padding-bottom:10px}.shell{padding-top:12px}.hero h1{font-size:25px}.hero .tag{font-size:10px}.hero p{font-size:12px}.preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.preset{min-height:88px;display:grid;grid-template-columns:30px 1fr;align-content:center;gap:3px 8px;padding:10px}.preset-em{grid-row:span 2}.preset strong{align-self:end}.preset span:last-child{grid-column:2}.studio-zones{grid-template-columns:repeat(2,1fr)}.design-row{flex-wrap:wrap}.design-row .actions{width:100%}.panel{padding:15px}.status-card{padding:10px 13px}.connect-panel .panel-head{margin-bottom:10px}.connect-panel .panel-head h2{font-size:16px}.fast-start .panel-head{margin-bottom:10px}.fast-start .panel-head .badge{font-size:10px}.preview{gap:4px}.preview-cell{height:43px}.steps span{font-size:10px}}
+
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
@@ -19,20 +40,31 @@
   <div class="identity"><div class="mark">S</div><div><div class="eyebrow">Your smart home, made easy</div><div class="brand">SmartEase <span style="color:var(--teal)">Cart Lights</span></div><div class="subbrand">SP608E / Direct Bluetooth</div></div></div>
   <span class="chip"><span class="led" id="topLed"></span><span id="topStatus">Disconnected</span></span>
  </header>
- <section class="hero"><div><div class="tag">Project / Cart lighting lab</div><h1>Your cart.<br>Your light show.</h1><p>Eight outputs. One clean control surface. Your iPhone talks to the SP608E directly through Bluefy, without Home Assistant or a cloud account.</p></div><div class="hero-art" aria-hidden="true"></div></section>
- <div class="notice"><span aria-hidden="true">!</span><div><b>Bench-test build, not hardware-verified.</b> Decorative lighting only. Never use phone-triggered sequences for brake lights, turn signals, or other safety-critical functions. Use while parked.</div></div>
+ <section class="hero"><div><div class="tag">SmartEase / Golf cart</div><h1>Make the lights yours.</h1><p>Pick lights. Choose a look. Enjoy the show. Eight zones, one simple controller.</p></div><div class="hero-art" aria-hidden="true"></div></section>
+  <div class="connection-banner" id="connectionBanner" role="status" hidden><b>Connection lost.</b> Your live show has stopped. Reconnect to continue.</div>
+ <div class="notice"><span aria-hidden="true">!</span><div><b>Decorative lighting only.</b> Use while parked. Keep brake lights, turn signals, and other road-safety lighting independent of this app.</div></div>
  <div class="subnav" role="tablist" aria-label="Lighting app sections">
-  <button type="button" class="active" role="tab" aria-selected="true" data-tab="control">Control</button>
+  <button type="button" class="active" role="tab" aria-selected="true" data-tab="control">Lights</button>
   <button type="button" role="tab" aria-selected="false" data-tab="effects">Effects</button>
-  <button type="button" role="tab" aria-selected="false" data-tab="scenes">Scenes</button>
-  <button type="button" role="tab" aria-selected="false" data-tab="studio">Studio</button>
-  <button type="button" role="tab" aria-selected="false" data-tab="diagnostics">Diagnostics</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="scenes">Saved</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="studio">Create</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="diagnostics">More</button>
  </div>
  <div class="layout">
   <div class="main-stack">
    <section class="tab active" id="tab-control" role="tabpanel">
+    <article class="panel fast-start">
+     <div class="panel-head"><div><h2>Instant looks</h2><p>Tap a look to play it on the selected lights.</p></div><span class="badge">Runs on controller</span></div>
+     <div class="preset-grid" id="quickPresets">
+      <button class="preset" type="button" data-quickfx="1"><span class="preset-em" aria-hidden="true">🌈</span><strong>Rainbow</strong><span>Flowing colors</span></button>
+      <button class="preset" type="button" data-quickfx="6"><span class="preset-em" aria-hidden="true">☄️</span><strong>Comet</strong><span>Moving trail</span></button>
+      <button class="preset" type="button" data-quickfx="4"><span class="preset-em" aria-hidden="true">🔥</span><strong>Fire</strong><span>Warm motion</span></button>
+      <button class="preset" type="button" data-quickfx="25"><span class="preset-em" aria-hidden="true">🎨</span><strong>Solid color</strong><span>Color below</span></button>
+     </div>
+     <p class="small muted footnote">Controller effects keep playing when your phone disconnects. Customize more under Create.</p>
+    </article>
     <article class="panel">
-     <div class="panel-head"><div><h2>Lighting zones</h2><p>Tap a tile to include or remove a zone from your selection.</p></div><button class="button tiny soft" id="allZones" type="button">Select all</button></div>
+     <div class="panel-head"><div><h2>Choose your lights</h2><p>Tap a light to select it. Only selected lights change when you apply a look.</p></div><button class="button tiny soft" id="allZones" type="button">Select all</button></div>
      <div class="zones" id="zoneGrid" aria-label="Eight LED outputs"></div>
      <div class="selected-strip"><span class="badge" id="selectedCount">8 selected</span><span id="selectedNames">All eight outputs</span></div>
      <div class="divider"></div>
@@ -41,7 +73,7 @@
      <div class="caps" style="margin:15px 0 8px">Quick groups</div><div class="group-list" id="groupList"></div>
     </article>
     <article class="panel">
-     <div class="panel-head"><div><h2>Color &amp; brightness</h2><p>Changes apply to selected channels.</p></div><span class="badge">RGB</span></div>
+     <div class="panel-head"><div><h2>Color &amp; brightness</h2><p>Choose a solid look or fine-tune selected lights.</p></div><span class="badge">RGB</span></div>
      <div class="field"><label for="mainColor">Choose color</label><div class="color-controls"><input type="color" id="mainColor" value="#49e3d2" aria-label="Lighting color"><input class="control" id="colorHex" value="#49e3d2" maxlength="7" spellcheck="false" autocapitalize="off" aria-label="Hex color" style="width:118px;flex:0 0 118px"><button class="button primary" id="applyColor" type="button">Apply color</button></div></div>
      <div class="swatches" id="colorSwatches"></div>
      <div class="field"><label for="masterBrightness">Brightness <span class="value" id="brightnessValue">45%</span></label><input type="range" id="masterBrightness" min="0" max="255" step="1" value="115"><p class="small muted" style="margin:0">Release to send. Lower brightness is best for the first test.</p></div>
@@ -85,22 +117,44 @@
      <p class="small muted">These looks are not programmed into the SP608E. Restoring one sends a series of Bluetooth commands and requires the page to remain open.</p>
     </article>
    </section>
-   <section class="tab" id="tab-studio" role="tabpanel" aria-hidden="true">
-    <article class="panel">
-     <div class="panel-head"><div><h2>SmartEase Animation Studio</h2><p>Original, phone-driven choreography across the eight outputs.</p></div><span class="badge">Experimental</span></div>
-     <div class="field"><label for="sequenceType">Pattern</label><select class="control" id="sequenceType"><option value="chase">Orbit chase - one zone at a time</option><option value="pairs">Paired wave - two zones together</option><option value="alternating">Alternating banks - odd/even zones</option></select></div>
-     <div class="field"><label for="sequenceDelay">Time between steps <span class="value" id="delayValue">1400 ms</span></label><input type="range" id="sequenceDelay" min="1000" max="4000" step="100" value="1400"></div>
-     <div class="field"><label for="sequenceColor">Animation color</label><div class="color-controls"><input type="color" value="#49e3d2" id="sequenceColor"><span class="small muted">Only selected outputs participate.</span></div></div>
-     <div class="preview" id="sequencePreview" aria-label="Sequence preview"></div>
-     <div class="actions"><button class="button primary" id="startSequence" type="button">Start choreography</button><button class="button danger" id="stopSequence" type="button">Stop</button><button class="button" id="clearSequence" type="button">All selected off</button></div>
-     <p class="hint"><b>Important:</b> The iPhone must remain connected and this page must stay in the foreground. This is slower, per-zone BLE choreography, not pixel-level WLED streaming. Stopping leaves the last lighting state in place until you issue another command.</p>
-    </article>
-   </section>
+    <section class="tab" id="tab-studio" role="tabpanel" aria-hidden="true">
+     <article class="panel">
+      <div class="panel-head"><div><h2>Create your own look</h2><p>Design it once. The SP608E plays its own smooth animations without continuous Bluetooth commands.</p></div><span class="badge">Recommended</span></div>
+      <div class="steps"><span><b>1</b> Choose lights</span><span><b>2</b> Set the look</span><span><b>3</b> Apply &amp; save</span></div>
+      <div class="caps" style="margin:17px 0 8px">Which lights?</div>
+      <div class="studio-zones" id="studioZones" aria-label="Choose lighting zones for your look"></div>
+      <div class="field-row">
+       <div class="field"><label for="studioEffect">Animation style</label><select class="control" id="studioEffect"><option value="25">Solid color</option><option value="1">Rainbow flow</option><option value="3">Twinkling stars</option><option value="6">Comet trail</option><option value="4">Fire</option><option value="7">Color wave</option><option value="8">Chasing</option><option value="17">Breathing</option></select></div>
+       <div class="field"><label for="studioColor">Color (when supported)</label><input type="color" id="studioColor" value="#49e3d2" aria-label="Look color"><span class="small muted" style="margin-left:10px">Choose your signature color</span></div>
+      </div>
+      <div class="field-row">
+       <div class="field"><label for="studioBrightness">Brightness <span class="value" id="studioBrightnessValue">45%</span></label><input id="studioBrightness" type="range" min="10" max="255" step="1" value="115"></div>
+       <div class="field"><label for="studioSpeed">Animation speed <span class="value" id="studioSpeedValue">5 / 10</span></label><input id="studioSpeed" type="range" min="1" max="10" step="1" value="5"></div>
+      </div>
+      <div class="caps" style="margin-top:6px">Your selected lights</div>
+      <div class="preview custom-preview" id="studioLookPreview" aria-label="Preview of selected zones"></div>
+      <div class="actions"><button class="button primary" id="applyCustomLook" type="button">Play this look</button></div>
+      <div class="field"><label for="customLookName">Save for next time (on this phone)</label><div class="actions"><input class="control" id="customLookName" placeholder="e.g. Friday night cruise" maxlength="30" style="flex:2;min-width:160px"><button class="button" id="saveCustomLook" type="button">Save look</button></div></div>
+      <div id="customLookList" class="custom-look-list"></div>
+      <div class="command-line" id="lookApplyStatus" role="status">Ready. Choose a look, then press Play this look.</div>
+     </article>
+     <details class="panel live-builder" id="liveBuilder">
+      <summary><span class="summary-top">Live choreography <span class="badge amber">Experimental</span></span><span class="small muted">Advanced timed sequences across lighting zones. More Bluetooth-intensive than controller-powered looks.</span></summary>
+      <div class="divider"></div>
+      <p class="small muted">For parked demonstrations. This sends repeated commands from the phone and stops if the page is hidden or Bluetooth drops. Smooth pixel-level animation isn't available through these commands.</p>
+      <div class="field"><label for="sequenceType">Chase pattern</label><select class="control" id="sequenceType"><option value="chase">Orbit: one light at a time</option><option value="pairs">Paired: two lights together</option><option value="alternating">Alternating: odd / even zones</option></select></div>
+      <div class="field"><label for="sequenceDelay">Step duration <span class="value" id="delayValue">2400 ms</span></label><input type="range" id="sequenceDelay" min="1800" max="6000" step="200" value="2400"><p class="small muted">Stability-first timing. Each change is sent separately over Bluetooth.</p></div>
+      <div class="field"><label for="sequenceColor">Chase color</label><input type="color" value="#49e3d2" id="sequenceColor"></div>
+      <div class="preview" id="sequencePreview" aria-label="Live choreography preview"></div>
+      <div class="actions"><button class="button primary" id="startSequence" type="button">Start live show</button><button class="button danger" id="stopSequence" type="button">Stop live show</button><button class="button" id="clearSequence" type="button">Selected lights off</button></div>
+      <div class="command-line" id="studioPlaybackStatus" role="status">Not playing. The controller is available for normal looks.</div>
+     </details>
+    </section>
    <section class="tab" id="tab-diagnostics" role="tabpanel" aria-hidden="true">
     <article class="panel">
      <div class="panel-head"><div><h2>Protocol diagnostics</h2><p>Observe packets and verify actual SP608E responses.</p></div><span class="badge">FFE0 / FFE1</span></div>
      <dl id="connectionFacts"><div class="kv"><dt>Service</dt><dd>0000ffe0-0000-1000-8000-00805f9b34fb</dd></div><div class="kv"><dt>Characteristic</dt><dd>0000ffe1-0000-1000-8000-00805f9b34fb</dd></div><div class="kv"><dt>Device</dt><dd id="deviceName">Not selected</dd></div><div class="kv"><dt>Status packets</dt><dd id="packetCount">0</dd></div><div class="kv"><dt>Writes</dt><dd id="writeCount">0</dd></div><div class="kv"><dt>Last update</dt><dd id="lastUpdate">Never</dd></div></dl>
-     <div class="actions" style="margin:15px 0"><button class="button soft" id="readStatus" type="button">Query controller</button><button class="button" id="copyLog" type="button">Copy log</button><button class="button" id="clearLog" type="button">Clear log</button></div>
+     <div class="actions" style="margin:15px 0"><button class="button soft" id="readStatus" type="button">Sync from cart</button><button class="button" id="copyLog" type="button">Copy log</button><button class="button" id="clearLog" type="button">Clear log</button></div>
      <pre class="log" id="debugLog" role="log" aria-live="polite">Ready. Open this site over HTTPS in Bluefy and connect to your SP608E.</pre>
      <div class="divider"></div>
      <div class="panel-head"><div><h2>Local backup</h2><p>Save or restore channel names, groups, and SmartEase looks.</p></div></div>
@@ -111,27 +165,29 @@
    </section>
   </div>
   <aside class="side-stack">
-   <article class="panel">
-    <div class="panel-head"><div><h2>Connect to cart</h2><p>Web Bluetooth / Bluefy</p></div></div>
-    <div class="status-card"><div class="status-label"><span>Controller</span><span id="transportHint">Not paired</span></div><div class="status-value" id="connectionName">SP608E</div><div class="small muted" id="connectionDetail">No Bluetooth connection</div></div>
-    <div class="actions" style="margin-bottom:10px"><button class="button primary" type="button" id="connectBtn">Find SP608E</button><button class="button" type="button" id="disconnectBtn" disabled>Disconnect</button></div>
-    <div class="actions" style="margin-bottom:10px"><button class="button soft" type="button" id="scanServiceBtn">Scan by service</button><button class="button ghost" type="button" id="scanAllBtn">Scan all</button></div>
-    <div class="field"><label for="blePrefix">Controller name (optional)</label><input class="control" id="blePrefix" maxlength="32" placeholder="Name shown in BanlanX"></div>
-    <p class="small muted" style="margin:0 0 12px">Find SP608E uses Bluetooth name matching. If it is missing, close BanlanX completely, then try Scan by service. Use Scan all only as a final fallback.</p>
-    <div class="actions"><button class="button soft" type="button" id="refreshBtn">Read SP608E</button><button class="button ghost" type="button" id="demoBtn">Demo UI</button></div>
-    <div class="command-line" id="statusQuality">Waiting for real controller status.</div>
-   </article>
+   <article class="panel connect-panel">
+     <div class="panel-head"><div><h2>Connect to your cart</h2><p>One connection. Eight lighting zones.</p></div><span class="badge" id="connectionQuality">Offline</span></div>
+     <div class="status-card"><div class="status-label"><span>Controller</span><span id="transportHint">Not paired</span></div><div class="status-value" id="connectionName">SP608E</div><div class="small muted" id="connectionDetail">Connect to control your lights</div></div>
+     <div class="actions" style="margin-bottom:8px"><button class="button primary" type="button" id="connectBtn">Find SP608E</button><button class="button" type="button" id="disconnectBtn" disabled>Disconnect</button></div>
+     <details class="pair-details" id="pairOptions"><summary>Having trouble connecting? Other scan methods</summary>
+      <div class="actions" style="margin:12px 0"><button class="button soft" type="button" id="scanServiceBtn">Scan by service</button><button class="button ghost" type="button" id="scanAllBtn">Scan all devices</button></div>
+      <div class="field"><label for="blePrefix">Controller name (optional)</label><input class="control" id="blePrefix" maxlength="32" placeholder="Name shown in BanlanX"></div>
+      <p class="small muted">Fully close BanlanX first. Use Scan all if the SP608E doesn't show in other scans.</p>
+     </details>
+     <div class="actions" style="margin-top:11px"><button class="button soft" type="button" id="refreshBtn">Sync lights</button><button class="button ghost" type="button" id="demoBtn">Demo UI</button></div>
+     <div class="command-line" id="statusQuality">Waiting for real controller status.</div>
+    </article>
    <article class="panel"><div class="panel-head"><div><h2>Quick actions</h2><p>Affect all eight channels.</p></div></div><div class="actions"><button class="button" id="allOn" type="button">All on</button><button class="button danger" id="allOff" type="button">All off</button></div><div class="divider"></div><div class="caps">Current selection</div><div class="small" style="font-weight:720;color:var(--teal);margin:7px 0" id="asideSelection">All zones</div><div class="small muted">Zone buttons and controls use your current selection. Global power actions always target all eight.</div></article>
-   <article class="panel"><div class="caps">Connection notes</div><p class="small muted">Close SceneX/BanlanX before connecting: most SP608E units allow one active BLE controller. Bluefy needs this page on <b>HTTPS</b>; Safari does not expose the required API.</p><p class="small muted" style="margin-bottom:0">After installing, connect once and use <b>Read SP608E</b> before making changes. No login, analytics, or external scripts.</p></article>
+   <details class="panel support-details"><summary>Connection tips &amp; troubleshooting</summary><p class="small muted">Close BanlanX before connecting here: the controller generally supports one active BLE app at a time. Open this secure website inside Bluefy on iPhone; Safari cannot connect through Web Bluetooth.</p><p class="small muted">Your saved looks stay on this phone. Controller-native animations continue after Bluetooth disconnects. Live shows require Bluefy to stay open.</p></details>
   </aside>
  </div>
- <footer class="foot"><p><strong>SmartEase Cart Lights v1.0 - experimental.</strong> For a controller you own. No firmware flash, wiring changes, or internet service required for BLE control once the HTTPS page is available in Bluefy. Offline page loading and Bluetooth behavior depend on iOS/Bluefy caching.</p><p>UniLED protocol reference &copy; 2022 Phil M, MIT licensed. See LICENSE.txt. Decorative use only; avoid high-intensity or rapidly flashing effects near traffic.</p></footer>
+ <footer class="foot"><p><strong>SmartEase Cart Lights v1.2 - stability & Create redesign.</strong> For a controller you own. No firmware flash, wiring changes, or internet service required for BLE control once the HTTPS page is available in Bluefy. Offline page loading and Bluetooth behavior depend on iOS/Bluefy caching.</p><p>UniLED protocol reference &copy; 2022 Phil M, MIT licensed. See LICENSE.txt. Decorative use only; avoid high-intensity or rapidly flashing effects near traffic.</p></footer>
  <nav class="nav" aria-label="Main navigation">
-  <button class="active" type="button" data-tab="control" aria-label="Control"><span class="nav-icon">&#9678;</span>Control</button>
+  <button class="active" type="button" data-tab="control" aria-label="Control"><span class="nav-icon">&#9678;</span>Lights</button>
   <button type="button" data-tab="effects" aria-label="Effects"><span class="nav-icon">&#10022;</span>Effects</button>
-  <button type="button" data-tab="scenes" aria-label="Scenes"><span class="nav-icon">&#9733;</span>Scenes</button>
-  <button type="button" data-tab="studio" aria-label="Studio"><span class="nav-icon">&#9654;</span>Studio</button>
-  <button type="button" data-tab="diagnostics" aria-label="Diagnostics"><span class="nav-icon">&#8942;</span>Logs</button>
+  <button type="button" data-tab="scenes" aria-label="Scenes"><span class="nav-icon">&#9733;</span>Saved</button>
+  <button type="button" data-tab="studio" aria-label="Studio"><span class="nav-icon">&#9654;</span>Create</button>
+  <button type="button" data-tab="diagnostics" aria-label="Diagnostics"><span class="nav-icon">&#8942;</span>More</button>
  </nav>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -146,7 +202,7 @@
 const BLE_SERVICE='0000ffe0-0000-1000-8000-00805f9b34fb';
 const BLE_CHARACTERISTIC='0000ffe1-0000-1000-8000-00805f9b34fb';
 let lastConnectError='';
-const N=8,ALL=0xff,MIN_BLE_STEP=1000;
+const N=8,ALL=0xff,MIN_BLE_STEP=1800,WRITE_GAP_MS=240;
 const $=id=>document.getElementById(id);
 const rgbOrders=['RGB','RBG','GRB','GBR','BRG','BGR'];
 const COLORS=['#49e3d2','#00a8ff','#9069ff','#ec4b97','#ff5858','#ffa928','#f4fae5','#49ef8a'];
@@ -158,13 +214,14 @@ effects.push({id:25,name:'Solid color',type:'Static',speed:false,color:true,leng
 dyn(1,'Rainbow',{direction:true,length:true});dyn(2,'Rainbow stars');dyn(3,'Twinkling stars',{color:true});dyn(4,'Fire',{direction:true,length:true});dyn(5,'Stacking',{color:true,direction:true,length:true});dyn(6,'Comet',{color:true,direction:true,length:true});dyn(7,'Wave',{color:true,direction:true,length:true});dyn(8,'Chasing',{color:true,direction:true,length:true});dyn(9,'Red / blue / white',{direction:true,length:true});dyn(10,'Green / yellow / white',{direction:true,length:true});dyn(11,'Red / green / white',{direction:true,length:true});dyn(12,'Red / yellow',{direction:true,length:true});dyn(13,'Red / white',{direction:true,length:true});dyn(14,'Green / white',{direction:true,length:true});dyn(15,'Gradient');dyn(16,'Wiping',{color:true,direction:true,length:true});dyn(17,'Breathing',{color:true});dyn(18,'Full-color comet wipe',{color:true,length:true});dyn(19,'Comet wipe',{color:true,length:true});dyn(20,'Pixel-dot wipe',{color:true,length:true});dyn(21,'Full-color meteor rain',{direction:true,length:true});dyn(22,'Meteor rain',{color:true,direction:true,length:true});dyn(23,'Color dots',{direction:true,length:true});dyn(24,'Color block',{direction:true,length:true});
 sound(101,'Rhythm spectrum - full');sound(102,'Rhythm spectrum - single',{color:true});sound(103,'Rhythm stars - full');sound(104,'Rhythm stars - single',{color:true});sound(105,'Full-color beat injection',{direction:true,length:true});sound(106,'Beat injection',{color:true,direction:true,length:true});sound(107,'Energy gradient',{length:true});sound(108,'Energy single',{color:true,length:true});sound(109,'Pulse gradient');sound(110,'Pulse single',{color:true});sound(111,'Full-color ripple');sound(112,'Ripple',{color:true});sound(113,'Love and peace');sound(114,'Christmas');sound(115,'Heartbeat');sound(116,'Party');
 const fxById=new Map(effects.map(x=>[x.id,x]));
-const DEFAULT_SETTINGS=()=>({names:[...DEFAULT_NAMES],groups:[],looks:[],sceneNames:Array.from({length:9},(_,i)=>`Scene ${i+1}`)});
-function loadSettings(){try{const s=JSON.parse(localStorage.getItem('smartease-cart-lights-v1')||'null');const b=DEFAULT_SETTINGS();if(!s||typeof s!=='object')return b;if(Array.isArray(s.names)&&s.names.length===8)b.names=s.names.map((v,i)=>typeof v==='string'?v.slice(0,26):DEFAULT_NAMES[i]);if(Array.isArray(s.groups))b.groups=s.groups.filter(g=>g&&typeof g.name==='string'&&Number.isInteger(g.mask)&&g.mask>0&&g.mask<=255).slice(0,16).map(g=>({name:g.name.slice(0,30),mask:g.mask}));if(Array.isArray(s.looks))b.looks=s.looks.filter(l=>l&&typeof l.name==='string'&&Array.isArray(l.channels)&&l.channels.length===8).slice(0,12);if(Array.isArray(s.sceneNames)&&s.sceneNames.length===9)b.sceneNames=s.sceneNames.map((x,i)=>typeof x==='string'?x.slice(0,28):`Scene ${i+1}`);return b;}catch{return DEFAULT_SETTINGS();}}
+const observedCharacteristics=new WeakSet();
+const DEFAULT_SETTINGS=()=>({names:[...DEFAULT_NAMES],groups:[],looks:[],designs:[],sceneNames:Array.from({length:9},(_,i)=>`Scene ${i+1}`)});
+function loadSettings(){try{const s=JSON.parse(localStorage.getItem('smartease-cart-lights-v1')||'null');const b=DEFAULT_SETTINGS();if(!s||typeof s!=='object')return b;if(Array.isArray(s.names)&&s.names.length===8)b.names=s.names.map((v,i)=>typeof v==='string'?v.slice(0,26):DEFAULT_NAMES[i]);if(Array.isArray(s.groups))b.groups=s.groups.filter(g=>g&&typeof g.name==='string'&&Number.isInteger(g.mask)&&g.mask>0&&g.mask<=255).slice(0,16).map(g=>({name:g.name.slice(0,30),mask:g.mask}));if(Array.isArray(s.looks))b.looks=s.looks.filter(l=>l&&typeof l.name==='string'&&Array.isArray(l.channels)&&l.channels.length===8).slice(0,12);if(Array.isArray(s.sceneNames)&&s.sceneNames.length===9)b.sceneNames=s.sceneNames.map((x,i)=>typeof x==='string'?x.slice(0,28):`Scene ${i+1}`);if(Array.isArray(s.designs))b.designs=s.designs.filter(d=>d&&typeof d.name==='string'&&Number.isInteger(d.mask)&&d.mask>0&&d.mask<=255&&fxById.has(d.effect)&&typeof d.color==='string'&&/^#[0-9a-f]{6}$/i.test(d.color)).slice(0,20).map(d=>({name:d.name.slice(0,30),mask:d.mask,effect:d.effect,color:d.color,speed:Math.min(10,Math.max(1,Math.round(Number(d.speed)||5))),brightness:Math.min(255,Math.max(10,Math.round(Number(d.brightness)||115)))}));return b;}catch{return DEFAULT_SETTINGS();}}
 let settings=loadSettings();
 function saveSettings(){try{localStorage.setItem('smartease-cart-lights-v1',JSON.stringify(settings));}catch(e){log('Local storage is unavailable: '+e.message,'warn');}}
 const newChannel=()=>({known:false,power:false,effect:25,order:0,brightness:115,speed:5,length:32,direction:1,color:'#49e3d2'});
 let channels=Array.from({length:N},newChannel);
-let selectedMask=ALL, device=null, char=null, transport='offline', bleSession=0, writeQueue=Promise.resolve(), txCount=0, rxCount=0, frameBuffer=null, pendingRefresh=null, lastRefreshAt=null;
+let selectedMask=ALL, device=null, rememberedDevice=null, char=null, transport='offline', bleSession=0, writeQueue=Promise.resolve(), txCount=0, rxCount=0, frameBuffer=null, pendingRefresh=null, lastRefreshAt=null, lastWriteAt=0, connectionInProgress=false, disconnectCount=0, lastDisconnectReason='', disconnectRequested=false, writeQueueSize=0;
 let studioRunning=false,studioToken=0,studioStep=0,studioMask=ALL,studioCurrent=0;
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const cap=(n,min,max)=>Math.min(max,Math.max(min,Math.round(Number(n)||0)));
@@ -178,10 +235,23 @@ function notify(msg){const toast=$('toast');toast.textContent=msg;toast.classLis
 function log(msg,level='info'){const area=$('debugLog');const stamp=new Date().toLocaleTimeString();const lines=(area.textContent.startsWith('Ready.')?[]:area.textContent.split('\n'));lines.push('['+stamp+'] '+(level==='warn'?'! ':level==='error'?'ERROR ':'')+msg);area.textContent=lines.slice(-160).join('\n');area.scrollTop=area.scrollHeight;}
 function isLive(){return transport==='ble'&&!!device?.gatt?.connected&&!!char;}
 function canSend(){return transport==='demo'||isLive();}
-function updateTransport(){const status=$('topStatus'),led=$('topLed');led.className='led';if(isLive()){status.textContent='Connected';led.classList.add('ready');$('connectionName').textContent=device.name||'SP608E';$('connectionDetail').textContent='Connected over Bluetooth';$('transportHint').textContent='BLE active';$('statusQuality').textContent=channels.every(c=>c.known)?'Controller status verified by BLE readback.':'Connected; waiting for controller status notifications.';}else if(transport==='demo'){status.textContent='Demo only';led.classList.add('demo');$('connectionName').textContent='Preview simulator';$('connectionDetail').textContent='No real hardware is being controlled';$('transportHint').textContent='Demo';$('statusQuality').textContent='DEMO: packets are simulated, not sent to your SP608E.';}else{status.textContent='Disconnected';$('connectionName').textContent='SP608E';$('connectionDetail').textContent='No Bluetooth connection';$('transportHint').textContent='Not paired';$('statusQuality').textContent=lastConnectError?'Last connection error: '+lastConnectError+' (open Diagnostics for details).':'Waiting for real controller status.';}$('connectBtn').disabled=isLive();$('scanServiceBtn').disabled=isLive();$('scanAllBtn').disabled=isLive();$('disconnectBtn').disabled=!isLive();$('demoBtn').classList.toggle('is-selected',transport==='demo');$('demoBtn').textContent=transport==='demo'?'Exit demo':'Demo UI';$('connectBtn').textContent=isLive()?'Connected':'Find SP608E';}
+function updateTransport(){
+ const active=isLive(),status=$('topStatus'),led=$('topLed');led.className='led';
+ const quality=$('connectionQuality');
+ if(active){status.textContent='Connected';led.classList.add('ready');$('connectionName').textContent=device.name||'SP608E';$('connectionDetail').textContent='Bluetooth active • Ready to control';$('transportHint').textContent='BLE connected';quality.textContent='Connected';quality.style.color='var(--green)';$('statusQuality').textContent=channels.every(c=>c.known)?'Controller synchronized.':'Connected. Tap Sync lights to read settings.';}
+ else if(transport==='demo'){status.textContent='Demo only';led.classList.add('demo');$('connectionName').textContent='Demo preview';$('connectionDetail').textContent='No hardware connected';$('transportHint').textContent='Simulator';quality.textContent='Demo';quality.style.color='var(--amber)';$('statusQuality').textContent='DEMO: no real lights are being controlled.';}
+ else{status.textContent=rememberedDevice?'Disconnected':'Not connected';$('connectionName').textContent=rememberedDevice?.name||'SP608E';$('connectionDetail').textContent=rememberedDevice?'Reconnect to control your lights':'Tap Find SP608E to begin';$('transportHint').textContent='Offline';quality.textContent='Offline';quality.style.color='var(--muted)';$('statusQuality').textContent=lastConnectError?'Last issue: '+lastConnectError+' (see More for logs).':'Not connected.';}
+ $('connectBtn').disabled=active||connectionInProgress;
+ $('scanServiceBtn').disabled=active||connectionInProgress;
+ $('scanAllBtn').disabled=active||connectionInProgress;
+ $('disconnectBtn').disabled=!active;
+ $('demoBtn').classList.toggle('is-selected',transport==='demo');$('demoBtn').textContent=transport==='demo'?'Exit demo':'Demo UI';
+ $('connectBtn').textContent=connectionInProgress?'Connecting...':active?'Connected':rememberedDevice?'Reconnect SP608E':'Find SP608E';
+ const banner=$('connectionBanner');banner.hidden=active||transport==='demo'||!lastDisconnectReason;banner.innerHTML='<b>Bluetooth disconnected.</b> Live shows stop on disconnect. Tap Reconnect SP608E; factory animations can continue without the phone.';
+}
 function updateCounters(){$('writeCount').textContent=String(txCount);$('packetCount').textContent=String(rxCount);$('lastUpdate').textContent=lastRefreshAt||'Never';}
 function updateSelected(){let ix=indexes(selectedMask);$('selectedCount').textContent=ix.length+' selected';$('selectedNames').textContent=selectedMask===ALL?'All eight outputs':ix.map(i=>settings.names[i]).join(', ')||'No zones';$('asideSelection').textContent=selectedMask===ALL?'All zones':ix.map(i=>settings.names[i]).join(' + ')||'None';}
-function selectMask(mask){selectedMask=cap(mask,0,ALL);renderZones();renderGroups();updateSelected();syncControlsToSelection();}
+function selectMask(mask){selectedMask=cap(mask,0,ALL);renderZones();renderGroups();updateSelected();syncControlsToSelection();renderStudioZones();renderLookPreview();}
 function renderZones(){const target=$('zoneGrid');target.replaceChildren();for(let i=0;i<N;i++){const c=channels[i],selected=!!(selectedMask&maskFor(i));const wrap=document.createElement('div');wrap.className='zone'+(selected?' selected':'');const main=document.createElement('button');main.type='button';main.className='zone-main';main.setAttribute('aria-pressed',String(selected));main.title='Toggle '+settings.names[i]+' in selection';const top=document.createElement('div');top.className='zone-top';const left=document.createElement('span');left.textContent='OUTPUT '+(i+1);const mark=document.createElement('span');mark.textContent=selected?'SELECTED':'SELECT';top.append(left,mark);const name=document.createElement('span');name.className='zone-name';name.textContent=settings.names[i];const meta=document.createElement('span');meta.className='zone-meta';meta.textContent=c.known?(fxById.get(c.effect)?.name||'Effect '+c.effect):'Awaiting readback';main.append(top,name,meta);main.addEventListener('click',()=>{const next=selectedMask===ALL?maskFor(i):(selectedMask^maskFor(i));selectMask(next);});const bottom=document.createElement('div');bottom.className='zone-bottom';const light=document.createElement('span');light.className='zone-light'+(c.known&&c.power?' on':'');light.style.setProperty('--zone-color',c.color);light.title=c.known?(c.power?'Controller reports ON':'Controller reports OFF'):'Unknown status';const power=document.createElement('button');power.className='zone-power'+(c.known&&c.power?' on':'');power.textContent=c.known?(c.power?'On / off':'Off / on'):'Toggle';power.title='Toggle output '+(i+1);power.type='button';power.addEventListener('click',()=>{if(!c.known){notify('Read controller status before toggling a single unknown channel.');return;}sendPower(maskFor(i),!c.power);});bottom.append(light,power);wrap.append(main,bottom);target.append(wrap);}}
 function renderGroups(){const parent=$('groupList');parent.replaceChildren();if(!settings.groups.length){const t=document.createElement('span');t.className='small muted';t.textContent='No groups yet. Select zones above and save one.';parent.append(t);return;}settings.groups.forEach((g,i)=>{const b=document.createElement('button');b.type='button';b.className='button tiny'+(selectedMask===g.mask?' is-selected':'');b.textContent=g.name+' ('+indexes(g.mask).length+')';b.onclick=()=>selectMask(g.mask);b.title='Select this group';parent.append(b);const rm=document.createElement('button');rm.type='button';rm.className='button tiny ghost';rm.textContent='x';rm.title='Delete '+g.name;rm.setAttribute('aria-label','Delete '+g.name);rm.onclick=()=>{if(confirm('Delete local group "'+g.name+'"?')){settings.groups.splice(i,1);saveSettings();renderGroups();}};parent.append(rm);});}
 function renderRenames(){const select=$('renameChannel');const prev=select.value;select.replaceChildren();settings.names.forEach((n,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=(i+1)+'. '+n;select.append(opt);});if(prev)select.value=prev;$('zoneRename').value=settings.names[Number(select.value)||0];}
@@ -190,76 +260,109 @@ function renderLooks(){const el=$('lookList');el.replaceChildren();if(!settings.
 function buildEffects(){const el=$('effectPicker');for(const type of ['Static','Dynamic','Music']){const group=document.createElement('optgroup');group.label=type;effects.filter(e=>e.type===type).forEach(e=>{const opt=document.createElement('option');opt.value=String(e.id);opt.textContent=e.name+(e.type==='Music'?' (music)':'');group.append(opt);});el.append(group);}el.value='25';renderEffectControls();$('effectTotal').textContent=effects.length+' effects';}
 function renderEffectControls(){const fx=fxById.get(Number($('effectPicker').value));if(!fx)return;const map=[['speed','Speed'],['length','Length'],['direction','Direction'],['color','Color']];const el=$('effectBadges');el.replaceChildren();for(const [k,label] of map){if(fx[k]){const t=document.createElement('span');t.textContent=label;el.append(t);}}$('effectInfo').textContent=fx.type==='Music'?'Controller mic/audio-responsive effect.':'Effect ID 0x'+fx.id.toString(16).padStart(2,'0').toUpperCase()+' / '+fx.type.toLowerCase()+' mode';$('effectSpeed').disabled=!fx.speed;$('effectLength').disabled=!fx.length;$('directionForward').disabled=$('directionReverse').disabled=!fx.direction;}
 function renderPreview(frame=-1){const el=$('sequencePreview');el.replaceChildren();for(let i=0;i<N;i++){const cell=document.createElement('div');cell.className='preview-cell'+(frame&maskFor(i)?' live':'');cell.textContent=String(i+1);el.append(cell);}}
-function renderState(){renderZones();$('statusQuality').textContent=isLive()?(channels.every(c=>c.known)?'Readback received from SP608E.':'Connected; awaiting readback.'):(transport==='demo'?'DEMO ONLY: no real lights connected.':'Waiting for real controller status.');if(channels.some(c=>c.known)){const first=channels.find(c=>c.known);$('gain').value=window.reportedGain??$('gain').value;if(Number.isInteger(window.reportedSceneLoop))$('sceneLoop').checked=!!window.reportedSceneLoop;if(first){$('chipOrder').value=String(first.order);}}updateCounters();syncControlsToSelection();}
+function renderState(){renderZones();if(channels.some(c=>c.known)){const first=channels.find(c=>c.known);$('gain').value=window.reportedGain??$('gain').value;if(Number.isInteger(window.reportedSceneLoop))$('sceneLoop').checked=!!window.reportedSceneLoop;if(first){$('chipOrder').value=String(first.order);}}updateCounters();syncControlsToSelection();updateTransport();}
 function syncControlsToSelection(){const ix=indexes(selectedMask);if(ix.length!==1||!channels[ix[0]].known)return;const c=channels[ix[0]];$('masterBrightness').value=c.brightness;$('brightnessValue').textContent=Math.round(100*c.brightness/255)+'%';$('mainColor').value=c.color;$('colorHex').value=c.color;if(fxById.has(c.effect)){$('effectPicker').value=String(c.effect);renderEffectControls();}$('effectSpeed').value=cap(c.speed,1,10);$('speedValue').textContent=$('effectSpeed').value+' / 10';$('effectLength').value=cap(c.length,1,240);$('lengthValue').textContent=$('effectLength').value+' pixels';$('chipOrder').value=String(c.order);$('directionForward').classList.toggle('is-selected',!!c.direction);$('directionReverse').classList.toggle('is-selected',!c.direction);}
-function switchTab(tab){stopStudio('Navigation stops studio playback.');document.querySelectorAll('[data-tab]').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);if(b.getAttribute('role')==='tab')b.setAttribute('aria-selected',String(active));});document.querySelectorAll('.tab').forEach(el=>{const active=el.id==='tab-'+tab;el.classList.toggle('active',active);el.setAttribute('aria-hidden',String(!active));});}
+function switchTab(tab){if(tab!=='studio'&&studioRunning)stopStudio('Navigation stopped live playback.');document.querySelectorAll('[data-tab]').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);if(b.getAttribute('role')==='tab')b.setAttribute('aria-selected',String(active));});document.querySelectorAll('.tab').forEach(el=>{const active=el.id==='tab-'+tab;el.classList.toggle('active',active);el.setAttribute('aria-hidden',String(!active));});}
 function toDataView(data){return new Uint8Array(data.buffer,data.byteOffset,data.byteLength);}
 function onNotification(evt){try{const bytes=toDataView(evt.target.value);rxCount++;log('RX  '+hex(bytes));updateCounters();if(bytes.length<5||bytes[0]!==0x36||bytes[1]!==0x38)return;const seq=bytes[2],total=bytes[3],count=bytes[4],payload=bytes.slice(5);if(!seq||count!==payload.length||!total||total>255){log('Dropped invalid status fragment.','warn');frameBuffer=null;return;}if(seq===1){frameBuffer={next:2,total,parts:[...payload]};}else if(!frameBuffer||seq!==frameBuffer.next||frameBuffer.total!==total){log('Dropped out-of-sequence status fragment.','warn');frameBuffer=null;return;}else{frameBuffer.parts.push(...payload);frameBuffer.next++;}if(frameBuffer.parts.length>total){log('Status payload overflow.','warn');frameBuffer=null;return;}if(frameBuffer.parts.length===total){const complete=new Uint8Array(frameBuffer.parts);frameBuffer=null;readChannelState(complete);}}
 catch(err){log('Notification parse error: '+err.message,'warn');frameBuffer=null;}}
 function readChannelState(bytes){if(bytes.length<11*N){log('Incomplete SP608E state: '+bytes.length+' bytes (need at least 88).','warn');return;}for(let i=0;i<N;i++){const p=i*11,r=bytes[p+8],g=bytes[p+9],b=bytes[p+10];channels[i]={known:true,power:bytes[p]!==0,effect:bytes[p+1],order:bytes[p+2],brightness:bytes[p+3],speed:bytes[p+4],length:(bytes[p+5]<<8)|bytes[p+6],direction:bytes[p+7],color:colorToHex(r,g,b)};}let cursor=N*11;if(cursor<bytes.length){const gain=bytes[cursor++];window.reportedGain=gain;}if(cursor<bytes.length){const timers=bytes[cursor++];cursor+=7*timers;}cursor+=4*13;if(cursor<bytes.length)window.reportedSceneLoop=bytes[cursor];lastRefreshAt=new Date().toLocaleTimeString();log('State decoded: 8 channels; '+channels.filter(c=>c.power).length+' on.');renderState();}
 async function connect(mode='name'){
-  stopStudio();
-  lastConnectError='';
-  if(!navigator.bluetooth){
-    lastConnectError='Web Bluetooth unavailable; open this HTTPS page inside Bluefy and check iPhone Bluetooth permission.';
-    notify(lastConnectError);
-    log(lastConnectError,'error');
-    updateTransport();
-    return;
+ stopStudio();lastConnectError='';
+ if(connectionInProgress||isLive())return;
+ if(!navigator.bluetooth){lastConnectError='Web Bluetooth unavailable. Open HTTPS in Bluefy and allow Bluetooth access.';log(lastConnectError,'error');updateTransport();return;}
+ if(transport==='demo')exitDemo();
+ connectionInProgress=true;updateTransport();
+ try{
+  let picked;
+  if(mode==='remembered'&&rememberedDevice){picked=rememberedDevice;log('Reconnecting to previously selected '+(picked.name||'controller')+'.');}
+  else{
+   const custom=$('blePrefix').value.trim();
+   const namePrefixes=[...new Set([custom,'SP','sp','Banlan','Scene','LED','BTF'].filter(Boolean))];
+   const options=mode==='service'?{filters:[{services:[BLE_SERVICE]}],optionalServices:[BLE_SERVICE]}:
+    mode==='all'?{acceptAllDevices:true,optionalServices:[BLE_SERVICE]}:
+    {filters:namePrefixes.map(namePrefix=>({namePrefix})),optionalServices:[BLE_SERVICE]};
+   log('Opening Bluetooth device picker ('+mode+'). Close BanlanX first.');
+   picked=await navigator.bluetooth.requestDevice(options);
   }
-  if(isLive())return;
-  if(transport==='demo')exitDemo();
-  const prefix=$('blePrefix').value.trim();
-  const namePrefixes=[...new Set([prefix,'SP','sp','Banlan','Scene','LED','BTF'].filter(Boolean))];
-  const options=mode==='service'
-    ?{filters:[{services:[BLE_SERVICE]}],optionalServices:[BLE_SERVICE]}
-    :mode==='all'
-      ?{acceptAllDevices:true,optionalServices:[BLE_SERVICE]}
-      :{filters:namePrefixes.map(namePrefix=>({namePrefix})),optionalServices:[BLE_SERVICE]};
-  $('connectBtn').disabled=true;
-  $('scanServiceBtn').disabled=true;
-  $('scanAllBtn').disabled=true;
-  $('connectBtn').textContent='Scanning...';
-  try{
-    log('Opening '+mode+' Bluetooth picker'+(prefix?' (manual prefix: '+prefix+')':'')+'.');
-    const picked=await navigator.bluetooth.requestDevice(options);
-    if(!picked)throw Error('No Bluetooth device selected');
-    device=picked;
-    const session=++bleSession;
-    device.addEventListener('gattserverdisconnected',()=>{if(session!==bleSession)return;log('Bluetooth disconnected.');handleDisconnect();});
-    $('deviceName').textContent=device.name||'Unnamed BLE device';
-    log('Selected BLE device: '+(device.name||'(unnamed)')+'.');
-    const gatt=await picked.gatt.connect();
-    const service=await gatt.getPrimaryService(BLE_SERVICE);
-    char=await service.getCharacteristic(BLE_CHARACTERISTIC);
-    transport='ble';
-    log('Connected to '+(picked.name||'BLE device')+'. FFE1 write='+!!char.properties.write+' notify='+!!char.properties.notify);
-    frameBuffer=null;
-    channels=Array.from({length:N},newChannel);
-    try{
-      if(typeof char.startNotifications==='function'){
-        char.addEventListener('characteristicvaluechanged',onNotification);
-        await char.startNotifications();
-        log('FFE1 notifications enabled.');
-      }else log('This browser does not expose BLE notifications. Readback may be unavailable.','warn');
-    }catch(e){log('Notifications unavailable: '+e.message,'warn');}
-    updateTransport();
-    renderState();
-    await queryState();
-  }catch(err){
-    lastConnectError=(err.name||'Error')+': '+(err.message||String(err));
-    log('Connection failed ('+mode+'): '+lastConnectError,'error');
-    notify('Connection failed; see message below and Diagnostics.');
-    try{device?.gatt?.disconnect();}catch{}
-    handleDisconnect();
-  }finally{updateTransport();}
+  if(!picked)throw Error('No Bluetooth device selected');
+  rememberedDevice=picked;device=picked;
+  const session=++bleSession;
+  device.addEventListener('gattserverdisconnected',()=>{if(session!==bleSession||disconnectRequested)return;lastConnectError='Bluetooth link closed';lastDisconnectReason='Unexpected BLE disconnect';disconnectCount++;log('Controller disconnected unexpectedly (#'+disconnectCount+'). Live show stopped.','warn');handleDisconnect();});
+  $('deviceName').textContent=picked.name||'Unnamed BLE device';
+  const gatt=await picked.gatt.connect();
+  const service=await gatt.getPrimaryService(BLE_SERVICE);
+  char=await service.getCharacteristic(BLE_CHARACTERISTIC);
+  transport='ble';lastDisconnectReason='';lastWriteAt=0;
+  log('Bluetooth connected to '+(picked.name||'SP608E')+'. Writes: '+!!char.properties.write+'; notifications: '+!!char.properties.notify);
+  frameBuffer=null;channels=Array.from({length:N},newChannel);
+  try{if(typeof char.startNotifications==='function'){if(!observedCharacteristics.has(char)){char.addEventListener('characteristicvaluechanged',onNotification);observedCharacteristics.add(char);}await char.startNotifications();log('Readback notifications enabled.');}else log('Notifications not exposed by browser.','warn');}
+  catch(e){log('Notifications unavailable: '+e.message,'warn');}
+  renderState();await queryState();
+ }catch(err){
+  lastConnectError=(err.name||'Error')+': '+(err.message||String(err));
+  log('Connection attempt failed ('+mode+'): '+lastConnectError,'error');
+  notify('Could not connect. Try reconnect or Scan all.');
+  try{device?.gatt?.disconnect();}catch{}
+  handleDisconnect();
+ }finally{connectionInProgress=false;updateTransport();}
 }
-function handleDisconnect(){stopStudio();clearTimeout(pendingRefresh);pendingRefresh=null;bleSession++;char=null;transport='offline';device=null;frameBuffer=null;channels=Array.from({length:N},newChannel);updateTransport();renderState();}
-function disconnect(){if(isLive())try{device.gatt.disconnect();}catch(e){log('Disconnect error: '+e.message,'warn');}handleDisconnect();log('Disconnected by user.');}
+function handleDisconnect(){
+ stopStudio('Live show stopped because Bluetooth disconnected.');
+ clearTimeout(pendingRefresh);pendingRefresh=null;bleSession++;
+ char=null;transport='offline';device=null;frameBuffer=null;lastWriteAt=0;
+ channels=Array.from({length:N},newChannel);renderState();
+}
+function disconnect(){
+ lastDisconnectReason='';lastConnectError='';disconnectRequested=true;
+ if(isLive())try{device.gatt.disconnect();}catch(e){log('Disconnect: '+e.message,'warn');}
+ handleDisconnect();disconnectRequested=false;log('Disconnected manually.');
+}
 function enterDemo(){if(isLive())disconnect();stopStudio();transport='demo';channels=Array.from({length:N},(_,i)=>({known:true,power:i<6,effect:i%2?8:25,order:0,brightness:115,speed:5,length:32,direction:1,color:COLORS[i]}));window.reportedGain=8;window.reportedSceneLoop=0;updateTransport();renderState();log('DEMO started - no real BLE writes.');notify('Demo UI: real lights are not connected.');}
 function exitDemo(){stopStudio();transport='offline';channels=Array.from({length:N},newChannel);updateTransport();renderState();log('DEMO exited.');}
-async function writeRaw(packet,label,session){if(session!==bleSession)return false;const bytes=Uint8Array.from(packet);if(transport==='demo'){applyDemo(packet);txCount++;log('DEMO TX  '+hex(bytes)+'  '+label);updateCounters();await sleep(35);return true;}if(!isLive()){log('Not connected; refused '+label,'warn');return false;}try{if(char.properties.write&&typeof char.writeValueWithResponse==='function'){await char.writeValueWithResponse(bytes);}else if(char.properties.write&&typeof char.writeValue==='function'){await char.writeValue(bytes);}else if(char.properties.writeWithoutResponse&&typeof char.writeValueWithoutResponse==='function'){await char.writeValueWithoutResponse(bytes);}else if(typeof char.writeValueWithResponse==='function'){await char.writeValueWithResponse(bytes);}else if(typeof char.writeValue==='function'){await char.writeValue(bytes);}else{throw Error('No writable FFE1 method exposed');}txCount++;updateCounters();log('TX  '+hex(bytes)+'  '+label);await sleep(75);return true;}catch(err){log('Write failed ('+label+'): '+(err.message||String(err)),'error');notify('Write failed; check Diagnostics.');return false;}}
-function enqueuePackets(packets,label,options={}){if(!canSend()){notify('Connect SP608E first.');log('Command refused: not connected ('+label+').','warn');return Promise.resolve(false);}const session=bleSession;const jobs=Array.isArray(packets[0])?packets:[packets];const task=writeQueue.catch(()=>false).then(async()=>{if(session!==bleSession)return false;for(const pkt of jobs){if(options.guard&&!options.guard())return false;if(!await writeRaw(pkt,label,session))return false;}if(!options.skipRefresh&&transport==='ble')scheduleRead();return true;});writeQueue=task.catch(()=>false);return task;}
+async function writeRaw(cmd,label,session,guard){
+ if(session!==bleSession||guard&&!guard())return false;
+ const bytes=Uint8Array.from(cmd);
+ if(transport==='demo'){applyDemo(cmd);txCount++;updateCounters();log('DEMO TX '+hex(bytes)+' '+label);await sleep(40);return true;}
+ if(!isLive())return false;
+ const wait=Math.max(0,WRITE_GAP_MS-(Date.now()-lastWriteAt));
+ if(wait)await sleep(wait);
+ if(session!==bleSession||guard&&!guard()||!isLive())return false;
+ try{
+  if(char.properties.write&&typeof char.writeValueWithResponse==='function')await char.writeValueWithResponse(bytes);
+  else if(char.properties.write&&typeof char.writeValue==='function')await char.writeValue(bytes);
+  else if(char.properties.writeWithoutResponse&&typeof char.writeValueWithoutResponse==='function')await char.writeValueWithoutResponse(bytes);
+  else if(typeof char.writeValueWithResponse==='function')await char.writeValueWithResponse(bytes);
+  else if(typeof char.writeValue==='function')await char.writeValue(bytes);
+  else throw Error('FFE1 not writable');
+  lastWriteAt=Date.now();txCount++;updateCounters();log('TX '+hex(bytes)+' '+label);return true;
+ }catch(err){
+  lastConnectError='Write '+(err.name||'error')+': '+(err.message||String(err));
+  log('BLE '+lastConnectError,'error');
+  if(!device?.gatt?.connected){lastDisconnectReason='Disconnected during write';handleDisconnect();}
+  notify('Bluetooth write failed. See More for details.');return false;
+ }
+}
+function enqueuePackets(packets,label,options={}){
+ if(!canSend()){notify('Connect to SP608E first.');return Promise.resolve(false);}
+ if(studioRunning&&!options.studio)stopStudio('Live show stopped for manual command.');
+ const session=bleSession;
+ const jobs=Array.isArray(packets[0])?packets:[packets];
+ if(!jobs.length)return Promise.resolve(true);
+ if(writeQueueSize>=10){log('Command queue busy, blocked '+label,'warn');notify('Busy applying settings. Try again.');return Promise.resolve(false);}
+ writeQueueSize++;
+ const task=writeQueue.catch(()=>false).then(async()=>{
+  if(session!==bleSession||options.guard&&!options.guard())return false;
+  for(const pkt of jobs){
+   if(options.guard&&!options.guard())return false;
+   if(!await writeRaw(pkt,label,session,options.guard))return false;
+  }
+  if(!options.skipRefresh&&transport==='ble'&&!studioRunning)scheduleRead();
+  return true;
+ });
+ writeQueue=task.catch(()=>false);
+ return task.finally(()=>{writeQueueSize=Math.max(0,writeQueueSize-1);});
+}
 function packet(op,args=[]){return [0x88,op,args.length,...args];}
 function sendPower(mask,on,opts={}){if(!mask){notify('Select at least one zone.');return Promise.resolve(false);}return enqueuePackets(packet(0x82,[mask,on?1:0]),on?'Power on':'Power off',opts);}
 function sendBrightness(mask,v){if(!mask){notify('Select a zone.');return;}return enqueuePackets(packet(0x85,[mask,cap(v,0,255)]),'Brightness '+v);}
@@ -273,19 +376,113 @@ function recallScene(index){if(index<0||index>8)return;stopStudio();enqueuePacke
 function setSceneLoop(on){enqueuePackets(packet(0x90,[on?1:0]),'Scene loop '+(on?'on':'off'));}
 function setChipOrder(mask,order){if(!mask)return;return enqueuePackets(packet(0x84,[mask,cap(order,0,5)]),'Chip order '+rgbOrders[order]);}
 function queryState(){if(!canSend())return Promise.resolve(false);return enqueuePackets(packet(0x8f),'Read SP608E status',{skipRefresh:true});}
-function scheduleRead(){clearTimeout(pendingRefresh);pendingRefresh=setTimeout(()=>{if(isLive()&&!studioRunning)queryState();},400);}
+function scheduleRead(){clearTimeout(pendingRefresh);if(studioRunning)return;pendingRefresh=setTimeout(()=>{pendingRefresh=null;if(isLive()&&!studioRunning&&document.visibilityState==='visible')queryState();},1200);}
 function applyDemo(command){const [prefix,opcode,,...arg]=command;if(prefix!==0x88)return;if(opcode===0x8e)return;if(opcode===0x90){window.reportedSceneLoop=arg[0];return;}if(opcode===0x8b){window.reportedGain=arg[1];return;}const mask=arg[0]??0;for(const i of indexes(mask)){const c=channels[i];if(opcode===0x82)c.power=!!arg[1];if(opcode===0x83)c.effect=arg[1];if(opcode===0x84)c.order=arg[1];if(opcode===0x85)c.brightness=arg[1];if(opcode===0x86)c.speed=arg[1];if(opcode===0x87)c.length=(arg[1]<<8)|arg[2];if(opcode===0x89)c.color=colorToHex(arg[1],arg[2],arg[3]);if(opcode===0x8a)c.direction=arg[1];}renderState();}
 function captureLook(){if(!channels.every(c=>c.known)){notify('Read controller status first (all 8 channels).');return;}const name=$('lookName').value.trim()||'Look '+(settings.looks.length+1);settings.looks.push({name:name.slice(0,30),channels:channels.map(c=>({...c}))});settings.looks=settings.looks.slice(-12);saveSettings();$('lookName').value='';renderLooks();notify('Saved locally: '+name);}
 function packetsForLook(look){const jobs=[];for(let i=0;i<N;i++){const c=look.channels[i],m=maskFor(i);if(!c||!Number.isInteger(c.effect)||!fxById.has(c.effect))continue;const fx=fxById.get(c.effect);jobs.push(packet(0x83,[m,c.effect]));if(fx.color&&isHex(c.color)){jobs.push(packet(0x89,[m,...rgbFromHex(c.color),0xff]));}if(fx.speed)jobs.push(packet(0x86,[m,cap(c.speed,1,10)]));if(fx.length){const n=cap(c.length,1,240);jobs.push(packet(0x87,[m,n>>8,n&255]));}if(fx.direction)jobs.push(packet(0x8a,[m,c.direction?1:0]));if(fx.type!=='Music')jobs.push(packet(0x85,[m,cap(c.brightness,0,255)]));jobs.push(packet(0x82,[m,c.power?1:0]));}return jobs;}
 async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}if(!confirm('Apply "'+look.name+'" to all eight SP608E channels? This sends many BLE commands and will change your current lighting.'))return;stopStudio();const jobs=packetsForLook(look);notify('Applying '+jobs.length+' lighting commands...');log('Applying local look "'+look.name+'" with '+jobs.length+' commands.');const success=await enqueuePackets(jobs,'Restore local look '+look.name);if(success)notify('Look commands sent. Read back to verify.');}
+
+function renderStudioZones(){
+ const el=$('studioZones');if(!el)return;el.replaceChildren();
+ settings.names.forEach((name,i)=>{
+  const selected=!!(selectedMask&maskFor(i));const btn=document.createElement('button');btn.type='button';btn.className='studio-zone'+(selected?' selected':'');btn.setAttribute('aria-pressed',String(selected));
+  const top=document.createElement('strong');top.textContent=name;const sub=document.createElement('small');sub.textContent=selected?'Selected':'Tap to select';btn.append(top,sub);
+  btn.onclick=()=>selectMask(selectedMask===ALL?maskFor(i):selectedMask^maskFor(i));el.append(btn);
+ });
+}
+function selectedDesign(){return {mask:selectedMask,effect:Number($('studioEffect').value),color:$('studioColor').value,speed:Number($('studioSpeed').value),brightness:Number($('studioBrightness').value)};}
+function renderLookPreview(){
+ const el=$('studioLookPreview');if(!el)return;el.replaceChildren();const look=selectedDesign();
+ const multicolor=!fxById.get(look.effect)?.color&&look.effect!==25;
+ for(let i=0;i<N;i++){
+  const active=!!(look.mask&maskFor(i));const cell=document.createElement('div');cell.className='preview-cell'+(active?' live':'')+(active&&multicolor?' rainbow':'');
+  cell.style.setProperty('--look-color',look.color);cell.textContent=String(i+1);cell.title=settings.names[i]+(active?' (selected)':' (not selected)');el.append(cell);
+ }
+ $('studioBrightnessValue').textContent=Math.round(100*look.brightness/255)+'%';$('studioSpeedValue').textContent=look.speed+' / 10';
+}
+async function applyBuiltInLook(look,label='Your look'){
+ if(!look.mask){notify('Select one or more lights first.');return false;}
+ if(!canSend()){notify('Connect to SP608E first. You can still save looks offline.');return false;}
+ const fx=fxById.get(Number(look.effect));if(!fx){notify('Choose a valid effect.');return false;}
+ stopStudio();clearTimeout(pendingRefresh);pendingRefresh=null;
+ const jobs=indexes(look.mask).map(i=>packet(0x83,[maskFor(i),fx.id]));
+ if(fx.color)jobs.push(packet(0x89,[look.mask,...rgbFromHex(look.color),0xff]));
+ jobs.push(packet(0x85,[look.mask,cap(look.brightness,10,255)]));
+ if(fx.speed)jobs.push(packet(0x86,[look.mask,cap(look.speed,1,10)]));
+ jobs.push(packet(0x82,[look.mask,1]));
+ $('lookApplyStatus').textContent='Applying '+label+' to '+indexes(look.mask).length+' lights ('+jobs.length+' commands)…';
+ const success=await enqueuePackets(jobs,'Controller look '+label);
+ $('lookApplyStatus').textContent=success?label+' applied. The controller now runs this effect on its own.':'Could not finish applying '+label+'. Reconnect and try again.';
+ if(success)notify(label+' playing on controller.');
+ return success;
+}
+function saveCustomDesign(){
+ const look=selectedDesign();if(!look.mask){notify('Select some lights first.');return;}
+ const name=$('customLookName').value.trim()||'My look '+(settings.designs.length+1);
+ settings.designs=settings.designs.filter(d=>d.name.toLowerCase()!==name.toLowerCase());
+ settings.designs.push({...look,name:name.slice(0,30)});settings.designs=settings.designs.slice(-20);
+ saveSettings();$('customLookName').value='';renderDesigns();notify('Saved on this phone: '+name);
+}
+function renderDesigns(){
+ const el=$('customLookList');if(!el)return;el.replaceChildren();
+ if(!settings.designs.length){const p=document.createElement('p');p.className='small muted';p.textContent='No custom looks saved yet. Design one above, then save it for one-tap reuse.';el.append(p);return;}
+ settings.designs.forEach((look,i)=>{
+  const row=document.createElement('div');row.className='design-row';const label=document.createElement('div');const strong=document.createElement('strong');strong.textContent=look.name;const details=document.createElement('div');details.className='small muted';details.textContent=indexes(look.mask).length+' lights · '+(fxById.get(look.effect)?.name||'Effect');label.append(strong,details);
+  const actions=document.createElement('div');actions.className='actions';const play=document.createElement('button');play.className='button tiny primary';play.textContent='Play';play.onclick=()=>applyBuiltInLook(look,look.name);
+  const remove=document.createElement('button');remove.className='button tiny';remove.textContent='Delete';remove.onclick=()=>{if(confirm('Delete '+look.name+' from this phone?')){settings.designs.splice(i,1);saveSettings();renderDesigns();}};
+  actions.append(play,remove);row.append(label,actions);el.append(row);
+ });
+}
+
 function frameFor(step,pattern,mask){const list=indexes(mask);if(!list.length)return 0;if(pattern==='alternating')return list.reduce((m,i)=>m|((i%2===step%2)?maskFor(i):0),0);if(pattern==='pairs'){const half=Math.ceil(list.length/2),j=step%half;return maskFor(list[j])|(list[j+half]!==undefined?maskFor(list[j+half]):0);}return maskFor(list[step%list.length]);}
-function stopStudio(message=''){if(!studioRunning)return;studioRunning=false;studioToken++;$('startSequence').disabled=false;$('stopSequence').disabled=true;renderPreview(0);if(message)log(message);}
-async function startStudio(){if(studioRunning)return;if(!canSend()){notify('Connect SP608E first.');return;}if(!selectedMask){notify('Select at least one zone.');return;}if(isLive()&&!channels.every(c=>c.known)){notify('Read SP608E status before running sequences.');return;}studioMask=selectedMask;studioStep=0;studioRunning=true;const token=++studioToken;const color=$('sequenceColor').value;const list=indexes(studioMask);$('startSequence').disabled=true;$('stopSequence').disabled=false;notify('Studio running - keep Bluefy in foreground.');log('Studio start: '+$('sequenceType').value+', '+list.length+' outputs.');/* Set solid effects on the chosen outputs before running a zone-level power chase. */const setup=[...list.map(i=>packet(0x83,[maskFor(i),25])),packet(0x89,[studioMask,...rgbFromHex(color),0xff]),packet(0x85,[studioMask,115])];if(!await enqueuePackets(setup,'Studio setup',{skipRefresh:true,guard:()=>studioRunning&&token===studioToken})){stopStudio('Studio setup failed.');return;}while(studioRunning&&token===studioToken&&canSend()){const frame=frameFor(studioStep,$('sequenceType').value,studioMask);const offMask=studioMask&~frame;studioCurrent=frame;renderPreview(frame);let commands=[];if(offMask)commands.push(packet(0x82,[offMask,0]));if(frame)commands.push(packet(0x82,[frame,1]));if(!await enqueuePackets(commands,'Studio frame '+(studioStep+1),{skipRefresh:true,guard:()=>studioRunning&&token===studioToken})){stopStudio('Studio write failed or disconnected.');break;}studioStep++;await sleep(cap($('sequenceDelay').value,MIN_BLE_STEP,4000));}if(token===studioToken){stopStudio('Studio stopped.');if(isLive())scheduleRead();}}
-function installUI(){document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$('connectBtn').onclick=()=>connect('name');$('scanServiceBtn').onclick=()=>connect('service');$('scanAllBtn').onclick=()=>connect('all');$('disconnectBtn').onclick=disconnect;$('refreshBtn').onclick=queryState;$('refreshControl').onclick=queryState;$('readStatus').onclick=queryState;$('readSceneStatus').onclick=queryState;$('demoBtn').onclick=()=>transport==='demo'?exitDemo():enterDemo();$('allZones').onclick=()=>selectMask(ALL);$('powerOn').onclick=()=>sendPower(selectedMask,true);$('powerOff').onclick=()=>sendPower(selectedMask,false);$('allOn').onclick=()=>sendPower(ALL,true);$('allOff').onclick=()=>{stopStudio();sendPower(ALL,false);};$('renameChannel').onchange=()=>{$('zoneRename').value=settings.names[Number($('renameChannel').value)];};$('saveZoneName').onclick=()=>{const id=Number($('renameChannel').value),value=$('zoneRename').value.trim();if(!value){notify('Enter a zone name.');return;}settings.names[id]=value.slice(0,26);saveSettings();renderZones();renderRenames();updateSelected();notify('Output '+(id+1)+' renamed.');};$('saveGroup').onclick=()=>{const name=$('groupName').value.trim();if(!selectedMask){notify('Select at least one zone.');return;}if(!name){notify('Enter a group name.');return;}settings.groups=settings.groups.filter(g=>g.name.toLowerCase()!==name.toLowerCase());settings.groups.push({name:name.slice(0,30),mask:selectedMask});settings.groups=settings.groups.slice(-16);saveSettings();renderGroups();$('groupName').value='';notify('Group saved locally.');};
-$('mainColor').oninput=()=>$('colorHex').value=$('mainColor').value;$('colorHex').onchange=()=>{if(isHex($('colorHex').value))$('mainColor').value=$('colorHex').value;else{$('colorHex').value=$('mainColor').value;notify('Use a six-digit hex color.');}};$('applyColor').onclick=()=>sendRgb(selectedMask,$('mainColor').value);const sw=$('colorSwatches');COLORS.forEach(c=>{const b=document.createElement('button');b.className='swatch';b.type='button';b.style.setProperty('--swatch',c);b.title='Apply color '+c;b.setAttribute('aria-label','Apply '+c);b.onclick=()=>{$('mainColor').value=c;$('colorHex').value=c;sendRgb(selectedMask,c);};sw.append(b);});$('masterBrightness').oninput=()=>{$('brightnessValue').textContent=Math.round(100*Number($('masterBrightness').value)/255)+'%';};$('masterBrightness').onchange=()=>sendBrightness(selectedMask,Number($('masterBrightness').value));$('effectPicker').onchange=renderEffectControls;$('applyEffect').onclick=()=>sendEffect(selectedMask,Number($('effectPicker').value));$('effectSpeed').oninput=()=>{$('speedValue').textContent=$('effectSpeed').value+' / 10';};$('effectSpeed').onchange=()=>sendSpeed(selectedMask,Number($('effectSpeed').value));$('effectLength').oninput=()=>{$('lengthValue').textContent=$('effectLength').value+' pixels';};$('effectLength').onchange=()=>sendLength(selectedMask,Number($('effectLength').value));const setDir=(f)=>{$('directionForward').classList.toggle('is-selected',f);$('directionReverse').classList.toggle('is-selected',!f);sendDirection(selectedMask,f?1:0);};$('directionForward').onclick=()=>setDir(true);$('directionReverse').onclick=()=>setDir(false);$('gain').oninput=()=>{$('gainValue').textContent=$('gain').value;};$('sendGain').onclick=()=>sendSensitivity(ALL,Number($('gain').value));$('applyChipOrder').onclick=()=>{const o=Number($('chipOrder').value);if(confirm('Change RGB order to '+rgbOrders[o]+' for '+indexes(selectedMask).length+' selected outputs?'))setChipOrder(selectedMask,o);};$('sceneLoop').onchange=()=>{if(!canSend()){$('sceneLoop').checked=!!window.reportedSceneLoop;notify('Connect first.');return;}setSceneLoop($('sceneLoop').checked);};$('captureLook').onclick=captureLook;$('sequenceDelay').oninput=()=>{$('delayValue').textContent=$('sequenceDelay').value+' ms';};$('startSequence').onclick=startStudio;$('stopSequence').onclick=()=>{stopStudio('Studio stopped by user.');if(isLive())scheduleRead();};$('clearSequence').onclick=()=>{stopStudio();sendPower(selectedMask,false);};$('stopSequence').disabled=true;
-$('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
+function stopStudio(message=''){
+ if(!studioRunning)return;
+ studioRunning=false;studioToken++;
+ $('startSequence').disabled=false;$('stopSequence').disabled=true;
+ $('studioPlaybackStatus').textContent=message||'Live show stopped. Lights keep their last state.';
+ renderPreview(0);if(message)log(message);
+}
+async function startStudio(){
+ if(studioRunning)return;
+ if(!canSend()){notify('Connect to the cart first.');return;}
+ if(!selectedMask){notify('Select lights above.');return;}
+ if(document.visibilityState==='hidden'){notify('Open Bluefy in the foreground to run a live show.');return;}
+ clearTimeout(pendingRefresh);pendingRefresh=null;
+ studioMask=selectedMask;studioStep=0;studioCurrent=0;studioRunning=true;
+ const token=++studioToken,color=$('sequenceColor').value,list=indexes(studioMask);
+ $('startSequence').disabled=true;$('stopSequence').disabled=false;
+ $('studioPlaybackStatus').textContent='Preparing '+list.length+' lights…';
+ notify('Preparing stable live show…');
+ const active=()=>studioRunning&&token===studioToken&&document.visibilityState!=='hidden';
+ const setup=[...list.map(i=>packet(0x83,[maskFor(i),25])),packet(0x89,[studioMask,...rgbFromHex(color),0xff]),packet(0x85,[studioMask,115]),packet(0x82,[studioMask,0])];
+ if(!await enqueuePackets(setup,'Live show setup',{skipRefresh:true,studio:true,guard:active})){
+  stopStudio('Could not prepare lights. Check the BLE connection.');return;
+ }
+ while(active()&&canSend()){
+  const frame=frameFor(studioStep,$('sequenceType').value,studioMask);
+  const off=studioCurrent&~frame,on=frame&~studioCurrent;
+  const cmds=[];if(off)cmds.push(packet(0x82,[off,0]));if(on)cmds.push(packet(0x82,[on,1]));
+  if(!await enqueuePackets(cmds,'Show step '+(studioStep+1),{skipRefresh:true,studio:true,guard:active})){
+   stopStudio('Show paused: Bluetooth write failed or disconnected. Tap Reconnect.');break;
+  }
+  studioCurrent=frame;studioStep++;
+  renderPreview(frame);
+  $('studioPlaybackStatus').textContent='Playing step '+studioStep+' • '+indexForStudioStatus(frame)+' • Keep Bluefy open';
+  const frameMs=cap($('sequenceDelay').value,MIN_BLE_STEP,6000);
+  await sleep(frameMs);
+ }
+ if(token===studioToken){stopStudio('Live show stopped.');if(isLive())scheduleRead();}
+}
+function indexForStudioStatus(mask){return indexes(mask).map(i=>settings.names[i]).join(' + ')||'No lights';}
+function installUI(){document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$('connectBtn').onclick=()=>connect(rememberedDevice?'remembered':'name');$('scanServiceBtn').onclick=()=>connect('service');$('scanAllBtn').onclick=()=>connect('all');$('disconnectBtn').onclick=disconnect;$('refreshBtn').onclick=queryState;$('refreshControl').onclick=queryState;$('readStatus').onclick=queryState;$('readSceneStatus').onclick=queryState;$('demoBtn').onclick=()=>transport==='demo'?exitDemo():enterDemo();$('allZones').onclick=()=>selectMask(ALL);$('powerOn').onclick=()=>sendPower(selectedMask,true);$('powerOff').onclick=()=>sendPower(selectedMask,false);$('allOn').onclick=()=>sendPower(ALL,true);$('allOff').onclick=()=>{stopStudio();sendPower(ALL,false);};$('renameChannel').onchange=()=>{$('zoneRename').value=settings.names[Number($('renameChannel').value)];};$('saveZoneName').onclick=()=>{const id=Number($('renameChannel').value),value=$('zoneRename').value.trim();if(!value){notify('Enter a zone name.');return;}settings.names[id]=value.slice(0,26);saveSettings();renderZones();renderRenames();updateSelected();notify('Output '+(id+1)+' renamed.');};$('saveGroup').onclick=()=>{const name=$('groupName').value.trim();if(!selectedMask){notify('Select at least one zone.');return;}if(!name){notify('Enter a group name.');return;}settings.groups=settings.groups.filter(g=>g.name.toLowerCase()!==name.toLowerCase());settings.groups.push({name:name.slice(0,30),mask:selectedMask});settings.groups=settings.groups.slice(-16);saveSettings();renderGroups();$('groupName').value='';notify('Group saved locally.');};
+$('mainColor').oninput=()=>$('colorHex').value=$('mainColor').value;$('colorHex').onchange=()=>{if(isHex($('colorHex').value))$('mainColor').value=$('colorHex').value;else{$('colorHex').value=$('mainColor').value;notify('Use a six-digit hex color.');}};$('applyColor').onclick=()=>sendRgb(selectedMask,$('mainColor').value);const sw=$('colorSwatches');COLORS.forEach(c=>{const b=document.createElement('button');b.className='swatch';b.type='button';b.style.setProperty('--swatch',c);b.title='Apply color '+c;b.setAttribute('aria-label','Apply '+c);b.onclick=()=>{$('mainColor').value=c;$('colorHex').value=c;sendRgb(selectedMask,c);};sw.append(b);});$('masterBrightness').oninput=()=>{$('brightnessValue').textContent=Math.round(100*Number($('masterBrightness').value)/255)+'%';};$('masterBrightness').onchange=()=>sendBrightness(selectedMask,Number($('masterBrightness').value));$('effectPicker').onchange=renderEffectControls;$('applyEffect').onclick=()=>sendEffect(selectedMask,Number($('effectPicker').value));$('effectSpeed').oninput=()=>{$('speedValue').textContent=$('effectSpeed').value+' / 10';};$('effectSpeed').onchange=()=>sendSpeed(selectedMask,Number($('effectSpeed').value));$('effectLength').oninput=()=>{$('lengthValue').textContent=$('effectLength').value+' pixels';};$('effectLength').onchange=()=>sendLength(selectedMask,Number($('effectLength').value));const setDir=(f)=>{$('directionForward').classList.toggle('is-selected',f);$('directionReverse').classList.toggle('is-selected',!f);sendDirection(selectedMask,f?1:0);};$('directionForward').onclick=()=>setDir(true);$('directionReverse').onclick=()=>setDir(false);$('gain').oninput=()=>{$('gainValue').textContent=$('gain').value;};$('sendGain').onclick=()=>sendSensitivity(ALL,Number($('gain').value));$('applyChipOrder').onclick=()=>{const o=Number($('chipOrder').value);if(confirm('Change RGB order to '+rgbOrders[o]+' for '+indexes(selectedMask).length+' selected outputs?'))setChipOrder(selectedMask,o);};$('sceneLoop').onchange=()=>{if(!canSend()){$('sceneLoop').checked=!!window.reportedSceneLoop;notify('Connect first.');return;}setSceneLoop($('sceneLoop').checked);};$('captureLook').onclick=captureLook;$('sequenceDelay').oninput=()=>{$('delayValue').textContent=$('sequenceDelay').value+' ms';};$('startSequence').onclick=startStudio;$('stopSequence').onclick=()=>{stopStudio('Live show stopped by user.');if(isLive())scheduleRead();};$('clearSequence').onclick=()=>{stopStudio();sendPower(selectedMask,false);};$('stopSequence').disabled=true;
+$('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>applyBuiltInLook({mask:selectedMask,effect:Number(b.dataset.quickfx),color:$('mainColor').value,speed:5,brightness:Number($('masterBrightness').value)},b.querySelector('strong').textContent));
+ ['studioEffect','studioColor','studioBrightness','studioSpeed'].forEach(id=>{$(id).addEventListener('input',renderLookPreview);$(id).addEventListener('change',renderLookPreview);});
+ $('applyCustomLook').onclick=()=>applyBuiltInLook(selectedDesign(),'Your custom look');
+ $('saveCustomLook').onclick=saveCustomDesign;
+ $('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();renderStudioZones();renderLookPreview();renderDesigns();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
 window.addEventListener('pagehide',()=>{stopStudio();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')stopStudio('Studio stopped when page became hidden.');});
-renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
+renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
 installUI();
 /* PWA is optional. iOS Bluefy support for offline service workers must be verified. */
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>log('Offline caching not available: '+e.message,'warn')));}
