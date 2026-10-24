@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07141a">
+<title>SmartEase Haunted Surge — SP608E Halloween Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#061218;--panel:#10242c;--panel2:#0b1d24;--edge:#2a4650;--text:#eff8f9;--muted:#a1bdc0;--teal:#48e2d2;--purple:#ab53eb;--green:#4eea80;--orange:#ff822f;--alert:#f6d29c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 850px 500px at 50% -100px,#1b3540,transparent 75%),var(--bg);font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text)}
+main{max-width:1040px;margin:auto;padding:18px 16px 110px}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{font-weight:850;font-size:21px;letter-spacing:-.05em}.brand span{color:var(--teal)}.sub{color:var(--muted);font-size:11px}.pill{font-size:10px;letter-spacing:.07em;text-transform:uppercase;border:1px solid #437079;color:var(--teal);border-radius:40px;padding:6px 9px;font-weight:800;white-space:nowrap}
+.hero{border:1px solid #385963;border-radius:21px;padding:22px;background:linear-gradient(135deg,#15363d,#111e2c);margin-bottom:16px;overflow:hidden}.eyebrow{font-size:11px;letter-spacing:.17em;color:#91f5d6;font-weight:850}h1{font-size:clamp(29px,5vw,45px);margin:6px 0 7px;letter-spacing:-.055em;line-height:1.05}.hero p{font-size:13px;color:#c6dfe0;margin:8px 0 0;max-width:700px}.colors{display:flex;gap:5px;margin-top:17px;align-items:center}.colors i{height:10px;width:45px;border-radius:20px;display:inline-block}.colors small{font-size:11px;color:#c6dfe0;margin-left:6px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:16px;align-items:start}.stack{display:grid;gap:16px}.card{background:linear-gradient(#112731,#0c2028);border:1px solid var(--edge);border-radius:17px;padding:18px;min-width:0}h2{font-size:17px;letter-spacing:-.03em;margin:0 0 7px}.hint{color:var(--muted);font-size:12px;margin:0 0 14px}.caption{font-size:11px;color:#9bbcc0}.canvas-wrap{background:#020a0e;border:1px solid #284248;border-radius:14px;padding:13px;overflow:hidden}.canv{width:100%;height:auto;display:block}.statusbar{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:12px;color:#b4cbd0;font-size:12px}.statusbar b{color:var(--teal)}
+.buttons{display:flex;flex-wrap:wrap;gap:9px}.btn{appearance:none;border:1px solid #426770;border-radius:11px;background:#173740;color:var(--text);padding:10px 13px;min-height:43px;font-size:13px;font-weight:780;cursor:pointer;flex:1}.btn.teal{background:var(--teal);color:#062c2c;border-color:var(--teal)}.btn.purple{border-color:#75559e;background:#332345}.btn.warn{border-color:#8f5b56;background:#40272b;color:#ffe8e6}.btn:disabled{opacity:.45;cursor:not-allowed}.btn:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #77eadd;outline-offset:2px}
+.field{margin:12px 0}.field label{font-size:12px;color:#c6e0e1;display:flex;justify-content:space-between;gap:12px;font-weight:750;margin-bottom:5px}.field input[type=range]{width:100%;accent-color:var(--teal)}.control{background:#09191f;border:1px solid #406069;color:white;border-radius:11px;padding:11px;width:100%;font:inherit}.zone-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}.zone{border:1px solid #31535e;background:#0c2229;border-radius:11px;padding:11px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px}.zone input{accent-color:var(--teal);width:18px;height:18px}.zone b{color:var(--teal)}.note{font-size:11px;color:#adc6cc;border-left:3px solid var(--teal);background:#0a1d24;padding:10px 12px;border-radius:6px}.amber{color:var(--alert)}.log{background:#041217;color:#add7d4;border-radius:10px;border:1px solid #203b43;height:142px;overflow:auto;padding:9px;font:11px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.log span.err{color:#ffaaaa}.log span.ok{color:#a2f4ce}.divider{height:1px;background:var(--edge);margin:15px 0}.state{font-size:12px;color:var(--muted);margin:9px 0}.state strong{color:var(--teal)}footer{padding-top:20px;text-align:center;color:#72939b;font-size:11px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.hero{padding:18px}.card{padding:15px}.top{margin-top:3px}.zone-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:390px){.zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.buttons .btn{flex-basis:43%}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><div class="brand">Smart<span>Ease</span> <span style="font-weight:400;color:#afc8ca">/ Cart Lights</span></div><div class="sub">Experimental SP608E Halloween Studio · v0.2</div></div><div class="pill">Bluetooth · Local</div></header>
+<section class="hero"><div class="eyebrow">CUSTOM HALLOWEEN ANIMATION</div><h1>Haunted Surge</h1><p>Front-to-back waves of toxic green, haunted purple, and pumpkin orange. Each wave ends with a burst of twinkling stars using the controller’s native effect. Designed by SmartEase; not a downloaded factory preset.</p><div class="colors"><i style="background:#46ef77"></i><i style="background:#a24aec"></i><i style="background:#ff751e"></i><small>3-color loop + starlight</small></div></section>
+<div class="layout">
+<section class="stack">
+ <article class="card"><h2>Live animation preview</h2><p class="hint">Eight virtual SP608E outputs, arranged front to rear from top to bottom. The actual order depends on how your canopy strips are connected.</p><div class="canvas-wrap"><canvas id="preview" class="canv" width="900" height="454" aria-label="Preview of green, purple and orange waves with starbursts"></canvas></div><div class="statusbar"><span>Stage: <b id="stage">Toxic green wave</b></span><span>Cycle: <b id="cycles">1</b></span></div><div class="buttons" style="margin-top:13px"><button class="btn teal" id="previewBtn">Pause preview</button><button class="btn" id="exportBtn">Export scene recipe (.json)</button></div></article>
+ <article class="card"><h2>Output layout · front → rear</h2><p class="hint">The initial CH1–CH5 selection is only a demo. Identify your real outputs, then set their physical front-to-back order.</p><div class="zone-grid" id="zones"></div><div class="field"><label for="order">Physical ordering (front to back)</label><input id="order" class="control" value="1,2,3,4,5,6,7,8" spellcheck="false" autocomplete="off"></div>
+<label class="note" style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;margin-bottom:11px"><input id="verified" type="checkbox" style="width:19px;height:19px;flex-shrink:0;accent-color:var(--teal)"><span><b>Verified my wiring:</b> I identified the actual connected channels and set the front-to-back order. Required before playing on the cart.</span></label><div class="note">The preview is illustrative and grouped by output, not individual LED. For a real front-to-back sweep, your actual output wiring must match the selected order. A single long strip cannot be animated pixel-by-pixel using these documented commands.</div></article>
+ <article class="card"><h2>How the live test works</h2><p class="hint">This is a scripted sequence sent over Bluetooth, not an upload into the SP608E's firmware.</p><div class="state">1. Set active outputs to <strong>Solid</strong>; move each color front-to-back using stepped fades.</div><div class="state">2. Start the controller's <strong>Twinkling Stars</strong> effect briefly, in the selected color.</div><div class="state">3. Return to solid, begin the next color, repeat until stopped.</div><div class="note amber" style="border-color:#d9a463">Runs only while this page is open in Bluefy and Bluetooth is connected. No save-scene or firmware-upload commands are sent, but temporary output changes may affect power-on behavior. Recall your known saved scene after testing.</div></article>
+</section>
+<aside class="stack">
+ <article class="card"><h2>Connect to SP608E</h2><p class="hint">On iPhone, open the hosted HTTPS version in Bluefy. Disconnect BanlanX before connecting here.</p><div class="buttons"><button class="btn teal" id="connect">Connect Bluetooth</button><button class="btn" id="disconnect">Disconnect</button></div><p class="state">Device: <strong id="device">Not connected</strong></p><div class="divider"></div><div class="field"><label for="testCh">Identify a channel</label><select id="testCh" class="control"></select></div><button class="btn" style="width:100%" id="testBtn">Test channel (green)</button><p class="caption" style="margin-bottom:0">Changes only the selected output. Use “Restore saved scene” to return to your normal lighting.</p></article>
+ <article class="card"><h2>Show controls</h2><div class="field"><label for="brightness">Brightness <span id="brightNum">45%</span></label><input id="brightness" type="range" min="10" max="75" value="45" step="5"></div><div class="field"><label for="pace">Fade steps <span id="paceNum">3</span></label><input id="pace" type="range" min="1" max="5" value="3"></div><div class="field"><label for="twinkle">Twinkle duration <span id="twinkleNum">2.0 s</span></label><input id="twinkle" type="range" min="1" max="4" step=".5" value="2"></div><div class="buttons"><button class="btn teal" id="playLive">Play on cart</button><button class="btn warn" id="stopLive">Stop show</button></div><p class="state">Show status: <strong id="liveStatus">Idle</strong></p><div class="divider"></div><div class="field"><label for="restore">Onboard scene to restore</label><select id="restore" class="control"></select></div><button class="btn purple" style="width:100%" id="restoreBtn">Restore saved scene</button><p class="caption">Select the actual slot containing your saved baseline; Scene 1 is just the default. This recalls a scene, but does not create or overwrite one.</p></article>
+ <article class="card"><h2>Diagnostics</h2><p class="hint">Bluetooth communications are direct from your phone to the controller. No paid API.</p><div id="log" class="log" role="log" aria-live="polite">Ready. Preview runs without hardware.</div><div class="buttons" style="margin-top:9px"><button class="btn" id="clearLog">Clear log</button><button class="btn" id="query">Read status</button></div></article>
+</aside>
+</div>
+<footer>SmartEase® · Experimental controller · No firmware flashing · Keep decorative animations off while driving on public roads</footer>
+</main>
+<script>
+'use strict';
+/* SP608E command bytes are based on the MIT-licensed UniLED banlanx_60x.py.
+   https://github.com/monty68/uniled — unrelated third-party project.
+   Experimental: exact response from this specific controller is not yet verified. */
+const UUID_SERVICE='0000ffe0-0000-1000-8000-00805f9b34fb';
+const UUID_CHAR='0000ffe1-0000-1000-8000-00805f9b34fb';
+const COLORS=[{name:'Toxic green',hex:'#46ef77'},{name:'Haunted purple',hex:'#a24aec'},{name:'Pumpkin orange',hex:'#ff751e'}];
+const $=x=>document.getElementById(x), sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let device=null,char=null,live=false,runId=0,connected=false,previewPlaying=true;
+let lastWrite=0,bleSession=0,previewStart=performance.now(),pausedT=0,connInProgress=false;
+let txSerial=Promise.resolve(); // Exactly one in-flight BLE characteristic write.
+const STEP_GAP=325; // Conservative serialized writes to reduce BLE overload in Bluefy.
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const parseHex=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16));
+const rgb=(r,g,b)=>'#'+[r,g,b].map(v=>Math.round(clamp(v,0,255)).toString(16).padStart(2,'0')).join('');
+function blend(a,b,x){const aa=parseHex(a),bb=parseHex(b);return rgb(...aa.map((v,i)=>v+(bb[i]-v)*clamp(x,0,1)));}
+function hex(pkt){return pkt.map(n=>n.toString(16).padStart(2,'0')).join(' ').toUpperCase();}
+function log(msg,isErr=false){const el=$('log'),t=document.createElement('div');t.className=isErr?'err':'ok';t.textContent=new Date().toLocaleTimeString()+'  '+msg;el.append(t);while(el.children.length>70)el.firstChild.remove();el.scrollTop=el.scrollHeight;}
+function activeChannels(){return [...document.querySelectorAll('#zones input:checked')].map(x=>Number(x.value));}
+function orderedChannels(){const active=new Set(activeChannels());const nums=$('order').value.split(/[, ]+/).map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=8);const uniq=[...new Set(nums)];return [...uniq.filter(n=>active.has(n)),...Array.from(active).filter(n=>!uniq.includes(n))];}
+function mask(chs){return chs.reduce((m,n)=>m|(1<<(n-1)),0);}
+function packet(op,args=[]){return [0x88,op,args.length,...args];}
+function pColor(ch,col){return packet(0x89,[mask([ch]),...parseHex(col),0xff]);}
+function pEffect(ch,effect){return packet(0x83,[mask([ch]),effect]);}
+function showStatus(t){$('liveStatus').textContent=t;}
+function setButtons(){ $('connect').disabled=connInProgress||connected; $('disconnect').disabled=!connected; $('playLive').disabled=!connected||live||!$('verified').checked; $('stopLive').disabled=!live; $('testBtn').disabled=!connected||live; $('query').disabled=!connected||live; $('restoreBtn').disabled=!connected; }
+for(let n=1;n<=8;n++){$('zones').insertAdjacentHTML('beforeend',`<label class="zone"><b>CH ${n}</b><input type="checkbox" value="${n}" ${n<=5?'checked':''}><span>Output ${n}</span></label>`); $('testCh').add(new Option('Channel '+n,n));}
+for(let n=1;n<=9;n++)$('restore').add(new Option('Scene '+n,n));
+function stop(why='Stopped; controller keeps last lighting state'){if(!live)return;live=false;runId++;showStatus(why);log(why);setButtons();}
+function onDisconnect(){if(connected){log('Bluetooth disconnected. Live show stopped.',true);}connected=false;char=null;bleSession++;$('device').textContent='Not connected';device=null;stop('Disconnected');setButtons();}
+async function connect(){if(connInProgress||connected)return;if(!navigator.bluetooth){log('Web Bluetooth unavailable. Use a supported HTTPS Bluetooth browser such as Bluefy.',true);return;}connInProgress=true;setButtons();try{
+ log('Opening device picker. BanlanX must be disconnected.');const d=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[UUID_SERVICE]});
+ device=d; const mySession=++bleSession;d.addEventListener('gattserverdisconnected',()=>{if(mySession===bleSession)onDisconnect();});
+ const server=await d.gatt.connect(),svc=await server.getPrimaryService(UUID_SERVICE); char=await svc.getCharacteristic(UUID_CHAR);
+ connected=true;$('device').textContent=d.name||'SP608E';log('Connected to '+(d.name||'device')+' / FFE0, FFE1');
+ try{if(char.properties.notify){await char.startNotifications();char.addEventListener('characteristicvaluechanged',e=>{const d=e.target.value,b=Array.from(new Uint8Array(d.buffer,d.byteOffset,d.byteLength));log('RX '+hex(b));});}}catch(e){log('Notifications unavailable: '+e.message,true);}
+ log('Ready. No automatic readback requested; use Read status when needed.');
+ }catch(e){log('Connection failed: '+e.message,true);try{device?.gatt?.disconnect();}catch{}onDisconnect();}finally{connInProgress=false;setButtons();}}
+function disconnect(){stop('Stopped by user');const d=device;onDisconnect();try{d?.gatt?.disconnect();}catch{}log('Disconnected manually');}
+async function send(bytes,label='Command',guard=null){
+ // All writes, including manual Restore, join one promise queue. The guard is
+ // checked when the queued write actually runs, so Stop cancels pending show packets.
+ const session=bleSession;
+ const task=txSerial.catch(()=>false).then(async()=>{
+  if(!connected||!char||session!==bleSession||(guard&&!guard()))return false;
+  const gap=Math.max(0,STEP_GAP-(Date.now()-lastWrite));if(gap)await sleep(gap);
+  if(!connected||!char||session!==bleSession||(guard&&!guard()))return false;
+  try{
+   const raw=Uint8Array.from(bytes);
+   if(char.properties.write&&typeof char.writeValueWithResponse==='function')await char.writeValueWithResponse(raw);
+   else if(char.properties.write&&typeof char.writeValue==='function')await char.writeValue(raw);
+   else if(char.properties.writeWithoutResponse&&typeof char.writeValueWithoutResponse==='function')await char.writeValueWithoutResponse(raw);
+   else throw Error('FFE1 is not writable');
+   lastWrite=Date.now();log('TX '+hex(bytes)+' • '+label);return true;
+  }catch(e){log('Write failed: '+e.message,true);showStatus('Write failed — reconnect');stop('Bluetooth write error');return false;}
+ });
+ txSerial=task.catch(()=>false);
+ return task;
+}
+async function safeSend(bytes,label,guard){const ok=await send(bytes,label,guard);if(!ok)throw Error('Bluetooth command failed or show stopped');}
+async function runHalloween(){if(live||!connected)return;const order=orderedChannels();if(!order.length){log('Select at least one connected output.',true);return;}
+ if(!$('verified').checked){log('Verify real connected outputs first.',true);return;}
+ if(document.visibilityState==='hidden'){log('Keep Bluefy in the foreground.',true);return;}
+ if(!confirm('Start Haunted Surge on outputs '+order.join(', ')+'? This changes live lighting but does NOT upload a custom animation or overwrite scene slots. Test while parked.'))return;
+ const brightness=Math.round(Number($('brightness').value)/100*255),steps=Number($('pace').value),twinkleMs=Number($('twinkle').value)*1000;
+ const token=++runId;live=true;setButtons();let prior=COLORS[2].hex;const guard=()=>live&&token===runId&&connected&&document.visibilityState==='visible';
+ try{
+  showStatus('Preparing '+order.length+' outputs');
+  await safeSend(packet(0x85,[mask(order),brightness]),'Brightness',guard);
+  for(const ch of order)await safeSend(pEffect(ch,25),'CH'+ch+' solid mode',guard);
+  await safeSend(packet(0x89,[mask(order),...parseHex(prior),0xff]),'Start orange',guard);
+  await safeSend(packet(0x82,[mask(order),1]),'Selected zones on',guard);
+  while(guard()){
+   for(const stage of COLORS){if(!guard())break;showStatus('Front-to-back fade: '+stage.name);
+    for(const ch of order){for(let step=1;step<=steps;step++){
+      if(!guard())throw Error('Show stopped');
+      const c=blend(prior,stage.hex,step/steps);
+      await safeSend(pColor(ch,c),'CH'+ch+' fade '+stage.name+' '+step+'/'+steps,guard);
+    }}
+    prior=stage.hex;
+    if(!guard())break;
+    showStatus('Starbursts: '+stage.name);
+    // Set single-color palette and invoke firmware's colorable Stars Twinkle effect.
+    await safeSend(packet(0x89,[mask(order),...parseHex(stage.hex),0xff]),'Stars color',guard);
+    for(const ch of order)await safeSend(pEffect(ch,3),'CH'+ch+' Stars Twinkle',guard);
+    await safeSend(packet(0x86,[mask(order),7]),'Twinkle speed',guard);
+    for(let t=0;t<twinkleMs&&guard();t+=100)await sleep(Math.min(100,twinkleMs-t));
+    // Return to solid mode before the next gradient; preserve previous color.
+    for(const ch of order){if(!guard())throw Error('Show stopped');await safeSend(pEffect(ch,25),'CH'+ch+' Solid',guard);}
+   }
+  }
+ }catch(e){if(guard())log('Show problem: '+e.message,true);}
+ finally{if(token===runId){stop('Live show stopped. Restore saved scene if desired.');}}
+}
+async function testOne(){if(live||!connected)return;const ch=Number($('testCh').value);$('testBtn').disabled=true;try{
+ await send(pEffect(ch,25),'CH'+ch+' static test'); await send(pColor(ch,'#46ef77'),'CH'+ch+' green');await send(packet(0x85,[mask([ch]),100]),'CH'+ch+' dim'); await send(packet(0x82,[mask([ch]),1]),'CH'+ch+' power');log('Identify the illuminated position and update the front-to-back order.');
+ }finally{setButtons();}}
+async function restore(){stop('Restoring saved scene');if(!connected)return;const n=Number($('restore').value);await send(packet(0x8e,[n-1]),'Recall onboard scene '+n);showStatus('Scene '+n+' recalled (verify on cart)');}
+function exportRecipe(){const data={format:'SmartEase-SP608E-Live-Sequence-v0.1',name:'Haunted Surge',created:'2026-10-24',controller:'SP608E',type:'phone-driven-test-not-firmware-upload',colors:COLORS,frontToBack:orderedChannels(),brightnessPercent:Number($('brightness').value),fadeSteps:Number($('pace').value),twinkleSeconds:Number($('twinkle').value),firmwareEffectIDs:{solid:25,starsTwinkle:3},ble:{service:UUID_SERVICE,characteristic:UUID_CHAR}};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SmartEase_Haunted_Surge.scene.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);log('Exported scene recipe locally (not uploaded to controller).');}
+$('verified').onchange=setButtons;
+$('brightness').oninput=()=>{$('brightNum').textContent=$('brightness').value+'%';};$('pace').oninput=()=>{$('paceNum').textContent=$('pace').value;};$('twinkle').oninput=()=>{$('twinkleNum').textContent=Number($('twinkle').value).toFixed(1)+' s';};
+$('connect').onclick=connect;$('disconnect').onclick=disconnect;$('testBtn').onclick=testOne;$('playLive').onclick=runHalloween;$('stopLive').onclick=()=>stop('Stopped by user; lights hold last state');$('restoreBtn').onclick=restore;$('query').onclick=()=>send(packet(0x8f),'Read status');$('clearLog').onclick=()=>$('log').textContent='Log cleared.';$('exportBtn').onclick=exportRecipe;
+// Canvas demo: visually smooth per-pixel concept. Actual BLE mode is channel-resolution.
+const c=$('preview'),ctx=c.getContext('2d');let raf;
+function demoFrame(now){if(previewPlaying){const t=Math.max(0,(now-previewStart)/1000),stageLength=6.5,stageIndex=Math.floor(t/stageLength)%3,at=t%stageLength,starTime=at>4.7;
+ const target=COLORS[stageIndex],before=COLORS[(stageIndex+2)%3],channels=orderedChannels();
+ ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#030a0e';ctx.fillRect(0,0,c.width,c.height);
+ ctx.font='bold 14px system-ui';ctx.fillStyle='#91b1b8';ctx.fillText('FRONT ↓ REAR (physical output order)',23,28);ctx.fillText('REAR ↓',23,441);
+ for(let row=0;row<8;row++){
+   const ch=row+1,yy=50+row*48,idx=channels.indexOf(ch),active=idx>=0;
+   const pct=active?idx/Math.max(1,channels.length-1):1;
+   const mix=clamp((at-pct*3.1)/1.35,0,1),base=blend(before.hex,target.hex,mix);
+   ctx.font='13px system-ui';ctx.fillStyle=active?'#c2dee1':'#557078';ctx.fillText('CH '+ch,23,yy+19);
+   for(let x=0;x<48;x++){
+     const xx=100+x*15.4;
+     let co=base;
+     if(starTime&&active){let burst=Math.sin(t*5.8+x*12.989+ch*37.72)*43758.5453;burst=burst-Math.floor(burst);if(burst>.93)co='#e1fbff';else if(burst>.87)co=blend(base,'#ffffff',.65);}
+     ctx.fillStyle=active?co:'#173037';ctx.globalAlpha=active?.92:.32;
+     ctx.beginPath();ctx.arc(xx,yy+12,5.0,0,Math.PI*2);ctx.fill();
+   }
+   ctx.globalAlpha=1;
+ }
+ $('stage').textContent=starTime?'✦ Starbursts · '+target.name:target.name+' · front → back';
+ $('cycles').textContent=1+Math.floor(t/(stageLength*3));
+ }raf=requestAnimationFrame(demoFrame);}
+$('previewBtn').onclick=()=>{previewPlaying=!previewPlaying;$('previewBtn').textContent=previewPlaying?'Pause preview':'Resume preview';if(previewPlaying)previewStart=performance.now()-pausedT;else pausedT=performance.now()-previewStart;};
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&live)stop('Stopped: Bluefy moved to background');});
+window.addEventListener('pagehide',()=>{if(live)stop('Stopped: page closed');});
+setButtons();requestAnimationFrame(demoFrame);log('Scene ready. This is a phone-driven test; existing controller scenes are not modified.');
+</script>
+</body></html>
