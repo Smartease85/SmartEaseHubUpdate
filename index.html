@@ -43,6 +43,13 @@
 .haunted-settings{border:1px solid var(--line);border-radius:13px;background:#0b2229;padding:11px 13px;margin-top:12px}
 .haunted-settings summary{cursor:pointer;font-weight:750;color:var(--teal);padding:4px}
 @media (prefers-reduced-motion: reduce){.haunted-preview span{animation:none}}
+
+.haunted-rgb-test{display:grid;gap:9px;margin:13px 0}
+.haunted-rgb-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.8fr) minmax(0,1.1fr);align-items:center;gap:7px}
+.haunted-rgb-row label{font-size:12px;font-weight:650;color:#c7dddd}
+.haunted-rgb-row .button{font-size:12px;padding:8px 7px}
+.haunted-rgb-row .control{font-size:13px;padding:9px 5px}
+@media(max-width:570px){.haunted-rgb-row{grid-template-columns:1fr 1fr;row-gap:5px}.haunted-rgb-row .button{grid-row:span 2}.haunted-rgb-row label{font-size:11px}}
 </style>
 </head>
 <body>
@@ -130,6 +137,38 @@
         <div class="field"><label for="hauntedStarTime">Starburst duration</label><select class="control" id="hauntedStarTime"><option value="1200">1.2 seconds</option><option value="2300" selected>2.3 seconds</option><option value="3500">3.5 seconds</option></select></div>
         <div class="actions"><select class="control" id="hauntedIdentifyChannel" style="flex:1;min-width:110px" aria-label="Channel to identify"><option value="1">Output 1</option><option value="2">Output 2</option><option value="3">Output 3</option><option value="4">Output 4</option><option value="5">Output 5</option><option value="6">Output 6</option><option value="7">Output 7</option><option value="8">Output 8</option></select><button class="button" type="button" id="hauntedIdentify">Identify output (green)</button></div>
         <p class="small muted">Identify each channel with the cart parked, then enter the correct order above. Testing temporarily changes the selected channel.</p>
+      </details>
+
+      <details class="haunted-settings" id="hauntedRgbCalibration">
+        <summary>🎨 Wrong colors? Calibrate RGB</summary>
+        <p class="small muted">If Rainbow looks normal but green, purple or orange look wrong, check the output order. These tests send pure RED, GREEN and BLUE to one output. Record what you actually see; we'll correct Halloween's commands without changing chip settings or stored scenes.</p>
+        <div class="field"><label for="hauntedCalOutput">Output to calibrate</label>
+          <select class="control" id="hauntedCalOutput"><option value="1">Output 1</option><option value="2">Output 2</option><option value="3">Output 3</option><option value="4">Output 4</option><option value="5">Output 5</option><option value="6">Output 6</option><option value="7">Output 7</option><option value="8">Output 8</option></select>
+        </div>
+        <div class="haunted-rgb-test">
+          <div class="haunted-rgb-row">
+            <button class="button" id="hauntedTestRed" type="button">Send pure RED</button>
+            <label for="hauntedSeenRed">Actually displays</label>
+            <select class="control" id="hauntedSeenRed"><option value="">Choose observed color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option></select>
+          </div>
+          <div class="haunted-rgb-row">
+            <button class="button" id="hauntedTestGreen" type="button">Send pure GREEN</button>
+            <label for="hauntedSeenGreen">Actually displays</label>
+            <select class="control" id="hauntedSeenGreen"><option value="">Choose observed color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option></select>
+          </div>
+          <div class="haunted-rgb-row">
+            <button class="button" id="hauntedTestBlue" type="button">Send pure BLUE</button>
+            <label for="hauntedSeenBlue">Actually displays</label>
+            <select class="control" id="hauntedSeenBlue"><option value="">Choose observed color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option></select>
+          </div>
+        </div>
+        <p class="small muted">All three observed colors must be different. If one is missing, mixed, or white, stop and check that channel's LED type and wiring instead of guessing.</p>
+        <div class="actions">
+          <button class="button primary" type="button" id="hauntedCalSave">Save for this output</button>
+          <button class="button" type="button" id="hauntedCalAll">Apply to all listed outputs</button>
+          <button class="button ghost" type="button" id="hauntedCalReset">Reset output</button>
+        </div>
+        <p class="small muted" role="status" id="hauntedCalStatus">Uncalibrated: standard RGB commands. Test one output at a time while parked.</p>
       </details>
       <div class="switchrow" style="margin:14px 0"><label class="switch" for="hauntedVerified"><input type="checkbox" id="hauntedVerified"> I verified the cart's channel order</label></div>
       <div class="actions"><button class="button primary" type="button" id="hauntedPlay" disabled>▶ Play Halloween</button><button class="button danger" type="button" id="hauntedStop" disabled>Stop</button></div>
@@ -533,6 +572,91 @@ function hauntedMix(a,b,ratio){
  const x=rgbFromHex(a),y=rgbFromHex(b);
  return colorToHex(...x.map((v,i)=>Math.round(v+(y[i]-v)*ratio)));
 }
+
+/* Per-output Halloween color calibration. The wire payload (0x89) is RGB,
+ but physical strips sometimes show a different permutation. Store what each
+ raw RED/GREEN/BLUE command physically displayed and invert it for Halloween.
+ This never writes the controller's chip-order command (0x84). */
+const H_IDENT=['r','g','b'],H_PURE={r:'#ff0000',g:'#00ff00',b:'#0000ff'};
+let hauntedColorFix={};
+function hauntedGoodMap(map){
+ return Array.isArray(map)&&map.length===3&&new Set(map).size===3&&map.every(v=>H_IDENT.includes(v));
+}
+function hauntedRgbBytes(n,col){
+ const desired=rgbFromHex(col),observed=hauntedGoodMap(hauntedColorFix[n])?hauntedColorFix[n]:H_IDENT;
+ const lookup={r:0,g:1,b:2};
+ return observed.map(actual=>desired[lookup[actual]]);
+}
+function hauntedColorCommand(n,col){
+ return packet(0x89,[maskFor(n-1),...hauntedRgbBytes(n,col),0xff]);
+}
+function hauntedCalMessage(msg){$('hauntedCalStatus').textContent=msg;}
+function hauntedCalibrationChoices(){
+ return [$('hauntedSeenRed').value,$('hauntedSeenGreen').value,$('hauntedSeenBlue').value];
+}
+function hauntedCalibrationLoad(){
+ const ch=Number($('hauntedCalOutput').value);
+ const saved=hauntedColorFix[ch];
+ const obs=hauntedGoodMap(saved)?saved:['','',''];
+ [$('hauntedSeenRed'),$('hauntedSeenGreen'),$('hauntedSeenBlue')].forEach((el,i)=>el.value=obs[i]);
+ hauntedCalMessage(hauntedGoodMap(saved)?'Output '+ch+' correction saved: raw R→'+saved[0].toUpperCase()+', G→'+saved[1].toUpperCase()+', B→'+saved[2].toUpperCase()+'.':'Output '+ch+' not calibrated: raw RGB assumed.');
+}
+function hauntedCalibrationPersist(){
+ const key='smartease-haunted-rgb-fix-v1';
+ try{localStorage.setItem(key,JSON.stringify(hauntedColorFix));}
+ catch(e){hauntedCalMessage('Could not remember the correction locally: '+e.message);}
+}
+function hauntedCalibrationSave(all){
+ const map=hauntedCalibrationChoices();
+ if(!hauntedGoodMap(map)){
+  hauntedCalMessage('Choose the actual displayed RED/GREEN/BLUE results. Each color must appear exactly once.');return;
+ }
+ let outputs;
+ try{outputs=all?hauntedOrders():[Number($('hauntedCalOutput').value)];}
+ catch(e){hauntedCalMessage(e.message);return;}
+ if(all&&!confirm('Use this same measured RGB wiring order for ALL '+outputs.length+' selected outputs? Only do this if they are wired with the same LED color order.'))return;
+ for(const n of outputs)hauntedColorFix[n]=[...map];
+ hauntedCalibrationPersist();
+ hauntedCalMessage('Saved software correction for '+outputs.map(n=>'CH'+n).join(', ')+'. Halloween now sends mapped RGB values. No controller memory was changed.');
+ log('Halloween color correction: '+JSON.stringify({outputs,rawCommandsDisplayAs:map}));
+}
+async function hauntedCalibrationTest(primary){
+ if(hauntedRunning||!canSend()){
+  hauntedCalMessage('Connect the SP608E and stop Halloween before calibrating.');return;
+ }
+ const n=Number($('hauntedCalOutput').value),m=maskFor(n-1),col=H_PURE[primary];
+ if(!col)return;
+ hauntedCalMessage('Sending raw '+primary.toUpperCase()+' to output '+n+'… observe the REAL color.');
+ const packets=[
+  packet(0x83,[m,25]),
+  packet(0x85,[m,155]),
+  packet(0x82,[m,1]),
+  packet(0x89,[m,...rgbFromHex(col),0xff])
+ ];
+ const ok=await enqueuePackets(packets,'RGB raw test '+primary.toUpperCase()+' output '+n);
+ hauntedCalMessage(ok?'Output '+n+': raw '+primary.toUpperCase()+' sent. Select the color you actually see above.':'Command failed. Check BLE connection and try again.');
+}
+function hauntedCalibrationInit(){
+ try{
+  const map=JSON.parse(localStorage.getItem('smartease-haunted-rgb-fix-v1')||'{}');
+  if(map&&typeof map==='object'&&!Array.isArray(map)){
+   for(let n=1;n<=8;n++)if(hauntedGoodMap(map[n]))hauntedColorFix[n]=[...map[n]];
+  }
+ }catch{}
+ $('hauntedCalOutput').addEventListener('change',hauntedCalibrationLoad);
+ $('hauntedTestRed').addEventListener('click',()=>hauntedCalibrationTest('r'));
+ $('hauntedTestGreen').addEventListener('click',()=>hauntedCalibrationTest('g'));
+ $('hauntedTestBlue').addEventListener('click',()=>hauntedCalibrationTest('b'));
+ $('hauntedCalSave').addEventListener('click',()=>hauntedCalibrationSave(false));
+ $('hauntedCalAll').addEventListener('click',()=>hauntedCalibrationSave(true));
+ $('hauntedCalReset').addEventListener('click',()=>{
+  const n=Number($('hauntedCalOutput').value);
+  delete hauntedColorFix[n];hauntedCalibrationPersist();hauntedCalibrationLoad();
+  hauntedCalMessage('Output '+n+' correction cleared. Halloween uses standard RGB on this output.');
+ });
+ hauntedCalibrationLoad();
+}
+
 function hauntedInfo(t){$('hauntedStatus').textContent=t;}
 function hauntedButtons(){
  if(!$('hauntedPlay'))return;
@@ -574,8 +698,8 @@ async function hauntedStart(){
   await hauntedPackets([
    packet(0x85,[m,brightness]),
    ...order.map(n=>packet(0x83,[maskFor(n-1),25])),
-   packet(0x89,[m,...rgbFromHex(previous),0xff]),
-   packet(0x82,[m,1])
+   packet(0x82,[m,1]),
+   ...order.map(n=>hauntedColorCommand(n,previous))
   ],'Halloween initialize',guard);
   while(guard()){
    for(const stage of H_COLORS){
@@ -585,13 +709,13 @@ async function hauntedStart(){
      for(let j=1;j<=steps;j++){
       if(!guard())break;
       const color=hauntedMix(previous,stage.hex,j/steps);
-      await hauntedPackets(packet(0x89,[maskFor(n-1),...rgbFromHex(color),0xff]),'Halloween CH'+n+' '+stage.name+' '+j+'/'+steps,guard);
+      await hauntedPackets(hauntedColorCommand(n,color),'Halloween CH'+n+' '+stage.name+' '+j+'/'+steps,guard);
      }
     }
     if(!guard())break;
     hauntedInfo('✦ Twinkling starbursts: '+stage.name);
-    await hauntedPackets(packet(0x89,[m,...rgbFromHex(stage.hex),0xff]),'Halloween stars color',guard);
     await hauntedPackets(order.map(n=>packet(0x83,[maskFor(n-1),3])),'Halloween stars effect',guard);
+    await hauntedPackets(order.map(n=>hauntedColorCommand(n,stage.hex)),'Halloween stars mapped color',guard);
     await hauntedPackets(packet(0x86,[m,7]),'Halloween stars speed',guard);
     for(let ms=0;ms<starMs&&guard();ms+=100)await sleep(Math.min(100,starMs-ms));
     if(!guard())break;
@@ -608,7 +732,7 @@ async function hauntedIdentify(){
  if(!confirm('Turn SP608E output '+n+' green to identify its position?'))return;
  const ok=await enqueuePackets([
   packet(0x83,[m,25]),
-  packet(0x89,[m,0x46,0xef,0x77,0xff]),
+  hauntedColorCommand(n,'#46ef77'),
   packet(0x85,[m,100]),
   packet(0x82,[m,1])
  ],'Identify Halloween output '+n);
@@ -645,6 +769,7 @@ function installHaunted(){
  };
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')hauntedEnd('Bluetooth show stopped when Bluefy went to the background.');});
  window.addEventListener('pagehide',()=>hauntedEnd('Halloween stopped because page closed.'));
+ hauntedCalibrationInit();
  hauntedButtons();
  const q=new URLSearchParams(location.search);
  if(q.get('tab')==='scenes')switchTab('scenes');
