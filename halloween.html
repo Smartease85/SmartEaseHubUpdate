@@ -137,16 +137,19 @@ async function restore(){stop('Restoring saved scene');if(!connected)return;cons
 function exportRecipe(){const data={format:'SmartEase-SP608E-Live-Sequence-v0.1',name:'Haunted Surge',created:'2026-10-24',controller:'SP608E',type:'phone-driven-test-not-firmware-upload',colors:COLORS,frontToBack:orderedChannels(),brightnessPercent:Number($('brightness').value),fadeSteps:Number($('pace').value),twinkleSeconds:Number($('twinkle').value),firmwareEffectIDs:{solid:25,starsTwinkle:3},ble:{service:UUID_SERVICE,characteristic:UUID_CHAR}};
  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SmartEase_Haunted_Surge.scene.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);log('Exported scene recipe locally (not uploaded to controller).');}
 $('verified').onchange=setButtons;
+// Any mapping change invalidates the earlier hardware-mapping confirmation.
+$('zones').addEventListener('change',()=>{$('verified').checked=false;setButtons();});
+$('order').addEventListener('input',()=>{$('verified').checked=false;setButtons();});
 $('brightness').oninput=()=>{$('brightNum').textContent=$('brightness').value+'%';};$('pace').oninput=()=>{$('paceNum').textContent=$('pace').value;};$('twinkle').oninput=()=>{$('twinkleNum').textContent=Number($('twinkle').value).toFixed(1)+' s';};
 $('connect').onclick=connect;$('disconnect').onclick=disconnect;$('testBtn').onclick=testOne;$('playLive').onclick=runHalloween;$('stopLive').onclick=()=>stop('Stopped by user; lights hold last state');$('restoreBtn').onclick=restore;$('query').onclick=()=>send(packet(0x8f),'Read status');$('clearLog').onclick=()=>$('log').textContent='Log cleared.';$('exportBtn').onclick=exportRecipe;
 // Canvas demo: visually smooth per-pixel concept. Actual BLE mode is channel-resolution.
 const c=$('preview'),ctx=c.getContext('2d');let raf;
 function demoFrame(now){if(previewPlaying){const t=Math.max(0,(now-previewStart)/1000),stageLength=6.5,stageIndex=Math.floor(t/stageLength)%3,at=t%stageLength,starTime=at>4.7;
- const target=COLORS[stageIndex],before=COLORS[(stageIndex+2)%3],channels=orderedChannels();
+ const target=COLORS[stageIndex],before=COLORS[(stageIndex+2)%3],channels=orderedChannels(),shown=[...channels,...Array.from({length:8},(_,i)=>i+1).filter(i=>!channels.includes(i))];
  ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#030a0e';ctx.fillRect(0,0,c.width,c.height);
  ctx.font='bold 14px system-ui';ctx.fillStyle='#91b1b8';ctx.fillText('FRONT ↓ REAR (physical output order)',23,28);ctx.fillText('REAR ↓',23,441);
  for(let row=0;row<8;row++){
-   const ch=row+1,yy=50+row*48,idx=channels.indexOf(ch),active=idx>=0;
+   const ch=shown[row],yy=50+row*48,idx=channels.indexOf(ch),active=idx>=0;
    const pct=active?idx/Math.max(1,channels.length-1):1;
    const mix=clamp((at-pct*3.1)/1.35,0,1),base=blend(before.hex,target.hex,mix);
    ctx.font='13px system-ui';ctx.fillStyle=active?'#c2dee1':'#557078';ctx.fillText('CH '+ch,23,yy+19);
