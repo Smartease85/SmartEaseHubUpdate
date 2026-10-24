@@ -32,6 +32,17 @@
 @media(max-width:600px){.topbar{padding-bottom:10px}.shell{padding-top:12px}.hero h1{font-size:25px}.hero .tag{font-size:10px}.hero p{font-size:12px}.preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.preset{min-height:88px;display:grid;grid-template-columns:30px 1fr;align-content:center;gap:3px 8px;padding:10px}.preset-em{grid-row:span 2}.preset strong{align-self:end}.preset span:last-child{grid-column:2}.studio-zones{grid-template-columns:repeat(2,1fr)}.design-row{flex-wrap:wrap}.design-row .actions{width:100%}.panel{padding:15px}.status-card{padding:10px 13px}.connect-panel .panel-head{margin-bottom:10px}.connect-panel .panel-head h2{font-size:16px}.fast-start .panel-head{margin-bottom:10px}.fast-start .panel-head .badge{font-size:10px}.preview{gap:4px}.preview-cell{height:43px}.steps span{font-size:10px}}
 
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* SmartEase Halloween scene added without changing any saved controller slots */
+.haunted-colors{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:9px 0 14px}
+.haunted-colors i{display:block;width:35px;height:11px;border-radius:11px}
+.haunted-colors span{font-size:12px;color:var(--muted)}
+.haunted-preview{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;padding:12px 9px;background:#07181d;border:1px solid var(--line);border-radius:13px}
+.haunted-preview span{display:block;height:31px;background:#46ef77;border-radius:8px;box-shadow:0 0 11px #46ef7777;animation:haunted-shift 8.5s ease-in-out infinite;animation-delay:var(--hdelay)}
+@keyframes haunted-shift{0%,17%{background:#46ef77;box-shadow:0 0 11px #46ef7777}29%,46%{background:#a24aec;box-shadow:0 0 11px #a24aec77}60%,77%{background:#ff751e;box-shadow:0 0 11px #ff751e77}90%,100%{background:#46ef77;box-shadow:0 0 11px #46ef7777}}
+.haunted-settings{border:1px solid var(--line);border-radius:13px;background:#0b2229;padding:11px 13px;margin-top:12px}
+.haunted-settings summary{cursor:pointer;font-weight:750;color:var(--teal);padding:4px}
+@media (prefers-reduced-motion: reduce){.haunted-preview span{animation:none}}
 </style>
 </head>
 <body>
@@ -104,6 +115,28 @@
     </article>
    </section>
    <section class="tab" id="tab-scenes" role="tabpanel" aria-hidden="true">
+
+    <article class="panel" id="hauntedCard">
+      <div class="panel-head"><div><h2>🎃 Halloween · Haunted Surge</h2><p>SmartEase custom sequence: green → purple → orange sweeping front-to-back, with twinkling starbursts.</p></div><span class="badge">Live Bluetooth</span></div>
+      <div class="haunted-colors"><i style="background:#46ef77"></i><i style="background:#a24aec"></i><i style="background:#ff751e"></i><span>Green · Purple · Orange</span></div>
+      <div class="haunted-preview" aria-label="Animated eight-channel preview"><span style="--hdelay:0s"></span><span style="--hdelay:-.36s"></span><span style="--hdelay:-.72s"></span><span style="--hdelay:-1.08s"></span><span style="--hdelay:-1.44s"></span><span style="--hdelay:-1.80s"></span><span style="--hdelay:-2.16s"></span><span style="--hdelay:-2.52s"></span></div>
+      <p class="small muted">This runs live in Bluefy, not in the nine onboard SP608E scene slots. Keep Bluefy in front while parked. Your existing stored scene is not overwritten.</p>
+      <div class="field"><label for="hauntedOrder">Output order, front to back</label><input class="control" id="hauntedOrder" inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" value="1,2,3,4,5,6,7,8"><p class="small muted">Enter connected SP608E outputs in physical order. Example: 3,1,4,2. Omit unused channels.</p></div>
+      <details class="haunted-settings"><summary>Identify channels and adjust timing</summary>
+        <div class="field-row">
+          <div class="field"><label for="hauntedBrightness">Brightness</label><select class="control" id="hauntedBrightness"><option value="75">30%</option><option value="115" selected>45%</option><option value="155">60%</option><option value="205">80%</option></select></div>
+          <div class="field"><label for="hauntedSteps">Fade smoothness</label><select class="control" id="hauntedSteps"><option value="1">Fast (1 step)</option><option value="2" selected>Balanced (2 steps)</option><option value="3">Smooth (3 steps)</option></select></div>
+        </div>
+        <div class="field"><label for="hauntedStarTime">Starburst duration</label><select class="control" id="hauntedStarTime"><option value="1200">1.2 seconds</option><option value="2300" selected>2.3 seconds</option><option value="3500">3.5 seconds</option></select></div>
+        <div class="actions"><select class="control" id="hauntedIdentifyChannel" style="flex:1;min-width:110px" aria-label="Channel to identify"><option value="1">Output 1</option><option value="2">Output 2</option><option value="3">Output 3</option><option value="4">Output 4</option><option value="5">Output 5</option><option value="6">Output 6</option><option value="7">Output 7</option><option value="8">Output 8</option></select><button class="button" type="button" id="hauntedIdentify">Identify output (green)</button></div>
+        <p class="small muted">Identify each channel with the cart parked, then enter the correct order above. Testing temporarily changes the selected channel.</p>
+      </details>
+      <div class="switchrow" style="margin:14px 0"><label class="switch" for="hauntedVerified"><input type="checkbox" id="hauntedVerified"> I verified the cart's channel order</label></div>
+      <div class="actions"><button class="button primary" type="button" id="hauntedPlay" disabled>▶ Play Halloween</button><button class="button danger" type="button" id="hauntedStop" disabled>Stop</button></div>
+      <div class="actions" style="margin-top:10px"><select class="control" id="hauntedRestoreIndex" style="flex:1;min-width:120px" aria-label="Saved scene to restore"><option value="0">Stored scene 1</option><option value="1">Stored scene 2</option><option value="2">Stored scene 3</option><option value="3">Stored scene 4</option><option value="4">Stored scene 5</option><option value="5">Stored scene 6</option><option value="6">Stored scene 7</option><option value="7">Stored scene 8</option><option value="8">Stored scene 9</option></select><button class="button soft" type="button" id="hauntedRestore">Restore stored scene</button></div>
+      <div class="command-line" role="status" aria-live="polite" id="hauntedStatus">Ready. Connect to SP608E and verify front-to-back channel order before playing.</div>
+    </article>
+
     <article class="panel">
      <div class="panel-head"><div><h2>Onboard scenes</h2><p>Recall one of the controller's nine factory-stored scene slots.</p></div><span class="badge">Stored on SP608E</span></div>
      <div class="scene-grid" id="sceneGrid"></div>
@@ -235,7 +268,7 @@ function notify(msg){const toast=$('toast');toast.textContent=msg;toast.classLis
 function log(msg,level='info'){const area=$('debugLog');const stamp=new Date().toLocaleTimeString();const lines=(area.textContent.startsWith('Ready.')?[]:area.textContent.split('\n'));lines.push('['+stamp+'] '+(level==='warn'?'! ':level==='error'?'ERROR ':'')+msg);area.textContent=lines.slice(-160).join('\n');area.scrollTop=area.scrollHeight;}
 function isLive(){return transport==='ble'&&!!device?.gatt?.connected&&!!char;}
 function canSend(){return transport==='demo'||isLive();}
-function updateTransport(){
+function updateTransport(){hauntedButtons();
  const active=isLive(),status=$('topStatus'),led=$('topLed');led.className='led';
  const quality=$('connectionQuality');
  if(active){status.textContent='Connected';led.classList.add('ready');$('connectionName').textContent=device.name||'SP608E';$('connectionDetail').textContent='Bluetooth active • Ready to control';$('transportHint').textContent='BLE connected';quality.textContent='Connected';quality.style.color='var(--green)';$('statusQuality').textContent=channels.every(c=>c.known)?'Controller synchronized.':'Connected. Tap Sync lights to read settings.';}
@@ -262,7 +295,7 @@ function renderEffectControls(){const fx=fxById.get(Number($('effectPicker').val
 function renderPreview(frame=-1){const el=$('sequencePreview');el.replaceChildren();for(let i=0;i<N;i++){const cell=document.createElement('div');cell.className='preview-cell'+(frame&maskFor(i)?' live':'');cell.textContent=String(i+1);el.append(cell);}}
 function renderState(){renderZones();if(channels.some(c=>c.known)){const first=channels.find(c=>c.known);$('gain').value=window.reportedGain??$('gain').value;if(Number.isInteger(window.reportedSceneLoop))$('sceneLoop').checked=!!window.reportedSceneLoop;if(first){$('chipOrder').value=String(first.order);}}updateCounters();syncControlsToSelection();updateTransport();}
 function syncControlsToSelection(){const ix=indexes(selectedMask);if(ix.length!==1||!channels[ix[0]].known)return;const c=channels[ix[0]];$('masterBrightness').value=c.brightness;$('brightnessValue').textContent=Math.round(100*c.brightness/255)+'%';$('mainColor').value=c.color;$('colorHex').value=c.color;if(fxById.has(c.effect)){$('effectPicker').value=String(c.effect);renderEffectControls();}$('effectSpeed').value=cap(c.speed,1,10);$('speedValue').textContent=$('effectSpeed').value+' / 10';$('effectLength').value=cap(c.length,1,240);$('lengthValue').textContent=$('effectLength').value+' pixels';$('chipOrder').value=String(c.order);$('directionForward').classList.toggle('is-selected',!!c.direction);$('directionReverse').classList.toggle('is-selected',!c.direction);}
-function switchTab(tab){if(tab!=='studio'&&studioRunning)stopStudio('Navigation stopped live playback.');document.querySelectorAll('[data-tab]').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);if(b.getAttribute('role')==='tab')b.setAttribute('aria-selected',String(active));});document.querySelectorAll('.tab').forEach(el=>{const active=el.id==='tab-'+tab;el.classList.toggle('active',active);el.setAttribute('aria-hidden',String(!active));});}
+function switchTab(tab){if(tab!=='scenes'&&hauntedRunning)hauntedEnd('Halloween stopped when leaving Scenes.');if(tab!=='studio'&&studioRunning)stopStudio('Navigation stopped live playback.');document.querySelectorAll('[data-tab]').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);if(b.getAttribute('role')==='tab')b.setAttribute('aria-selected',String(active));});document.querySelectorAll('.tab').forEach(el=>{const active=el.id==='tab-'+tab;el.classList.toggle('active',active);el.setAttribute('aria-hidden',String(!active));});}
 function toDataView(data){return new Uint8Array(data.buffer,data.byteOffset,data.byteLength);}
 function onNotification(evt){try{const bytes=toDataView(evt.target.value);rxCount++;log('RX  '+hex(bytes));updateCounters();if(bytes.length<5||bytes[0]!==0x36||bytes[1]!==0x38)return;const seq=bytes[2],total=bytes[3],count=bytes[4],payload=bytes.slice(5);if(!seq||count!==payload.length||!total||total>255){log('Dropped invalid status fragment.','warn');frameBuffer=null;return;}if(seq===1){frameBuffer={next:2,total,parts:[...payload]};}else if(!frameBuffer||seq!==frameBuffer.next||frameBuffer.total!==total){log('Dropped out-of-sequence status fragment.','warn');frameBuffer=null;return;}else{frameBuffer.parts.push(...payload);frameBuffer.next++;}if(frameBuffer.parts.length>total){log('Status payload overflow.','warn');frameBuffer=null;return;}if(frameBuffer.parts.length===total){const complete=new Uint8Array(frameBuffer.parts);frameBuffer=null;readChannelState(complete);}}
 catch(err){log('Notification parse error: '+err.message,'warn');frameBuffer=null;}}
@@ -308,6 +341,7 @@ async function connect(mode='name'){
  }finally{connectionInProgress=false;updateTransport();}
 }
 function handleDisconnect(){
+ hauntedEnd('Halloween stopped because Bluetooth disconnected.');
  stopStudio('Live show stopped because Bluetooth disconnected.');
  clearTimeout(pendingRefresh);pendingRefresh=null;bleSession++;
  char=null;transport='offline';device=null;frameBuffer=null;lastWriteAt=0;
@@ -344,6 +378,7 @@ async function writeRaw(cmd,label,session,guard){
  }
 }
 function enqueuePackets(packets,label,options={}){
+ if(hauntedRunning&&!options.haunted)hauntedEnd('Other light command stopped Halloween.');
  if(!canSend()){notify('Connect to SP608E first.');return Promise.resolve(false);}
  if(studioRunning&&!options.studio)stopStudio('Live show stopped for manual command.');
  const session=bleSession;
@@ -483,7 +518,139 @@ $('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>ap
  $('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();renderStudioZones();renderLookPreview();renderDesigns();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
 window.addEventListener('pagehide',()=>{stopStudio();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')stopStudio('Studio stopped when page became hidden.');});
 renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
-installUI();
+
+/* Haunted Surge uses the main app's serialized BLE queue and existing characteristic.
+   All animations are host-driven; no scene-store or firmware-write opcode is used. */
+const H_COLORS=[{name:'Toxic green',hex:'#46ef77'},{name:'Haunted purple',hex:'#a24aec'},{name:'Pumpkin orange',hex:'#ff751e'}];
+let hauntedRunning=false,hauntedToken=0;
+function hauntedOrders(){
+ const tokens=$('hauntedOrder').value.trim().split(/[\s,]+/).filter(Boolean),nums=tokens.map(Number);
+ if(!nums.length||nums.some(n=>!Number.isInteger(n)||n<1||n>8)||new Set(nums).size!==nums.length)throw Error('Enter unique output numbers 1–8 in front-to-back order.');
+ return nums;
+}
+function hauntedMask(nums){return nums.reduce((m,n)=>m|maskFor(n-1),0);}
+function hauntedMix(a,b,ratio){
+ const x=rgbFromHex(a),y=rgbFromHex(b);
+ return colorToHex(...x.map((v,i)=>Math.round(v+(y[i]-v)*ratio)));
+}
+function hauntedInfo(t){$('hauntedStatus').textContent=t;}
+function hauntedButtons(){
+ if(!$('hauntedPlay'))return;
+ $('hauntedPlay').disabled=hauntedRunning||!$('hauntedVerified').checked||!canSend();
+ $('hauntedStop').disabled=!hauntedRunning;
+ $('hauntedIdentify').disabled=hauntedRunning||!canSend();
+ $('hauntedRestore').disabled=!canSend();
+}
+function hauntedEnd(reason){
+ if(!hauntedRunning)return;
+ hauntedRunning=false;hauntedToken++;
+ hauntedInfo(reason||'Stopped. Lights keep their last active effect.');
+ hauntedButtons();log(reason||'Haunted Surge stopped.');
+ if(isLive())scheduleRead();
+}
+async function hauntedPackets(jobs,name,guard){
+ const ok=await enqueuePackets(jobs,name,{haunted:true,skipRefresh:true,guard});
+ if(!ok)throw Error('Bluetooth write failed or show stopped.');
+ // Bluefy connection stability: a short cooldown between transactions
+ await sleep(90);
+}
+async function hauntedStart(){
+ if(hauntedRunning)return;
+ if(!canSend()){notify('Connect to your SP608E.');return;}
+ if(!$('hauntedVerified').checked){notify('Verify the channel order first.');return;}
+ if(document.visibilityState==='hidden'){notify('Keep Bluefy open to play.');return;}
+ let order;
+ try{order=hauntedOrders();}catch(e){hauntedInfo(e.message);return;}
+ if(!confirm('Run Halloween on outputs '+order.join(', ')+'? Park the cart. This does not save to SP608E memory.'))return;
+ stopStudio('Switched to Halloween');
+ clearTimeout(pendingRefresh);pendingRefresh=null;
+ const m=hauntedMask(order),brightness=cap($('hauntedBrightness').value,10,255);
+ const steps=cap($('hauntedSteps').value,1,3),starMs=cap($('hauntedStarTime').value,1000,5000);
+ const token=++hauntedToken,guard=()=>hauntedRunning&&hauntedToken===token&&canSend()&&document.visibilityState!=='hidden';
+ let previous=H_COLORS[2].hex;
+ hauntedRunning=true;hauntedButtons();
+ try{
+  hauntedInfo(transport==='demo'?'DEMO: preparing Halloween…':'Preparing Halloween on the SP608E…');
+  await hauntedPackets([
+   packet(0x85,[m,brightness]),
+   ...order.map(n=>packet(0x83,[maskFor(n-1),25])),
+   packet(0x89,[m,...rgbFromHex(previous),0xff]),
+   packet(0x82,[m,1])
+  ],'Halloween initialize',guard);
+  while(guard()){
+   for(const stage of H_COLORS){
+    if(!guard())break;
+    hauntedInfo('Front → rear: '+stage.name);
+    for(const n of order){
+     for(let j=1;j<=steps;j++){
+      if(!guard())break;
+      const color=hauntedMix(previous,stage.hex,j/steps);
+      await hauntedPackets(packet(0x89,[maskFor(n-1),...rgbFromHex(color),0xff]),'Halloween CH'+n+' '+stage.name+' '+j+'/'+steps,guard);
+     }
+    }
+    if(!guard())break;
+    hauntedInfo('✦ Twinkling starbursts: '+stage.name);
+    await hauntedPackets(packet(0x89,[m,...rgbFromHex(stage.hex),0xff]),'Halloween stars color',guard);
+    await hauntedPackets(order.map(n=>packet(0x83,[maskFor(n-1),3])),'Halloween stars effect',guard);
+    await hauntedPackets(packet(0x86,[m,7]),'Halloween stars speed',guard);
+    for(let ms=0;ms<starMs&&guard();ms+=100)await sleep(Math.min(100,starMs-ms));
+    if(!guard())break;
+    await hauntedPackets(order.map(n=>packet(0x83,[maskFor(n-1),25])),'Halloween solid reset',guard);
+    previous=stage.hex;
+   }
+  }
+ }catch(e){if(guard()){hauntedInfo('Playback interrupted: '+e.message);log('Halloween '+e.message,'warn');}}
+ finally{if(token===hauntedToken)hauntedEnd('Halloween ended. Restore your original saved scene below.');}
+}
+async function hauntedIdentify(){
+ if(hauntedRunning||!canSend())return;
+ const n=Number($('hauntedIdentifyChannel').value),m=maskFor(n-1);
+ if(!confirm('Turn SP608E output '+n+' green to identify its position?'))return;
+ const ok=await enqueuePackets([
+  packet(0x83,[m,25]),
+  packet(0x89,[m,0x46,0xef,0x77,0xff]),
+  packet(0x85,[m,100]),
+  packet(0x82,[m,1])
+ ],'Identify Halloween output '+n);
+ hauntedInfo(ok?'Output '+n+' commanded green. Check which physical strip lights up.':'Unable to complete output test. Check Bluetooth connection.');
+}
+function installHaunted(){
+ const key='smartease-haunted-surge-v1';
+ try{
+  const v=JSON.parse(localStorage.getItem(key)||'null');
+  if(v){
+   if(typeof v.order==='string'&&v.order.length<40)$('hauntedOrder').value=v.order;
+   if(['75','115','155','205'].includes(String(v.brightness)))$('hauntedBrightness').value=String(v.brightness);
+   if(['1','2','3'].includes(String(v.steps)))$('hauntedSteps').value=String(v.steps);
+   if(['1200','2300','3500'].includes(String(v.star)))$('hauntedStarTime').value=String(v.star);
+  }
+ }catch{}
+ const store=()=>{try{localStorage.setItem(key,JSON.stringify({
+  order:$('hauntedOrder').value,brightness:$('hauntedBrightness').value,
+  steps:$('hauntedSteps').value,star:$('hauntedStarTime').value
+ }));}catch{}};
+ $('hauntedOrder').addEventListener('input',()=>{
+  $('hauntedVerified').checked=false;store();hauntedButtons();
+ });
+ for(const id of ['hauntedBrightness','hauntedSteps','hauntedStarTime'])$(id).addEventListener('change',store);
+ $('hauntedVerified').addEventListener('change',hauntedButtons);
+ $('hauntedPlay').onclick=hauntedStart;
+ $('hauntedStop').onclick=()=>hauntedEnd('Halloween stopped. Restore an onboard scene to resume normal lighting.');
+ $('hauntedIdentify').onclick=hauntedIdentify;
+ $('hauntedRestore').onclick=()=>{
+  hauntedEnd('Restoring stored scene…');
+  const i=Number($('hauntedRestoreIndex').value);
+  recallScene(i);
+  hauntedInfo('Sent recall for stored SP608E scene '+(i+1)+'. Verify the lights.');
+ };
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')hauntedEnd('Bluetooth show stopped when Bluefy went to the background.');});
+ window.addEventListener('pagehide',()=>hauntedEnd('Halloween stopped because page closed.'));
+ hauntedButtons();
+ const q=new URLSearchParams(location.search);
+ if(q.get('tab')==='scenes')switchTab('scenes');
+}
+
+installUI();installHaunted();
 /* PWA is optional. iOS Bluefy support for offline service workers must be verified. */
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>log('Offline caching not available: '+e.message,'warn')));}
 </script>
