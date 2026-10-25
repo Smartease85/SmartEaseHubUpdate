@@ -1,5 +1,5 @@
 /* Complete releases cache atomically. An update never interrupts a live BLE session. */
-const CACHE_NAME = "smartease-cart-lights-v16";
+const CACHE_NAME = "smartease-cart-lights-v17";
 const ASSETS = [
   "./index.html",
   "./cart-zones.js",
@@ -13,6 +13,7 @@ const ASSETS = [
   "./cart-precedent-front.webp",
   "./cart-precedent-rear.webp",
   "./icon.svg",
+  "./smartease-logo.svg",
   "./icon-192.png",
   "./icon-512.png",
 ];

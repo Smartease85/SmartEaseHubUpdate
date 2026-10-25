@@ -127,8 +127,10 @@ body > .nav {
 }
 #app .brand-symbol {
   height: 31px;
-  width: 31px;
-  color: var(--mint);
+  width: 35px;
+  flex: 0 0 auto;
+  display: block;
+  object-fit: contain;
 }
 #app .connection-actions {
   display: flex;

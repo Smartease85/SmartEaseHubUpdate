@@ -39,6 +39,31 @@ function boot(storage = {}) {
   }
   return { dom, w, ctx, errors, run: (code) => vm.runInContext(code, ctx) };
 }
+test("real SmartEase house logo replaces placeholder S in header and installed icons", () => {
+ const b=boot();
+ const brand=b.w.document.querySelector("#app .wordmark .brand-symbol");
+ assert.ok(brand && brand.tagName==="IMG", "consumer wordmark must show supplied vector logo");
+ assert.equal(brand.getAttribute("src"),"smartease-logo.svg");
+ assert.equal(brand.getAttribute("alt"),"", "wordmark already has accessible SmartEase text");
+ const legacy=b.w.document.querySelector(".shell .identity .mark img");
+ assert.ok(legacy, "advanced header must show the same logo");
+ assert.equal(legacy.getAttribute("src"),"smartease-logo.svg");
+ assert.equal(b.w.document.querySelector('link[rel="icon"]').getAttribute("href"),"icon.svg");
+ assert.equal(b.w.document.querySelector('link[rel="apple-touch-icon"]').getAttribute("href"),"icon-192.png");
+ for(const file of ["smartease-logo.svg","icon.svg"]){
+   const svg=fs.readFileSync(path.join(root,file),"utf8");
+   assert.match(svg,/<svg/);
+   assert.match(svg,/fill="#00FFFF"/);
+   assert.match(svg,/fill-rule="evenodd"/);
+   assert.doesNotMatch(svg,/M350 122H210/,"no old S icon remains");
+ }
+ for(const file of ["icon-192.png","icon-512.png"]){
+   const buf=fs.readFileSync(path.join(root,file));
+   assert.deepEqual([...buf.subarray(0,8)],[137,80,78,71,13,10,26,10]);
+ }
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
 test("full app boots with unique IDs and no runtime errors", () => {
   const b = boot();
   const ids = [...b.w.document.querySelectorAll("[id]")].map((e) => e.id);
