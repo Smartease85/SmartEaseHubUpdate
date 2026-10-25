@@ -569,7 +569,7 @@ function renderDesigner() {
     const row = document.createElement("div");
     row.className = "edit-row";
     const label = document.createElement("span");
-    label.textContent = CZ_DEFS.find((z) => z.id === id).name;
+    label.textContent = czState.zones[id]?.name || CZ_DEFS.find((z) => z.id === id).name;
     const picker = document.createElement("input");
     picker.type = "color";
     picker.value = draft[id].color;
@@ -914,6 +914,7 @@ async function restoreBackup(file) {
       "smartease-haunted-rgb-fix-v1",
       "smartease-haunted-observations-v1",
       "smartease-haunted-manual-rgb-v1",
+      "smartease-sp608e-chip-orders-v1",
     ]);
     const entries = Object.entries(data.values).filter(([k]) => allowed.has(k));
     if (!entries.length) throw Error("This backup has no restorable settings.");
@@ -1219,9 +1220,13 @@ async function calWrite(bytes,description){
  calBusy=true;calRefreshButtons();
  try{
   cancelPlayback();
-  const commands=[packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),packet(0x89,[mask,...bytes,255])];
+  // Establish a known reference order before recording actual color responses.
+  const commands=[packet(0x84,[mask,0]),packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),packet(0x89,[mask,...bytes,255])];
   const ok=await enqueuePackets(commands,description,{skipRefresh:true,guard:()=>isLive()&&document.visibilityState==="visible"});
-  if(!ok)calTell("calStatus","The light didn't respond. Reconnect your SP608E and try again.");
+  if(ok){
+   delete spChipApplied[n];
+   if(channels[n-1]?.known)channels[n-1].order=0;
+  }else calTell("calStatus","The light didn't respond. Reconnect your SP608E and try again.");
   return !!ok;
  }catch(err){calTell("calStatus","The test couldn't finish. "+err.message);return false;}
  finally{calBusy=false;calRefreshButtons();}
@@ -1240,9 +1245,13 @@ function calSaveObserved(){
  hauntedObserved[n]={colors:[...values],note:"SmartEase color tuning"};
  if(hauntedGoodMap(values)){
   hauntedColorFix[n]=[...values];hauntedCalibrationPersist();
-  calTell("calStatus","Saved! SmartEase scenes now use the corrected colors for this strip.");
+  const saved=spSetSavedChipOrder(n,values,0);
+  calTell("calStatus",saved?"Color correction saved for this strip. Restoring its calibrated output…":"Could not save the correction; check Bluefy browser storage.");
+  if(saved&&isLive())spEnsureChipColors([n],null,{force:true}).then(ok=>{
+    calTell("calStatus",ok?"Saved and applied! Your calibrated colors will follow every scene.":"Saved on this phone; the correction will be applied next time the light connects.");
+  });
  }else{
-  delete hauntedColorFix[n];hauntedCalibrationPersist();
+  delete hauntedColorFix[n];spResetSavedChipOrder(n);hauntedCalibrationPersist();
   ui("calFineTune").open=true;calLoadMix();
   calTell("calStatus","These don't form a simple red/green/blue swap. Your observations are saved. Try fine-tuning the shades below.");
  }
@@ -1251,7 +1260,11 @@ function calReset(){
  const n=calOutput();
  if(!calOutputValid()||!confirm("Reset color tuning for this light? Your scenes will remain saved."))return;
  delete hauntedColorFix[n];delete hauntedObserved[n];delete hauntedManualMatches[n];
+ spResetSavedChipOrder(n);
  hauntedCalibrationPersist();hauntedManualPersist();calLoadSeen();
+ if(isLive())enqueuePackets(packet(0x84,[maskFor(n-1),0]),"Reset LED color order").then(ok=>{
+   if(ok&&channels[n-1]?.known)channels[n-1].order=0;
+ });
  calTell("calStatus","Color corrections reset for this light. Your scenes remain saved.");
 }
 function calTarget(){return ui("calTarget").value==="custom"?ui("calCustom").value:ui("calTarget").value;}
@@ -1288,7 +1301,9 @@ function calSaveMix(){
  if(calTestedSignature!==calSignature()){calTell("calMixStatus","Test this shade on your cart before saving it.");return;}
  if(!hauntedManualMatches[n])hauntedManualMatches[n]={};
  hauntedManualMatches[n][target]=[...calBytes()];
- calTell("calMixStatus",hauntedManualPersist()?"Saved! SmartEase will use this shade whenever your scenes request that color.":"Couldn't save the match. Check browser storage.");
+ const saved=hauntedManualPersist();
+ calTell("calMixStatus",saved?"Saved! Your scenes will reuse this exact color match.":"Couldn't save the match. Check browser storage.");
+ if(saved&&isLive())spEnsureChipColors([n],null,{force:true}).catch(()=>{});
 }
 function calInstall(){
  ui("openColorCalibration").onclick=()=>go("calibrate");
