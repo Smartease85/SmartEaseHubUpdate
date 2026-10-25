@@ -6,15 +6,20 @@
  * No SP608E firmware writes or onboard scene-save commands.
  */
 const CZ_DEFS=[
- {id:'front-left',name:'Front left',x:23,y:18,order:0,type:'front'},
- {id:'front-right',name:'Front right',x:77,y:18,order:0,type:'front'},
- {id:'canopy-left',name:'Canopy left',x:19,y:41,order:1,type:'canopy'},
- {id:'canopy-right',name:'Canopy right',x:81,y:41,order:1,type:'canopy'},
- {id:'under-left',name:'Underglow left',x:19,y:64,order:2,type:'underglow'},
- {id:'under-right',name:'Underglow right',x:81,y:64,order:2,type:'underglow'},
- {id:'rear-left',name:'Rear left',x:23,y:85,order:3,type:'rear'},
- {id:'rear-right',name:'Rear right',x:77,y:85,order:3,type:'rear'}
+ {id:'front-bumper',name:'Front bumper',x:50,y:17,order:0,type:'front'},
+ {id:'canopy',name:'Canopy',x:50,y:38,order:1,type:'canopy'},
+ {id:'left-under',name:'Left undercarriage',x:18,y:62,order:2,type:'under-left'},
+ {id:'right-under',name:'Right undercarriage',x:82,y:62,order:2,type:'under-right'},
+ {id:'rear-bumper',name:'Rear bumper',x:50,y:87,order:3,type:'rear'}
 ];
+const CZ_DEFAULT_PORTS={'front-bumper':[1],'left-under':[2],'right-under':[3],'rear-bumper':[4],'canopy':[5]}; // Starter mapping only; verify real wiring on the cart.
+const CZ_LEGACY_IDS={
+ 'front-bumper':['front-left','front-right'],
+ 'canopy':['canopy-left','canopy-right'],
+ 'left-under':['under-left'],
+ 'right-under':['under-right'],
+ 'rear-bumper':['rear-left','rear-right']
+};
 const CZ_SCENE_EFFECTS=[
  {id:25,name:'Solid color',color:true,speed:false},
  {id:1,name:'Rainbow',color:false,speed:true},
@@ -25,21 +30,22 @@ const CZ_SCENE_EFFECTS=[
  {id:16,name:'Wiping',color:true,speed:true},
  {id:17,name:'Breathing',color:true,speed:true}
 ];
-const CZ_STORE='smartease-golf-cart-zones-v1';
+const CZ_STORE='smartease-golf-cart-zones-v2';
+const CZ_LEGACY_STORE='smartease-golf-cart-zones-v1';
 const CZ_SUGGESTED_OUTPUTS=[1,2,3,4,5]; // Unverified starting assumption: confirm actual five connected ports.
 const CZ_PRESETS={
- halloween:{name:'Halloween Cart',front:{color:'#46ef77',effect:25},canopy:{color:'#a24aec',effect:3},underglow:{color:'#a24aec',effect:7},rear:{color:'#ff751e',effect:25}},
+ halloween:{name:'Halloween Cart',front:{color:'#46ef77',effect:25},canopy:{color:'#a24aec',effect:3},'under-left':{color:'#a24aec',effect:7},'under-right':{color:'#a24aec',effect:7},rear:{color:'#ff751e',effect:25}},
  canopy:{name:'Canopy Starfield',canopy:{color:'#a24aec',effect:3}},
- underglow:{name:'Underglow Teal',front:{color:'#00bfae',effect:25},underglow:{color:'#00bfae',effect:7},rear:{color:'#00bfae',effect:25}},
- cruise:{name:'Evening Cruise',front:{color:'#40e9ca',effect:25},canopy:{color:'#278dff',effect:17},underglow:{color:'#32bba8',effect:25},rear:{color:'#d9aaff',effect:25}},
- rainbow:{name:'Full Cart Rainbow',front:{color:'#46ef77',effect:1},canopy:{color:'#a24aec',effect:1},underglow:{color:'#ff751e',effect:1},rear:{color:'#46ef77',effect:1}},
+ underglow:{name:'Underglow Teal',front:{color:'#00bfae',effect:25},'under-left':{color:'#00bfae',effect:7},'under-right':{color:'#00bfae',effect:7},rear:{color:'#00bfae',effect:25}},
+ cruise:{name:'Evening Cruise',front:{color:'#40e9ca',effect:25},canopy:{color:'#278dff',effect:17},'under-left':{color:'#32bba8',effect:25},'under-right':{color:'#32bba8',effect:25},rear:{color:'#d9aaff',effect:25}},
+ rainbow:{name:'Full Cart Rainbow',front:{color:'#46ef77',effect:1},canopy:{color:'#a24aec',effect:1},'under-left':{color:'#ff751e',effect:1},'under-right':{color:'#ff751e',effect:1},rear:{color:'#46ef77',effect:1}},
  off:{name:'All Mapped Off'}
 };
 const czId=id=>document.getElementById(id);
 const czDefaultRow=()=>({on:false,effect:25,color:'#49e3d2',brightness:45,speed:5});
 const czFresh=()=>({
  activeOutputs:[...CZ_SUGGESTED_OUTPUTS],
- zones:Object.fromEntries(CZ_DEFS.map(z=>[z.id,{name:z.name,channels:[]}])),
+ zones:Object.fromEntries(CZ_DEFS.map(z=>[z.id,{name:z.name,channels:[...(CZ_DEFAULT_PORTS[z.id]||[])]}])),
  draft:Object.fromEntries(CZ_DEFS.map(z=>[z.id,czDefaultRow()])),
  draftName:'My Golf Cart Scene',
  scenes:[],
@@ -56,35 +62,51 @@ function czValidRow(raw){
  if(Number.isFinite(Number(raw.speed)))r.speed=Math.max(1,Math.min(10,Math.round(Number(raw.speed))));
  return r;
 }
+function czRowFromAny(rows,id){
+ if(rows&&Object.prototype.hasOwnProperty.call(rows,id))return czValidRow(rows[id]);
+ const legacy=(CZ_LEGACY_IDS[id]||[]).map(key=>rows?.[key]).filter(x=>x&&typeof x==='object');
+ return czValidRow(legacy.find(x=>x.on===true)||legacy[0]);
+}
 function czValidScene(raw){
  if(!raw||typeof raw!=='object'||typeof raw.name!=='string')return null;
- const rows=Object.fromEntries(CZ_DEFS.map(z=>[z.id,czValidRow(raw.rows?.[z.id])]));
+ const rows=Object.fromEntries(CZ_DEFS.map(z=>[z.id,czRowFromAny(raw.rows,z.id)]));
  return {id:String(raw.id||Date.now()).slice(0,50),name:raw.name.trim().slice(0,40)||'Cart scene',rows};
 }
 function czSanitize(raw){
  const d=czFresh();
  if(!raw||typeof raw!=='object')return d;
  if(Array.isArray(raw.activeOutputs))d.activeOutputs=[...new Set(raw.activeOutputs.filter(n=>Number.isInteger(n)&&n>=1&&n<=8))].sort((a,b)=>a-b);
+ // Existing maps are never replaced with guessed port connections.
+ for(const z of CZ_DEFS)d.zones[z.id].channels=[];
  const occupied=new Set();
  for(const z of CZ_DEFS){
-  const v=raw.zones?.[z.id];if(!v||typeof v!=='object')continue;
-  if(typeof v.name==='string'&&v.name.trim())d.zones[z.id].name=v.name.trim().slice(0,32);
-  if(Array.isArray(v.channels)){
-   for(const n of v.channels){
+  const current=raw.zones?.[z.id];
+  const fromLegacy=current?[]:(CZ_LEGACY_IDS[z.id]||[]).map(id=>raw.zones?.[id]).filter(x=>x&&typeof x==='object');
+  const origins=current?[current]:fromLegacy;
+  if(current&&typeof current.name==='string'&&current.name.trim())d.zones[z.id].name=current.name.trim().slice(0,32);
+  for(const from of origins){
+   if(!Array.isArray(from.channels))continue;
+   for(const n of from.channels){
     if(Number.isInteger(n)&&n>=1&&n<=8&&!occupied.has(n)){
      occupied.add(n);d.zones[z.id].channels.push(n);
     }
    }
   }
+  d.zones[z.id].channels.sort((a,b)=>a-b);
  }
- for(const z of CZ_DEFS)d.draft[z.id]=czValidRow(raw.draft?.[z.id]);
+ for(const z of CZ_DEFS)d.draft[z.id]=czRowFromAny(raw.draft,z.id);
  if(typeof raw.draftName==='string')d.draftName=raw.draftName.slice(0,40);
  if(Array.isArray(raw.scenes))d.scenes=raw.scenes.slice(0,24).map(czValidScene).filter(Boolean);
  if(CZ_DEFS.some(z=>z.id===raw.selected))d.selected=raw.selected;
+ else if(typeof raw.selected==='string')d.selected=CZ_DEFS.find(z=>(CZ_LEGACY_IDS[z.id]||[]).includes(raw.selected))?.id||d.selected;
  return d;
 }
 let czState=czFresh(),czApplying=false;
-try{czState=czSanitize(JSON.parse(localStorage.getItem(CZ_STORE)||'null'));}catch{}
+try{
+ const newer=localStorage.getItem(CZ_STORE),legacy=newer?null:localStorage.getItem(CZ_LEGACY_STORE);
+ czState=czSanitize(JSON.parse(newer||legacy||'null'));
+ if(legacy&&!newer)localStorage.setItem(CZ_STORE,JSON.stringify(czState));
+}catch{}
 function czSave(){
  try{localStorage.setItem(CZ_STORE,JSON.stringify(czState));return true;}
  catch(err){czStatus('Could not save this setup locally: '+err.message,true);return false;}
@@ -373,7 +395,7 @@ function czUseHalloween(){
  notify('Cart zone order copied to Halloween. Verify outputs before playing.');
 }
 function czExport(){
- const data={format:'SmartEase-Cart-Zones-v1',created:new Date().toISOString(),data:czState};
+ const data={format:'SmartEase-Cart-Zones-v2',created:new Date().toISOString(),data:czState};
  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');
  a.href=url;a.download='SmartEase_Golf_Cart_Zones.json';
@@ -387,16 +409,18 @@ async function czImport(ev){
  try{
   if(file.size>250000)throw Error('File too large');
   const obj=JSON.parse(await file.text());
-  if(!obj||obj.format!=='SmartEase-Cart-Zones-v1'||!obj.data||typeof obj.data!=='object')throw Error('Not a SmartEase zone backup');
+  if(!obj||!['SmartEase-Cart-Zones-v1','SmartEase-Cart-Zones-v2'].includes(obj.format)||!obj.data||typeof obj.data!=='object')throw Error('Not a SmartEase zone backup');
   if(!confirm('Replace current cart mapping and local zone scenes with this backup? Existing SP608E onboard scenes are unaffected.'))return;
   czState=czSanitize(obj.data);
   czSave();czRenderAll();
   czStatus('Imported cart zone backup. Verify the physical output mapping before running a scene.');
  }catch(e){czStatus('Import failed: '+e.message,true);}
 }
+window.smarteaseCartZones=()=>CZ_DEFS.map(z=>({id:z.id,name:czState.zones[z.id].name,channels:czValidAssigned(z.id)}));
 function czRenderAll(){
  czRenderActiveOutputs();czRenderMap();czRenderEditor();czRenderSceneRows();czRenderSaved();
  czId('czDraftName').value=czState.draftName;
+ if(typeof renderStudioZones==='function'){renderStudioZones();renderLookPreview();}
 }
 function czInstall(){
  if(!czId('czZoneMap'))return;
@@ -424,7 +448,7 @@ function czInstall(){
  });
  czRenderAll();
  czCheckHalloweenOrder();
- czStatus('Ports 1–5 are a starting assumption, NOT verified. Confirm which five outputs are actually wired, then assign their physical cart locations.');
+ czStatus('Five physical zones are ready. Ports CH1–CH5 are starter suggestions only; use Identify channel to verify your actual wiring. Existing mappings and local scenes are retained where possible.');
  const params=new URLSearchParams(location.search);
  if(params.get('tab')==='zones')switchTab('zones');
 }
