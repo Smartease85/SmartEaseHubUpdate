@@ -56,3 +56,14 @@
 @media(max-width:910px){.cz-layout{grid-template-columns:1fr}.cz-figure{max-width:355px}}
 @media(max-width:600px){.cz-hotspot{min-width:68px;min-height:50px;max-width:84px}.cz-hotspot strong{font-size:10px}.cz-hotspot small{font-size:9px}.cz-editor{padding:12px}.cz-scene-row-controls{grid-template-columns:minmax(0,1fr) minmax(0,.7fr)}.cz-scene-row-controls label:first-child{grid-column:1/-1}.cz-saved-item{flex-direction:column;align-items:stretch}.cz-saved-ops button{flex:1}.cz-actions>.button{min-width:0}.nav button[data-tab=zones]{font-size:10px}}
 @media(max-width:360px){.cz-hotspot{min-width:59px;max-width:75px;padding:4px 2px}.cz-hotspot strong{font-size:9px}.cz-scene-row{padding:10px}}
+
+
+.cz-channel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:8px}
+.cz-output-option{display:flex;align-items:center;gap:8px;min-width:0;min-height:44px;padding:8px 9px;border:1px solid #365f68;border-radius:10px;background:#0c1c25;color:#dcf1ee;font-size:11px;font-weight:650;cursor:pointer}
+.cz-output-option:has(input:checked){border-color:#4ce0ca;background:#123a40;color:#7efee7}
+.cz-output-option input{width:17px;height:17px;flex-shrink:0;accent-color:#49e3d2}
+.cz-output-option span{overflow-wrap:anywhere}
+.cz-output-option:focus-within{outline:2px solid #d6fff8;outline-offset:1px}
+.cz-meta{justify-content:center}
+.cz-info{line-height:1.55}
+.cz-map-panel .cz-map-label:first-child{margin-bottom:7px}
