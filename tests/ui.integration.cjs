@@ -300,6 +300,39 @@ test("calibration wizard stays accessible in SmartEase 2.0 and preserves per-str
   assert.equal(b.errors.length,0);
   b.dom.window.close();
 });
+
+test("confirmed BRG results can be copied to mapped SP608E outputs and survive reload", async () => {
+  const b=boot();
+  const sceneKey=b.w.localStorage.getItem("smartease-golf-cart-zones-v2");
+  b.w.document.getElementById("openColorCalibration").click();
+  const actual=["b","r","g"];
+  ["R","G","B"].forEach((name,i)=>{
+    const el=b.w.document.getElementById("calSeen"+name);
+    el.value=actual[i];el.dispatchEvent(new b.w.Event("change"));
+  });
+  assert.equal(b.w.document.getElementById("calCopyMapped").disabled,true,"cannot copy before live connection");
+  // Test the storage and chip-order path with a simulated SP608E acknowledgment.
+  b.run("isLive=()=>true;spEnsureChipColors=async(outputs,guard,opts)=>{globalThis.bulkSync={outputs:[...outputs],force:opts.force};return true;}");
+  b.run("calRefreshButtons()");
+  assert.equal(b.w.document.getElementById("calCopyMapped").disabled,false);
+  assert.equal(await b.run("calCopyMapped()"),true);
+  const orders=JSON.parse(b.w.localStorage.getItem("smartease-sp608e-chip-orders-v1"));
+  const observed=JSON.parse(b.w.localStorage.getItem("smartease-haunted-rgb-fix-v1"));
+  for(const n of [1,2,3,4,5]){
+    assert.deepEqual(orders[n].observed,actual);
+    assert.equal(orders[n].target,4);
+    assert.deepEqual(observed[n],actual);
+    assert.deepEqual(JSON.parse(b.run('JSON.stringify(spCorrectedColorBytes('+n+',"#ff0000"))')),[255,0,0]);
+  }
+  assert.equal(b.run("bulkSync.force"),true);
+  assert.deepEqual(JSON.parse(b.run("JSON.stringify(bulkSync.outputs)")),[1,2,3,4,5]);
+  assert.equal(b.w.localStorage.getItem("smartease-golf-cart-zones-v2"),sceneKey,"zones and scenes unchanged");
+  const data=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+  b.dom.window.close();
+  const again=boot(data);
+  assert.equal(again.run('spChipRecord(3).target'),4);
+  again.dom.window.close();
+});
 test("exact colors default on for existing users and saved choices persist across reload", async () => {
  const b=boot();
  assert.equal(b.run("preferences.trueColors"), true);

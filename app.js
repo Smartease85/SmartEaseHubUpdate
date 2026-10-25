@@ -62,7 +62,7 @@ app.innerHTML = `
  <div class="welcome cal-welcome"><div><div class="overline">SmartEase light tuning</div><h1>Every color.<br>Just right.</h1><p>Show a color, tell us what the LEDs display, and we'll adjust the lighting scenes for you.</p></div><button class="secondary" id="calGoBack" type="button">← Settings</button></div>
  <div class="cal-grid">
   <article class="card cal-selector-card"><div class="overline">First, choose a light</div><h2>Which strip looks wrong?</h2><p>When the cart is parked and the lights have power, choose the strip you want to tune.</p><label class="field-label" for="calOutput">Cart lighting location</label><select class="input" id="calOutput"></select><p class="cal-muted" id="calConnection">Connect your cart lighting to begin.</p><button type="button" class="secondary" id="calGoConnect">Connect in Devices ↗</button></article>
-  <article class="card cal-primary-card"><div class="overline">Then, check three colors</div><h2>What do you actually see?</h2><p>Tap one color at a time and choose what the real LEDs show. We'll remember the correction.</p><div class="cal-primary-grid"><div class="cal-test-item"><button id="calTestR" data-cal-test="r" class="cal-test-button" style="--cal-hue:#f44d5d" type="button"><i aria-hidden="true"></i> Show red</button><label class="field-label" for="calSeenR">What appeared?</label><select class="input" id="calSeenR"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestG" data-cal-test="g" class="cal-test-button" style="--cal-hue:#47eb84" type="button"><i aria-hidden="true"></i> Show green</button><label class="field-label" for="calSeenG">What appeared?</label><select class="input" id="calSeenG"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestB" data-cal-test="b" class="cal-test-button" style="--cal-hue:#518df9" type="button"><i aria-hidden="true"></i> Show blue</button><label class="field-label" for="calSeenB">What appeared?</label><select class="input" id="calSeenB"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div></div><p class="cal-result" id="calStatus" role="status" aria-live="polite">Start with the red test.</p><div class="cal-verify"><h3>Check your saved correction</h3><p>After saving, these show strong, solid colors using your stored calibration—not a special effect.</p><div class="row-actions"><button id="calVerifyR" class="secondary" type="button">● Red</button><button id="calVerifyG" class="secondary" type="button">● Green</button><button id="calVerifyB" class="secondary" type="button">● Blue</button></div></div><div class="row-actions"><button id="calSave" class="primary" type="button">Save color correction</button><button id="calReset" class="secondary" type="button">Reset this light</button></div></article>
+  <article class="card cal-primary-card"><div class="overline">Then, check three colors</div><h2>What do you actually see?</h2><p>Tap one color at a time and choose what the real LEDs show. We'll remember the correction.</p><div class="cal-primary-grid"><div class="cal-test-item"><button id="calTestR" data-cal-test="r" class="cal-test-button" style="--cal-hue:#f44d5d" type="button"><i aria-hidden="true"></i> Show red</button><label class="field-label" for="calSeenR">What appeared?</label><select class="input" id="calSeenR"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestG" data-cal-test="g" class="cal-test-button" style="--cal-hue:#47eb84" type="button"><i aria-hidden="true"></i> Show green</button><label class="field-label" for="calSeenG">What appeared?</label><select class="input" id="calSeenG"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestB" data-cal-test="b" class="cal-test-button" style="--cal-hue:#518df9" type="button"><i aria-hidden="true"></i> Show blue</button><label class="field-label" for="calSeenB">What appeared?</label><select class="input" id="calSeenB"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div></div><p class="cal-result" id="calStatus" role="status" aria-live="polite">Start with the red test.</p><div class="cal-verify"><h3>Check your saved correction</h3><p>After saving, these show strong, solid colors using your stored calibration—not a special effect.</p><div class="row-actions"><button id="calVerifyR" class="secondary" type="button">● Red</button><button id="calVerifyG" class="secondary" type="button">● Green</button><button id="calVerifyB" class="secondary" type="button">● Blue</button></div></div><div class="row-actions"><button id="calSave" class="primary" type="button">Save color correction</button><button id="calReset" class="secondary" type="button">Reset this light</button></div><div class="row-actions"><button id="calCopyMapped" class="secondary" type="button">Use this color order for all mapped SP608E lights</button></div><p class="cal-muted">Only use this when every SP608E strip showed the same three colors. Your zone locations and saved scenes stay unchanged. NOKINS and Devil Eyes are separate.</p></article>
   <article class="card cal-fine-card"><details id="calFineTune"><summary>Still the wrong shade? Fine-tune the color <span aria-hidden="true">⌄</span></summary><p>Some strips need a custom match. Adjust the strengths until the real lights look like the target, test it, then save.</p>
    <div class="cal-color-choice"><div><label class="field-label" for="calTarget">Color to match</label><select class="input" id="calTarget"><option value="#46ef77">Halloween green</option><option value="#a24aec">Halloween purple</option><option value="#ff751e">Halloween orange</option><option value="#ffffff">White</option><option value="#49e3d2">SmartEase mint</option><option value="custom">Custom color</option></select></div><div id="calCustomWrap" hidden><label class="field-label" for="calCustom">Choose shade</label><input type="color" id="calCustom" value="#ffffff"></div></div>
    <div class="cal-swatches"><div><span>Color to match</span><i id="calTargetSwatch"></i></div><div><span>Values to send</span><i id="calSendSwatch"></i></div></div>
@@ -1200,6 +1200,7 @@ function calRefreshButtons(){
  for(const button of document.querySelectorAll("#app [data-cal-test]"))button.disabled=calBusy||!connected;
  for(const code of ["R","G","B"])ui("calVerify"+code).disabled=calBusy||!connected;
  for(const id of ["calSave","calReset"])ui(id).disabled=calBusy||!calOutputValid();
+ ui("calCopyMapped").disabled=calBusy||!connected||czUniqueOutputs().length<2||!hauntedGoodMap(["R","G","B"].map(k=>ui("calSeen"+k).value));
  ui("calMatchTest").disabled=calBusy||!connected;
  ui("calMatchSave").disabled=calBusy||!calOutputValid()||calTestedSignature!==calSignature();
 }
@@ -1300,6 +1301,48 @@ function calSaveObserved(){
   calTell("calStatus","These don't form a simple red/green/blue swap. Your observations are saved. Try fine-tuning the shades below.");
  }
 }
+async function calCopyMapped(){
+ if(calBusy)return false;
+ const values=["R","G","B"].map(k=>ui("calSeen"+k).value),outputs=czUniqueOutputs();
+ if(!hauntedGoodMap(values)){calTell("calStatus","Select a different actual primary for each color before copying.");return false;}
+ if(!isLive()||document.visibilityState!=="visible"){calTell("calStatus","Connect SP608E in Bluefy to apply this correction to your cart.");return false;}
+ if(outputs.length<2||!outputs.includes(calOutput())){calTell("calStatus","Select a mapped SP608E strip first.");return false;}
+ const order=values.map(v=>v.toUpperCase()).join(""),target=spOrderFromObserved(values,0);
+ if(target===null)return false;
+ if(!confirm("Use the observed "+order+" color order for all "+outputs.length+" mapped SP608E outputs? Do this only if you personally tested that each strip has the same color swap. This does not change your zones, scenes, NOKINS or Devil Eyes."))return false;
+ calBusy=true;calRefreshButtons();
+ const oldFix=structuredClone(hauntedColorFix),oldSeen=structuredClone(hauntedObserved),
+       oldOrders=structuredClone(spSavedChipOrders),oldApplied=structuredClone(spChipApplied);
+ const keys=["smartease-haunted-rgb-fix-v1","smartease-haunted-observations-v1",SP_COLOR_STORE];
+ const oldStorage=keys.map(k=>localStorage.getItem(k));
+ try{
+  cancelPlayback();
+  for(const n of outputs){
+   hauntedColorFix[n]=[...values];
+   hauntedObserved[n]={colors:[...values],note:"Confirmed shared "+order+" LED order"};
+   spSavedChipOrders[n]={observed:[...values],baseline:0,target};
+   delete spChipApplied[n];
+  }
+  // Persist all related correction records; roll back if storage is unavailable.
+  localStorage.setItem(keys[0],JSON.stringify(hauntedColorFix));
+  localStorage.setItem(keys[1],JSON.stringify(hauntedObserved));
+  localStorage.setItem(keys[2],JSON.stringify(spSavedChipOrders));
+ }catch(error){
+  hauntedColorFix=oldFix;hauntedObserved=oldSeen;spSavedChipOrders=oldOrders;spChipApplied=oldApplied;
+  for(let i=0;i<keys.length;i++)try{if(oldStorage[i]===null)localStorage.removeItem(keys[i]);else localStorage.setItem(keys[i],oldStorage[i]);}catch{}
+  calTell("calStatus","Could not save the shared color order: "+error.message);
+  calBusy=false;calRefreshButtons();
+  return false;
+ }
+ calTell("calStatus","Saved "+order+" for "+outputs.length+" mapped outputs. Applying to your SP608E…");
+ try{
+  const applied=await spEnsureChipColors(outputs,()=>isLive()&&document.visibilityState==="visible",{force:true}).catch(()=>false);
+  calTell("calStatus",applied
+   ?"Saved and applied "+order+" to "+outputs.length+" mapped outputs. Check Red, Green, Blue below, then try your scenes."
+   :"Saved "+order+" for "+outputs.length+" outputs on this phone. Reconnect, then check the saved colors.");
+  return true;
+ }finally{calBusy=false;calRefreshButtons();}
+}
 function calReset(){
  const n=calOutput();
  if(!calOutputValid()||!confirm("Reset color tuning for this light? Your scenes will remain saved."))return;
@@ -1358,7 +1401,8 @@ function calInstall(){
  for(const button of document.querySelectorAll("#app [data-cal-test]"))
   button.onclick=()=>calTestPrimary(button.dataset.calTest);
  for(const code of ["R","G","B"])ui("calVerify"+code).onclick=()=>calVerifySaved(code.toLowerCase());
- ui("calSave").onclick=calSaveObserved;ui("calReset").onclick=calReset;
+ ui("calSave").onclick=calSaveObserved;ui("calReset").onclick=calReset;ui("calCopyMapped").onclick=calCopyMapped;
+ for(const id of ["calSeenR","calSeenG","calSeenB"])ui(id).addEventListener("change",calRefreshButtons);
  for(const id of ["calTarget","calCustom"])ui(id).addEventListener("change",calLoadMix);
  for(const k of ["R","G","B"])ui("calRaw"+k).addEventListener("input",()=>{calTestedSignature=null;calPreview();});
  ui("calMatchTest").onclick=calTestMix;ui("calMatchSave").onclick=calSaveMix;
