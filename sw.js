@@ -1,6 +1,6 @@
 /* SmartEase Cart Lights: network-first documents, cache assets best-effort. */
-const CACHE_NAME='smartease-cart-lights-v12';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./LICENSE.txt'];
+const CACHE_NAME='smartease-cart-lights-v13';
+const ASSETS=['./','./index.html','./cart-zones.js','./cart-zones.css','./halloween.html','./manifest.webmanifest','./LICENSE.txt'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('smartease-cart-lights-')&&k!==CACHE_NAME).map(k=>caches.delete(k)))),self.clients.claim()]));});
 self.addEventListener('fetch',event=>{
