@@ -94,7 +94,7 @@
      <div class="panel-head"><div><h2>Color &amp; brightness</h2><p>Choose a solid look or fine-tune selected lights.</p></div><span class="badge">RGB</span></div>
      <div class="field"><label for="mainColor">Choose color</label><div class="color-controls"><input type="color" id="mainColor" value="#49e3d2" aria-label="Lighting color"><input class="control" id="colorHex" value="#49e3d2" maxlength="7" spellcheck="false" autocapitalize="off" aria-label="Hex color" style="width:118px;flex:0 0 118px"><button class="button primary" id="applyColor" type="button">Apply color</button></div></div>
      <div class="swatches" id="colorSwatches"></div>
-     <div class="field"><label for="masterBrightness">Brightness <span class="value" id="brightnessValue">45%</span></label><input type="range" id="masterBrightness" min="0" max="255" step="1" value="115"><p class="small muted" style="margin:0">Release to send. Lower brightness is best for the first test.</p></div>
+     <div class="field"><label for="masterBrightness">Selected lights brightness · 0–100% <span class="value" id="brightnessValue">45%</span></label><input type="range" id="masterBrightness" min="0" max="255" step="1" value="115"><p class="small muted" style="margin:0">Release to send. Lower brightness is best for the first test.</p></div>
      <div class="actions"><button class="button primary" id="powerOn" type="button">Selected on</button><button class="button danger" id="powerOff" type="button">Selected off</button><button class="button" id="refreshControl" type="button">Read back</button></div>
     </article>
    </section>
@@ -129,11 +129,13 @@
       <div class="haunted-preview" aria-label="Animated eight-channel preview"><span style="--hdelay:0s"></span><span style="--hdelay:-.36s"></span><span style="--hdelay:-.72s"></span><span style="--hdelay:-1.08s"></span><span style="--hdelay:-1.44s"></span><span style="--hdelay:-1.80s"></span><span style="--hdelay:-2.16s"></span><span style="--hdelay:-2.52s"></span></div>
       <p class="small muted">This runs live in Bluefy, not in the nine onboard SP608E scene slots. Keep Bluefy in front while parked. Your existing stored scene is not overwritten.</p>
       <div class="field"><label for="hauntedOrder">Output order, front to back</label><input class="control" id="hauntedOrder" inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" value="1,2,3,4,5,6,7,8"><p class="small muted">Enter connected SP608E outputs in physical order. Example: 3,1,4,2. Omit unused channels.</p></div>
+      <div class="field" id="hauntedBrightnessControl">
+       <label for="hauntedBrightness">Halloween brightness <span class="value" id="hauntedBrightnessLabel">45%</span></label>
+       <input type="range" id="hauntedBrightness" min="0" max="100" step="1" value="45" aria-describedby="hauntedBrightnessHelp">
+       <p class="small muted" id="hauntedBrightnessHelp">0–100%. Drag to choose; release to change brightness while Halloween is playing.</p>
+      </div>
       <details class="haunted-settings"><summary>Identify channels and adjust timing</summary>
-        <div class="field-row">
-          <div class="field"><label for="hauntedBrightness">Brightness</label><select class="control" id="hauntedBrightness"><option value="75">30%</option><option value="115" selected>45%</option><option value="155">60%</option><option value="205">80%</option></select></div>
-          <div class="field"><label for="hauntedSteps">Fade smoothness</label><select class="control" id="hauntedSteps"><option value="1">Fast (1 step)</option><option value="2" selected>Balanced (2 steps)</option><option value="3">Smooth (3 steps)</option></select></div>
-        </div>
+        <div class="field"><label for="hauntedSteps">Fade smoothness</label><select class="control" id="hauntedSteps"><option value="1">Fast (1 step)</option><option value="2" selected>Balanced (2 steps)</option><option value="3">Smooth (3 steps)</option></select></div>
         <div class="field"><label for="hauntedStarTime">Starburst duration</label><select class="control" id="hauntedStarTime"><option value="1200">1.2 seconds</option><option value="2300" selected>2.3 seconds</option><option value="3500">3.5 seconds</option></select></div>
         <div class="actions"><select class="control" id="hauntedIdentifyChannel" style="flex:1;min-width:110px" aria-label="Channel to identify"><option value="1">Output 1</option><option value="2">Output 2</option><option value="3">Output 3</option><option value="4">Output 4</option><option value="5">Output 5</option><option value="6">Output 6</option><option value="7">Output 7</option><option value="8">Output 8</option></select><button class="button" type="button" id="hauntedIdentify">Identify output (green)</button></div>
         <p class="small muted">Identify each channel with the cart parked, then enter the correct order above. Testing temporarily changes the selected channel.</p>
@@ -795,7 +797,7 @@ async function hauntedStart(){
  if(!confirm('Run Halloween on outputs '+order.join(', ')+'? Park the cart. This does not save to SP608E memory.'))return;
  stopStudio('Switched to Halloween');
  clearTimeout(pendingRefresh);pendingRefresh=null;
- const m=hauntedMask(order),brightness=cap($('hauntedBrightness').value,10,255);
+ const m=hauntedMask(order),brightness=cap(Number($('hauntedBrightness').value)*255/100,0,255);
  const steps=cap($('hauntedSteps').value,1,3),starMs=cap($('hauntedStarTime').value,1000,5000);
  const token=++hauntedToken,guard=()=>hauntedRunning&&hauntedToken===token&&canSend()&&document.visibilityState!=='hidden';
  let previous=H_COLORS[2].hex;
@@ -851,19 +853,35 @@ function installHaunted(){
   const v=JSON.parse(localStorage.getItem(key)||'null');
   if(v){
    if(typeof v.order==='string'&&v.order.length<40)$('hauntedOrder').value=v.order;
-   if(['75','115','155','205'].includes(String(v.brightness)))$('hauntedBrightness').value=String(v.brightness);
+   if(v.brightness!=null&&Number.isFinite(Number(v.brightness))){const percent=v.version===2?Number(v.brightness):Number(v.brightness)*100/255;$('hauntedBrightness').value=String(cap(percent,0,100));}
    if(['1','2','3'].includes(String(v.steps)))$('hauntedSteps').value=String(v.steps);
    if(['1200','2300','3500'].includes(String(v.star)))$('hauntedStarTime').value=String(v.star);
   }
  }catch{}
  const store=()=>{try{localStorage.setItem(key,JSON.stringify({
-  order:$('hauntedOrder').value,brightness:$('hauntedBrightness').value,
+  version:2,order:$('hauntedOrder').value,brightness:$('hauntedBrightness').value,
   steps:$('hauntedSteps').value,star:$('hauntedStarTime').value
  }));}catch{}};
  $('hauntedOrder').addEventListener('input',()=>{
   $('hauntedVerified').checked=false;store();hauntedButtons();
  });
- for(const id of ['hauntedBrightness','hauntedSteps','hauntedStarTime'])$(id).addEventListener('change',store);
+ $('hauntedBrightnessLabel').textContent=$('hauntedBrightness').value+'%';
+ $('hauntedBrightness').addEventListener('input',()=>{
+  $('hauntedBrightnessLabel').textContent=$('hauntedBrightness').value+'%';
+ });
+ $('hauntedBrightness').addEventListener('change',()=>{
+  store();
+  if(!hauntedRunning)return;
+  let order;
+  try{order=hauntedOrders();}catch(e){hauntedInfo(e.message);return;}
+  const token=hauntedToken,percent=Number($('hauntedBrightness').value);
+  const brightness=cap(percent*255/100,0,255);
+  enqueuePackets(packet(0x85,[hauntedMask(order),brightness]),'Haunted brightness '+percent+'%',{
+   haunted:true,skipRefresh:true,
+   guard:()=>hauntedRunning&&hauntedToken===token&&canSend()
+  }).then(ok=>{if(ok)hauntedInfo('Brightness '+percent+'% applied; Halloween continues.');});
+ });
+ for(const id of ['hauntedSteps','hauntedStarTime'])$(id).addEventListener('change',store);
  $('hauntedVerified').addEventListener('change',hauntedButtons);
  $('hauntedPlay').onclick=hauntedStart;
  $('hauntedStop').onclick=()=>hauntedEnd('Halloween stopped. Restore an onboard scene to resume normal lighting.');
