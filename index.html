@@ -962,7 +962,7 @@ try{
  if(saved&&typeof saved==='object'&&!Array.isArray(saved))
   for(let n=1;n<=8;n++){
    const v=saved[n];
-   if(Array.isArray(v)&&v.length===3&&v.every(x=>Number.isInteger(x)&&x>=30&&x<=150))
+   if(Array.isArray(v)&&v.length===3&&v.every(x=>Number.isInteger(x)&&x>=0&&x<=150))
     spRgbBalance[n]=[...v];
   }
 }catch{}
@@ -974,7 +974,7 @@ function spBalanceBytes(rgb,balance){
  return rgb.map((value,i)=>Math.max(0,Math.min(255,Math.round(value*balance[i]/100))));
 }
 function spSaveRgbBalance(outputs,balance){
- if(!Array.isArray(balance)||balance.length!==3||!balance.every(v=>Number.isInteger(v)&&v>=30&&v<=150))return false;
+ if(!Array.isArray(balance)||balance.length!==3||!balance.every(v=>Number.isInteger(v)&&v>=0&&v<=150))return false;
  if(!Array.isArray(outputs)||!outputs.length||outputs.some(n=>!Number.isInteger(n)||n<1||n>8))return false;
  const changed={...spRgbBalance};
  for(const n of outputs)changed[n]=[...balance];
@@ -1014,8 +1014,13 @@ function spCorrectedColorBytes(n,color){
  return spBalanceBytes(calibrated,spBalanceFor(n));
 }
 function spRawManualMatchFromBalanced(n,bytes){
+ if(!hauntedValidBytes(bytes))return null;
  const gain=spBalanceFor(n);
- const unbalanced=bytes.map((v,i)=>Math.max(0,Math.min(255,Math.round(v*100/gain[i]))));
+ // A disabled channel can only reproduce zero: avoid 0/0 and infinity in
+ // stored custom shades. Tell callers if the requested color is impossible.
+ const unbalanced=bytes.map((v,i)=>gain[i]===0?(v===0?0:null):
+  Math.max(0,Math.min(255,Math.round(v*100/gain[i]))));
+ if(unbalanced.some(v=>v===null))return null;
  const observed=spChipRecord(n)?.observed;
  return observed?observed.map(channel=>unbalanced['rgb'.indexOf(channel)]):unbalanced;
 }

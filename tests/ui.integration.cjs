@@ -374,6 +374,62 @@ test("RGB balance UI saves per-output correction and restores sliders after relo
  assert.equal(later.errors.length,0);
  later.dom.window.close();
 });
+test("balance sliders really reach 0%, send zero-valued BLE channels and save 0% across reloads", async () => {
+ const b=boot({
+  "smartease-haunted-rgb-fix-v1":'{"2":["b","r","g"]}',
+  "smartease-sp608e-chip-orders-v1":'{"2":{"observed":["b","r","g"],"baseline":0,"target":4}}'
+ });
+ b.w.document.getElementById("openColorCalibration").click();
+ b.w.document.getElementById("calOutput").value="2";
+ b.w.document.getElementById("calOutput").dispatchEvent(new b.w.Event("change"));
+ for(const color of ["R","G","B"]){
+  assert.equal(b.w.document.getElementById("calBalance"+color).min,"0");
+ }
+ for(const color of ["G","B"]){
+  const el=b.w.document.getElementById("calBalance"+color);
+  el.value="0";el.dispatchEvent(new b.w.Event("input"));
+  assert.equal(b.w.document.getElementById("calBalance"+color+"Value").textContent,"0%");
+ }
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(calBalanceDraft)")),[100,0,0]);
+ b.run('isLive=()=>true;spEnsureChipColors=async()=>true;enqueuePackets=async(jobs)=>{globalThis.zeroBalancePackets=jobs;return true;}');
+ assert.equal(await b.run("calBalanceTest()"),true);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(zeroBalancePackets.at(-1))")),[136,137,5,2,255,0,0,255]);
+ assert.equal(b.run("calBalanceSave()"),true);
+ assert.deepEqual(JSON.parse(b.w.localStorage.getItem("smartease-sp608e-rgb-balance-v1"))["2"],[100,0,0]);
+ const state=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ b.dom.window.close();
+ const later=boot(state);
+ later.w.document.getElementById("openColorCalibration").click();
+ later.w.document.getElementById("calOutput").value="2";
+ later.w.document.getElementById("calOutput").dispatchEvent(new later.w.Event("change"));
+ assert.deepEqual(JSON.parse(later.run("JSON.stringify(calBalanceDraft)")),[100,0,0]);
+ assert.equal(later.w.document.getElementById("calBalanceG").value,"0");
+ assert.equal(later.w.document.getElementById("calBalanceB").value,"0");
+ assert.deepEqual(JSON.parse(later.run('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))')),[255,0,0]);
+ assert.equal(later.errors.length,0);
+ later.dom.window.close();
+});
+test("Less yellow quick action can reach 0% and disabled-channel fine tune avoids invalid saved bytes", () => {
+ const b=boot({
+  "smartease-haunted-rgb-fix-v1":'{"2":["b","r","g"]}',
+  "smartease-sp608e-chip-orders-v1":'{"2":{"observed":["b","r","g"],"baseline":0,"target":4}}'
+ });
+ b.w.document.getElementById("openColorCalibration").click();
+ b.w.document.getElementById("calOutput").value="2";
+ b.w.document.getElementById("calOutput").dispatchEvent(new b.w.Event("change"));
+ const green=b.w.document.getElementById("calBalanceG");
+ green.value="15";green.dispatchEvent(new b.w.Event("input"));
+ b.w.document.getElementById("calBalanceWarmer").click();
+ assert.equal(b.run("calBalanceDraft[1]"),0);
+ assert.equal(b.w.document.getElementById("calBalanceGValue").textContent,"0%");
+ b.run('spSaveRgbBalance([2],[100,0,100]);calTestedSignature=calSignature()');
+ b.w.document.getElementById("calRawG").value="1";
+ b.run('calTestedSignature=calSignature()');
+ b.w.document.getElementById("calMatchSave").click();
+ assert.match(b.w.document.getElementById("calMixStatus").textContent,/set to 0%/);
+ assert.equal(b.w.localStorage.getItem("smartease-haunted-manual-rgb-v1"),null);
+ b.dom.window.close();
+});
 test("fine-tune sends corrected-order RGB and saves matches without double-swapping", async () => {
  const b=boot({
   "smartease-haunted-rgb-fix-v1":JSON.stringify({"2":["b","r","g"]}),

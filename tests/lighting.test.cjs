@@ -244,6 +244,21 @@ test("BRG balance corrects every mixed scene shade without affecting other strip
  vm.runInContext('hauntedManualMatches[2]={"#ff751e":[20,240,92]}',c);
  assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))',c)),[240,60,20]);
 });
+test("RGB balance accepts real zero, excludes disabled channels from all scene shades and round-trips zero manual matches", () => {
+ const c=legacy();
+ vm.runInContext('hauntedColorFix[2]=["b","r","g"];spSetSavedChipOrder(2,["b","r","g"])',c);
+ assert.equal(vm.runInContext('spSaveRgbBalance([2],[100,0,0])',c),true);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spBalanceFor(2))',c)),[100,0,0]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))',c)),[255,0,0]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#a24aec"))',c)),[162,0,0]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#00ff00"))',c)),[0,0,0]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spRawManualMatchFromBalanced(2,[255,0,0]))',c)),[0,255,0]);
+ assert.equal(vm.runInContext('spRawManualMatchFromBalanced(2,[255,1,0])',c),null);
+ assert.equal(vm.runInContext('spSaveRgbBalance([2],[-1,0,0])',c),false);
+ assert.equal(vm.runInContext('spSaveRgbBalance([2],[151,0,0])',c),false);
+ vm.runInContext('hauntedManualMatches[2]={"#ff751e":[0,255,0]}',c);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))',c)),[255,0,0]);
+});
 test("custom scenes preserve chosen movement; built-in exact-color mode remains available", () => {
  const scene={id:"cart-manual",custom:true,rows:E.rows(["#ff751e","#a24aec"],7)};
  assert.ok(Object.values(E.forPlayback(scene,true).rows).every(r=>r.effect===7));
