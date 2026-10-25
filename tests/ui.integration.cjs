@@ -425,7 +425,10 @@ test("Less yellow quick action can reach 0% and disabled-channel fine tune avoid
  b.run('spSaveRgbBalance([2],[100,0,100]);calTestedSignature=calSignature()');
  b.w.document.getElementById("calRawG").value="1";
  b.run('calTestedSignature=calSignature()');
- b.w.document.getElementById("calMatchSave").click();
+ // Normal UI keeps Save disabled until a real LED test has completed.
+ // Exercise the validator directly to verify impossible zero-gain matches
+ // cannot be saved even by callers outside the button handler.
+ b.run("calSaveMix()");
  assert.match(b.w.document.getElementById("calMixStatus").textContent,/set to 0%/);
  assert.equal(b.w.localStorage.getItem("smartease-haunted-manual-rgb-v1"),null);
  b.dom.window.close();
