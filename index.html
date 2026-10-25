@@ -994,7 +994,7 @@ async function spEnsureChipColors(outputs,guard=null,options={}){
  const jobs=[];
  for(const {n,record} of targets){
   const actual=channels[n-1];
-  if(options.force||!spChipReady(n)||!actual?.known||actual.order!==record.target)
+  if(options.force||!spChipReady(n)||(actual?.known&&actual.order!==record.target))
    jobs.push(packet(0x84,[maskFor(n-1),record.target]));
  }
  if(jobs.length){
