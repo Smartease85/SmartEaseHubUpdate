@@ -762,6 +762,30 @@ body > .nav {
 #app .device-row:last-child {
   border: 0;
 }
+#app .nokins-test-card .card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+#app .nokins-test-card .card-top h3{font-size:17px}
+#app .nokins-test-card .small-note{color:#a4bbb9;line-height:1.55}
+#app .nokins-controller-info{
+  border:1px solid #41635f;
+  background:#071f23;
+  padding:12px;
+  border-radius:12px;
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+#app .nokins-safety-confirm{margin-top:16px;margin-bottom:14px}
+#app .nokins-test-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+#app .nokins-test-actions button{min-width:0}
+@media(max-width:520px){
+  #app .nokins-test-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #app .nokins-test-card .card-top{display:block}
+  #app .nokins-test-card .pill{display:inline-block;margin-top:10px}
+}
 #app .device-row p {
   color: var(--soft);
   font-size: 12px;

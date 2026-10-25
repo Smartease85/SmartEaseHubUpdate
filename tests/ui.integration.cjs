@@ -277,6 +277,47 @@ function installLotusMock(b, name = "ELK-BLEDOB") {
     `globalThis.lotusWrites=[];globalThis.mockLotus=new EventTarget();mockLotus.name=${JSON.stringify(name)};mockLotus.id='lotus-test';globalThis.lotusConnects=0;mockLotus.gatt={connected:false,connect:async()=>{lotusConnects++;mockLotus.gatt.connected=true;return {getPrimaryService:async uuid=>{if(uuid!=='0000fff0-0000-1000-8000-00805f9b34fb')throw Error('unexpected service');return {getCharacteristic:async id=>{if(id!=='0000fff3-0000-1000-8000-00805f9b34fb')throw Error('unexpected characteristic');return {properties:{writeWithoutResponse:true},writeValueWithoutResponse:async bytes=>lotusWrites.push(Array.from(bytes))};}};}};},disconnect:()=>{mockLotus.gatt.connected=false;mockLotus.dispatchEvent(new Event('gattserverdisconnected'));}};navigator.bluetooth={requestDevice:async()=>mockLotus};`,
   );
 }
+test("NOKINS on-cart test is gated by connection and parked acknowledgment and leaves SP608E untouched", async () => {
+ const b=boot();
+ const red=b.w.document.getElementById("nokinsTestRed");
+ assert.equal(red.disabled,true,"never test before identification");
+ installLotusMock(b,"ELK-BLEDOB");
+ await b.run("cartDevices[2].connect()");
+ b.run("renderDevices()");
+ assert.equal(red.disabled,true,"connected alone cannot write");
+ assert.equal(b.run("lotusWrites.length"),0,"connecting must not actuate lights");
+ const parked=b.w.document.getElementById("nokinsParked");
+ parked.checked=true;parked.dispatchEvent(new b.w.Event("change"));
+ assert.equal(red.disabled,false);
+ assert.equal(await b.run('testNokinsColor("#ff0000","red")'),true);
+ assert.equal(b.run("lotusWrites.length"),3);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(lotusWrites[1])")),[126,7,5,3,255,0,0,16,239]);
+ assert.equal(b.run("cartDevices[2].sceneEnabled"),false,"scene following remains opt-in");
+ assert.equal(b.run("czState.scenes.length"),0);
+ assert.equal(b.run("isLive()"),false,"NOKINS test never connects SP608E");
+ assert.match(b.w.document.getElementById("nokinsTestResult").textContent,/Sent red/);
+ b.run("cartDevices[2].disconnect()");
+ b.run("renderDevices()");
+ assert.equal(red.disabled,true);
+ assert.equal(parked.checked,false);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
+test("unknown Lotus controller identity cannot activate NOKINS RGB test buttons", async () => {
+ const b=boot();
+ installLotusMock(b,"UNVERIFIED-NOKINS-RGB");
+ await assert.rejects(()=>b.run("cartDevices[2].connect()"),/still needs setup/);
+ b.run("renderDevices()");
+ assert.match(b.w.document.getElementById("nokinsControllerInfo").textContent,/UNVERIFIED-NOKINS-RGB/);
+ assert.match(b.w.document.getElementById("nokinsControllerInfo").textContent,/No RGB commands will be sent/);
+ b.w.document.getElementById("nokinsParked").checked=true;
+ b.w.document.getElementById("nokinsParked").dispatchEvent(new b.w.Event("change"));
+ assert.equal(b.w.document.getElementById("nokinsTestRed").disabled,true);
+ assert.equal(await b.run('testNokinsColor("#ff0000","red")'),false);
+ assert.equal(b.run("lotusWrites.length"),0);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
 test("Lotus connects without side effects, matches opted-in color and cancels after disconnect", async () => {
   const b = boot();
   installLotusMock(b);
