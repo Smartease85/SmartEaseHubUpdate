@@ -53,8 +53,22 @@ app.innerHTML = `
 <section class="page" data-page="home"><div class="welcome"><div><div class="overline">Your cart. Your atmosphere.</div><h1>Good nights.<br>Great lights.</h1><p>A little color makes every evening yours.</p></div><span class="pill">✦ Made simple. Made SmartEase.</span></div><div class="quick-favorites" id="quickFavorites" aria-label="Favorite scenes"></div><div class="dashboard"><article class="card cart-card"><div class="card-top"><div><h3>Your cart, in color</h3><p id="cartSubtitle">Five zones. Endless possibilities.</p></div><button class="round" id="cartPower" aria-label="Turn mapped decorative lights on" aria-pressed="false">⏻</button></div><div id="homeCart"></div><div class="now-playing"><div><small id="playState">SCENE PREVIEW</small><strong id="nowPlaying">SmartEase glow</strong></div><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><p class="busy-line" id="playProgress" role="status"></p></article><div class="right-stack"><article class="card feature"><div class="overline">A little seasonal magic</div><h2>Haunted Surge</h2><p>Toxic green. Haunted purple. Pumpkin orange. Let the night come alive.</p><div class="feature-orbs"><i style="--orb:#46ef77"></i><i style="--orb:#a24aec"></i><i style="--orb:#ff751e"></i><span>Flow + twinkle</span></div><button class="primary" id="featureHauntedPlay">Play scene <span>↗</span></button><button class="text-btn" id="stopShow" hidden>Stop live flow</button></article><article class="card brightness"><label for="appBrightness">Set the mood <span id="appBrightnessValue">45%</span></label><input id="appBrightness" type="range" min="0" max="100" value="45" aria-label="Mapped light brightness"><div style="display:flex;justify-content:space-between;font-size:10px;color:#718f89"><span>Subtle</span><span>Brilliant</span></div></article></div></div><div class="section-heading"><h2>Your favorites</h2><button class="text-btn" data-go="scenes">Explore scenes ↗</button></div><div class="scene-list" id="favoriteScenes"></div><p class="safety-note">Decorative lighting for parked moments.</p></section>
 <section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
 <section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p>Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
-<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
-<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
+<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
+<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
+
+<section class="page cal-page" data-page="calibrate" hidden>
+ <div class="welcome cal-welcome"><div><div class="overline">SmartEase light tuning</div><h1>Every color.<br>Just right.</h1><p>Show a color, tell us what the LEDs display, and we'll adjust the lighting scenes for you.</p></div><button class="secondary" id="calGoBack" type="button">← Settings</button></div>
+ <div class="cal-grid">
+  <article class="card cal-selector-card"><div class="overline">First, choose a light</div><h2>Which strip looks wrong?</h2><p>When the cart is parked and the lights have power, choose the strip you want to tune.</p><label class="field-label" for="calOutput">Cart lighting location</label><select class="input" id="calOutput"></select><p class="cal-muted" id="calConnection">Connect your cart lighting to begin.</p><button type="button" class="secondary" id="calGoConnect">Connect in Devices ↗</button></article>
+  <article class="card cal-primary-card"><div class="overline">Then, check three colors</div><h2>What do you actually see?</h2><p>Tap one color at a time and choose what the real LEDs show. We'll remember the correction.</p><div class="cal-primary-grid"><div class="cal-test-item"><button id="calTestR" data-cal-test="r" class="cal-test-button" style="--cal-hue:#f44d5d" type="button"><i aria-hidden="true"></i> Show red</button><label class="field-label" for="calSeenR">What appeared?</label><select class="input" id="calSeenR"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestG" data-cal-test="g" class="cal-test-button" style="--cal-hue:#47eb84" type="button"><i aria-hidden="true"></i> Show green</button><label class="field-label" for="calSeenG">What appeared?</label><select class="input" id="calSeenG"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestB" data-cal-test="b" class="cal-test-button" style="--cal-hue:#518df9" type="button"><i aria-hidden="true"></i> Show blue</button><label class="field-label" for="calSeenB">What appeared?</label><select class="input" id="calSeenB"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div></div><p class="cal-result" id="calStatus" role="status" aria-live="polite">Start with the red test.</p><div class="row-actions"><button id="calSave" class="primary" type="button">Save color correction</button><button id="calReset" class="secondary" type="button">Reset this light</button></div></article>
+  <article class="card cal-fine-card"><details id="calFineTune"><summary>Still the wrong shade? Fine-tune the color <span aria-hidden="true">⌄</span></summary><p>Some strips need a custom match. Adjust the strengths until the real lights look like the target, test it, then save.</p>
+   <div class="cal-color-choice"><div><label class="field-label" for="calTarget">Color to match</label><select class="input" id="calTarget"><option value="#46ef77">Halloween green</option><option value="#a24aec">Halloween purple</option><option value="#ff751e">Halloween orange</option><option value="#ffffff">White</option><option value="#49e3d2">SmartEase mint</option><option value="custom">Custom color</option></select></div><div id="calCustomWrap" hidden><label class="field-label" for="calCustom">Choose shade</label><input type="color" id="calCustom" value="#ffffff"></div></div>
+   <div class="cal-swatches"><div><span>Color to match</span><i id="calTargetSwatch"></i></div><div><span>Values to send</span><i id="calSendSwatch"></i></div></div>
+   <div class="cal-sliders"><label for="calRawR">Red strength <span id="calValueR">70</span></label><input id="calRawR" type="range" min="0" max="255" value="70"><label for="calRawG">Green strength <span id="calValueG">239</span></label><input id="calRawG" type="range" min="0" max="255" value="239"><label for="calRawB">Blue strength <span id="calValueB">119</span></label><input id="calRawB" type="range" min="0" max="255" value="119"></div>
+   <div class="row-actions"><button class="secondary" id="calMatchTest" type="button">Test this shade</button><button class="primary" id="calMatchSave" type="button">Save this match</button></div><p class="cal-result" id="calMixStatus" role="status" aria-live="polite">Test a shade on the real cart, then save the match.</p>
+  </details></article>
+ </div>
+</section>
 <nav class="bottom-nav" aria-label="Main navigation">${Object.entries(icons)
   .map(
     ([id, icon]) =>
@@ -119,7 +133,7 @@ notify = function (message) {
   toast(known.find(([pattern]) => pattern.test(message))?.[1] || message);
 };
 function go(next) {
-  if (!Object.hasOwn(icons, next)) next = "home";
+  if (next !== "calibrate" && !Object.hasOwn(icons, next)) next = "home";
   page = next;
   document
     .querySelectorAll("#app [data-page]")
@@ -135,6 +149,7 @@ function go(next) {
   if (next === "create") renderDesigner();
   if (next === "scenes") renderScenesUI();
   if (next === "devices") renderDevices();
+  if (next === "calibrate") calOpen();
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 function cartDrawing(prefix) {
@@ -1152,6 +1167,145 @@ function openAdvanced(tab = "diagnostics") {
   switchTab(tab);
   document.querySelector("body>.shell").scrollIntoView({ behavior: "smooth" });
 }
+
+/* Guided SmartEase color tuning: same serialized SP608E GATT commands and
+   persisted RGB/matched-color corrections as the original advanced tools. */
+const calPrimaries={r:"#ff0000",g:"#00ff00",b:"#0000ff"};
+let calBusy=false,calTestedSignature=null;
+const calTell=(id,msg)=>{ui(id).textContent=msg;};
+const calOutput=()=>Number(ui("calOutput").value);
+const calOutputValid=()=>czState.activeOutputs.includes(calOutput());
+function calRefreshButtons(){
+ const connected=isLive()&&calOutputValid();
+ ui("calConnection").textContent=isLive()?"SP608E connected · ready for testing":transport==="demo"?"Preview mode is not connected to your real lights.":"Connect SP608E in Devices to test the real lights.";
+ ui("calGoConnect").hidden=isLive();
+ for(const button of document.querySelectorAll("#app [data-cal-test]"))button.disabled=calBusy||!connected;
+ for(const id of ["calSave","calReset"])ui(id).disabled=calBusy||!calOutputValid();
+ ui("calMatchTest").disabled=calBusy||!connected;
+ ui("calMatchSave").disabled=calBusy||!calOutputValid()||calTestedSignature!==calSignature();
+}
+function calPopulate(){
+ const n=calOutput(),found=[];
+ for(const id of E.zones){
+  for(const channel of czState.zones[id]?.channels||[]){
+   if(czState.activeOutputs.includes(channel)&&!found.some(p=>p.channel===channel))
+    found.push({channel,name:czState.zones[id]?.name||id});
+  }
+ }
+ for(const channel of czState.activeOutputs)if(!found.some(p=>p.channel===channel))found.push({channel,name:"Other cart light"});
+ const select=ui("calOutput");select.replaceChildren();
+ for(const p of found)select.add(new Option(p.name+" · output "+p.channel,String(p.channel)));
+ if(found.some(p=>p.channel===n))select.value=String(n);
+ else{
+  const choice=found.find(p=>/undercarriage/i.test(p.name))||found[0];
+  if(choice)select.value=String(choice.channel);
+ }
+}
+function calLoadSeen(){
+ const n=calOutput(),values=hauntedObserved[n]?.colors||hauntedColorFix[n]||[];
+ for(const [i,k] of ["R","G","B"].entries()){
+  ui("calSeen"+k).value=values[i]||"";
+  if(ui("calSeen"+k).value!==(values[i]||""))ui("calSeen"+k).value="";
+ }
+ calTell("calStatus",hauntedGoodMap(hauntedColorFix[n])?"This light has a saved color correction. Retest anytime.":values.length?"Your previous observations are loaded. Confirm what you see.":"Show red, green and blue on your light to begin.");
+ calLoadMix();calRefreshButtons();
+}
+function calOpen(){calPopulate();calLoadSeen();}
+async function calWrite(bytes,description){
+ if(!isLive()){calTell("calStatus","Connect SP608E in Devices before testing.");return false;}
+ if(!calOutputValid()){calTell("calStatus","Select a connected cart light first.");return false;}
+ if(document.visibilityState==="hidden"||calBusy){calTell("calStatus","Keep this screen open to run the color test.");return false;}
+ const n=calOutput(),mask=maskFor(n-1);
+ calBusy=true;calRefreshButtons();
+ try{
+  cancelPlayback();
+  const commands=[packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),packet(0x89,[mask,...bytes,255])];
+  const ok=await enqueuePackets(commands,description,{skipRefresh:true,guard:()=>isLive()&&document.visibilityState==="visible"});
+  if(!ok)calTell("calStatus","The light didn't respond. Reconnect your SP608E and try again.");
+  return !!ok;
+ }catch(err){calTell("calStatus","The test couldn't finish. "+err.message);return false;}
+ finally{calBusy=false;calRefreshButtons();}
+}
+async function calTestPrimary(primary){
+ const color=calPrimaries[primary];if(!color)return;
+ calTell("calStatus","Testing "+{r:"red",g:"green",b:"blue"}[primary]+" on output "+calOutput()+"…");
+ const ok=await calWrite(rgbFromHex(color),"SmartEase color test "+primary);
+ if(ok)calTell("calStatus","What color did the LEDs actually display? Choose it under the test you just ran.");
+}
+function calSaveObserved(){
+ if(!calOutputValid())return;
+ const values=["R","G","B"].map(k=>ui("calSeen"+k).value);
+ if(values.some(v=>!v)){calTell("calStatus","Choose the actual displayed color for all three tests first.");return;}
+ const n=calOutput();
+ hauntedObserved[n]={colors:[...values],note:"SmartEase color tuning"};
+ if(hauntedGoodMap(values)){
+  hauntedColorFix[n]=[...values];hauntedCalibrationPersist();
+  calTell("calStatus","Saved! SmartEase scenes now use the corrected colors for this strip.");
+ }else{
+  delete hauntedColorFix[n];hauntedCalibrationPersist();
+  ui("calFineTune").open=true;calLoadMix();
+  calTell("calStatus","These don't form a simple red/green/blue swap. Your observations are saved. Try fine-tuning the shades below.");
+ }
+}
+function calReset(){
+ const n=calOutput();
+ if(!calOutputValid()||!confirm("Reset color tuning for this light? Your scenes will remain saved."))return;
+ delete hauntedColorFix[n];delete hauntedObserved[n];delete hauntedManualMatches[n];
+ hauntedCalibrationPersist();hauntedManualPersist();calLoadSeen();
+ calTell("calStatus","Color corrections reset for this light. Your scenes remain saved.");
+}
+function calTarget(){return ui("calTarget").value==="custom"?ui("calCustom").value:ui("calTarget").value;}
+function calBytes(){return ["R","G","B"].map(k=>Number(ui("calRaw"+k).value));}
+function calSignature(){return [calOutput(),calTarget(),...calBytes()].join("|");}
+function calPreview(){
+ const values=calBytes();
+ ui("calTargetSwatch").style.background=calTarget();
+ ui("calSendSwatch").style.background=colorToHex(...values);
+ for(const [i,k] of ["R","G","B"].entries())ui("calValue"+k).textContent=String(values[i]);
+ ui("calMatchSave").disabled=calBusy||!calOutputValid()||calTestedSignature!==calSignature();
+}
+function calLoadMix(){
+ const n=calOutput(),hex=calTarget();
+ const values=Number.isInteger(n)&&n>=1&&n<=8?hauntedMatchedBytes(n,hex):rgbFromHex(hex);
+ for(const [i,k] of ["R","G","B"].entries())ui("calRaw"+k).value=String(values[i]);
+ ui("calCustomWrap").hidden=ui("calTarget").value!=="custom";
+ calTestedSignature=null;calPreview();
+ calTell("calMixStatus","Adjust the strengths, test on the cart, then save the shade you like.");
+}
+async function calTestMix(){
+ const bytes=calBytes(),signature=calSignature();
+ calTell("calMixStatus","Showing the selected shade on your cart…");
+ const ok=await calWrite(bytes,"SmartEase shade matching");
+ if(ok){
+  calTestedSignature=signature;
+  calTell("calMixStatus","If the LEDs match your target color, tap Save this match.");
+ }else calTell("calMixStatus","The test couldn't complete. Reconnect and try again.");
+ calPreview();
+}
+function calSaveMix(){
+ const n=calOutput(),target=calTarget();
+ if(!calOutputValid())return;
+ if(calTestedSignature!==calSignature()){calTell("calMixStatus","Test this shade on your cart before saving it.");return;}
+ if(!hauntedManualMatches[n])hauntedManualMatches[n]={};
+ hauntedManualMatches[n][target]=[...calBytes()];
+ calTell("calMixStatus",hauntedManualPersist()?"Saved! SmartEase will use this shade whenever your scenes request that color.":"Couldn't save the match. Check browser storage.");
+}
+function calInstall(){
+ ui("openColorCalibration").onclick=()=>go("calibrate");
+ ui("devicesColorCalibration").onclick=()=>go("calibrate");
+ ui("calGoBack").onclick=()=>go("settings");
+ ui("calGoConnect").onclick=()=>go("devices");
+ ui("calOutput").addEventListener("change",calLoadSeen);
+ for(const button of document.querySelectorAll("#app [data-cal-test]"))
+  button.onclick=()=>calTestPrimary(button.dataset.calTest);
+ ui("calSave").onclick=calSaveObserved;ui("calReset").onclick=calReset;
+ for(const id of ["calTarget","calCustom"])ui(id).addEventListener("change",calLoadMix);
+ for(const k of ["R","G","B"])ui("calRaw"+k).addEventListener("input",()=>{calTestedSignature=null;calPreview();});
+ ui("calMatchTest").onclick=calTestMix;ui("calMatchSave").onclick=calSaveMix;
+ calPopulate();calLoadSeen();
+}
+calInstall();
+
 ui("openAdvanced").onclick = () => openAdvanced();
 ui("showWelcome").onclick = () => ui("welcomeDialog").showModal();
 ui("welcomeConnect").onclick = () => {
