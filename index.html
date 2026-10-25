@@ -57,6 +57,7 @@
 .haunted-mixer-visual i{display:block;height:40px;border:1px solid #b9cdd450;border-radius:8px;background:var(--teal)}
 #hauntedManualCustom{width:100%;max-width:110px;height:43px;padding:2px 4px;background:#0a2025;border-radius:9px;border:1px solid var(--line)}
 </style>
+<link rel="stylesheet" href="cart-zones.css">
 </head>
 <body>
 <div class="shell">
@@ -71,6 +72,7 @@
   <button type="button" class="active" role="tab" aria-selected="true" data-tab="control">Lights</button>
   <button type="button" role="tab" aria-selected="false" data-tab="effects">Effects</button>
   <button type="button" role="tab" aria-selected="false" data-tab="scenes">Saved</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="zones">Cart</button>
   <button type="button" role="tab" aria-selected="false" data-tab="studio">Create</button>
   <button type="button" role="tab" aria-selected="false" data-tab="diagnostics">More</button>
  </div>
@@ -231,7 +233,95 @@
      <p class="small muted">These looks are not programmed into the SP608E. Restoring one sends a series of Bluetooth commands and requires the page to remain open.</p>
     </article>
    </section>
-    <section class="tab" id="tab-studio" role="tabpanel" aria-hidden="true">
+ 
+   <section class="tab" id="tab-zones" role="tabpanel" aria-hidden="true">
+    <article class="panel" id="czZoneMap">
+     <div class="panel-head"><div><h2>Golf Cart Zones</h2><p>Map the real strips on your cart to SP608E outputs, then build scenes by physical position.</p></div><span class="badge">8 locations</span></div>
+     <p class="cz-intro">Tap an area on the cart, identify the corresponding SP608E output, then assign it. One physical area may use multiple outputs; each output can belong to only one area.</p>
+     <div class="cz-layout">
+      <div class="cz-map-panel">
+       <div class="cz-map-label">FRONT OF CART ↓</div>
+       <div class="cz-figure">
+        <svg class="cz-silhouette" viewBox="0 0 320 480" aria-hidden="true">
+         <defs>
+          <linearGradient id="czShell" x1="0" x2="0.9" y1="0" y2="1"><stop offset="0" stop-color="#2c6a73"/><stop offset="0.45" stop-color="#1b3d47"/><stop offset="1" stop-color="#153039"/></linearGradient>
+          <linearGradient id="czRoof" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#3e8590"/><stop offset="1" stop-color="#173841"/></linearGradient>
+         </defs>
+         <rect x="69" y="66" width="30" height="88" rx="12" fill="#101920" stroke="#46606a" stroke-width="3"/>
+         <rect x="221" y="66" width="30" height="88" rx="12" fill="#101920" stroke="#46606a" stroke-width="3"/>
+         <rect x="69" y="341" width="30" height="88" rx="12" fill="#101920" stroke="#46606a" stroke-width="3"/>
+         <rect x="221" y="341" width="30" height="88" rx="12" fill="#101920" stroke="#46606a" stroke-width="3"/>
+         <rect x="92" y="27" width="136" height="425" rx="42" fill="url(#czShell)" stroke="#7fc9c9" stroke-width="2.5"/>
+         <rect x="105" y="42" width="110" height="73" rx="19" fill="#09232c" stroke="#4d96a0" stroke-width="2"/>
+         <path d="M104 112 L216 112 L220 132 L100 132 Z" fill="#8dcbd059" stroke="#68c7ce" stroke-width="2"/>
+         <rect x="102" y="137" width="116" height="182" rx="19" fill="url(#czRoof)" stroke="#8bdfe0" stroke-width="3"/>
+         <path d="M112 157 L208 157 M112 194 L208 194 M112 278 L208 278" stroke="#67c4c1" stroke-width="2" opacity=".46"/>
+         <rect x="112" y="214" width="42" height="53" rx="10" fill="#0e2532" stroke="#67a4ab" stroke-width="2"/>
+         <rect x="165" y="214" width="42" height="53" rx="10" fill="#0e2532" stroke="#67a4ab" stroke-width="2"/>
+         <circle cx="133" cy="186" r="15" stroke="#6bd0d0" fill="none" stroke-width="3"/>
+         <path d="M133 172 V202 M119 187 H147" stroke="#6bd0d0" stroke-width="2"/>
+         <rect x="108" y="338" width="104" height="46" rx="15" fill="#193b43" stroke="#75bac1" stroke-width="2"/>
+         <rect x="116" y="386" width="88" height="40" rx="9" fill="#0d2932" stroke="#427e85" stroke-width="2"/>
+         <path d="M110 438 H210" stroke="#b8e9dd" stroke-width="4" stroke-linecap="round"/>
+         <path d="M127 25 H193" stroke="#b8e9dd" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <div id="czHotspots" aria-label="Select a physical lighting zone on the cart"></div>
+       </div>
+       <div class="cz-map-label">REAR OF CART ↑</div>
+       <div class="cz-map-count" id="czMapCount">0/8 cart zones mapped</div>
+       <div class="cz-meta"><span class="cz-chip" id="czCurrentOrder">No channels mapped yet</span></div>
+       <div class="cz-legend"><span><i style="background:#4fe1cb"></i>Mapped</span><span><i style="background:#526770"></i>Unmapped</span><span><i style="background:#f7fff8"></i>Selected</span></div>
+      </div>
+      <div class="cz-editor">
+       <div class="cz-section-head"><div><h3 id="czZoneTitle">Front left</h3><p id="czZoneHint">Tap an area to map it</p></div><span class="cz-chip" id="czSelectedChannels">Not mapped</span></div>
+       <div class="field"><label for="czZoneLabel">Zone name</label><div class="actions"><input class="control" id="czZoneLabel" maxlength="32" placeholder="Front left" style="flex:2;min-width:130px"><button class="button" type="button" id="czZoneLabelSave">Rename</button></div></div>
+       <div class="field"><label>SP608E output(s) for this zone</label><div class="cz-channel-grid" id="czChannelCheckboxes" aria-label="Assign controller outputs"></div></div>
+       <div class="cz-info"><strong>Find the wiring:</strong> With the cart parked, select an SP608E output and briefly light it teal. See where it appears on the cart, then check that output in this zone. This identification changes the current live look but does not alter saved scenes.</div>
+       <div class="field"><label for="czIdentifyOutput">Identify an SP608E output</label><select class="control" id="czIdentifyOutput">
+        <option value="1">Controller output 1</option><option value="2">Controller output 2</option>
+        <option value="3">Controller output 3</option><option value="4">Controller output 4</option>
+        <option value="5">Controller output 5</option><option value="6">Controller output 6</option>
+        <option value="7">Controller output 7</option><option value="8">Controller output 8</option>
+       </select></div>
+       <div class="cz-actions"><button class="button primary" type="button" id="czIdentify">Test output (teal)</button><button class="button" type="button" id="czSelectMapped" disabled>Use zone in Effects</button></div>
+      </div>
+     </div>
+     <div class="cz-info"><strong>Power switch matters:</strong> Canopy circuits are powered through your existing fog-switch relay. Mapping a zone here does not energize that relay, and the app cannot illuminate a physically unpowered strip. Keep brake, turn and hazard circuits independent.</div>
+     <div class="cz-actions"><button class="button soft" id="czToHalloween" type="button" disabled>Use map for Halloween front-to-back</button></div>
+     <div class="cz-status" role="status" aria-live="polite" id="czStatus">Choose a physical cart location to begin.</div>
+    </article>
+    <article class="panel" id="czSceneDesigner">
+     <div class="panel-head"><div><h2>Cart scene designer</h2><p>Choose different colors, effects, brightness and speed for each physical zone. Saved scenes always follow your zone mapping.</p></div><span class="badge">Local scenes</span></div>
+     <div class="field"><label for="czTemplate">Start from a cart preset</label><select class="control" id="czTemplate">
+      <option value="">Custom — keep current draft</option>
+      <option value="halloween">Halloween Cart (green / purple / orange)</option>
+      <option value="canopy">Canopy Starfield</option>
+      <option value="underglow">Underglow Teal</option>
+      <option value="cruise">Evening Cruise</option>
+      <option value="rainbow">Full Cart Rainbow</option>
+      <option value="off">All mapped lights off</option>
+     </select></div>
+     <p class="small muted" id="czDraftSummary">0 zones on · 0 zones mapped</p>
+     <div class="cz-scene-list" id="czSceneRows"></div>
+     <div class="divider"></div>
+     <div class="field"><label for="czDraftName">Scene name</label><input class="control" id="czDraftName" maxlength="40" value="My Golf Cart Scene" placeholder="e.g. Halloween street cruise"></div>
+     <div class="cz-actions"><button class="button primary" id="czApplyDraft" type="button">Apply to mapped zones</button><button class="button" id="czSaveDraft" type="button">Save local scene</button></div>
+     <p class="small muted">Applying sends serialized BLE commands to mapped SP608E outputs. Controller-native effects can keep running without Bluefy, but custom zone scenes are saved in this browser, not to the nine onboard scene slots. No firmware change is made.</p>
+     <div class="divider"></div>
+     <div class="cz-section-head"><div><h3>Saved cart scenes</h3><p>Load, edit, apply or delete your zone-specific scenes.</p></div><span class="cz-chip">Stored on this phone</span></div>
+     <div class="cz-saved-list" id="czSavedScenes"></div>
+     <div class="divider"></div>
+     <div class="field"><label for="czRestoreScene">Restore an onboard SP608E scene</label>
+      <div class="actions"><select class="control" id="czRestoreScene" style="flex:1;min-width:125px">
+       <option value="0">Stored scene 1</option><option value="1">Stored scene 2</option><option value="2">Stored scene 3</option>
+       <option value="3">Stored scene 4</option><option value="4">Stored scene 5</option><option value="5">Stored scene 6</option>
+       <option value="6">Stored scene 7</option><option value="7">Stored scene 8</option><option value="8">Stored scene 9</option>
+      </select><button class="button" type="button" id="czRestore">Recall stored scene</button></div>
+     </div>
+     <div class="cz-actions"><button class="button" type="button" id="czExport">Export zone setup</button><label class="button" for="czImport" style="display:flex;cursor:pointer;align-items:center;justify-content:center">Import zone setup</label><input class="hidden" type="file" id="czImport" accept=".json,application/json"></div>
+    </article>
+   </section>
+   <section class="tab" id="tab-studio" role="tabpanel" aria-hidden="true">
      <article class="panel">
       <div class="panel-head"><div><h2>Create your own look</h2><p>Design it once. The SP608E plays its own smooth animations without continuous Bluetooth commands.</p></div><span class="badge">Recommended</span></div>
       <div class="steps"><span><b>1</b> Choose lights</span><span><b>2</b> Set the look</span><span><b>3</b> Apply &amp; save</span></div>
@@ -302,6 +392,7 @@
   <button class="active" type="button" data-tab="control" aria-label="Control"><span class="nav-icon">&#9678;</span>Lights</button>
   <button type="button" data-tab="effects" aria-label="Effects"><span class="nav-icon">&#10022;</span>Effects</button>
   <button type="button" data-tab="scenes" aria-label="Scenes"><span class="nav-icon">&#9733;</span>Saved</button>
+  <button type="button" data-tab="zones" aria-label="Golf cart zones"><span class="nav-icon">&#9878;</span>Cart</button>
   <button type="button" data-tab="studio" aria-label="Studio"><span class="nav-icon">&#9654;</span>Create</button>
   <button type="button" data-tab="diagnostics" aria-label="Diagnostics"><span class="nav-icon">&#8942;</span>More</button>
  </nav>
@@ -1082,5 +1173,6 @@ installUI();installHaunted();installAutoBle();
 /* PWA is optional. iOS Bluefy support for offline service workers must be verified. */
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>log('Offline caching not available: '+e.message,'warn')));}
 </script>
+<script src="cart-zones.js"></script>
 </body>
 </html>
