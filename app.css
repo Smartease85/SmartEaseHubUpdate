@@ -1283,3 +1283,62 @@ body > .nav {
     transition: none !important;
   }
 }
+
+
+/* SmartEase 2.0 Color Calibration Wizard */
+#app .cal-launch{background:linear-gradient(140deg,#123c3e,#0d2429 73%);border-color:#72f5d033}
+#app .cal-launch-title{display:flex;align-items:center;gap:17px;margin-bottom:20px}
+#app .cal-launch-title>span{font-size:27px;display:grid;place-items:center;flex:none;width:52px;height:52px;background:#72f5d014;border:1px solid #72f5d02b;border-radius:17px}
+#app .cal-launch-title p{color:#a5bfc1;font-size:13px;line-height:1.65;margin-top:7px}
+#app .cal-launch .primary{min-height:45px}
+#app .cal-device-link{margin:13px 0}
+#app .cal-page .welcome{align-items:end;gap:20px}
+#app .cal-welcome>button{flex-shrink:0}
+#app .cal-grid{display:grid;grid-template-columns:minmax(0,0.75fr) minmax(0,1.25fr);gap:20px;margin-top:24px}
+#app .cal-grid .card{min-width:0}
+#app .cal-grid h2{font-size:25px;letter-spacing:-.04em;margin:12px 0}
+#app .cal-grid .card p:not(.cal-result){color:#9fbabd;line-height:1.65;font-size:13px;margin-bottom:18px}
+#app .cal-grid .field-label{display:block;margin:12px 0 7px;color:#b7d2d3;font-size:12px;font-weight:650}
+#app .cal-grid .input{width:100%;min-height:45px;border:1px solid #315054;border-radius:12px;color:#eafaf8;background:#0b2429;padding:11px}
+#app .cal-selector-card{background:linear-gradient(160deg,#102c33,#0e2028)}
+#app .cal-grid .cal-muted{margin:14px 0;color:#a4c6bf;font-size:12px}
+#app .cal-selector-card .secondary{width:100%;margin-top:9px}
+#app .cal-primary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:17px 0 18px}
+#app .cal-test-item{min-width:0;background:#0a2229;border:1px solid #27474c;border-radius:16px;padding:11px}
+#app .cal-test-item .field-label{margin:13px 0 8px}
+#app .cal-test-item .input{font-size:12px;padding:9px 7px}
+#app .cal-test-button{display:flex;justify-content:center;align-items:center;gap:9px;width:100%;padding:12px 8px;min-height:48px;background:color-mix(in srgb,var(--cal-hue) 16%,#09252d);border:1px solid color-mix(in srgb,var(--cal-hue) 47%,#27464d);border-radius:11px;color:#f0fbfa;font-size:13px;font-weight:750}
+#app .cal-test-button i{display:block;height:14px;width:14px;border-radius:50%;background:var(--cal-hue);box-shadow:0 0 14px var(--cal-hue);flex-shrink:0}
+#app .cal-test-button:hover:not(:disabled){filter:brightness(1.2)}
+#app .cal-grid .cal-result{padding:12px 14px;background:#092428;border:1px solid #2b5352;border-radius:12px;color:#b9e7db;font-size:12px;line-height:1.55;margin:12px 0 18px;min-height:42px}
+#app .cal-primary-card .row-actions{margin-top:14px}
+#app .cal-fine-card{grid-column:1/-1}
+#app .cal-fine-card details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:16px;font-weight:700;color:#dff9ef}
+#app .cal-fine-card details summary::-webkit-details-marker{display:none}
+#app .cal-fine-card details[open] summary{margin-bottom:18px}
+#app .cal-color-choice{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;max-width:560px}
+#app .cal-color-choice input[type=color]{height:46px;width:65px;background:#0c272d;border:1px solid #34646a;padding:5px;border-radius:11px}
+#app .cal-swatches{display:flex;gap:16px;flex-wrap:wrap;margin:20px 0}
+#app .cal-swatches>div{display:flex;align-items:center;gap:10px;font-size:12px;color:#adc7c8}
+#app .cal-swatches i{display:block;width:49px;height:34px;border-radius:10px;border:1px solid #ffffff45;background:#49e3d2;box-shadow:0 0 12px #ffffff16}
+#app .cal-sliders{display:grid;grid-template-columns:160px minmax(0,1fr);gap:15px 12px;align-items:center;margin:20px 0;max-width:650px}
+#app .cal-sliders label{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#d5f2ed;font-weight:620}
+#app .cal-sliders label span{color:#6ff0c9;font-variant-numeric:tabular-nums}
+#app .cal-sliders input[type=range]{width:100%;accent-color:#72f5d0;min-height:33px}
+@media(max-width:750px){
+ #app .cal-grid{grid-template-columns:1fr;gap:15px}
+ #app .cal-fine-card{grid-column:auto}
+ #app .cal-page .welcome{display:block}
+ #app .cal-welcome>button{margin-top:20px}
+}
+@media(max-width:540px){
+ #app .cal-primary-grid{grid-template-columns:1fr}
+ #app .cal-test-item{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:7px 12px}
+ #app .cal-test-item .cal-test-button{grid-column:1/-1}
+ #app .cal-test-item .field-label{margin:0}
+ #app .cal-grid .row-actions{flex-direction:column}
+ #app .cal-grid .row-actions button{width:100%}
+ #app .cal-sliders{grid-template-columns:1fr;gap:5px}
+ #app .cal-sliders label{margin-top:9px}
+}
+@media(prefers-reduced-motion:reduce){#app .cal-test-button{transition:none}}
