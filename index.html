@@ -715,7 +715,7 @@ async function sendRgb(mask,color){
   if(record){
    restores.push({n,record});
    const reported=channels[n-1];
-   if(!spChipReady(n)||!reported?.known||reported.order!==record.target)
+   if(!spChipReady(n)||(reported?.known&&reported.order!==record.target))
     jobs.push(packet(0x84,[maskFor(n-1),record.target]));
   }
  }
