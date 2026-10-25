@@ -236,8 +236,14 @@
  
    <section class="tab" id="tab-zones" role="tabpanel" aria-hidden="true">
     <article class="panel" id="czZoneMap">
-     <div class="panel-head"><div><h2>Golf Cart Zones</h2><p>Map the real strips on your cart to SP608E outputs, then build scenes by physical position.</p></div><span class="badge">8 locations</span></div>
-     <p class="cz-intro">Tap an area on the cart, identify the corresponding SP608E output, then assign it. One physical area may use multiple outputs; each output can belong to only one area.</p>
+     <div class="panel-head"><div><h2>Golf Cart Zones</h2><p>Map the five connected SP608E outputs to the actual positions on your cart.</p></div><span class="badge">5 wired · 8 available</span></div>
+     <p class="cz-intro">Your cart currently uses five of the controller's eight output channels. Confirm which five sockets are actually wired, then map each to a physical area on the cart. Unused outputs won't be tested or included in cart scenes.</p>
+     <details class="cz-active-card" open>
+      <summary><span>Connected SP608E outputs</span><span class="cz-chip" id="czActiveCount">5 of 8 selected</span></summary>
+      <p class="small muted">Starting assumption: outputs 1–5. These are not yet verified against your wiring. Check the actual five ports you use; uncheck unused ones. Selecting a port here does not turn on any lights.</p>
+      <div class="cz-active-grid" id="czActiveOutputs" aria-label="Select physically connected SP608E outputs"></div>
+      <p class="small muted" role="status" id="czActiveHint">Five outputs selected. Verify their port numbers before testing.</p>
+     </details>
      <div class="cz-layout">
       <div class="cz-map-panel">
        <div class="cz-map-label">FRONT OF CART ↓</div>
@@ -268,14 +274,14 @@
         <div id="czHotspots" aria-label="Select a physical lighting zone on the cart"></div>
        </div>
        <div class="cz-map-label">REAR OF CART ↑</div>
-       <div class="cz-map-count" id="czMapCount">0/8 cart zones mapped</div>
+       <div class="cz-map-count" id="czMapCount">0 cart areas mapped · 0 of 5 active outputs assigned</div>
        <div class="cz-meta"><span class="cz-chip" id="czCurrentOrder">No channels mapped yet</span></div>
        <div class="cz-legend"><span><i style="background:#4fe1cb"></i>Mapped</span><span><i style="background:#526770"></i>Unmapped</span><span><i style="background:#f7fff8"></i>Selected</span></div>
       </div>
       <div class="cz-editor">
        <div class="cz-section-head"><div><h3 id="czZoneTitle">Front left</h3><p id="czZoneHint">Tap an area to map it</p></div><span class="cz-chip" id="czSelectedChannels">Not mapped</span></div>
        <div class="field"><label for="czZoneLabel">Zone name</label><div class="actions"><input class="control" id="czZoneLabel" maxlength="32" placeholder="Front left" style="flex:2;min-width:130px"><button class="button" type="button" id="czZoneLabelSave">Rename</button></div></div>
-       <div class="field"><label>SP608E output(s) for this zone</label><div class="cz-channel-grid" id="czChannelCheckboxes" aria-label="Assign controller outputs"></div></div>
+       <div class="field"><label>Active SP608E outputs for this physical location</label><div class="cz-channel-grid" id="czChannelCheckboxes" aria-label="Assign only connected controller outputs"></div><p class="small muted" id="czInactiveMappings" hidden></p></div>
        <div class="cz-info"><strong>Find the wiring:</strong> With the cart parked, select an SP608E output and briefly light it teal. See where it appears on the cart, then check that output in this zone. This identification changes the current live look but does not alter saved scenes.</div>
        <div class="field"><label for="czIdentifyOutput">Identify an SP608E output</label><select class="control" id="czIdentifyOutput">
         <option value="1">Controller output 1</option><option value="2">Controller output 2</option>
@@ -301,7 +307,7 @@
       <option value="rainbow">Full Cart Rainbow</option>
       <option value="off">All mapped lights off</option>
      </select></div>
-     <p class="small muted" id="czDraftSummary">0 zones on · 0 zones mapped</p>
+     <p class="small muted" id="czDraftSummary">0 zones on · 0 areas mapped to connected outputs</p>
      <p class="small muted">Checked = ON for this zone; unchecked = OFF when you apply the scene. Only mapped outputs are affected. Scene colors use your existing per-output color calibration.</p>
      <div class="cz-scene-list" id="czSceneRows"></div>
      <div class="divider"></div>
