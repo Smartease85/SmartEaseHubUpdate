@@ -812,6 +812,12 @@ let hauntedRunning=false,hauntedToken=0;
 function hauntedOrders(){
  const tokens=$('hauntedOrder').value.trim().split(/[\s,]+/).filter(Boolean),nums=tokens.map(Number);
  if(!nums.length||nums.some(n=>!Number.isInteger(n)||n<1||n>8)||new Set(nums).size!==nums.length)throw Error('Enter unique output numbers 1–8 in front-to-back order.');
+ // Golf Cart Zones defines the actual connected SP608E ports. Its default 1–5
+ // is only a starting assumption; users must verify which five are wired.
+ const connected=typeof window.smarteaseCartActiveOutputs==='function'?window.smarteaseCartActiveOutputs():null;
+ if(connected&&nums.some(n=>!connected.includes(n))){
+  throw Error('Halloween includes an output marked UNUSED in Cart Zones. Active: '+(connected.map(n=>'CH'+n).join(', ')||'none')+'. Open Cart, confirm wired ports, then use the front-to-back mapping button.');
+ }
  return nums;
 }
 function hauntedMask(nums){return nums.reduce((m,n)=>m|maskFor(n-1),0);}
