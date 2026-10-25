@@ -321,36 +321,36 @@ function czChoosePreset(){
  czRenderSceneRows();czRenderMap();
  czStatus('Loaded '+preset.name+' as a local draft. Review each zone, then Apply or Save.');
 }
-function czApplySceneRows(rows,name){
- if(czApplying){czStatus('A scene is already being applied.',true);return;}
- if(!canSend()){czStatus('Connect to SP608E before applying '+name+'. You can save the draft offline.',true);return;}
- if(document.visibilityState==='hidden'){czStatus('Keep Bluefy in the foreground during scene playback.',true);return;}
- const packets=[];
- let outputs=0;
- for(const z of CZ_DEFS){
-  const assigned=czValidAssigned(z.id);
-  if(!assigned.length)continue;
-  const r=czValidRow(rows[z.id]),mask=assigned.reduce((m,n)=>m|maskFor(n-1),0);
-  outputs+=assigned.length;
-  if(!r.on){
-   packets.push(packet(0x82,[mask,0]));continue;
-  }
-  const fx=czGetFx(r.effect);
-  for(const n of assigned)packets.push(packet(0x83,[maskFor(n-1),fx.id]));
-  packets.push(packet(0x82,[mask,1]));
-  if(fx.color)for(const n of assigned)packets.push(hauntedColorCommand(n,r.color));
-  packets.push(packet(0x85,[mask,Math.round(r.brightness*255/100)]));
-  if(fx.speed)packets.push(packet(0x86,[mask,r.speed]));
- }
- if(!outputs){czStatus('Map at least one SP608E output on the cart diagram first.',true);return;}
- if(!confirm('Apply "'+name+'" to '+outputs+' mapped controller outputs using '+packets.length+' Bluetooth writes? Other unmapped outputs and onboard saved scenes will not be changed.'))return;
+async function czApplySceneRows(rows,name){
+ if(czApplying){czStatus('A scene is already being applied.',true);return false;}
+ if(!canSend()){czStatus('Connect your cart lights before playing '+name+'.',true);return false;}
+ if(document.visibilityState==='hidden'){czStatus('Keep Bluefy in the foreground while the scene starts.',true);return false;}
+ const outputs=czUniqueOutputs();
+ if(!outputs.length){czStatus('Choose at least one mapped decorative light first.',true);return false;}
+ if(!confirm('Play "'+name+'" across '+outputs.length+' mapped lighting outputs?'))return false;
  czApplying=true;czId('czApplyDraft').disabled=true;
- czStatus('Applying '+name+' to '+outputs+' mapped outputs · '+packets.length+' serialized commands. Keep Bluefy active…');
- enqueuePackets(packets,'Golf cart zone scene '+name).then(ok=>{
-  czStatus(ok?name+' applied. Factory effects now run on the controller; the scene itself is saved only in this browser.':'Bluetooth interrupted while applying '+name+'. Reconnect and inspect the lights.',!ok);
- }).catch(e=>{
-  czStatus('Could not apply scene: '+e.message,true);
- }).finally(()=>{czApplying=false;czId('czApplyDraft').disabled=false;});
+ try{
+  czStatus('Preparing calibrated colors for '+name+'…');
+  if(!await spEnsureChipColors(outputs,()=>canSend()&&document.visibilityState==='visible'))throw Error('Could not restore the saved RGB color order');
+  const packets=[];
+  for(const z of CZ_DEFS){
+   const assigned=czValidAssigned(z.id);
+   if(!assigned.length)continue;
+   const row=czValidRow(rows[z.id]),mask=assigned.reduce((m,n)=>m|maskFor(n-1),0);
+   if(!row.on){packets.push(packet(0x82,[mask,0]));continue;}
+   const fx=czGetFx(row.effect);
+   for(const n of assigned)packets.push(packet(0x83,[maskFor(n-1),fx.id]));
+   packets.push(packet(0x82,[mask,1]));
+   if(fx.color)for(const n of assigned)packets.push(hauntedColorCommand(n,row.color));
+   packets.push(packet(0x85,[mask,Math.round(row.brightness*255/100)]));
+   if(fx.speed)packets.push(packet(0x86,[mask,row.speed]));
+  }
+  czStatus('Applying '+name+' to '+outputs.length+' mapped outputs…');
+  const ok=await enqueuePackets(packets,'Golf cart zone scene '+name,{guard:()=>canSend()&&document.visibilityState==='visible'});
+  czStatus(ok?name+' applied. Your color calibration and cart map were used automatically.':'Lighting connection interrupted. Reconnect and try again.',!ok);
+  return ok;
+ }catch(e){czStatus('Could not apply scene: '+e.message,true);return false;}
+ finally{czApplying=false;czId('czApplyDraft').disabled=false;}
 }
 function czSaveDraft(){
  const name=czId('czDraftName').value.trim().slice(0,40);
