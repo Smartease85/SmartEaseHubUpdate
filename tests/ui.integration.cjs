@@ -268,3 +268,45 @@ test("Lotus receives the explicit decorative accent; eyes are never sent to an u
   assert.equal(b.run("cartDevices[1].capabilities.pixelUpload"), false);
   b.dom.window.close();
 });
+
+
+test("calibration wizard stays accessible in SmartEase 2.0 and preserves per-strip RGB mappings", () => {
+  const b=boot({"smartease-haunted-rgb-fix-v1":'{"2":["g","r","b"]}'});
+  b.w.document.querySelector('[data-go="settings"]').click();
+  const entry=b.w.document.getElementById("openColorCalibration");
+  assert.ok(entry, "Settings should expose Fix my colors");
+  entry.click();
+  assert.equal(b.w.document.querySelector('[data-page="calibrate"]').hidden,false);
+  assert.equal(b.w.document.querySelectorAll("#app [data-cal-test]").length,3);
+  assert.equal(b.w.document.getElementById("calOutput").value,"2");
+  assert.equal(b.w.document.getElementById("calSeenR").value,"g");
+  const seen=["calSeenR","calSeenG","calSeenB"];
+  ["g","r","b"].forEach((v,i)=>{b.w.document.getElementById(seen[i]).value=v;});
+  b.w.document.getElementById("calSave").click();
+  assert.deepEqual(JSON.parse(b.w.localStorage.getItem("smartease-haunted-rgb-fix-v1"))["2"],["g","r","b"]);
+  b.w.document.getElementById("calOutput").value="3";
+  b.w.document.getElementById("calOutput").dispatchEvent(new b.w.Event("change"));
+  ["white","orange","blue"].forEach((v,i)=>{
+    b.w.document.getElementById(seen[i]).value=v==="blue"?"b":v;
+  });
+  b.w.document.getElementById("calSave").click();
+  assert.equal(b.w.document.getElementById("calFineTune").open,true,"non-permutation results should offer manual tuning");
+  assert.equal(JSON.parse(b.w.localStorage.getItem("smartease-haunted-rgb-fix-v1"))["3"],undefined);
+  assert.equal(JSON.parse(b.w.localStorage.getItem("smartease-haunted-observations-v1"))["3"].colors[0],"white");
+  b.w.document.querySelector('[data-go="devices"]').click();
+  assert.ok(b.w.document.getElementById("devicesColorCalibration"));
+  b.w.document.getElementById("devicesColorCalibration").click();
+  assert.equal(b.w.document.querySelector('[data-page="calibrate"]').hidden,false);
+  assert.equal(b.errors.length,0);
+  b.dom.window.close();
+});
+test("color tests never write to a real controller while preview mode is enabled",async()=>{
+  const b=boot();
+  b.run("enterDemo()");
+  b.w.document.getElementById("openColorCalibration").click();
+  const before=b.run("txCount");
+  await b.run("calTestPrimary('r')");
+  assert.equal(b.run("txCount"),before);
+  assert.match(b.w.document.getElementById("calStatus").textContent,/connect|devices/i);
+  b.dom.window.close();
+});
