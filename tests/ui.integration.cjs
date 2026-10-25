@@ -300,6 +300,40 @@ test("calibration wizard stays accessible in SmartEase 2.0 and preserves per-str
   assert.equal(b.errors.length,0);
   b.dom.window.close();
 });
+test("exact colors default on for existing users and saved choices persist across reload", async () => {
+ const b=boot();
+ assert.equal(b.run("preferences.trueColors"), true);
+ const haunted=b.run("E.presets.find(p=>p.id==='haunted')");
+ b.run("enterDemo()");
+ b.run("cartDevices[0].apply=async(rows)=>{globalThis.lastSentEffects=Object.values(rows).map(r=>r.effect);return true;}");
+ assert.equal(await b.run("applyScene(E.presets.find(p=>p.id==='haunted'))"),true);
+ assert.equal(b.run("lastSentEffects.every(id=>id===25)"),true);
+ assert.equal(b.run("E.presets.find(p=>p.id==='haunted').rows.canopy.effect"),3);
+ const toggle=b.w.document.getElementById("appTrueColors");
+ assert.equal(toggle.checked,true);
+ toggle.checked=false;toggle.dispatchEvent(new b.w.Event("change"));
+ assert.equal(await b.run("applyScene(E.presets.find(p=>p.id==='haunted'))"),true);
+ assert.equal(b.run("lastSentEffects.every(id=>id===3)"),true);
+ const values=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ b.dom.window.close();
+ const later=boot(values);
+ assert.equal(later.run("preferences.trueColors"),false);
+ later.dom.window.close();
+});
+test("corrected-color controls exist and never transmit from preview mode",async()=>{
+ const b=boot();
+ b.run("enterDemo()");
+ b.w.document.querySelector('[data-go="settings"]').click();
+ b.w.document.getElementById("appColorCheck").click();
+ assert.equal(b.w.document.querySelector('[data-page="calibrate"]').hidden,false);
+ assert.ok(b.w.document.getElementById("calVerifyR"));
+ assert.ok(b.w.document.getElementById("calVerifyG"));
+ assert.ok(b.w.document.getElementById("calVerifyB"));
+ const count=b.run("txCount");
+ assert.equal(await b.run("calVerifySaved('r')"),false);
+ assert.equal(b.run("txCount"),count);
+ b.dom.window.close();
+});
 test("color tests never write to a real controller while preview mode is enabled",async()=>{
   const b=boot();
   b.run("enterDemo()");

@@ -226,6 +226,23 @@
     ]),
   );
   presets.find((p) => p.id === "patriot").rows.canopy.color = "#ffffff";
+  // A scene can store its preferred animation while the playback mode
+  // prioritizes its EXACT chosen RGB colors. This never changes the saved scene.
+  // "Color parade" intentionally uses its rainbow generator instead.
+  function forPlayback(scene, trueColors = true) {
+    if (!trueColors || scene?.id === "rainbow") return scene;
+    if (!scene || !scene.rows) throw Error("Choose a scene to play.");
+    return {
+      ...scene,
+      rows: Object.fromEntries(
+        zones.map((id) => {
+          const row = scene.rows[id];
+          if (!row) throw Error("This scene is missing a cart light.");
+          return [id, { ...row, effect: 25 }];
+        }),
+      ),
+    };
+  }
   const api = {
     zones,
     positions,
@@ -236,6 +253,7 @@
     validateRows,
     accessories,
     commands,
+    forPlayback,
     presets,
   };
   root.SmartEaseEngine = api;

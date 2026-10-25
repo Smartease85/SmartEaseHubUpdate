@@ -193,6 +193,21 @@ test("fragmented readback decodes; out-of-order fragments are rejected", () => {
   vm.runInContext("emit([54,56,3,88,1,0])", c);
   assert.equal(vm.runInContext("frameBuffer", c), null);
 });
+test("saved physical LED order is restored before subsequent solid colors without double-swapping", async () => {
+ const c=legacy();
+ vm.runInContext(
+  'globalThis.written=[];transport="ble";device={gatt:{connected:true}};char={properties:{write:true},writeValueWithResponse:async b=>written.push(Array.from(b))};hauntedColorFix[2]=["g","r","b"];',
+  c,
+ );
+ assert.equal(vm.runInContext('spOrderFromObserved(["g","r","b"],0)',c),2);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(hauntedMatchedBytes(2,"#ff0000"))',c)),[0,255,0]);
+ assert.equal(await vm.runInContext('spEnsureChipColors([2])',c),true);
+ assert.deepEqual(JSON.parse(JSON.stringify(c.written)),[[0x88,0x84,0x02,0x02,0x02]]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(hauntedMatchedBytes(2,"#ff0000"))',c)),[255,0,0]);
+ await vm.runInContext('sendRgb(2,"#ff0000")',c);
+ assert.deepEqual(JSON.parse(JSON.stringify(c.written.at(-1))),[0x88,0x89,5,2,255,0,0,255]);
+ assert.equal(c.written.length,2,"already-corrected session must not send the chip order again");
+});
 test("existing RGB permutation and exact manual matches remain intact", () => {
   const c = legacy();
   assert.deepEqual(
