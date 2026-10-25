@@ -1342,3 +1342,49 @@ body > .nav {
  #app .cal-sliders label{margin-top:9px}
 }
 @media(prefers-reduced-motion:reduce){#app .cal-test-button{transition:none}}
+
+/* SmartEase Cart Map Wizard */
+#app .map-launch{background:linear-gradient(145deg,#102d33,#112928);border-color:#72f5d02a}
+#app .map-launch-head{display:flex;align-items:center;gap:16px;margin-bottom:19px}
+#app .map-launch-icon{display:grid;place-items:center;flex:0 0 52px;height:52px;border-radius:16px;border:1px solid #72f5d038;background:#72f5d014;font-size:25px}
+#app .map-launch-head p{font-size:13px;line-height:1.6;color:#a9c5c4;margin-top:6px}
+#app .map-device-link{margin:12px 0}
+#app .map-page>.welcome{align-items:end;gap:18px}
+#app .map-overview{display:flex;align-items:center;gap:17px;margin:25px 0 17px;background:linear-gradient(135deg,#15373a,#0e252c)}
+#app .map-overview-mark{width:52px;height:52px;display:grid;place-items:center;flex:none;color:#72f5d0;background:#72f5d011;border-radius:15px;font-size:27px}
+#app .map-overview>div:nth-child(2){flex:1}
+#app .map-overview h3{margin-bottom:7px}
+#app .map-overview p{font-size:13px;color:#accaca;line-height:1.7}
+#app .map-overview>.secondary{flex-shrink:0;min-height:45px}
+#app .map-outputs{display:grid;gap:10px}
+#app .map-output{display:grid;grid-template-columns:minmax(170px,1fr) minmax(205px,1.2fr) minmax(130px,auto);gap:13px;align-items:center;padding:14px 18px}
+#app .map-output-label{display:flex;align-items:center;gap:13px;min-width:0}
+#app .map-output-label>div{min-width:0}
+#app .map-output-label strong{display:block;font-size:13px;color:#eefcf8}
+#app .map-output-label span:not(.map-number){display:block;font-size:11px;color:#9ab9b5;margin-top:3px}
+#app .map-number{display:grid;place-items:center;flex:none;width:42px;height:42px;background:#72f5d016;color:#72f5d0;border:1px solid #72f5d038;border-radius:12px;font-size:18px;font-weight:750;font-variant-numeric:tabular-nums}
+#app .map-output .input{width:100%;min-height:45px;background:#102b2f;border:1px solid #315458;border-radius:12px;padding:10px;color:#ebfaf4;font-size:13px}
+#app .map-output .map-test{min-height:45px;white-space:nowrap;font-size:12px}
+#app .map-output .map-test:disabled{opacity:.45}
+#app .map-footer{margin-top:17px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+#app .map-footer strong{display:block;font-size:16px;color:#f0fffa}
+#app .map-footer p{margin-top:7px;font-size:12px;line-height:1.6;color:#a3bebc}
+#app .map-status{padding:13px 15px;margin-top:13px;color:#a3e9d2;border:1px solid #315f5b;border-radius:12px;background:#092827;font-size:13px;line-height:1.5}
+@media(max-width:760px){
+ #app .map-page>.welcome{display:block}
+ #app .map-welcome>.secondary{margin-top:19px}
+ #app .map-overview{flex-wrap:wrap}
+ #app .map-overview>.secondary{width:100%}
+ #app .map-output{grid-template-columns:minmax(0,1fr) minmax(120px,auto)}
+ #app .map-output-label{grid-column:1/-1}
+ #app .map-output .input{min-width:0}
+ #app .map-footer{display:block}
+ #app .map-footer .row-actions{margin-top:15px}
+}
+@media(max-width:420px){
+ #app .map-output{grid-template-columns:1fr;gap:11px}
+ #app .map-output-label{grid-column:auto}
+ #app .map-output .map-test{width:100%}
+ #app .map-footer .row-actions{flex-direction:column}
+ #app .map-footer .row-actions button{width:100%}
+}
