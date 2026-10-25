@@ -26,6 +26,7 @@ const CZ_SCENE_EFFECTS=[
  {id:17,name:'Breathing',color:true,speed:true}
 ];
 const CZ_STORE='smartease-golf-cart-zones-v1';
+const CZ_SUGGESTED_OUTPUTS=[1,2,3,4,5]; // Unverified starting assumption: confirm actual five connected ports.
 const CZ_PRESETS={
  halloween:{name:'Halloween Cart',front:{color:'#46ef77',effect:25},canopy:{color:'#a24aec',effect:3},underglow:{color:'#a24aec',effect:7},rear:{color:'#ff751e',effect:25}},
  canopy:{name:'Canopy Starfield',canopy:{color:'#a24aec',effect:3}},
@@ -37,6 +38,7 @@ const CZ_PRESETS={
 const czId=id=>document.getElementById(id);
 const czDefaultRow=()=>({on:false,effect:25,color:'#49e3d2',brightness:45,speed:5});
 const czFresh=()=>({
+ activeOutputs:[...CZ_SUGGESTED_OUTPUTS],
  zones:Object.fromEntries(CZ_DEFS.map(z=>[z.id,{name:z.name,channels:[]}])),
  draft:Object.fromEntries(CZ_DEFS.map(z=>[z.id,czDefaultRow()])),
  draftName:'My Golf Cart Scene',
@@ -62,6 +64,7 @@ function czValidScene(raw){
 function czSanitize(raw){
  const d=czFresh();
  if(!raw||typeof raw!=='object')return d;
+ if(Array.isArray(raw.activeOutputs))d.activeOutputs=[...new Set(raw.activeOutputs.filter(n=>Number.isInteger(n)&&n>=1&&n<=8))].sort((a,b)=>a-b);
  const occupied=new Set();
  for(const z of CZ_DEFS){
   const v=raw.zones?.[z.id];if(!v||typeof v!=='object')continue;
@@ -90,32 +93,70 @@ function czStatus(s,isError=false){
  const el=czId('czStatus');if(!el)return;
  el.textContent=s;el.style.borderColor=isError?'#af5960':'#29545a';
 }
+function czActiveOutputSet(){return new Set(czState.activeOutputs);}
+function czValidAssigned(zoneId){
+ const active=czActiveOutputSet();return czState.zones[zoneId].channels.filter(n=>active.has(n));
+}
 function czUniqueOutputs(){
  const selected=new Set();
- for(const z of CZ_DEFS)for(const n of czState.zones[z.id].channels)selected.add(n);
+ for(const z of CZ_DEFS)for(const n of czValidAssigned(z.id))selected.add(n);
  return [...selected].sort((a,b)=>a-b);
 }
 function czMappedOrder(){
- return CZ_DEFS.slice().sort((a,b)=>a.order-b.order).flatMap(z=>czState.zones[z.id].channels.slice().sort((a,b)=>a-b));
+ return CZ_DEFS.slice().sort((a,b)=>a.order-b.order).flatMap(z=>czValidAssigned(z.id).slice().sort((a,b)=>a-b));
 }
 function czZoneForChannel(num){
  return CZ_DEFS.find(z=>czState.zones[z.id].channels.includes(num))?.id||null;
 }
+function czRenderActiveOutputs(){
+ const target=czId('czActiveOutputs');if(!target)return;
+ target.replaceChildren();
+ for(let n=1;n<=8;n++){
+  const label=document.createElement('label');label.className='cz-active-option'+(czState.activeOutputs.includes(n)?' is-active':'');
+  const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=czState.activeOutputs.includes(n);
+  checkbox.setAttribute('aria-label','Output '+n+' is physically wired');
+  const text=document.createElement('span');text.textContent='CH '+n;label.append(checkbox,text);
+  checkbox.addEventListener('change',()=>{
+   if(czApplying){czStatus('Finish applying the current scene first.',true);czRenderActiveOutputs();return;}
+   const next=new Set(czState.activeOutputs);
+   if(checkbox.checked)next.add(n);else next.delete(n);
+   czState.activeOutputs=[...next].sort((a,b)=>a-b);
+   czSave();czRenderAll();czCheckHalloweenOrder();
+   czStatus('Active outputs: '+(czState.activeOutputs.map(x=>'CH'+x).join(', ')||'none')+'. Inactive channels are excluded from testing, cart scenes and Halloween. Previous mappings are retained.');
+  });target.append(label);
+ }
+ const count=czState.activeOutputs.length;
+ czId('czActiveCount').textContent=count+' of 8 selected';
+ czId('czActiveHint').textContent=count?'Confirm these '+count+' ports match the actual wired SP608E sockets. Unchecked ports receive no Cart/Halloween commands.':'No outputs selected. Choose the five physically connected ports.';
+ const select=czId('czIdentifyOutput'),previous=select.value;
+ select.replaceChildren();for(const n of czState.activeOutputs)select.add(new Option('Controller output '+n,n));
+ if(czState.activeOutputs.includes(Number(previous)))select.value=previous;
+ czId('czIdentify').disabled=!count;
+}
+function czCheckHalloweenOrder(){
+ const input=czId('hauntedOrder');if(!input)return;
+ const nums=input.value.split(/[\s,]+/).filter(Boolean).map(Number);
+ if(nums.some(n=>!czState.activeOutputs.includes(n))){
+  czId('hauntedVerified').checked=false;hauntedButtons();
+  log('Halloween references ports marked unwired in Golf Cart Zones. Update front-to-back order.','warn');
+ }
+}
+window.smarteaseCartActiveOutputs=()=>[...czState.activeOutputs];
 function czPrettyChannels(nums){return nums.length?'CH '+nums.join(', '):'Not mapped';}
 function czDotColor(row){return row.on?row.color:'#49e3d2';}
 function czRenderMap(){
  const container=czId('czHotspots');if(!container)return;
  container.replaceChildren();
  for(const zone of CZ_DEFS){
-  const mapped=czState.zones[zone.id],row=czState.draft[zone.id];
+  const mapped=czState.zones[zone.id],row=czState.draft[zone.id],live=czValidAssigned(zone.id);
   const btn=document.createElement('button');btn.type='button';
-  btn.className='cz-hotspot'+(mapped.channels.length?' is-mapped':'')+(czState.selected===zone.id?' is-selected':'');
+  btn.className='cz-hotspot'+(live.length?' is-mapped':'')+(czState.selected===zone.id?' is-selected':'');
   btn.style.setProperty('--x',zone.x+'%');btn.style.setProperty('--y',zone.y+'%');
   btn.style.setProperty('--cz-color',czDotColor(row));
   const name=document.createElement('strong');name.textContent=mapped.name;
-  const subtitle=document.createElement('small');subtitle.textContent=mapped.channels.length?mapped.channels.join(', ').split(',').map(s=>'CH'+s.trim()).join('+'):'Tap to map';
+  const subtitle=document.createElement('small');subtitle.textContent=live.length?live.map(n=>'CH'+n).join('+'):mapped.channels.length?'Ports inactive':'Tap to map';
   btn.append(name,subtitle);
-  btn.title=mapped.name+' — '+czPrettyChannels(mapped.channels);
+  btn.title=mapped.name+' — '+czPrettyChannels(live)+(live.length!==mapped.channels.length?' (inactive mapping retained)':'');
   btn.setAttribute('aria-label',mapped.name+', '+czPrettyChannels(mapped.channels));
   btn.setAttribute('aria-pressed',String(czState.selected===zone.id));
   btn.addEventListener('click',()=>{
@@ -123,11 +164,11 @@ function czRenderMap(){
   });
   container.append(btn);
  }
- const outputs=czUniqueOutputs(),assigned=CZ_DEFS.filter(z=>czState.zones[z.id].channels.length).length;
- czId('czMapCount').textContent=assigned+'/8 cart zones mapped · '+outputs.length+'/8 controller outputs assigned';
+ const outputs=czUniqueOutputs(),assigned=CZ_DEFS.filter(z=>czValidAssigned(z.id).length).length;
+ czId('czMapCount').textContent=assigned+' cart areas mapped · '+outputs.length+' of '+czState.activeOutputs.length+' active ports assigned';
  czId('czCurrentOrder').textContent=czMappedOrder().length?'Front-to-rear outputs: '+czMappedOrder().map(x=>'CH'+x).join(' → '):'No channels mapped yet';
  czId('czToHalloween').disabled=!outputs.length;
- czId('czSelectMapped').disabled=!czState.zones[czState.selected].channels.length;
+ czId('czSelectMapped').disabled=!czValidAssigned(czState.selected).length;
 }
 function czRenderEditor(){
  const zone=CZ_DEFS.find(z=>z.id===czState.selected)||CZ_DEFS[0];
@@ -136,7 +177,10 @@ function czRenderEditor(){
  czId('czZoneHint').textContent='Golf cart '+zone.type+' · physical area; mapping does not require changing wiring';
  czId('czZoneLabel').value=curr.name;
  const host=czId('czChannelCheckboxes');host.replaceChildren();
- for(let n=1;n<=8;n++){
+ const inactive=curr.channels.filter(n=>!czState.activeOutputs.includes(n));
+ const note=czId('czInactiveMappings');note.hidden=!inactive.length;
+ note.textContent=inactive.length?'Preserved inactive mapping: '+inactive.map(n=>'CH'+n).join(', ')+'. Re-enable the wired output to use it.':'';
+ for(const n of czState.activeOutputs){
   const other=czZoneForChannel(n),checked=curr.channels.includes(n);
   const label=document.createElement('label');label.className='cz-output-option';
   const check=document.createElement('input');check.type='checkbox';check.checked=checked;
@@ -158,15 +202,16 @@ function czRenderEditor(){
   });
   host.append(label);
  }
- czId('czSelectedChannels').textContent=czPrettyChannels(curr.channels);
- czId('czSelectMapped').disabled=!curr.channels.length;
+ czId('czSelectedChannels').textContent=czPrettyChannels(czValidAssigned(zone.id));
+ czId('czSelectMapped').disabled=!czValidAssigned(zone.id).length;
 }
 function czIdentifyOutput(){
  if(czApplying){czStatus('Finish applying the current scene first.',true);return;}
  if(!canSend()){czStatus('Connect to the SP608E before identifying an output.',true);return;}
  if(document.visibilityState==='hidden'){czStatus('Keep Bluefy visible while identifying a channel.',true);return;}
- const n=Number(czId('czIdentifyOutput').value),mask=maskFor(n-1);
- if(!Number.isInteger(n)||n<1||n>8)return;
+ const n=Number(czId('czIdentifyOutput').value);
+ if(!Number.isInteger(n)||!czState.activeOutputs.includes(n)){czStatus('Choose one of the physically connected outputs.',true);return;}
+ const mask=maskFor(n-1);
  if(!confirm('Temporarily turn SP608E output '+n+' solid teal at 45% to identify its cart location? This changes its current lighting.'))return;
  czStatus('Identifying CH'+n+'… watch which part of the parked cart illuminates.');
  const jobs=[packet(0x83,[mask,25]),packet(0x85,[mask,115]),packet(0x82,[mask,1]),hauntedColorCommand(n,'#49e3d2')];
@@ -184,17 +229,17 @@ function czGetFx(id){return CZ_SCENE_EFFECTS.find(e=>e.id===id)||CZ_SCENE_EFFECT
 function czRenderSceneRows(){
  const host=czId('czSceneRows');host.replaceChildren();
  const enabled=CZ_DEFS.filter(z=>czState.draft[z.id].on).length;
- czId('czDraftSummary').textContent=enabled+' zones on · '+CZ_DEFS.filter(z=>czState.zones[z.id].channels.length).length+' zones mapped. Unmapped zones send no commands.';
+ czId('czDraftSummary').textContent=enabled+' cart areas on · '+CZ_DEFS.filter(z=>czValidAssigned(z.id).length).length+' mapped areas · '+czState.activeOutputs.length+' connected outputs. Inactive ports receive no commands.';
  for(const z of CZ_DEFS){
-  const row=czState.draft[z.id],zmap=czState.zones[z.id];
+  const row=czState.draft[z.id],zmap=czState.zones[z.id],live=czValidAssigned(z.id);
   const item=document.createElement('div');
-  item.className='cz-scene-row'+(row.on?'':' off')+(zmap.channels.length?'':' missing');
+  item.className='cz-scene-row'+(row.on?'':' off')+(live.length?'':' missing');
   const head=document.createElement('div');head.className='cz-scene-row-head';
   const titleWrap=document.createElement('div');titleWrap.className='cz-scene-row-title';
   const swatch=document.createElement('span');swatch.className='cz-color-disc';swatch.style.background=row.color;
   const txt=document.createElement('div');
   const title=document.createElement('div');title.className='cz-scene-row-name';title.textContent=zmap.name;
-  const sub=document.createElement('div');sub.className='cz-scene-row-sub';sub.textContent=czPrettyChannels(zmap.channels);
+  const sub=document.createElement('div');sub.className='cz-scene-row-sub';sub.textContent=czPrettyChannels(live)+(zmap.channels.length>live.length?' · inactive ports hidden':'');
   txt.append(title,sub);titleWrap.append(swatch,txt);
   const power=document.createElement('input');power.type='checkbox';power.checked=row.on;
   power.setAttribute('aria-label','Enable '+zmap.name+' in this scene');
@@ -252,7 +297,7 @@ function czApplySceneRows(rows,name){
  const packets=[];
  let outputs=0;
  for(const z of CZ_DEFS){
-  const assigned=czState.zones[z.id].channels;
+  const assigned=czValidAssigned(z.id);
   if(!assigned.length)continue;
   const r=czValidRow(rows[z.id]),mask=assigned.reduce((m,n)=>m|maskFor(n-1),0);
   outputs+=assigned.length;
@@ -350,7 +395,7 @@ async function czImport(ev){
  }catch(e){czStatus('Import failed: '+e.message,true);}
 }
 function czRenderAll(){
- czRenderMap();czRenderEditor();czRenderSceneRows();czRenderSaved();
+ czRenderActiveOutputs();czRenderMap();czRenderEditor();czRenderSceneRows();czRenderSaved();
  czId('czDraftName').value=czState.draftName;
 }
 function czInstall(){
@@ -358,7 +403,7 @@ function czInstall(){
  czId('czZoneLabelSave').addEventListener('click',czRenameZone);
  czId('czIdentify').addEventListener('click',czIdentifyOutput);
  czId('czSelectMapped').addEventListener('click',()=>{
-  const nums=czState.zones[czState.selected].channels;
+  const nums=czValidAssigned(czState.selected);
   if(!nums.length)return;
   selectMask(nums.reduce((m,n)=>m|maskFor(n-1),0));switchTab('effects');
   notify('Selected '+czState.zones[czState.selected].name+' in Effects.');
@@ -378,7 +423,8 @@ function czInstall(){
   czStatus('Requested onboard SP608E scene '+(Number(czId('czRestoreScene').value)+1)+'. Verify on the cart.');
  });
  czRenderAll();
- czStatus('Choose a physical area on the diagram, then assign its actual SP608E output(s). Nothing is changed on the controller until you test or apply a scene.');
+ czCheckHalloweenOrder();
+ czStatus('Ports 1–5 are a starting assumption, NOT verified. Confirm which five outputs are actually wired, then assign their physical cart locations.');
  const params=new URLSearchParams(location.search);
  if(params.get('tab')==='zones')switchTab('zones');
 }
