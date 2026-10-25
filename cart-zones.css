@@ -67,3 +67,18 @@
 .cz-meta{justify-content:center}
 .cz-info{line-height:1.55}
 .cz-map-panel .cz-map-label:first-child{margin-bottom:7px}
+
+
+/* Physical connected-output selector. Five outputs are the starting assumption. */
+.cz-active-card{border:1px solid #467e81;border-radius:15px;background:linear-gradient(145deg,#10323b,#0a222b);padding:12px 14px;margin:8px 0 16px}
+.cz-active-card summary{cursor:pointer;font-weight:800;color:#d9fffa;display:flex;gap:9px;align-items:center;justify-content:space-between;list-style:none}
+.cz-active-card summary::-webkit-details-marker{display:none}
+.cz-active-card summary::before{content:'▾';color:#58e1d3}
+.cz-active-card>p{margin:9px 0 5px}
+.cz-active-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:11px 0}
+.cz-active-option{display:flex;gap:7px;justify-content:center;align-items:center;min-height:43px;border:1px solid #385f66;border-radius:10px;background:#102931;color:#afcbce;font-size:13px;font-weight:800;cursor:pointer}
+.cz-active-option.is-active,.cz-active-option:has(input:checked){border-color:#5be5d8;color:#e5fffd;background:#175152}
+.cz-active-option input{width:16px;height:16px;accent-color:#4ddfcf}
+#czActiveHint{display:block;font-size:11px;color:#bdd4d5}
+#czInactiveMappings{color:#eabb97;font-size:11px;line-height:1.5}
+@media(max-width:420px){.cz-active-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.cz-active-option{min-height:39px;font-size:12px}}
