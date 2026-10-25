@@ -705,7 +705,34 @@ function enqueuePackets(packets,label,options={}){
 function packet(op,args=[]){return [0x88,op,args.length,...args];}
 function sendPower(mask,on,opts={}){if(!mask){notify('Select at least one zone.');return Promise.resolve(false);}return enqueuePackets(packet(0x82,[mask,on?1:0]),on?'Power on':'Power off',opts);}
 function sendBrightness(mask,v){if(!mask){notify('Select a zone.');return;}return enqueuePackets(packet(0x85,[mask,cap(v,0,255)]),'Brightness '+v);}
-async function sendRgb(mask,color){if(!mask){notify('Select a zone.');return false;}const ports=indexes(mask).map(i=>i+1);if(!await spEnsureChipColors(ports))return false;return enqueuePackets(ports.map(n=>hauntedColorCommand(n,color)),'RGB '+color);}
+async function sendRgb(mask,color){
+ if(!mask){notify('Select a zone.');return false;}
+ const ports=indexes(mask).map(i=>i+1),jobs=[],restores=[];
+ // Queue chip-order updates and colors as ONE serialized operation: pressing
+ // brightness straight after color must never overtake the RGB commands.
+ for(const n of ports){
+  const record=spChipRecord(n);
+  if(record){
+   restores.push({n,record});
+   const reported=channels[n-1];
+   if(!spChipReady(n)||!reported?.known||reported.order!==record.target)
+    jobs.push(packet(0x84,[maskFor(n-1),record.target]));
+  }
+ }
+ for(const n of ports){
+  const bytes=spChipRecord(n)?spCorrectedColorBytes(n,color):hauntedMatchedBytes(n,color);
+  jobs.push(packet(0x89,[maskFor(n-1),...bytes,0xff]));
+ }
+ const session=bleSession;
+ const ok=await enqueuePackets(jobs,'RGB '+color);
+ if(ok&&session===bleSession){
+  for(const {n,record} of restores){
+   spChipApplied[n]={session,order:record.target};
+   if(channels[n-1]?.known)channels[n-1].order=record.target;
+  }
+ }
+ return ok;
+}
 async function sendEffect(mask,id){if(!mask){notify('Select a zone.');return false;}if(!fxById.has(id))return false;const ports=indexes(mask).map(i=>i+1);if(!await spEnsureChipColors(ports))return false;const jobs=ports.map(n=>packet(0x83,[maskFor(n-1),id]));return enqueuePackets(jobs,'Effect '+(fxById.get(id)?.name||id));}
 function sendSpeed(mask,speed){if(!mask)return;return enqueuePackets(packet(0x86,[mask,cap(speed,1,10)]),'Speed '+speed);}
 function sendLength(mask,n){if(!mask)return;const val=cap(n,1,240);return enqueuePackets(packet(0x87,[mask,(val>>8)&255,val&255]),'Length '+val);}
