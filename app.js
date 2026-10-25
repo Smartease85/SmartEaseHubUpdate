@@ -53,8 +53,8 @@ app.innerHTML = `
 <section class="page" data-page="home"><div class="welcome"><div><div class="overline">Your cart. Your atmosphere.</div><h1>Good nights.<br>Great lights.</h1><p>A little color makes every evening yours.</p></div><span class="pill">✦ Made simple. Made SmartEase.</span></div><div class="quick-favorites" id="quickFavorites" aria-label="Favorite scenes"></div><div class="dashboard"><article class="card cart-card"><div class="card-top"><div><h3>Your cart, in color</h3><p id="cartSubtitle">Five zones. Endless possibilities.</p></div><button class="round" id="cartPower" aria-label="Turn mapped decorative lights on" aria-pressed="false">⏻</button></div><div id="homeCart"></div><div class="now-playing"><div><small id="playState">SCENE PREVIEW</small><strong id="nowPlaying">SmartEase glow</strong></div><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><p class="busy-line" id="playProgress" role="status"></p></article><div class="right-stack"><article class="card feature"><div class="overline">A little seasonal magic</div><h2>Haunted Surge</h2><p>Toxic green. Haunted purple. Pumpkin orange. Let the night come alive.</p><div class="feature-orbs"><i style="--orb:#46ef77"></i><i style="--orb:#a24aec"></i><i style="--orb:#ff751e"></i><span>Flow + twinkle</span></div><button class="primary" id="featureHauntedPlay">Play scene <span>↗</span></button><button class="text-btn" id="stopShow" hidden>Stop live flow</button></article><article class="card brightness"><label for="appBrightness">Set the mood <span id="appBrightnessValue">45%</span></label><input id="appBrightness" type="range" min="0" max="100" value="45" aria-label="Mapped light brightness"><div style="display:flex;justify-content:space-between;font-size:10px;color:#718f89"><span>Subtle</span><span>Brilliant</span></div></article></div></div><div class="section-heading"><h2>Your favorites</h2><button class="text-btn" data-go="scenes">Explore scenes ↗</button></div><div class="scene-list" id="favoriteScenes"></div><p class="safety-note">Decorative lighting for parked moments.</p></section>
 <section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
 <section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p>Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
-<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
-<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
+<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
+<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card map-launch"><div class="map-launch-head"><span class="map-launch-icon" aria-hidden="true">🗺️</span><div><h3>Map my lights</h3><p>Something lighting up in the wrong place? Show each strip, tell SmartEase where it is, and save it once.</p></div></div><button class="primary" id="openLightMap" type="button">Map my lights ↗</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
 
 <section class="page cal-page" data-page="calibrate" hidden>
  <div class="welcome cal-welcome"><div><div class="overline">SmartEase light tuning</div><h1>Every color.<br>Just right.</h1><p>Show a color, tell us what the LEDs display, and we'll adjust the lighting scenes for you.</p></div><button class="secondary" id="calGoBack" type="button">← Settings</button></div>
@@ -68,6 +68,13 @@ app.innerHTML = `
    <div class="row-actions"><button class="secondary" id="calMatchTest" type="button">Test this shade</button><button class="primary" id="calMatchSave" type="button">Save this match</button></div><p class="cal-result" id="calMixStatus" role="status" aria-live="polite">Test a shade on the real cart, then save the match.</p>
   </details></article>
  </div>
+</section>
+<section class="page map-page" data-page="map" hidden>
+ <div class="welcome map-welcome"><div><div class="overline">SmartEase cart setup</div><h1>Every light.<br>In its place.</h1><p>Each row is a connection on your lighting controller. Find the real strip, then choose where it belongs. Your scenes follow this map automatically.</p></div><button class="secondary" id="mapGoBack" type="button">← Settings</button></div>
+ <div class="map-overview card"><div class="map-overview-mark" aria-hidden="true">✦</div><div><h3>Find it. Name its place. All set.</h3><p>Park the cart, turn on the lighting, and tap <b>Show this light</b> next to an output. Once you see it illuminate, choose its real location. Your changes save automatically in Bluefy.</p></div><button class="secondary" id="mapGoDevices" type="button">Connect lights ↗</button></div>
+ <div class="map-outputs" id="mapOutputRows" aria-label="Physical lighting output assignments"></div>
+ <div class="map-footer card"><div><strong id="mapCount">Your cart locations</strong><p id="mapSaved">Changes are saved on this phone and included in your SmartEase backup.</p></div><div class="row-actions"><button class="secondary" id="mapCalibrate" type="button">🎨 Fix colors</button><button class="primary" id="mapDone" type="button">Done ✓</button></div></div>
+ <p class="map-status" id="mapStatus" role="status" aria-live="polite">Ready to identify your lights.</p>
 </section>
 <nav class="bottom-nav" aria-label="Main navigation">${Object.entries(icons)
   .map(
@@ -133,7 +140,7 @@ notify = function (message) {
   toast(known.find(([pattern]) => pattern.test(message))?.[1] || message);
 };
 function go(next) {
-  if (next !== "calibrate" && !Object.hasOwn(icons, next)) next = "home";
+  if (next !== "calibrate" && next !== "map" && !Object.hasOwn(icons, next)) next = "home";
   page = next;
   document
     .querySelectorAll("#app [data-page]")
@@ -150,6 +157,7 @@ function go(next) {
   if (next === "scenes") renderScenesUI();
   if (next === "devices") renderDevices();
   if (next === "calibrate") calOpen();
+  if (next === "map") mapOpen();
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 function cartDrawing(prefix) {
@@ -1320,6 +1328,102 @@ function calInstall(){
  calPopulate();calLoadSeen();
 }
 calInstall();
+
+/* Cart map in the consumer UI. Save the existing v2 zone model directly:
+   no second mapping store and no assumptions about which port is connected. */
+const mapLocations=[
+  {id:"front-bumper",name:"Front bumper"},
+  {id:"left-under",name:"Left undercarriage"},
+  {id:"right-under",name:"Right undercarriage"},
+  {id:"rear-bumper",name:"Rear bumper"},
+  {id:"canopy",name:"Canopy"}
+];
+let mapFinding=false;
+const mapSay=message=>ui("mapStatus").textContent=message;
+function mapCurrentArea(n){
+ return mapLocations.find(x=>(czState.zones[x.id]?.channels||[]).includes(n))?.id||"unused";
+}
+function mapRefresh(){
+ const host=ui("mapOutputRows");host.replaceChildren();
+ for(let n=1;n<=8;n++){
+  const row=document.createElement("article");row.className="card map-output";
+  const label=document.createElement("div");label.className="map-output-label";
+  const tag=document.createElement("span");tag.className="map-number";tag.textContent=String(n);
+  const info=document.createElement("div");
+  const title=document.createElement("strong");title.textContent="Light output "+n;
+  const desc=document.createElement("span");desc.textContent=czState.activeOutputs.includes(n)?"Included in your cart":"Not currently used";
+  info.append(title,desc);label.append(tag,info);
+  const select=document.createElement("select");select.className="input";select.id="mapArea"+n;
+  select.setAttribute("aria-label","Location for lighting output "+n);
+  const unused=new Option("Not connected / unused","unused");select.add(unused);
+  for(const x of mapLocations)select.add(new Option(czState.zones[x.id]?.name||x.name,x.id));
+  select.value=mapCurrentArea(n);
+  select.onchange=()=>mapAssign(n,select.value);
+  const test=document.createElement("button");test.type="button";test.className="secondary map-test";
+  test.textContent="Show this light";
+  test.disabled=mapFinding||!isLive();
+  test.onclick=()=>mapFind(n);
+  row.append(label,select,test);
+  host.append(row);
+ }
+ const assigned=mapLocations.filter(x=>czState.zones[x.id]?.channels.some(n=>czState.activeOutputs.includes(n)));
+ ui("mapCount").textContent=assigned.length+" of 5 cart locations mapped";
+ ui("mapSaved").textContent="Saved on this phone · "+czState.activeOutputs.length+" active outputs · Included in SmartEase backups";
+ ui("mapGoDevices").hidden=isLive();
+}
+function mapOpen(){mapRefresh();mapSay("Tap Show this light beside an output, then choose the location where it illuminates.");}
+async function mapFind(n){
+ if(mapFinding)return;
+ if(!isLive()){mapSay("Connect your cart lighting in Devices before identifying strips.");return;}
+ if(document.visibilityState==="hidden"){mapSay("Keep Bluefy open while identifying a strip.");return;}
+ if(!confirm("Show lighting output "+n+" in soft white? Check the real cart while parked."))return;
+ mapFinding=true;mapRefresh();mapSay("Showing output "+n+" in white. Look at the cart and select the matching location.");
+ try{
+  cancelPlayback();
+  const mask=maskFor(n-1);
+  // White is permutation-independent and changes only this decorative output.
+  const packets=[packet(0x83,[mask,25]),packet(0x85,[mask,112]),packet(0x82,[mask,1]),packet(0x89,[mask,255,255,255,255])];
+  const ok=await enqueuePackets(packets,"Identify cart light "+n,{skipRefresh:true,guard:()=>isLive()&&document.visibilityState==="visible"});
+  mapSay(ok?"Output "+n+" is lit in white. Choose its real location from the list.":"Couldn't light that output. Confirm cart power and the Bluetooth connection.");
+ }catch(e){mapSay("Could not identify the strip. "+e.message);}
+ finally{mapFinding=false;mapRefresh();}
+}
+function mapAssign(n,zoneId){
+ if(mapFinding){mapSay("Finish identifying the light first.");mapRefresh();return;}
+ if(zoneId!=="unused"&&!mapLocations.some(x=>x.id===zoneId)){mapSay("Choose a valid cart location.");mapRefresh();return;}
+ const prior=mapCurrentArea(n),wasActive=[...czState.activeOutputs];
+ const previous=Object.fromEntries(mapLocations.map(x=>[x.id,[...(czState.zones[x.id]?.channels||[])]]));
+ for(const x of mapLocations)czState.zones[x.id].channels=czState.zones[x.id].channels.filter(v=>v!==n);
+ if(zoneId==="unused"){
+  czState.activeOutputs=czState.activeOutputs.filter(x=>x!==n);
+ }else{
+  czState.zones[zoneId].channels.push(n);
+  czState.zones[zoneId].channels.sort((a,b)=>a-b);
+  czState.activeOutputs=[...new Set([...czState.activeOutputs,n])].sort((a,b)=>a-b);
+ }
+ if(!czSave()){
+  for(const x of mapLocations)czState.zones[x.id].channels=previous[x.id];
+  czState.activeOutputs=wasActive;mapRefresh();mapSay("Could not save your locations. Check Bluefy storage.");return;
+ }
+ czRenderAll();
+ renderDesigner();
+ renderScenesUI();
+ calPopulate();
+ mapRefresh();
+ const area=mapLocations.find(x=>x.id===zoneId);
+ mapSay(zoneId==="unused"?"Output "+n+" marked unused. SmartEase scenes won't touch it.":"Saved! Output "+n+" now controls "+(czState.zones[zoneId]?.name||area?.name)+". Your scenes will use this location automatically.");
+}
+function mapInstall(){
+ ui("openLightMap").onclick=()=>go("map");
+ ui("devicesLightMap").onclick=()=>go("map");
+ ui("mapGoBack").onclick=()=>go("settings");
+ ui("mapGoDevices").onclick=()=>go("devices");
+ ui("mapDone").onclick=()=>go("home");
+ ui("mapCalibrate").onclick=()=>go("calibrate");
+ mapRefresh();
+}
+mapInstall();
+
 
 ui("openAdvanced").onclick = () => openAdvanced();
 ui("showWelcome").onclick = () => ui("welcomeDialog").showModal();
