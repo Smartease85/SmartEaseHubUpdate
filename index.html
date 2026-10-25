@@ -699,15 +699,15 @@ function enqueuePackets(packets,label,options={}){
 function packet(op,args=[]){return [0x88,op,args.length,...args];}
 function sendPower(mask,on,opts={}){if(!mask){notify('Select at least one zone.');return Promise.resolve(false);}return enqueuePackets(packet(0x82,[mask,on?1:0]),on?'Power on':'Power off',opts);}
 function sendBrightness(mask,v){if(!mask){notify('Select a zone.');return;}return enqueuePackets(packet(0x85,[mask,cap(v,0,255)]),'Brightness '+v);}
-function sendRgb(mask,color){if(!mask){notify('Select a zone.');return;}const rgb=rgbFromHex(color);return enqueuePackets(packet(0x89,[mask,...rgb,0xff]),'RGB '+color);}
-function sendEffect(mask,id){if(!mask){notify('Select a zone.');return;}if(!fxById.has(id))return;/* UniLED deliberately does not send effects to its master channel. Use per-output masks. */const jobs=indexes(mask).map(i=>packet(0x83,[maskFor(i),id]));return enqueuePackets(jobs,'Effect '+(fxById.get(id)?.name||id));}
+async function sendRgb(mask,color){if(!mask){notify('Select a zone.');return false;}const ports=indexes(mask).map(i=>i+1);if(!await spEnsureChipColors(ports))return false;return enqueuePackets(ports.map(n=>hauntedColorCommand(n,color)),'RGB '+color);}
+async function sendEffect(mask,id){if(!mask){notify('Select a zone.');return false;}if(!fxById.has(id))return false;const ports=indexes(mask).map(i=>i+1);if(!await spEnsureChipColors(ports))return false;const jobs=ports.map(n=>packet(0x83,[maskFor(n-1),id]));return enqueuePackets(jobs,'Effect '+(fxById.get(id)?.name||id));}
 function sendSpeed(mask,speed){if(!mask)return;return enqueuePackets(packet(0x86,[mask,cap(speed,1,10)]),'Speed '+speed);}
 function sendLength(mask,n){if(!mask)return;const val=cap(n,1,240);return enqueuePackets(packet(0x87,[mask,(val>>8)&255,val&255]),'Length '+val);}
 function sendDirection(mask,d){if(!mask)return;return enqueuePackets(packet(0x8a,[mask,d?1:0]),'Direction '+(d?'forward':'reverse'));}
 function sendSensitivity(mask,n){if(!mask)return;return enqueuePackets(packet(0x8b,[mask,cap(n,1,16)]),'Sensitivity '+n);}
-function recallScene(index){if(index<0||index>8)return;stopStudio();enqueuePackets(packet(0x8e,[index]),'Recall scene '+(index+1));}
+async function recallScene(index){if(index<0||index>8)return false;stopStudio();const ok=await enqueuePackets(packet(0x8e,[index]),'Recall scene '+(index+1));if(!ok)return false;return spEnsureChipColors(typeof czUniqueOutputs==='function'?czUniqueOutputs():indexes(ALL).map(i=>i+1),null,{force:true});}
 function setSceneLoop(on){enqueuePackets(packet(0x90,[on?1:0]),'Scene loop '+(on?'on':'off'));}
-function setChipOrder(mask,order){if(!mask)return;return enqueuePackets(packet(0x84,[mask,cap(order,0,5)]),'Chip order '+rgbOrders[order]);}
+async function setChipOrder(mask,order){if(!mask)return false;const ok=await enqueuePackets(packet(0x84,[mask,cap(order,0,5)]),'Chip order '+rgbOrders[order]);if(ok)for(const i of indexes(mask)){delete spChipApplied[i+1];if(channels[i]?.known)channels[i].order=cap(order,0,5);}return ok;}
 function queryState(){if(!canSend())return Promise.resolve(false);return enqueuePackets(packet(0x8f),'Read SP608E status',{skipRefresh:true});}
 function scheduleRead(){clearTimeout(pendingRefresh);if(studioRunning)return;pendingRefresh=setTimeout(()=>{pendingRefresh=null;if(isLive()&&!studioRunning&&document.visibilityState==='visible')queryState();},1200);}
 function applyDemo(command){const [prefix,opcode,,...arg]=command;if(prefix!==0x88)return;if(opcode===0x8e)return;if(opcode===0x90){window.reportedSceneLoop=arg[0];return;}if(opcode===0x8b){window.reportedGain=arg[1];return;}const mask=arg[0]??0;for(const i of indexes(mask)){const c=channels[i];if(opcode===0x82)c.power=!!arg[1];if(opcode===0x83)c.effect=arg[1];if(opcode===0x84)c.order=arg[1];if(opcode===0x85)c.brightness=arg[1];if(opcode===0x86)c.speed=arg[1];if(opcode===0x87)c.length=(arg[1]<<8)|arg[2];if(opcode===0x89)c.color=colorToHex(arg[1],arg[2],arg[3]);if(opcode===0x8a)c.direction=arg[1];}renderState();}
@@ -869,6 +869,111 @@ function hauntedMix(a,b,ratio){
  This never writes the controller's chip-order command (0x84). */
 const H_IDENT=['r','g','b'],H_PURE={r:'#ff0000',g:'#00ff00',b:'#0000ff'};
 let hauntedColorFix={},hauntedObserved={},hauntedManualMatches={};
+
+/* Persistent per-output physical RGB order. SP608E opcode 0x84 applies to
+   controller-native effects as well as host-sent colors. Every scene first
+   reconciles this order from the saved observations; no re-testing on startup. */
+const SP_COLOR_STORE='smartease-sp608e-chip-orders-v1';
+let spSavedChipOrders={},spChipApplied={};
+try{
+ const stored=JSON.parse(localStorage.getItem(SP_COLOR_STORE)||'{}');
+ if(stored&&typeof stored==='object'&&!Array.isArray(stored)){
+  for(let n=1;n<=8;n++){
+   const r=stored[n];
+   if(r&&Array.isArray(r.observed)&&r.observed.length===3&&
+       r.observed.every(v=>['r','g','b'].includes(v))&&new Set(r.observed).size===3&&
+       Number.isInteger(r.baseline)&&r.baseline>=0&&r.baseline<6)
+    spSavedChipOrders[n]={observed:[...r.observed],baseline:r.baseline,target:spOrderFromObserved(r.observed,r.baseline)};
+  }
+ }
+}catch{}
+function spOrderFromObserved(observed,baseline=0){
+ const orders=['rgb','rbg','grb','gbr','brg','bgr'];
+ if(!Array.isArray(observed)||observed.length!==3||new Set(observed).size!==3||
+    !observed.every(x=>['r','g','b'].includes(x))||
+    !Number.isInteger(baseline)||baseline<0||baseline>=orders.length)return null;
+ // The baseline firmware order tells us which raw RGB input is carried in
+ // each physical wire position. Observed primaries reveal the physical LED order.
+ const physical=[...orders[baseline]].map(input=>observed['rgb'.indexOf(input)]).join('');
+ const result=orders.indexOf(physical);
+ return result<0?null:result;
+}
+function spSaveChipOrders(){
+ try{localStorage.setItem(SP_COLOR_STORE,JSON.stringify(spSavedChipOrders));return true;}
+ catch(e){log('Unable to save physical LED order: '+e.message,'warn');return false;}
+}
+function spSetSavedChipOrder(n,observed,baseline=0){
+ const target=spOrderFromObserved(observed,baseline);
+ if(target===null)return false;
+ spSavedChipOrders[n]={observed:[...observed],baseline,target};
+ delete spChipApplied[n];
+ return spSaveChipOrders();
+}
+function spResetSavedChipOrder(n){
+ delete spSavedChipOrders[n];delete spChipApplied[n];spSaveChipOrders();
+}
+function spChipRecord(n){
+ let r=spSavedChipOrders[n];
+ const legacy=hauntedColorFix[n];
+ if(r&&(!hauntedGoodMap(legacy)||r.observed.join(',')!==legacy.join(','))){
+  spResetSavedChipOrder(n);r=null;
+ }
+ if(!r&&hauntedGoodMap(legacy)){
+  // Previous SmartEase versions stored software color swaps only.
+  // Their raw calibration command generally ran in the controller's RGB mode.
+  // Migrate once; any older non-RGB firmware configuration can be recalibrated
+  // from the guided wizard with an explicit RGB reference.
+  spSetSavedChipOrder(n,legacy,0);r=spSavedChipOrders[n];
+ }
+ return r||null;
+}
+function spChipReady(n){
+ const r=spChipRecord(n),state=spChipApplied[n];
+ return !!r&&!!state&&state.session===bleSession&&state.order===r.target;
+}
+function spCorrectedColorBytes(n,color){
+ const desired=rgbFromHex(color),saved=hauntedManualMatches[n]?.[String(color).toLowerCase()];
+ if(!hauntedValidBytes(saved))return desired;
+ const o=spChipRecord(n)?.observed;
+ if(!o)return desired;
+ const converted=[0,0,0];
+ for(let cmd=0;cmd<3;cmd++)converted['rgb'.indexOf(o[cmd])]=saved[cmd];
+ return converted;
+}
+function spCorrectedColorCommand(n,color){
+ return packet(0x89,[maskFor(n-1),...spCorrectedColorBytes(n,color),0xff]);
+}
+async function spEnsureChipColors(outputs,guard=null,options={}){
+ const seen=new Set(),targets=[];
+ for(const input of outputs||[]){
+  const n=Number(input),r=Number.isInteger(n)&&n>=1&&n<=8?spChipRecord(n):null;
+  if(r&&!seen.has(n)){targets.push({n,record:r});seen.add(n);}
+ }
+ if(!targets.length)return true;
+ const jobs=[];
+ for(const {n,record} of targets){
+  const actual=channels[n-1];
+  if(options.force||!spChipReady(n)||!actual?.known||actual.order!==record.target)
+   jobs.push(packet(0x84,[maskFor(n-1),record.target]));
+ }
+ if(jobs.length){
+  const ok=await enqueuePackets(jobs,'Restore calibrated LED color order',{
+   guard:guard||undefined,haunted:!!options.haunted,skipRefresh:true
+  });
+  if(!ok)return false;
+ }
+ for(const {n,record} of targets){
+  if(guard&&!guard())return false;
+  spChipApplied[n]={session:bleSession,order:record.target};
+  if(channels[n-1]?.known)channels[n-1].order=record.target;
+ }
+ return true;
+}
+function spCalibrationStatus(n){
+ const rec=spChipRecord(n);
+ return rec?'Saved · '+['RGB','RBG','GRB','GBR','BRG','BGR'][rec.target]:'Not calibrated';
+}
+
 function hauntedGoodMap(map){
  return Array.isArray(map)&&map.length===3&&new Set(map).size===3&&map.every(v=>H_IDENT.includes(v));
 }
@@ -879,6 +984,7 @@ function hauntedRgbBytes(n,col){
 }
 function hauntedValidBytes(rgb){return Array.isArray(rgb)&&rgb.length===3&&rgb.every(v=>Number.isInteger(v)&&v>=0&&v<=255);}
 function hauntedMatchedBytes(n,col){
+ if(spChipReady(n))return spCorrectedColorBytes(n,col);
  const key=String(col).toLowerCase();
  const saved=hauntedManualMatches[n]&&hauntedManualMatches[n][key];
  return hauntedValidBytes(saved)?[...saved]:hauntedRgbBytes(n,col);
@@ -932,7 +1038,7 @@ function hauntedCalibrationSave(all){
  try{outputs=all?hauntedOrders():[Number($('hauntedCalOutput').value)];}
  catch(e){hauntedCalMessage(e.message);return;}
  if(all&&!confirm('Use this same measured RGB wiring order for ALL '+outputs.length+' selected outputs? Only do this if they are wired with the same LED color order.'))return;
- for(const n of outputs){hauntedColorFix[n]=[...map];hauntedObserved[n]={colors:[...map],note:''};}
+ for(const n of outputs){hauntedColorFix[n]=[...map];hauntedObserved[n]={colors:[...map],note:''};spSetSavedChipOrder(n,map,0);}
  hauntedCalibrationPersist();
  hauntedCalMessage('Saved software correction for '+outputs.map(n=>'CH'+n).join(', ')+'. Halloween now sends mapped RGB values. No controller memory was changed.');
  log('Halloween color correction: '+JSON.stringify({outputs,rawCommandsDisplayAs:map}));
@@ -945,12 +1051,14 @@ async function hauntedCalibrationTest(primary){
  if(!col)return;
  hauntedCalMessage('Sending raw '+primary.toUpperCase()+' to output '+n+'… observe the REAL color.');
  const packets=[
+  packet(0x84,[m,0]),
   packet(0x83,[m,25]),
   packet(0x85,[m,155]),
   packet(0x82,[m,1]),
   packet(0x89,[m,...rgbFromHex(col),0xff])
  ];
  const ok=await enqueuePackets(packets,'RGB raw test '+primary.toUpperCase()+' output '+n);
+ if(ok){delete spChipApplied[n];if(channels[n-1]?.known)channels[n-1].order=0;}
  hauntedCalMessage(ok?'Output '+n+': raw '+primary.toUpperCase()+' sent. Select the color you actually see above.':'Command failed. Check BLE connection and try again.');
 }
 
@@ -1076,7 +1184,7 @@ function hauntedCalibrationInit(){
  $('hauntedCalAll').addEventListener('click',()=>hauntedCalibrationSave(true));
  $('hauntedCalReset').addEventListener('click',()=>{
   const n=Number($('hauntedCalOutput').value);
-  delete hauntedColorFix[n];hauntedCalibrationPersist();hauntedCalibrationLoad();
+  delete hauntedColorFix[n];spResetSavedChipOrder(n);hauntedCalibrationPersist();hauntedCalibrationLoad();
   hauntedCalMessage('Output '+n+' correction cleared. Halloween uses standard RGB on this output.');
  });
  hauntedCalibrationLoad();
