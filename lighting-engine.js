@@ -233,7 +233,11 @@
   // prioritizes its EXACT chosen RGB colors. This never changes the saved scene.
   // "Color parade" intentionally uses its rainbow generator instead.
   function forPlayback(scene, trueColors = true) {
-    if (!trueColors || scene?.id === "rainbow") return scene;
+    // Never discard an animation deliberately selected by the scene maker.
+    // The exact solid-color preference applies only to built-in presets.
+    const id = String(scene?.id || "");
+    if (!trueColors || id === "rainbow" || scene?.custom === true || scene?.saved === true ||
+        id === "draft" || id.startsWith("cart-") || id.startsWith("cz-")) return scene;
     if (!scene || !scene.rows) throw Error("Choose a scene to play.");
     return {
       ...scene,

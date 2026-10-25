@@ -353,6 +353,59 @@ test("exact colors default on for existing users and saved choices persist acros
  assert.equal(later.run("preferences.trueColors"),false);
  later.dom.window.close();
 });
+test("RGB balance UI saves per-output correction and restores sliders after reload", () => {
+ const b=boot();
+ b.w.document.getElementById("openColorCalibration").click();
+ b.w.document.getElementById("calOutput").value="2";
+ b.w.document.getElementById("calOutput").dispatchEvent(new b.w.Event("change"));
+ b.w.document.getElementById("calBalanceG").value="70";
+ b.w.document.getElementById("calBalanceG").dispatchEvent(new b.w.Event("input"));
+ assert.equal(b.run("calBalanceDraft[1]"),70);
+ b.w.document.getElementById("calBalanceSave").click();
+ assert.deepEqual(JSON.parse(b.w.localStorage.getItem("smartease-sp608e-rgb-balance-v1"))["2"],[100,70,100]);
+ const state=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ b.dom.window.close();
+ const later=boot(state);
+ later.w.document.getElementById("openColorCalibration").click();
+ later.w.document.getElementById("calOutput").value="2";
+ later.w.document.getElementById("calOutput").dispatchEvent(new later.w.Event("change"));
+ assert.equal(later.w.document.getElementById("calBalanceG").value,"70");
+ assert.equal(later.run("spCorrectedColorBytes(2,'#ff751e')[1]"),82);
+ assert.equal(later.errors.length,0);
+ later.dom.window.close();
+});
+test("fine-tune sends corrected-order RGB and saves matches without double-swapping", async () => {
+ const b=boot({
+  "smartease-haunted-rgb-fix-v1":JSON.stringify({"2":["b","r","g"]}),
+  "smartease-sp608e-chip-orders-v1":JSON.stringify({"2":{observed:["b","r","g"],baseline:0,target:4}})
+ });
+ b.w.document.getElementById("openColorCalibration").click();
+ b.w.document.getElementById("calOutput").value="2";
+ b.w.document.getElementById("calOutput").dispatchEvent(new b.w.Event("change"));
+ b.w.document.getElementById("calTarget").value="#ff751e";
+ b.w.document.getElementById("calTarget").dispatchEvent(new b.w.Event("change"));
+ b.w.document.getElementById("calRawR").value="255";
+ b.w.document.getElementById("calRawG").value="70";
+ b.w.document.getElementById("calRawB").value="15";
+ b.run('isLive=()=>true;spEnsureChipColors=async()=>true;enqueuePackets=async(jobs)=>{globalThis.lastShadeWrites=jobs;return true;};');
+ await b.run("calTestMix()");
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(lastShadeWrites.at(-1))")),[136,137,5,2,255,70,15,255]);
+ b.w.document.getElementById("calMatchSave").click();
+ assert.deepEqual(JSON.parse(b.w.localStorage.getItem("smartease-haunted-manual-rgb-v1"))["2"]["#ff751e"],[15,255,70]);
+ assert.deepEqual(JSON.parse(b.run('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))')),[255,70,15]);
+ b.dom.window.close();
+});
+test("custom scene effects are not replaced with solid colors on apply", async () => {
+ const b=boot();
+ b.run("enterDemo()");
+ b.run('cartDevices[0].apply=async(rows)=>{globalThis.sentEffects=Object.values(rows).map(x=>x.effect);return true;}');
+ b.w.document.getElementById("designerEffect").value="7";
+ b.w.document.getElementById("designerEffect").dispatchEvent(new b.w.Event("change"));
+ b.w.document.getElementById("applyDesign").click();
+ await new Promise(resolve=>setTimeout(resolve,20));
+ assert.equal(b.run("sentEffects.every(effect=>effect===7)"),true);
+ b.dom.window.close();
+});
 test("corrected-color controls exist and never transmit from preview mode",async()=>{
  const b=boot();
  b.run("enterDemo()");

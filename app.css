@@ -1312,10 +1312,10 @@ body > .nav {
 #app .cal-test-button:hover:not(:disabled){filter:brightness(1.2)}
 #app .cal-grid .cal-result{padding:12px 14px;background:#092428;border:1px solid #2b5352;border-radius:12px;color:#b9e7db;font-size:12px;line-height:1.55;margin:12px 0 18px;min-height:42px}
 #app .cal-primary-card .row-actions{margin-top:14px}
-#app .cal-fine-card{grid-column:1/-1}
-#app .cal-fine-card details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:16px;font-weight:700;color:#dff9ef}
-#app .cal-fine-card details summary::-webkit-details-marker{display:none}
-#app .cal-fine-card details[open] summary{margin-bottom:18px}
+#app .cal-fine-card,#app .cal-balance-card{grid-column:1/-1}
+#app .cal-fine-card details summary,#app .cal-balance-card details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:16px;font-weight:700;color:#dff9ef}
+#app .cal-fine-card details summary::-webkit-details-marker,#app .cal-balance-card details summary::-webkit-details-marker{display:none}
+#app .cal-fine-card details[open] summary,#app .cal-balance-card details[open] summary{margin-bottom:18px}
 #app .cal-color-choice{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;max-width:560px}
 #app .cal-color-choice input[type=color]{height:46px;width:65px;background:#0c272d;border:1px solid #34646a;padding:5px;border-radius:11px}
 #app .cal-swatches{display:flex;gap:16px;flex-wrap:wrap;margin:20px 0}
@@ -1327,7 +1327,7 @@ body > .nav {
 #app .cal-sliders input[type=range]{width:100%;accent-color:#72f5d0;min-height:33px}
 @media(max-width:750px){
  #app .cal-grid{grid-template-columns:1fr;gap:15px}
- #app .cal-fine-card{grid-column:auto}
+ #app .cal-fine-card,#app .cal-balance-card{grid-column:auto}
  #app .cal-page .welcome{display:block}
  #app .cal-welcome>button{margin-top:20px}
 }

@@ -54,15 +54,16 @@ app.innerHTML = `
 <header class="topline"><a class="wordmark" href="#home" aria-label="SmartEase home" style="color:inherit;text-decoration:none"><svg class="brand-symbol" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M26 6H14a8 8 0 0 0 0 16h8a4 4 0 0 1 0 8H9M10 30h12a8 8 0 0 0 0-16h-8a4 4 0 0 1 0-8h13" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>SmartEase<sup>®</sup></a><div class="connection-actions"><button class="status-pill" id="connectionSummary" aria-label="View device connection status"><span class="dot" id="connectionDot"></span><span id="connectionText">Disconnected</span></button><button class="reconnect" id="emergencyReconnect" aria-label="Reconnect all supported lighting devices">↻ Reconnect</button></div></header>
 <section class="page" data-page="home"><div class="welcome"><div><div class="overline">Your cart. Your atmosphere.</div><h1>Good nights.<br>Great lights.</h1><p>A little color makes every evening yours.</p></div><span class="pill">✦ Made simple. Made SmartEase.</span></div><div class="quick-favorites" id="quickFavorites" aria-label="Favorite scenes"></div><div class="dashboard"><article class="card cart-card"><div class="card-top"><div><h3>Your cart, in color</h3><p id="cartSubtitle">Five zones. Endless possibilities.</p></div><button class="round" id="cartPower" aria-label="Turn mapped decorative lights on" aria-pressed="false">⏻</button></div><div id="homeCart"></div><div class="now-playing"><div><small id="playState">SCENE PREVIEW</small><strong id="nowPlaying">SmartEase glow</strong></div><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><p class="busy-line" id="playProgress" role="status"></p></article><div class="right-stack"><article class="card feature"><div class="overline">A little seasonal magic</div><h2>Haunted Surge</h2><p>Toxic green. Haunted purple. Pumpkin orange. Let the night come alive.</p><div class="feature-orbs"><i style="--orb:#46ef77"></i><i style="--orb:#a24aec"></i><i style="--orb:#ff751e"></i><span>Flow + twinkle</span></div><button class="primary" id="featureHauntedPlay">Play scene <span>↗</span></button><button class="text-btn" id="stopShow" hidden>Stop live flow</button></article><article class="card brightness"><label for="appBrightness">Set the mood <span id="appBrightnessValue">45%</span></label><input id="appBrightness" type="range" min="0" max="100" value="45" aria-label="Mapped light brightness"><div style="display:flex;justify-content:space-between;font-size:10px;color:#718f89"><span>Subtle</span><span>Brilliant</span></div></article></div></div><div class="section-heading"><h2>Your favorites</h2><button class="text-btn" data-go="scenes">Explore scenes ↗</button></div><div class="scene-list" id="favoriteScenes"></div><p class="safety-note">Decorative lighting for parked moments.</p></section>
 <section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
-<section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p>Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
+<section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p>Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select><p class="small-note" id="designerEffectHelp">Your chosen effect will be kept when playing this scene.</p></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
 <section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
-<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card true-color-card"><h3>Show my actual colors</h3><label class="switchline"><input type="checkbox" id="appTrueColors">Play my scenes in their chosen colors</label><p>Recommended. Your saved scene colors come first, without the controller's added sparkle patterns. Turn this off to use the original animations. Your scenes and settings stay saved either way.</p><button type="button" class="secondary" id="appColorCheck">Check my calibrated colors ↗</button></article><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card map-launch"><div class="map-launch-head"><span class="map-launch-icon" aria-hidden="true">🗺️</span><div><h3>Map my lights</h3><p>Something lighting up in the wrong place? Show each strip, tell SmartEase where it is, and save it once.</p></div></div><button class="primary" id="openLightMap" type="button">Map my lights ↗</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
+<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card true-color-card"><h3>Show my actual colors</h3><label class="switchline"><input type="checkbox" id="appTrueColors">Play my scenes in their chosen colors</label><p>For built-in scenes, choose exact solid shades or original controller animations. Scenes you create always keep the movement you selected. Some native effects (especially Rainbow) choose their own palette.</p><button type="button" class="secondary" id="appColorCheck">Check my calibrated colors ↗</button></article><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card map-launch"><div class="map-launch-head"><span class="map-launch-icon" aria-hidden="true">🗺️</span><div><h3>Map my lights</h3><p>Something lighting up in the wrong place? Show each strip, tell SmartEase where it is, and save it once.</p></div></div><button class="primary" id="openLightMap" type="button">Map my lights ↗</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
 
 <section class="page cal-page" data-page="calibrate" hidden>
  <div class="welcome cal-welcome"><div><div class="overline">SmartEase light tuning</div><h1>Every color.<br>Just right.</h1><p>Show a color, tell us what the LEDs display, and we'll adjust the lighting scenes for you.</p></div><button class="secondary" id="calGoBack" type="button">← Settings</button></div>
  <div class="cal-grid">
   <article class="card cal-selector-card"><div class="overline">First, choose a light</div><h2>Which strip looks wrong?</h2><p>When the cart is parked and the lights have power, choose the strip you want to tune.</p><label class="field-label" for="calOutput">Cart lighting location</label><select class="input" id="calOutput"></select><p class="cal-muted" id="calConnection">Connect your cart lighting to begin.</p><button type="button" class="secondary" id="calGoConnect">Connect in Devices ↗</button></article>
   <article class="card cal-primary-card"><div class="overline">Then, check three colors</div><h2>What do you actually see?</h2><p>Tap one color at a time and choose what the real LEDs show. We'll remember the correction.</p><div class="cal-primary-grid"><div class="cal-test-item"><button id="calTestR" data-cal-test="r" class="cal-test-button" style="--cal-hue:#f44d5d" type="button"><i aria-hidden="true"></i> Show red</button><label class="field-label" for="calSeenR">What appeared?</label><select class="input" id="calSeenR"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestG" data-cal-test="g" class="cal-test-button" style="--cal-hue:#47eb84" type="button"><i aria-hidden="true"></i> Show green</button><label class="field-label" for="calSeenG">What appeared?</label><select class="input" id="calSeenG"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div><div class="cal-test-item"><button id="calTestB" data-cal-test="b" class="cal-test-button" style="--cal-hue:#518df9" type="button"><i aria-hidden="true"></i> Show blue</button><label class="field-label" for="calSeenB">What appeared?</label><select class="input" id="calSeenB"><option value="">Choose actual color</option><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option><option value="white">White</option><option value="orange">Orange</option><option value="yellow">Yellow</option><option value="teal">Teal / cyan</option><option value="purple">Purple</option><option value="pink">Pink</option><option value="mixed">Several colors</option><option value="dim">Very dim</option><option value="off">No response</option><option value="other">Something else</option></select></div></div><p class="cal-result" id="calStatus" role="status" aria-live="polite">Start with the red test.</p><div class="cal-verify"><h3>Check your saved correction</h3><p>After saving, these show strong, solid colors using your stored calibration—not a special effect.</p><div class="row-actions"><button id="calVerifyR" class="secondary" type="button">● Red</button><button id="calVerifyG" class="secondary" type="button">● Green</button><button id="calVerifyB" class="secondary" type="button">● Blue</button></div></div><div class="row-actions"><button id="calSave" class="primary" type="button">Save color correction</button><button id="calReset" class="secondary" type="button">Reset this light</button></div><div class="row-actions"><button id="calCopyMapped" class="secondary" type="button">Use this color order for all mapped SP608E lights</button></div><p class="cal-muted">Only use this when every SP608E strip showed the same three colors. Your zone locations and saved scenes stay unchanged. NOKINS and Devil Eyes are separate.</p></article>
+  <article class="card cal-balance-card"><details id="calBalanceDetails"><summary>Orange too yellow? Tune colors for every scene <span aria-hidden="true">⌄</span></summary><p>Channel order is corrected. If mixed shades still look wrong, tune the relative red, green and blue strength on one strip. These values apply automatically to all its SmartEase scene colors, even colors you pick yourself.</p><p class="cal-muted">Tip: When orange looks yellow, lower the green percentage. Each physical SP608E output can have its own balance.</p><div class="cal-swatches"><div><span>Pumpkin orange reference</span><i style="background:#ff751e"></i></div><div><span>Adjusted command preview</span><i id="calBalanceSwatch"></i></div></div><div class="cal-sliders"><label for="calBalanceR">Red balance <span id="calBalanceRValue">100%</span></label><input id="calBalanceR" type="range" min="30" max="150" value="100"><label for="calBalanceG">Green balance <span id="calBalanceGValue">100%</span></label><input id="calBalanceG" type="range" min="30" max="150" value="100"><label for="calBalanceB">Blue balance <span id="calBalanceBValue">100%</span></label><input id="calBalanceB" type="range" min="30" max="150" value="100"></div><div class="row-actions"><button id="calBalanceWarmer" class="secondary" type="button">Less yellow (reduce green)</button><button id="calBalanceTest" class="primary" type="button">Test orange on this light</button></div><div class="row-actions"><button id="calBalanceSave" class="primary" type="button">Save balance for this light</button><button id="calBalanceCopy" class="secondary" type="button">Apply balance to all mapped lights</button><button id="calBalanceReset" class="secondary" type="button">Reset balance</button></div><p id="calBalanceStatus" class="cal-result" role="status">Adjust a channel, test it on the real LEDs, then save once the physical color is right.</p></details></article>
   <article class="card cal-fine-card"><details id="calFineTune"><summary>Still the wrong shade? Fine-tune the color <span aria-hidden="true">⌄</span></summary><p>Some strips need a custom match. Adjust the strengths until the real lights look like the target, test it, then save.</p>
    <div class="cal-color-choice"><div><label class="field-label" for="calTarget">Color to match</label><select class="input" id="calTarget"><option value="#46ef77">Halloween green</option><option value="#a24aec">Halloween purple</option><option value="#ff751e">Halloween orange</option><option value="#ffffff">White</option><option value="#49e3d2">SmartEase mint</option><option value="custom">Custom color</option></select></div><div id="calCustomWrap" hidden><label class="field-label" for="calCustom">Choose shade</label><input type="color" id="calCustom" value="#ffffff"></div></div>
    <div class="cal-swatches"><div><span>Color to match</span><i id="calTargetSwatch"></i></div><div><span>Values to send</span><i id="calSendSwatch"></i></div></div>
@@ -613,6 +614,15 @@ function renderDesigner() {
   ui("gradientLine").style.setProperty("--b", ui("gradientRear").value);
   renderAccessoryEditor();
   paintCart("designerCart", draft);
+  designerEffectNotice();
+}
+function designerEffectNotice() {
+ const effect=Number(ui("designerEffect").value);
+ ui("designerEffectHelp").textContent=effect===25
+  ?"Steady glow gives the most reliable exact colors on your LEDs."
+  :effect===1
+   ?"Rainbow uses the controller's changing palette; individual colors you pick do not control its rainbow."
+   :"Your scene keeps this animation. SP608E effects can change the visible shade; choose Steady glow to verify an exact color.";
 }
 function renderDevices() {
   const list = ui("deviceList");
@@ -1058,6 +1068,7 @@ ui("designerEffect").onchange = () => {
   for (const r of Object.values(draft))
     r.effect = Number(ui("designerEffect").value);
   paintCart("designerCart", draft);
+  designerEffectNotice();
 };
 ui("designerBrightness").oninput = () => {
   const n = Number(ui("designerBrightness").value);
@@ -1073,6 +1084,7 @@ ui("designerSpeed").oninput = () => {
 ui("applyDesign").onclick = () => {
   const scene = {
     id: "draft",
+    custom: true,
     name: ui("sceneName").value.trim() || "My evening glow",
     rows: E.validateRows(draft),
     accessories: E.accessories(draftAccessories, draft["front-bumper"]),
@@ -1087,6 +1099,7 @@ ui("saveDesign").onclick = () => {
   }
   const scene = {
     id: editingSceneId || "cart-" + Date.now(),
+    custom: true,
     name: ui("sceneName").value.trim() || "My evening glow",
     rows: E.validateRows(draft),
     accessories: E.accessories(draftAccessories, draft["front-bumper"]),
@@ -1203,6 +1216,9 @@ function calRefreshButtons(){
  ui("calCopyMapped").disabled=calBusy||!connected||czUniqueOutputs().length<2||!hauntedGoodMap(["R","G","B"].map(k=>ui("calSeen"+k).value));
  ui("calMatchTest").disabled=calBusy||!connected;
  ui("calMatchSave").disabled=calBusy||!calOutputValid()||calTestedSignature!==calSignature();
+ ui("calBalanceTest").disabled=calBusy||!connected;
+ for(const id of ["calBalanceSave","calBalanceReset"])ui(id).disabled=calBusy||!calOutputValid();
+ ui("calBalanceCopy").disabled=calBusy||!calOutputValid()||czUniqueOutputs().length<2;
 }
 function calPopulate(){
  const n=calOutput(),found=[];
@@ -1228,7 +1244,7 @@ function calLoadSeen(){
   if(ui("calSeen"+k).value!==(values[i]||""))ui("calSeen"+k).value="";
  }
  calTell("calStatus",hauntedGoodMap(hauntedColorFix[n])?"This light has a saved color correction. Retest anytime.":values.length?"Your previous observations are loaded. Confirm what you see.":"Show red, green and blue on your light to begin.");
- calLoadMix();calRefreshButtons();
+ calLoadMix();calBalanceLoad();calRefreshButtons();
 }
 function calOpen(){calPopulate();calLoadSeen();}
 async function calWrite(bytes,description){
@@ -1248,6 +1264,22 @@ async function calWrite(bytes,description){
   }else calTell("calStatus","The light didn't respond. Reconnect your SP608E and try again.");
   return !!ok;
  }catch(err){calTell("calStatus","The test couldn't finish. "+err.message);return false;}
+ finally{calBusy=false;calRefreshButtons();}
+}
+/* Match tuning uses the already-corrected chip order, just like scenes. */
+async function calSendNormalized(bytes,description){
+ if(!hauntedValidBytes(bytes)||!isLive()||!calOutputValid()||calBusy||document.visibilityState!=="visible")return false;
+ const n=calOutput(),mask=maskFor(n-1);
+ calBusy=true;calRefreshButtons();
+ try{
+  cancelPlayback();
+  const guard=()=>isLive()&&document.visibilityState==="visible";
+  if(!await spEnsureChipColors([n],guard))return false;
+  return !!await enqueuePackets([
+   packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),
+   packet(0x89,[mask,...bytes,255])
+  ],description,{skipRefresh:true,guard});
+ }catch(error){calTell("calStatus","Color test failed: "+error.message);return false;}
  finally{calBusy=false;calRefreshButtons();}
 }
 async function calVerifySaved(primary) {
@@ -1354,6 +1386,57 @@ function calReset(){
  });
  calTell("calStatus","Color corrections reset for this light. Your scenes remain saved.");
 }
+/* Reusable per-output scene color balance; saving is explicit. */
+let calBalanceDraft=[100,100,100];
+const calBalanceInputs=["calBalanceR","calBalanceG","calBalanceB"];
+function calBalancePreview(){
+ for(let i=0;i<3;i++){
+  ui(calBalanceInputs[i]).value=String(calBalanceDraft[i]);
+  ui(calBalanceInputs[i]+"Value").textContent=calBalanceDraft[i]+"%";
+ }
+ ui("calBalanceSwatch").style.background=colorToHex(...spBalanceBytes(rgbFromHex("#ff751e"),calBalanceDraft));
+}
+function calBalanceLoad(){
+ calBalanceDraft=spBalanceFor(calOutput());
+ calBalancePreview();
+ calTell("calBalanceStatus",calBalanceDraft.every(x=>x===100)
+  ?"Standard balance for this strip. If orange looks yellow, lower green and test."
+  :"Saved balance: "+calBalanceDraft.join(" / ")+"%. Change a slider to test a new mix.");
+}
+async function calBalanceTest(){
+ const bytes=spBalanceBytes(rgbFromHex("#ff751e"),calBalanceDraft);
+ calTell("calBalanceStatus","Testing adjusted orange with your saved BRG order…");
+ const ok=await calSendNormalized(bytes,"Orange scene shade balance");
+ calTell("calBalanceStatus",ok
+  ?"Orange sent. If it looks right on the cart, save this balance. Otherwise reduce green and test again."
+  :"Orange test was interrupted. Reconnect the SP608E in Bluefy.");
+ return ok;
+}
+function calBalanceSave(){
+ if(!calOutputValid())return false;
+ const saved=spSaveRgbBalance([calOutput()],calBalanceDraft);
+ calTell("calBalanceStatus",saved
+  ?"Balance saved for this strip. Every future scene color on this output uses it."
+  :"Could not save in Bluefy storage.");
+ return saved;
+}
+function calBalanceCopy(){
+ const outputs=czUniqueOutputs();
+ if(!calOutputValid()||outputs.length<2)return false;
+ if(!confirm("Copy this color balance to all "+outputs.length+" mapped SP608E outputs? Only use this when the other strips have similar color strength. Existing scene colors and zone locations stay unchanged."))return false;
+ const saved=spSaveRgbBalance(outputs,calBalanceDraft);
+ calTell("calBalanceStatus",saved
+  ?"Saved this balance on "+outputs.length+" mapped outputs. Your scenes and zone locations were preserved."
+  :"Could not save the other profiles.");
+ return saved;
+}
+function calBalanceReset(){
+ if(!calOutputValid())return false;
+ const saved=spSaveRgbBalance([calOutput()],[100,100,100]);
+ if(saved)calBalanceLoad();
+ calTell("calBalanceStatus",saved?"Standard color balance restored for this strip.":"Unable to reset balance.");
+ return saved;
+}
 function calTarget(){return ui("calTarget").value==="custom"?ui("calCustom").value:ui("calTarget").value;}
 function calBytes(){return ["R","G","B"].map(k=>Number(ui("calRaw"+k).value));}
 function calSignature(){return [calOutput(),calTarget(),...calBytes()].join("|");}
@@ -1366,7 +1449,7 @@ function calPreview(){
 }
 function calLoadMix(){
  const n=calOutput(),hex=calTarget();
- const values=Number.isInteger(n)&&n>=1&&n<=8?hauntedMatchedBytes(n,hex):rgbFromHex(hex);
+ const values=Number.isInteger(n)&&n>=1&&n<=8?spCorrectedColorBytes(n,hex):rgbFromHex(hex);
  for(const [i,k] of ["R","G","B"].entries())ui("calRaw"+k).value=String(values[i]);
  ui("calCustomWrap").hidden=ui("calTarget").value!=="custom";
  calTestedSignature=null;calPreview();
@@ -1375,7 +1458,7 @@ function calLoadMix(){
 async function calTestMix(){
  const bytes=calBytes(),signature=calSignature();
  calTell("calMixStatus","Showing the selected shade on your cart…");
- const ok=await calWrite(bytes,"SmartEase shade matching");
+ const ok=await calSendNormalized(bytes,"SmartEase shade match with saved LED order");
  if(ok){
   calTestedSignature=signature;
   calTell("calMixStatus","If the LEDs match your target color, tap Save this match.");
@@ -1387,9 +1470,9 @@ function calSaveMix(){
  if(!calOutputValid())return;
  if(calTestedSignature!==calSignature()){calTell("calMixStatus","Test this shade on your cart before saving it.");return;}
  if(!hauntedManualMatches[n])hauntedManualMatches[n]={};
- hauntedManualMatches[n][target]=[...calBytes()];
+ hauntedManualMatches[n][target]=spRawManualMatchFromBalanced(n,calBytes());
  const saved=hauntedManualPersist();
- calTell("calMixStatus",saved?"Saved! Your scenes will reuse this exact color match.":"Couldn't save the match. Check browser storage.");
+ calTell("calMixStatus",saved?"Saved! Scenes reuse this exact color match with the stored BRG order.":"Couldn't save the match. Check browser storage.");
  if(saved&&isLive())spEnsureChipColors([n],null,{force:true}).catch(()=>{});
 }
 function calInstall(){
@@ -1406,6 +1489,20 @@ function calInstall(){
  for(const id of ["calTarget","calCustom"])ui(id).addEventListener("change",calLoadMix);
  for(const k of ["R","G","B"])ui("calRaw"+k).addEventListener("input",()=>{calTestedSignature=null;calPreview();});
  ui("calMatchTest").onclick=calTestMix;ui("calMatchSave").onclick=calSaveMix;
+ for(let i=0;i<3;i++)ui(calBalanceInputs[i]).addEventListener("input",()=>{
+  calBalanceDraft[i]=Number(ui(calBalanceInputs[i]).value);
+  calBalancePreview();
+  calTell("calBalanceStatus","Unsaved balance. Test orange on the cart, then save if it looks correct.");
+ });
+ ui("calBalanceWarmer").onclick=()=>{
+  calBalanceDraft[1]=Math.max(30,calBalanceDraft[1]-15);
+  calBalancePreview();
+  calTell("calBalanceStatus","Green reduced. Test orange on the cart, then save if yellow improves.");
+ };
+ ui("calBalanceTest").onclick=calBalanceTest;
+ ui("calBalanceSave").onclick=calBalanceSave;
+ ui("calBalanceCopy").onclick=calBalanceCopy;
+ ui("calBalanceReset").onclick=calBalanceReset;
  calPopulate();calLoadSeen();
 }
 calInstall();

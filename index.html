@@ -953,6 +953,34 @@ function spSetSavedChipOrder(n,observed,baseline=0){
 function spResetSavedChipOrder(n){
  delete spSavedChipOrders[n];delete spChipApplied[n];spSaveChipOrders();
 }
+/* Persistent per-output RGB balance. The chip order fixes permutations;
+   these gains compensate relative LED strength across every mixed scene. */
+const SP_BALANCE_STORE='smartease-sp608e-rgb-balance-v1';
+let spRgbBalance={};
+try{
+ const saved=JSON.parse(localStorage.getItem(SP_BALANCE_STORE)||'{}');
+ if(saved&&typeof saved==='object'&&!Array.isArray(saved))
+  for(let n=1;n<=8;n++){
+   const v=saved[n];
+   if(Array.isArray(v)&&v.length===3&&v.every(x=>Number.isInteger(x)&&x>=30&&x<=150))
+    spRgbBalance[n]=[...v];
+  }
+}catch{}
+function spBalanceFor(n){
+ const balance=spRgbBalance[n];
+ return balance?[...balance]:[100,100,100];
+}
+function spBalanceBytes(rgb,balance){
+ return rgb.map((value,i)=>Math.max(0,Math.min(255,Math.round(value*balance[i]/100))));
+}
+function spSaveRgbBalance(outputs,balance){
+ if(!Array.isArray(balance)||balance.length!==3||!balance.every(v=>Number.isInteger(v)&&v>=30&&v<=150))return false;
+ if(!Array.isArray(outputs)||!outputs.length||outputs.some(n=>!Number.isInteger(n)||n<1||n>8))return false;
+ const changed={...spRgbBalance};
+ for(const n of outputs)changed[n]=[...balance];
+ try{localStorage.setItem(SP_BALANCE_STORE,JSON.stringify(changed));spRgbBalance=changed;return true;}
+ catch(e){log('Could not save RGB balance: '+e.message,'warn');return false;}
+}
 function spChipRecord(n){
  let r=spSavedChipOrders[n];
  const legacy=hauntedColorFix[n];
@@ -974,12 +1002,22 @@ function spChipReady(n){
 }
 function spCorrectedColorBytes(n,color){
  const desired=rgbFromHex(color),saved=hauntedManualMatches[n]?.[String(color).toLowerCase()];
- if(!hauntedValidBytes(saved))return desired;
- const o=spChipRecord(n)?.observed;
- if(!o)return desired;
- const converted=[0,0,0];
- for(let cmd=0;cmd<3;cmd++)converted['rgb'.indexOf(o[cmd])]=saved[cmd];
- return converted;
+ let calibrated=desired;
+ if(hauntedValidBytes(saved)){
+  const observed=spChipRecord(n)?.observed;
+  if(observed){
+   calibrated=[0,0,0];
+   // Older exact matches are stored as raw RGB-order 0; convert to chip order.
+   for(let cmd=0;cmd<3;cmd++)calibrated['rgb'.indexOf(observed[cmd])]=saved[cmd];
+  }else calibrated=[...saved];
+ }
+ return spBalanceBytes(calibrated,spBalanceFor(n));
+}
+function spRawManualMatchFromBalanced(n,bytes){
+ const gain=spBalanceFor(n);
+ const unbalanced=bytes.map((v,i)=>Math.max(0,Math.min(255,Math.round(v*100/gain[i]))));
+ const observed=spChipRecord(n)?.observed;
+ return observed?observed.map(channel=>unbalanced['rgb'.indexOf(channel)]):unbalanced;
 }
 function spCorrectedColorCommand(n,color){
  return packet(0x89,[maskFor(n-1),...spCorrectedColorBytes(n,color),0xff]);

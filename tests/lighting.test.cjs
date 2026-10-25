@@ -233,6 +233,24 @@ test("saved physical LED order is restored before subsequent solid colors withou
  assert.deepEqual(JSON.parse(JSON.stringify(c.written.at(-1))),[0x88,0x89,5,2,255,0,0,255]);
  assert.equal(c.written.length,2,"already-corrected session must not send the chip order again");
 });
+test("BRG balance corrects every mixed scene shade without affecting other strips", () => {
+ const c=legacy();
+ assert.equal(vm.runInContext('spOrderFromObserved(["b","r","g"],0)',c),4);
+ vm.runInContext('hauntedColorFix[2]=["b","r","g"];spSetSavedChipOrder(2,["b","r","g"]);spSaveRgbBalance([2],[100,65,100])',c);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))',c)),[255,76,30]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#ff9933"))',c)),[255,99,51]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(1,"#ff751e"))',c)),[255,117,30]);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spRawManualMatchFromBalanced(2,[240,60,20]))',c)),[20,240,92]);
+ vm.runInContext('hauntedManualMatches[2]={"#ff751e":[20,240,92]}',c);
+ assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))',c)),[240,60,20]);
+});
+test("custom scenes preserve chosen movement; built-in exact-color mode remains available", () => {
+ const scene={id:"cart-manual",custom:true,rows:E.rows(["#ff751e","#a24aec"],7)};
+ assert.ok(Object.values(E.forPlayback(scene,true).rows).every(r=>r.effect===7));
+ assert.ok(Object.values(E.forPlayback({...scene,id:"draft"},true).rows).every(r=>r.effect===7));
+ assert.ok(Object.values(E.forPlayback({...scene,id:"cart-user",saved:true},true).rows).every(r=>r.effect===7));
+ assert.ok(Object.values(E.forPlayback(E.presets.find(s=>s.id==="haunted"),true).rows).every(r=>r.effect===25));
+});
 test("existing RGB permutation and exact manual matches remain intact", () => {
   const c = legacy();
   assert.deepEqual(
