@@ -619,6 +619,12 @@ async function connect(mode='name',automatic=false){
   try{if(typeof char.startNotifications==='function'){if(!observedCharacteristics.has(char)){char.addEventListener('characteristicvaluechanged',onNotification);observedCharacteristics.add(char);}await char.startNotifications();log('Readback notifications enabled.');}else log('Notifications not exposed by browser.','warn');}
   catch(e){log('Notifications unavailable: '+e.message,'warn');}
   renderState();await queryState();
+  if(typeof czUniqueOutputs==='function'&&typeof spEnsureChipColors==='function'){
+   // Restore the user's saved LED color order when Bluefy reconnects,
+   // without replaying the old scene or modifying unmapped outputs.
+   const ok=await spEnsureChipColors(czUniqueOutputs());
+   if(!ok)log('Saved color-order synchronization postponed until the next scene.','warn');
+  }
  }catch(err){
   lastConnectError=(err.name||'Error')+': '+(err.message||String(err));
   log('Connection attempt failed ('+mode+(automatic?', auto':'')+'): '+lastConnectError,'error');
@@ -712,8 +718,11 @@ function queryState(){if(!canSend())return Promise.resolve(false);return enqueue
 function scheduleRead(){clearTimeout(pendingRefresh);if(studioRunning)return;pendingRefresh=setTimeout(()=>{pendingRefresh=null;if(isLive()&&!studioRunning&&document.visibilityState==='visible')queryState();},1200);}
 function applyDemo(command){const [prefix,opcode,,...arg]=command;if(prefix!==0x88)return;if(opcode===0x8e)return;if(opcode===0x90){window.reportedSceneLoop=arg[0];return;}if(opcode===0x8b){window.reportedGain=arg[1];return;}const mask=arg[0]??0;for(const i of indexes(mask)){const c=channels[i];if(opcode===0x82)c.power=!!arg[1];if(opcode===0x83)c.effect=arg[1];if(opcode===0x84)c.order=arg[1];if(opcode===0x85)c.brightness=arg[1];if(opcode===0x86)c.speed=arg[1];if(opcode===0x87)c.length=(arg[1]<<8)|arg[2];if(opcode===0x89)c.color=colorToHex(arg[1],arg[2],arg[3]);if(opcode===0x8a)c.direction=arg[1];}renderState();}
 function captureLook(){if(!channels.every(c=>c.known)){notify('Read controller status first (all 8 channels).');return;}const name=$('lookName').value.trim()||'Look '+(settings.looks.length+1);settings.looks.push({name:name.slice(0,30),channels:channels.map(c=>({...c}))});settings.looks=settings.looks.slice(-12);saveSettings();$('lookName').value='';renderLooks();notify('Saved locally: '+name);}
-function packetsForLook(look){const jobs=[];for(let i=0;i<N;i++){const c=look.channels[i],m=maskFor(i);if(!c||!Number.isInteger(c.effect)||!fxById.has(c.effect))continue;const fx=fxById.get(c.effect);jobs.push(packet(0x83,[m,c.effect]));if(fx.color&&isHex(c.color)){jobs.push(packet(0x89,[m,...rgbFromHex(c.color),0xff]));}if(fx.speed)jobs.push(packet(0x86,[m,cap(c.speed,1,10)]));if(fx.length){const n=cap(c.length,1,240);jobs.push(packet(0x87,[m,n>>8,n&255]));}if(fx.direction)jobs.push(packet(0x8a,[m,c.direction?1:0]));if(fx.type!=='Music')jobs.push(packet(0x85,[m,cap(c.brightness,0,255)]));jobs.push(packet(0x82,[m,c.power?1:0]));}return jobs;}
-async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}if(!confirm('Apply "'+look.name+'" to all eight SP608E channels? This sends many BLE commands and will change your current lighting.'))return;stopStudio();const jobs=packetsForLook(look);notify('Applying '+jobs.length+' lighting commands...');log('Applying local look "'+look.name+'" with '+jobs.length+' commands.');const success=await enqueuePackets(jobs,'Restore local look '+look.name);if(success)notify('Look commands sent. Read back to verify.');}
+function packetsForLook(look){const jobs=[];for(let i=0;i<N;i++){const c=look.channels[i],m=maskFor(i);if(!c||!Number.isInteger(c.effect)||!fxById.has(c.effect))continue;const fx=fxById.get(c.effect);jobs.push(packet(0x83,[m,c.effect]));if(fx.color&&isHex(c.color)){jobs.push(hauntedColorCommand(i+1,c.color));}if(fx.speed)jobs.push(packet(0x86,[m,cap(c.speed,1,10)]));if(fx.length){const n=cap(c.length,1,240);jobs.push(packet(0x87,[m,n>>8,n&255]));}if(fx.direction)jobs.push(packet(0x8a,[m,c.direction?1:0]));if(fx.type!=='Music')jobs.push(packet(0x85,[m,cap(c.brightness,0,255)]));jobs.push(packet(0x82,[m,c.power?1:0]));}return jobs;}
+async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}if(!confirm('Apply "'+look.name+'" to all eight SP608E channels? This sends many BLE commands and will change your current lighting.'))return;stopStudio();
+ const ports=look.channels.flatMap((c,i)=>c&&Number.isInteger(c.effect)&&fxById.has(c.effect)?[i+1]:[]);
+ if(!await spEnsureChipColors(ports)){notify('Could not restore your saved color settings.');return;}
+ const jobs=packetsForLook(look);notify('Applying '+jobs.length+' lighting commands...');log('Applying local look "'+look.name+'" with '+jobs.length+' commands.');const success=await enqueuePackets(jobs,'Restore local look '+look.name);if(success)notify('Look commands sent. Read back to verify.');}
 
 /* Create presents five real cart areas, not eight hypothetical positions.
    Lights, Effects and diagnostics retain raw SP608E channel-level controls. */
@@ -763,8 +772,10 @@ async function applyBuiltInLook(look,label='Your look'){
  if(!canSend()){notify('Connect to SP608E first. You can still save looks offline.');return false;}
  const fx=fxById.get(Number(look.effect));if(!fx){notify('Choose a valid effect.');return false;}
  stopStudio();clearTimeout(pendingRefresh);pendingRefresh=null;
- const jobs=indexes(look.mask).map(i=>packet(0x83,[maskFor(i),fx.id]));
- if(fx.color)jobs.push(packet(0x89,[look.mask,...rgbFromHex(look.color),0xff]));
+ const ports=indexes(look.mask).map(i=>i+1);
+ if(!await spEnsureChipColors(ports)){notify('Could not restore calibrated light colors.');return false;}
+ const jobs=ports.map(n=>packet(0x83,[maskFor(n-1),fx.id]));
+ if(fx.color)jobs.push(...ports.map(n=>hauntedColorCommand(n,look.color)));
  jobs.push(packet(0x85,[look.mask,cap(look.brightness,10,255)]));
  if(fx.speed)jobs.push(packet(0x86,[look.mask,cap(look.speed,1,10)]));
  jobs.push(packet(0x82,[look.mask,1]));
@@ -812,7 +823,10 @@ async function startStudio(){
  $('studioPlaybackStatus').textContent='Preparing '+list.length+' lights…';
  notify('Preparing stable live show…');
  const active=()=>studioRunning&&token===studioToken&&document.visibilityState!=='hidden';
- const setup=[...list.map(i=>packet(0x83,[maskFor(i),25])),packet(0x89,[studioMask,...rgbFromHex(color),0xff]),packet(0x85,[studioMask,115]),packet(0x82,[studioMask,0])];
+ if(!await spEnsureChipColors(list.map(i=>i+1),active,{studio:true})){
+  stopStudio('Could not restore color calibration for the live show.');return;
+ }
+ const setup=[...list.map(i=>packet(0x83,[maskFor(i),25])),...list.map(i=>hauntedColorCommand(i+1,color)),packet(0x85,[studioMask,115]),packet(0x82,[studioMask,0])];
  if(!await enqueuePackets(setup,'Live show setup',{skipRefresh:true,studio:true,guard:active})){
   stopStudio('Could not prepare lights. Check the BLE connection.');return;
  }
@@ -958,7 +972,7 @@ async function spEnsureChipColors(outputs,guard=null,options={}){
  }
  if(jobs.length){
   const ok=await enqueuePackets(jobs,'Restore calibrated LED color order',{
-   guard:guard||undefined,haunted:!!options.haunted,skipRefresh:true
+   guard:guard||undefined,haunted:!!options.haunted,studio:!!options.studio,skipRefresh:true
   });
   if(!ok)return false;
  }
@@ -1231,6 +1245,7 @@ async function hauntedStart(){
  hauntedRunning=true;hauntedButtons();
  try{
   hauntedInfo(transport==='demo'?'DEMO: preparing Halloween…':'Preparing Halloween on the SP608E…');
+  if(!await spEnsureChipColors(order,guard,{haunted:true}))throw Error('Could not restore calibrated colors.');
   await hauntedPackets([
    packet(0x85,[m,brightness]),
    ...order.map(n=>packet(0x83,[maskFor(n-1),25])),
