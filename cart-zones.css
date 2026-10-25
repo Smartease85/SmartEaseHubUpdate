@@ -1,0 +1,58 @@
+/* SmartEase Golf Cart Zones v1 — standalone stylesheet, scoped to .cz-* */
+.cz-intro{margin:0 0 14px;color:#bbd6d7;font-size:13px}
+.cz-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(255px,.95fr);gap:18px;align-items:start}
+.cz-map-panel{min-width:0}
+.cz-figure{position:relative;max-width:375px;aspect-ratio:320/480;margin:4px auto 9px;background:radial-gradient(ellipse at 50% 44%,#164046 0%,#0a2229 53%,#09191f 83%);border:1px solid #31545a;border-radius:24px;overflow:hidden}
+.cz-silhouette{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cz-hotspot{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);z-index:2;min-width:72px;max-width:95px;min-height:54px;border:1px solid #53717a;border-radius:12px;padding:6px 4px;background:#112b33ea;color:#e5fcfa;text-align:center;display:grid;align-content:center;justify-items:center;gap:2px;font-size:11px;line-height:1.1;box-shadow:0 5px 18px #00141a88;cursor:pointer;touch-action:manipulation}
+.cz-hotspot strong{font-size:11px;font-weight:800;white-space:nowrap}
+.cz-hotspot small{font-size:10px;color:#a0b6bd;max-width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cz-hotspot.is-mapped{border-color:var(--cz-color,#52e1d5);box-shadow:0 0 0 1px #1b4048,0 0 15px color-mix(in srgb,var(--cz-color,#49e3d2) 30%,transparent);background:linear-gradient(145deg,#123b40,#101f2d)}
+.cz-hotspot.is-mapped strong{color:var(--cz-color,#5be2d8)}
+.cz-hotspot.is-selected{outline:3px solid #eefff9;outline-offset:1px;z-index:4}
+.cz-hotspot:focus-visible{outline:3px solid #eefff9;outline-offset:2px}
+.cz-map-label{text-align:center;color:#a6c8c9;letter-spacing:.13em;font-weight:800;font-size:10px;margin:6px 0}
+.cz-map-count{font-size:12px;text-align:center;color:#a7c4c5;margin:3px auto 0}
+.cz-section-head{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:9px;flex-wrap:wrap}
+.cz-section-head h3{font-size:17px;line-height:1.2;margin:0;font-weight:810}
+.cz-section-head p{font-size:12px;color:#a8c7c9;margin:5px 0 0}
+.cz-status{margin:10px 0 0;border:1px solid #29545a;background:#071d23;border-radius:11px;padding:10px 12px;color:#bedbde;font-size:12px;min-height:42px;overflow-wrap:anywhere}
+.cz-chip{display:inline-flex;align-items:center;border:1px solid #315c61;background:#11343a;border-radius:30px;color:#7bf8e5;padding:3px 9px;font-size:11px;font-weight:750}
+.cz-meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.cz-info{padding:12px;border-left:3px solid #28b6a6;background:#0b2630;color:#bcd4d6;border-radius:8px;margin:13px 0;font-size:12px}
+.cz-info strong{color:#e4faf9}
+.cz-editor{background:#0b242a;border:1px solid #2c5359;border-radius:16px;padding:15px;min-width:0}
+.cz-editor .field{margin:11px 0}
+.cz-legend{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin:8px 0 11px;color:#a8c5c8;font-size:11px}
+.cz-legend span{display:inline-flex;gap:5px;align-items:center}
+.cz-legend i{display:inline-block;width:9px;height:9px;border-radius:100%}
+.cz-scene-list{display:grid;gap:10px;margin-top:13px}
+.cz-scene-row{border:1px solid #2f535a;background:#0b222b;border-radius:15px;padding:12px;display:grid;gap:10px}
+.cz-scene-row.off{opacity:.72}
+.cz-scene-row.missing{border-style:dashed;opacity:.62}
+.cz-scene-row-head{display:flex;gap:10px;justify-content:space-between;align-items:center}
+.cz-scene-row-title{display:flex;gap:9px;align-items:center;min-width:0}
+.cz-color-disc{height:23px;width:23px;border-radius:8px;border:1px solid #d8ffff5e;flex-shrink:0}
+.cz-scene-row-name{font-size:13px;font-weight:780;line-height:1.2}
+.cz-scene-row-sub{font-size:11px;color:#acc5c8;margin-top:3px}
+.cz-scene-row-controls{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.7fr) minmax(0,.8fr);gap:8px}
+.cz-scene-row-controls label{font-size:11px;color:#bed9dc;display:grid;gap:5px}
+.cz-scene-row-controls select,.cz-scene-row-controls input[type=color]{height:40px;min-width:0;max-width:100%;padding:5px;background:#091d25;color:#f1ffff;border:1px solid #3c626b;border-radius:9px}
+.cz-scene-row-controls input[type=color]{width:100%;padding:3px}
+.cz-scene-row-foot{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.cz-scene-row-foot label{font-size:11px;color:#c1d8db;display:flex;gap:8px;align-items:center;flex:1;min-width:150px}
+.cz-scene-row-foot input[type=range]{width:100%;accent-color:#49e3d2}
+.cz-scene-row-head input[type=checkbox]{height:19px;width:19px;accent-color:#49e3d2}
+.cz-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cz-actions>.button{flex:1;min-width:130px}
+.cz-saved-list{display:grid;gap:9px;margin-top:11px}
+.cz-saved-item{display:flex;gap:12px;align-items:center;justify-content:space-between;border:1px solid #2d545a;background:#0d2930;border-radius:11px;padding:11px;min-width:0}
+.cz-saved-title{font-weight:770;font-size:13px}
+.cz-saved-sub{font-size:11px;color:#a7c9cc}
+.cz-saved-ops{display:flex;gap:5px;flex-wrap:wrap}
+.cz-saved-ops button{font-size:11px;padding:7px 8px;min-height:34px}
+.cz-inline-label{font-size:11px;color:#a9c8cc}
+.cz-empty{font-size:12px;color:#a9c8cc;padding:15px;border:1px dashed #31545a;border-radius:12px}
+@media(max-width:910px){.cz-layout{grid-template-columns:1fr}.cz-figure{max-width:355px}}
+@media(max-width:600px){.cz-hotspot{min-width:68px;min-height:50px;max-width:84px}.cz-hotspot strong{font-size:10px}.cz-hotspot small{font-size:9px}.cz-editor{padding:12px}.cz-scene-row-controls{grid-template-columns:minmax(0,1fr) minmax(0,.7fr)}.cz-scene-row-controls label:first-child{grid-column:1/-1}.cz-saved-item{flex-direction:column;align-items:stretch}.cz-saved-ops button{flex:1}.cz-actions>.button{min-width:0}.nav button[data-tab=zones]{font-size:10px}}
+@media(max-width:360px){.cz-hotspot{min-width:59px;max-width:75px;padding:4px 2px}.cz-hotspot strong{font-size:9px}.cz-scene-row{padding:10px}}
