@@ -102,7 +102,7 @@ function czZoneForChannel(num){
  return CZ_DEFS.find(z=>czState.zones[z.id].channels.includes(num))?.id||null;
 }
 function czPrettyChannels(nums){return nums.length?'CH '+nums.join(', '):'Not mapped';}
-function czDotColor(row){return row.on?row.color:'#566973';}
+function czDotColor(row){return row.on?row.color:'#49e3d2';}
 function czRenderMap(){
  const container=czId('czHotspots');if(!container)return;
  container.replaceChildren();
