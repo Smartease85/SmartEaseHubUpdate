@@ -87,6 +87,128 @@ test("create, favorite, reload: existing mapping/calibration and scene storage s
   );
   again.dom.window.close();
 });
+test("built-in Halloween exposes one-tap edit and three RGB groups; Save creates a durable personal copy", () => {
+ const b=boot({
+   "smartease-haunted-rgb-fix-v1":'{"1":["b","r","g"]}',
+   "smartease-sp608e-rgb-balance-v1":'{"1":[100,42,0]}'
+ });
+ const halloween=b.run('E.presets.find(scene=>scene.id==="haunted")');
+ const old=JSON.parse(b.run('JSON.stringify(E.presets[0].rows)'));
+ const tile=b.w.document.querySelector("#allScenes .scene-tile");
+ assert.match(tile.querySelector(".scene-copy strong").textContent,/Haunted Surge/);
+ const edit=tile.querySelector(".edit-scene");
+ assert.ok(edit,"a factory scene must have an accessible edit button");
+ edit.click();
+ assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);
+ assert.equal(b.w.document.getElementById("sceneName").value,"My Haunted Surge");
+ assert.equal(b.w.document.querySelectorAll(".scene-palette-choice").length,3,"Halloween should group three actual shades");
+ const options=b.w.document.querySelectorAll(".scene-palette-choice");
+ options[1].click();
+ assert.equal(b.w.document.getElementById("scenePaletteHex").textContent,"#A24AEC");
+ assert.equal(b.run('designerPaletteActive().ids.length'),3);
+ const green=b.w.document.getElementById("scenePaletteG");
+ green.value="30";green.dispatchEvent(new b.w.Event("input"));
+ const purple=b.run('draft.canopy.color');
+ assert.equal(purple,"#a21eec");
+ assert.equal(b.run('draft["left-under"].color'),purple);
+ assert.equal(b.run('draft["right-under"].color'),purple);
+ assert.equal(b.run('draft["front-bumper"].color'),"#46ef77");
+ assert.equal(b.run('draft["rear-bumper"].color'),"#ff751e");
+ b.w.document.getElementById("saveDesign").click();
+ assert.equal(b.run("czState.scenes.length"),1);
+ const newId=b.run("czState.scenes[0].id");
+ assert.match(newId,/^cart-/);
+ assert.equal(b.run("czState.scenes[0].name"),"My Haunted Surge");
+ assert.equal(b.run('czState.scenes[0].rows.canopy.color'),purple);
+ assert.equal(b.run('E.presets[0].rows.canopy.color'),"#a24aec","factory preset must not change");
+ assert.equal(b.run('E.presets[0].id'),"haunted");
+ assert.equal(b.w.localStorage.getItem("smartease-haunted-rgb-fix-v1"),'{"1":["b","r","g"]}');
+ assert.equal(b.w.localStorage.getItem("smartease-sp608e-rgb-balance-v1"),'{"1":[100,42,0]}');
+ const current=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ b.dom.window.close();
+ const later=boot(current);
+ assert.equal(later.run("czState.scenes.length"),1);
+ assert.equal(later.run("czState.scenes[0].id"),newId);
+ assert.equal(later.run('czState.scenes[0].rows.canopy.color'),purple);
+ assert.equal(later.run('E.presets[0].rows.canopy.color'),"#a24aec");
+ assert.equal(later.run("sceneById('haunted').id"),"haunted");
+ assert.equal(later.errors.length,0);
+ later.dom.window.close();
+});
+test("holding a scene edits it without accidentally playing; tapping still plays", async () => {
+ const b=boot();
+ b.w.document.querySelector('[data-go="scenes"]').click();
+ const first=b.w.document.querySelector('#allScenes .scene-tile button.scene-main');
+ assert.ok(first);
+ first.dispatchEvent(new b.w.MouseEvent("pointerdown",{bubbles:true,button:0,clientX:25,clientY:60}));
+ await new Promise(resolve=>setTimeout(resolve,610));
+ assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);
+ assert.equal(b.w.document.getElementById("sceneName").value,"My Haunted Surge");
+ first.click();
+ assert.equal(b.run("activeScene===null"),true,"synthetic followup click must not play after hold");
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+ const tap=boot();
+ tap.w.document.querySelector('[data-go="scenes"]').click();
+ tap.w.document.querySelector('#allScenes .scene-tile button.scene-main').click();
+ assert.equal(tap.run("activeScene.id"),"haunted","short tap must still play/preview");
+ tap.dom.window.close();
+});
+test("dragging to scroll cancels scene long press, but holding favorite edits it", async () => {
+ const b=boot();
+ b.w.document.querySelector('[data-go="scenes"]').click();
+ const main=b.w.document.querySelector("#allScenes .scene-tile .scene-main");
+ main.dispatchEvent(new b.w.MouseEvent("pointerdown",{bubbles:true,button:0,clientX:20,clientY:40}));
+ main.dispatchEvent(new b.w.MouseEvent("pointermove",{bubbles:true,clientX:20,clientY:70}));
+ await new Promise(resolve=>setTimeout(resolve,600));
+ assert.equal(b.w.document.querySelector('[data-page="scenes"]').hidden,false,"scroll must cancel editor");
+ b.w.document.querySelector('[data-go="home"]').click();
+ const favorite=b.w.document.querySelector("#quickFavorites .quick-scene");
+ favorite.dispatchEvent(new b.w.MouseEvent("pointerdown",{bubbles:true,button:0,clientX:10,clientY:10}));
+ await new Promise(resolve=>setTimeout(resolve,590));
+ assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);
+ assert.equal(b.w.document.getElementById("sceneName").value,"My Haunted Surge");
+ b.dom.window.close();
+});
+test("editing an existing saved scene keeps its ID and updates that scene instead of duplicating", () => {
+ const b=boot();
+ b.w.document.querySelector("#allScenes .scene-tile .edit-scene").click();
+ b.w.document.getElementById("saveDesign").click();
+ assert.equal(b.run("czState.scenes.length"),1);
+ const originalId=b.run("czState.scenes[0].id");
+ b.w.document.querySelector('[data-go="scenes"]').click();
+ const saved=b.w.document.querySelector("#allScenes .scene-tile.saved-tile");
+ assert.ok(saved);
+ saved.querySelector(".edit-scene").click();
+ assert.equal(b.run("editingSceneId"),originalId);
+ const picker=b.w.document.getElementById("scenePaletteR");
+ picker.value="221";picker.dispatchEvent(new b.w.Event("input"));
+ const expected=b.run('draft["front-bumper"].color');
+ b.w.document.getElementById("saveDesign").click();
+ assert.equal(b.run("czState.scenes.length"),1);
+ assert.equal(b.run("czState.scenes[0].id"),originalId);
+ assert.equal(b.run('czState.scenes[0].rows["front-bumper"].color'),expected);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
+test("scene palette color test writes the saved calibrated shade only to selected mapped outputs", async () => {
+ const b=boot({
+   "smartease-haunted-rgb-fix-v1":'{"2":["b","r","g"]}',
+   "smartease-sp608e-chip-orders-v1":'{"2":{"observed":["b","r","g"],"baseline":0,"target":4}}',
+   "smartease-sp608e-rgb-balance-v1":'{"2":[100,50,100]}'
+ });
+ b.w.document.querySelector("#allScenes .scene-tile .edit-scene").click();
+ b.w.document.querySelectorAll(".scene-palette-choice")[1].click();
+ b.run('isLive=()=>true;spEnsureChipColors=async(outputs)=>{globalThis.rgbTestTargets=[...outputs];return true;};enqueuePackets=async(jobs)=>{globalThis.rgbTestWrites=jobs;return true;};');
+ assert.equal(await b.run("designerPaletteTest()"),true);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestTargets)")),[2,3,5]);
+ assert.equal(b.run("rgbTestWrites.length"),12);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestWrites[3])")),[136,137,5,2,162,37,236,255]);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestWrites[7])")),[136,137,5,4,162,74,236,255]);
+ assert.equal(b.run("czState.scenes.length"),0,"testing a color must not auto-save scenes");
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
 test("preview scene applies mapped zones and power off cancels the pending scene", async () => {
   const b = boot();
   b.run("enterDemo()");

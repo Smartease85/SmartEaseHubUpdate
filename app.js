@@ -35,6 +35,7 @@ let draft = E.rows(),
   liveName = "",
   powered = false;
 let editingSceneId = null,
+  designerPaletteSelection = "front-bumper",
   cartView = "front",
   draftAccessories = E.accessories(null, draft["front-bumper"]),
   previewAccessories = E.accessories(null, previewRows["front-bumper"]);
@@ -53,8 +54,8 @@ app.id = "app";
 app.innerHTML = `
 <header class="topline"><a class="wordmark" href="#home" aria-label="SmartEase home" style="color:inherit;text-decoration:none"><svg class="brand-symbol" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M26 6H14a8 8 0 0 0 0 16h8a4 4 0 0 1 0 8H9M10 30h12a8 8 0 0 0 0-16h-8a4 4 0 0 1 0-8h13" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>SmartEase<sup>®</sup></a><div class="connection-actions"><button class="status-pill" id="connectionSummary" aria-label="View device connection status"><span class="dot" id="connectionDot"></span><span id="connectionText">Disconnected</span></button><button class="reconnect" id="emergencyReconnect" aria-label="Reconnect all supported lighting devices">↻ Reconnect</button></div></header>
 <section class="page" data-page="home"><div class="welcome"><div><div class="overline">Your cart. Your atmosphere.</div><h1>Good nights.<br>Great lights.</h1><p>A little color makes every evening yours.</p></div><span class="pill">✦ Made simple. Made SmartEase.</span></div><div class="quick-favorites" id="quickFavorites" aria-label="Favorite scenes"></div><div class="dashboard"><article class="card cart-card"><div class="card-top"><div><h3>Your cart, in color</h3><p id="cartSubtitle">Five zones. Endless possibilities.</p></div><button class="round" id="cartPower" aria-label="Turn mapped decorative lights on" aria-pressed="false">⏻</button></div><div id="homeCart"></div><div class="now-playing"><div><small id="playState">SCENE PREVIEW</small><strong id="nowPlaying">SmartEase glow</strong></div><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><p class="busy-line" id="playProgress" role="status"></p></article><div class="right-stack"><article class="card feature"><div class="overline">A little seasonal magic</div><h2>Haunted Surge</h2><p>Toxic green. Haunted purple. Pumpkin orange. Let the night come alive.</p><div class="feature-orbs"><i style="--orb:#46ef77"></i><i style="--orb:#a24aec"></i><i style="--orb:#ff751e"></i><span>Flow + twinkle</span></div><button class="primary" id="featureHauntedPlay">Play scene <span>↗</span></button><button class="text-btn" id="stopShow" hidden>Stop live flow</button></article><article class="card brightness"><label for="appBrightness">Set the mood <span id="appBrightnessValue">45%</span></label><input id="appBrightness" type="range" min="0" max="100" value="45" aria-label="Mapped light brightness"><div style="display:flex;justify-content:space-between;font-size:10px;color:#718f89"><span>Subtle</span><span>Brilliant</span></div></article></div></div><div class="section-heading"><h2>Your favorites</h2><button class="text-btn" data-go="scenes">Explore scenes ↗</button></div><div class="scene-list" id="favoriteScenes"></div><p class="safety-note">Decorative lighting for parked moments.</p></section>
-<section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
-<section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p>Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select><p class="small-note" id="designerEffectHelp">Your chosen effect will be kept when playing this scene.</p></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
+<section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><p class="small-note scene-hold-hint">Tap a scene to play it. <strong>Press and hold to edit</strong> its colors, or tap the pencil.</p><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
+<section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p id="designerIntro">Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><section class="scene-palette-editor"><div class="card-top"><h3>Mix your scene colors</h3><span class="pill">RGB editor</span></div><p class="small-note">Pick a color below, mix red, green and blue, then test it on the cart. Lights that share a color change together. Your saved BRG calibration stays intact.</p><div id="scenePaletteOptions" class="scene-palette-options" aria-label="Colors used in this scene"></div><div class="scene-palette-preview"><span id="scenePaletteColorPreview" class="scene-color-disc"></span><strong id="scenePaletteHex">#FFFFFF</strong><small>Scene color · 0 to 255 per channel</small></div><div class="scene-palette-sliders"><label for="scenePaletteR">Red <span id="scenePaletteRValue">0</span></label><input id="scenePaletteR" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteG">Green <span id="scenePaletteGValue">0</span></label><input id="scenePaletteG" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteB">Blue <span id="scenePaletteBValue">0</span></label><input id="scenePaletteB" type="range" min="0" max="255" step="1" value="0"></div><div class="row-actions"><button id="scenePaletteTest" class="secondary" type="button">Test selected color on cart ↗</button></div><p class="small-note" id="scenePaletteStatus" role="status">Adjust the colors, test them, then save your scene below. Your per-strip RGB balance still applies.</p></section><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select><p class="small-note" id="designerEffectHelp">Your chosen effect will be kept when playing this scene.</p></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
 <section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
 <section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card true-color-card"><h3>Show my actual colors</h3><label class="switchline"><input type="checkbox" id="appTrueColors">Play my scenes in their chosen colors</label><p>For built-in scenes, choose exact solid shades or original controller animations. Scenes you create always keep the movement you selected. Some native effects (especially Rainbow) choose their own palette.</p><button type="button" class="secondary" id="appColorCheck">Check my calibrated colors ↗</button></article><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card map-launch"><div class="map-launch-head"><span class="map-launch-icon" aria-hidden="true">🗺️</span><div><h3>Map my lights</h3><p>Something lighting up in the wrong place? Show each strip, tell SmartEase where it is, and save it once.</p></div></div><button class="primary" id="openLightMap" type="button">Map my lights ↗</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
 
@@ -248,6 +249,34 @@ function savedScenes() {
 function sceneById(id) {
   return [...E.presets, ...savedScenes()].find((s) => s.id === id);
 }
+/* A tap still plays the scene. Holding for 550 ms opens the same editor
+   as the accessible pencil button, with movement cancellation for scrolling. */
+function installSceneLongPress(control,scene){
+ let timer=null,startX=0,startY=0,suppressTap=false,reset=null;
+ const cancel=()=>{if(timer!==null){clearTimeout(timer);timer=null;}};
+ control.addEventListener("pointerdown",event=>{
+  if(event.pointerType==="mouse"&&event.button!==0)return;
+  cancel();startX=event.clientX;startY=event.clientY;
+  timer=setTimeout(()=>{
+   timer=null;suppressTap=true;
+   if(reset!==null)clearTimeout(reset);
+   reset=setTimeout(()=>{suppressTap=false;reset=null;},1400);
+   editScene(scene);
+  },550);
+ });
+ control.addEventListener("pointermove",event=>{
+  if(Math.abs(event.clientX-startX)>14||Math.abs(event.clientY-startY)>14)cancel();
+ });
+ for(const type of ["pointerup","pointercancel","pointerleave"])control.addEventListener(type,cancel);
+ control.addEventListener("contextmenu",event=>event.preventDefault());
+ control.addEventListener("click",event=>{
+  if(!suppressTap)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  suppressTap=false;
+  if(reset!==null)clearTimeout(reset);
+  reset=null;
+ },true);
+}
 function sceneTile(scene) {
   const tile = document.createElement("article");
   tile.className =
@@ -272,6 +301,7 @@ function sceneTile(scene) {
   copy.append(title, subtitle);
   use.append(art, copy);
   use.onclick = () => chooseScene(scene);
+  installSceneLongPress(use,scene);
   const favorite = document.createElement("button");
   favorite.className =
     "favorite" + (preferences.favorites.includes(scene.id) ? " selected" : "");
@@ -293,6 +323,13 @@ function sceneTile(scene) {
     renderScenesUI();
   };
   tile.append(use, favorite);
+  const edit = document.createElement("button");
+  edit.className = "edit-scene";
+  edit.textContent = "✎";
+  edit.setAttribute("aria-label", (scene.saved ? "Edit " : "Customize ") + scene.name);
+  edit.title = "Edit colors and save your version";
+  edit.onclick = () => editScene(scene);
+  tile.append(edit);
   if (scene.saved) {
     const del = document.createElement("button");
     del.className = "delete-scene";
@@ -310,12 +347,7 @@ function sceneTile(scene) {
         czRenderSaved();
       }
     };
-    const edit = document.createElement("button");
-    edit.className = "edit-scene";
-    edit.textContent = "✎";
-    edit.setAttribute("aria-label", "Edit " + scene.name);
-    edit.onclick = () => editScene(scene);
-    tile.append(edit, del);
+    tile.append(del);
   }
   return tile;
 }
@@ -335,6 +367,8 @@ function renderScenesUI() {
         ")";
       button.append(dot, document.createTextNode(scene.name));
       button.onclick = () => chooseScene(scene);
+      button.title = "Tap to play · hold to edit";
+      installSceneLongPress(button,scene);
       return button;
     }),
   );
@@ -575,6 +609,105 @@ async function startHauntedFlow() {
     }
   }
 }
+/* Scene color palette groups equal RGB colors together, so Halloween has
+   three editable colors (green, purple and orange) while retaining its five
+   physical zones. Only Save writes a scene to persistent browser storage. */
+function designerPaletteGroups(){
+ const groups=[];
+ for(const id of E.zones){
+  const color=draft[id].color.toLowerCase();
+  let group=groups.find(item=>item.color===color);
+  if(!group){group={id,color,ids:[]};groups.push(group);}
+  group.ids.push(id);
+ }
+ return groups;
+}
+function designerPaletteActive(){
+ const groups=designerPaletteGroups();
+ return groups.find(group=>group.ids.includes(designerPaletteSelection))||groups[0];
+}
+function designerPaletteRender(){
+ const groups=designerPaletteGroups(),host=ui("scenePaletteOptions");
+ host.replaceChildren();
+ for(const [index,group] of groups.entries()){
+  const button=document.createElement("button");
+  button.type="button";button.className="scene-palette-choice";
+  const selected=group.ids.includes(designerPaletteSelection);
+  button.setAttribute("aria-pressed",String(selected));
+  if(selected)button.classList.add("active");
+  const circle=document.createElement("i");circle.style.background=group.color;
+  const label=document.createElement("span");
+  const first=czState.zones[group.ids[0]]?.name||group.ids[0];
+  label.textContent="Color "+(index+1)+" · "+first+(group.ids.length>1?" + "+(group.ids.length-1)+" more":"");
+  button.append(circle,label);
+  button.onclick=()=>{designerPaletteSelection=group.id;designerPaletteRender();};
+  host.append(button);
+ }
+ const group=designerPaletteActive();
+ if(!group)return;
+ const components=rgbFromHex(group.color);
+ for(const [i,channel] of ["R","G","B"].entries()){
+  ui("scenePalette"+channel).value=String(components[i]);
+  ui("scenePalette"+channel+"Value").textContent=String(components[i]);
+ }
+ ui("scenePaletteColorPreview").style.background=group.color;
+ ui("scenePaletteHex").textContent=group.color.toUpperCase();
+ const names=group.ids.map(id=>czState.zones[id]?.name||id);
+ ui("scenePaletteTest").disabled=group.ids.every(id=>!czValidAssigned(id).length);
+ ui("scenePaletteStatus").textContent=names.join(", ")+" · "+group.ids.length+" zone"+(group.ids.length===1?"":"s")+". Adjust RGB, test on your lights, then save below.";
+}
+function designerPaletteChanged(){
+ const group=designerPaletteActive();
+ if(!group)return;
+ const bytes=["R","G","B"].map(channel=>Number(ui("scenePalette"+channel).value));
+ const color=colorToHex(...bytes);
+ for(const id of group.ids){
+  draft[id].color=color;
+  const picker=ui("zoneEditors").querySelector('[data-scene-zone="'+id+'"]');
+  if(picker)picker.value=color;
+ }
+ ui("gradientFront").value=draft["front-bumper"].color;
+ ui("gradientRear").value=draft["rear-bumper"].color;
+ ui("gradientLine").style.setProperty("--a",ui("gradientFront").value);
+ ui("gradientLine").style.setProperty("--b",ui("gradientRear").value);
+ designerPaletteRender();
+ paintCart("designerCart",draft);
+ ui("scenePaletteStatus").textContent="Color adjusted · unsaved. Test on the real cart, then Save your version.";
+}
+async function designerPaletteTest(){
+ const group=designerPaletteActive();
+ if(!group||!isLive()||document.visibilityState!=="visible"){
+  ui("scenePaletteStatus").textContent="Connect your SP608E in Bluefy and keep this screen open to test a scene color.";
+  return false;
+ }
+ const ports=[...new Set(group.ids.flatMap(id=>czValidAssigned(id)))].sort((a,b)=>a-b);
+ if(!ports.length){
+  ui("scenePaletteStatus").textContent="This color is not mapped to an active SP608E output. Map the light in Settings first.";
+  return false;
+ }
+ const button=ui("scenePaletteTest"),color=group.color,guard=()=>isLive()&&document.visibilityState==="visible";
+ button.disabled=true;
+ ui("scenePaletteStatus").textContent="Testing "+color+" as a solid color on "+ports.length+" mapped output(s)…";
+ try{
+  cancelPlayback();
+  if(!await spEnsureChipColors(ports,guard))throw Error("Could not restore the saved BRG color order");
+  const commands=ports.flatMap(n=>{
+   const mask=maskFor(n-1);
+   return [packet(0x83,[mask,25]),packet(0x85,[mask,153]),
+    packet(0x82,[mask,1]),spCorrectedColorCommand(n,color)];
+  });
+  const ok=await enqueuePackets(commands,"Test selected SmartEase scene color",{skipRefresh:true,guard});
+  ui("scenePaletteStatus").textContent=ok
+   ?"Solid "+color+" sent to your selected cart lights. If the physical shade is right, save your scene; otherwise adjust RGB and test again."
+   :"The test was interrupted. Reconnect and try again.";
+  return !!ok;
+ }catch(error){
+  ui("scenePaletteStatus").textContent="Couldn't test the scene color: "+error.message;
+  return false;
+ }finally{button.disabled=false;}
+}
+for(const channel of ["R","G","B"])ui("scenePalette"+channel).addEventListener("input",designerPaletteChanged);
+ui("scenePaletteTest").onclick=designerPaletteTest;
 function renderDesigner() {
   ui("zoneEditors").replaceChildren();
   for (const id of E.zones) {
@@ -586,9 +719,14 @@ function renderDesigner() {
     picker.type = "color";
     picker.value = draft[id].color;
     picker.setAttribute("aria-label", label.textContent + " color");
+    picker.dataset.sceneZone = id;
     picker.oninput = () => {
       draft[id].color = picker.value;
       paintCart("designerCart", draft);
+    };
+    picker.onchange = () => {
+      designerPaletteSelection = id;
+      designerPaletteRender();
     };
     const state = document.createElement("select");
     state.className = "input";
@@ -615,6 +753,7 @@ function renderDesigner() {
   renderAccessoryEditor();
   paintCart("designerCart", draft);
   designerEffectNotice();
+  designerPaletteRender();
 }
 function designerEffectNotice() {
  const effect=Number(ui("designerEffect").value);
@@ -1122,10 +1261,17 @@ ui("saveDesign").onclick = () => {
   toast("Your whole-cart design is saved here.");
 };
 function editScene(scene) {
-  editingSceneId = scene.id;
+  // Factory presets are immutable. A long-press edits a new personal copy,
+  // while saved scenes keep their ID and get updated in place.
+  const builtIn=E.presets.some(item=>item.id===scene.id);
+  editingSceneId=builtIn?null:scene.id;
+  designerPaletteSelection="front-bumper";
   draft = E.validateRows(scene.rows);
   draftAccessories = E.accessories(scene.accessories, draft["front-bumper"]);
-  ui("sceneName").value = scene.name;
+  ui("sceneName").value = builtIn ? ("My "+scene.name).slice(0,40) : scene.name;
+  ui("designerIntro").textContent=builtIn
+   ?"Mix the colors and save your own version. The original "+scene.name+" remains unchanged."
+   :"Adjust this saved scene, test on the cart, then Save changes to keep your edits.";
   ui("gradientFront").value = draft["front-bumper"].color;
   ui("gradientRear").value = draft["rear-bumper"].color;
   ui("designerEffect").value = String(draft["front-bumper"].effect);
@@ -1134,7 +1280,7 @@ function editScene(scene) {
     draft["front-bumper"].brightness + "%";
   ui("designerSpeed").value = draft["front-bumper"].speed;
   ui("designerSpeedValue").textContent = draft["front-bumper"].speed;
-  ui("saveDesign").textContent = "Save changes ♡";
+  ui("saveDesign").textContent = builtIn ? "Save my version ♡" : "Save changes ♡";
   go("create");
 }
 const newDesign = document.createElement("button");
@@ -1142,6 +1288,8 @@ newDesign.className = "secondary";
 newDesign.textContent = "＋ New design";
 newDesign.onclick = () => {
   editingSceneId = null;
+  designerPaletteSelection="front-bumper";
+  ui("designerIntro").textContent="Mix your own colors, test them, then save a scene that uses them.";
   draft = E.rows();
   draftAccessories = E.accessories(null, draft["front-bumper"]);
   ui("sceneName").value = "My evening glow";
