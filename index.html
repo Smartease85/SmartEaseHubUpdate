@@ -37,7 +37,7 @@
 .haunted-colors{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:9px 0 14px}
 .haunted-colors i{display:block;width:35px;height:11px;border-radius:11px}
 .haunted-colors span{font-size:12px;color:var(--muted)}
-.haunted-preview{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;padding:12px 9px;background:#07181d;border:1px solid var(--line);border-radius:13px}
+.haunted-preview{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:12px 9px;background:#07181d;border:1px solid var(--line);border-radius:13px}
 .haunted-preview span{display:block;height:31px;background:#46ef77;border-radius:8px;box-shadow:0 0 11px #46ef7777;animation:haunted-shift 8.5s ease-in-out infinite;animation-delay:var(--hdelay)}
 @keyframes haunted-shift{0%,17%{background:#46ef77;box-shadow:0 0 11px #46ef7777}29%,46%{background:#a24aec;box-shadow:0 0 11px #a24aec77}60%,77%{background:#ff751e;box-shadow:0 0 11px #ff751e77}90%,100%{background:#46ef77;box-shadow:0 0 11px #46ef7777}}
 .haunted-settings{border:1px solid var(--line);border-radius:13px;background:#0b2229;padding:11px 13px;margin-top:12px}
@@ -56,6 +56,13 @@
 .haunted-mixer-visual span{color:var(--muted);font-size:11px}
 .haunted-mixer-visual i{display:block;height:40px;border:1px solid #b9cdd450;border-radius:8px;background:var(--teal)}
 #hauntedManualCustom{width:100%;max-width:110px;height:43px;padding:2px 4px;background:#0a2025;border-radius:9px;border:1px solid var(--line)}
+
+/* Five physical zones for Create; eight controller outputs remain accessible under Lights. */
+#studioZones{grid-template-columns:repeat(5,minmax(0,1fr))}
+#studioLookPreview{grid-template-columns:repeat(5,minmax(0,1fr))}
+#studioZones .studio-zone strong{font-size:11px;overflow-wrap:anywhere;white-space:normal;line-height:1.15}
+#studioLookPreview .preview-cell{font-size:10px;line-height:1.2;overflow-wrap:anywhere;min-height:46px;display:flex;justify-content:center;align-items:center;padding:3px}
+@media(max-width:750px){#studioZones{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <link rel="stylesheet" href="cart-zones.css">
 </head>
@@ -65,14 +72,14 @@
   <div class="identity"><div class="mark">S</div><div><div class="eyebrow">Your smart home, made easy</div><div class="brand">SmartEase <span style="color:var(--teal)">Cart Lights</span></div><div class="subbrand">SP608E / Direct Bluetooth</div></div></div>
   <span class="chip"><span class="led" id="topLed"></span><span id="topStatus">Disconnected</span></span>
  </header>
- <section class="hero"><div><div class="tag">SmartEase / Golf cart</div><h1>Make the lights yours.</h1><p>Pick lights. Choose a look. Enjoy the show. Eight zones, one simple controller.</p></div><div class="hero-art" aria-hidden="true"></div></section>
+ <section class="hero"><div><div class="tag">SmartEase / Golf cart</div><h1>Make the lights yours.</h1><p>Pick lights. Choose a look. Enjoy the show. Five real cart zones, one Bluetooth controller.</p></div><div class="hero-art" aria-hidden="true"></div></section>
   <div class="connection-banner" id="connectionBanner" role="status" hidden><b>Connection lost.</b> Your live show has stopped. Reconnect to continue.</div>
  <div class="notice"><span aria-hidden="true">!</span><div><b>Decorative lighting only.</b> Use while parked. Keep brake lights, turn signals, and other road-safety lighting independent of this app.</div></div>
  <div class="subnav" role="tablist" aria-label="Lighting app sections">
   <button type="button" class="active" role="tab" aria-selected="true" data-tab="control">Lights</button>
   <button type="button" role="tab" aria-selected="false" data-tab="effects">Effects</button>
-  <button type="button" role="tab" aria-selected="false" data-tab="scenes">Saved</button>
-  <button type="button" role="tab" aria-selected="false" data-tab="zones">Cart</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="scenes">Scenes 🎃</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="zones">Cart map</button>
   <button type="button" role="tab" aria-selected="false" data-tab="studio">Create</button>
   <button type="button" role="tab" aria-selected="false" data-tab="diagnostics">More</button>
  </div>
@@ -134,9 +141,9 @@
     <article class="panel" id="hauntedCard">
       <div class="panel-head"><div><h2>🎃 Halloween · Haunted Surge</h2><p>SmartEase custom sequence: green → purple → orange sweeping front-to-back, with twinkling starbursts.</p></div><span class="badge">Live Bluetooth</span></div>
       <div class="haunted-colors"><i style="background:#46ef77"></i><i style="background:#a24aec"></i><i style="background:#ff751e"></i><span>Green · Purple · Orange</span></div>
-      <div class="haunted-preview" aria-label="Animated eight-channel preview"><span style="--hdelay:0s"></span><span style="--hdelay:-.36s"></span><span style="--hdelay:-.72s"></span><span style="--hdelay:-1.08s"></span><span style="--hdelay:-1.44s"></span><span style="--hdelay:-1.80s"></span><span style="--hdelay:-2.16s"></span><span style="--hdelay:-2.52s"></span></div>
+      <div class="haunted-preview" aria-label="Animated five-zone Halloween preview"><span style="--hdelay:0s"></span><span style="--hdelay:-.36s"></span><span style="--hdelay:-.72s"></span><span style="--hdelay:-1.08s"></span><span style="--hdelay:-1.44s"></span></div>
       <p class="small muted">This runs live in Bluefy, not in the nine onboard SP608E scene slots. Keep Bluefy in front while parked. Your existing stored scene is not overwritten.</p>
-      <div class="field"><label for="hauntedOrder">Output order, front to back</label><input class="control" id="hauntedOrder" inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" value="1,2,3,4,5,6,7,8"><p class="small muted">Enter connected SP608E outputs in physical order. Example: 3,1,4,2. Omit unused channels.</p></div>
+      <div class="field"><label for="hauntedOrder">Output order, front to back</label><input class="control" id="hauntedOrder" inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" value="1,5,2,3,4"><p class="small muted">Enter connected SP608E outputs in physical order. Example: 3,1,4,2. Omit unused channels.</p></div>
       <div class="field" id="hauntedBrightnessControl">
        <label for="hauntedBrightness">Halloween brightness <span class="value" id="hauntedBrightnessLabel">45%</span></label>
        <input type="range" id="hauntedBrightness" min="0" max="100" step="1" value="45" aria-describedby="hauntedBrightnessHelp">
@@ -279,8 +286,8 @@
        <div class="cz-legend"><span><i style="background:#4fe1cb"></i>Mapped</span><span><i style="background:#526770"></i>Unmapped</span><span><i style="background:#f7fff8"></i>Selected</span></div>
       </div>
       <div class="cz-editor">
-       <div class="cz-section-head"><div><h3 id="czZoneTitle">Front left</h3><p id="czZoneHint">Tap an area to map it</p></div><span class="cz-chip" id="czSelectedChannels">Not mapped</span></div>
-       <div class="field"><label for="czZoneLabel">Zone name</label><div class="actions"><input class="control" id="czZoneLabel" maxlength="32" placeholder="Front left" style="flex:2;min-width:130px"><button class="button" type="button" id="czZoneLabelSave">Rename</button></div></div>
+       <div class="cz-section-head"><div><h3 id="czZoneTitle">Front bumper</h3><p id="czZoneHint">Tap an area to map it</p></div><span class="cz-chip" id="czSelectedChannels">Not mapped</span></div>
+       <div class="field"><label for="czZoneLabel">Zone name</label><div class="actions"><input class="control" id="czZoneLabel" maxlength="32" placeholder="Front bumper" style="flex:2;min-width:130px"><button class="button" type="button" id="czZoneLabelSave">Rename</button></div></div>
        <div class="field"><label>Active SP608E outputs for this physical location</label><div class="cz-channel-grid" id="czChannelCheckboxes" aria-label="Assign only connected controller outputs"></div><p class="small muted" id="czInactiveMappings" hidden></p></div>
        <div class="cz-info"><strong>Find the wiring:</strong> With the cart parked, select an SP608E output and briefly light it teal. See where it appears on the cart, then check that output in this zone. This identification changes the current live look but does not alter saved scenes.</div>
        <div class="field"><label for="czIdentifyOutput">Identify an SP608E output</label><select class="control" id="czIdentifyOutput">
@@ -330,7 +337,7 @@
    </section>
    <section class="tab" id="tab-studio" role="tabpanel" aria-hidden="true">
      <article class="panel">
-      <div class="panel-head"><div><h2>Create your own look</h2><p>Design it once. The SP608E plays its own smooth animations without continuous Bluetooth commands.</p></div><span class="badge">Recommended</span></div>
+      <div class="panel-head"><div><h2>Create your own cart look</h2><p>Choose from five mapped cart zones. Design it once. The SP608E plays its own smooth animations without continuous Bluetooth commands.</p></div><span class="badge">Recommended</span></div>
       <div class="steps"><span><b>1</b> Choose lights</span><span><b>2</b> Set the look</span><span><b>3</b> Apply &amp; save</span></div>
       <div class="caps" style="margin:17px 0 8px">Which lights?</div>
       <div class="studio-zones" id="studioZones" aria-label="Choose lighting zones for your look"></div>
@@ -420,7 +427,8 @@ const N=8,ALL=0xff,MIN_BLE_STEP=1800,WRITE_GAP_MS=240;
 const $=id=>document.getElementById(id);
 const rgbOrders=['RGB','RBG','GRB','GBR','BRG','BGR'];
 const COLORS=['#49e3d2','#00a8ff','#9069ff','#ec4b97','#ff5858','#ffa928','#f4fae5','#49ef8a'];
-const DEFAULT_NAMES=['Front left','Front right','Left rail','Right rail','Rear left','Rear right','Cabin','Accent'];
+const OLD_DEFAULT_NAMES=['Front left','Front right','Left rail','Right rail','Rear left','Rear right','Cabin','Accent'];
+const DEFAULT_NAMES=['Front bumper','Left undercarriage','Right undercarriage','Rear bumper','Canopy','Unused output 6','Unused output 7','Unused output 8'];
 const effects=[];
 const dyn=(id,name,o={})=>effects.push({id,name,type:'Dynamic',speed:true,color:!!o.color,length:!!o.length,direction:!!o.direction});
 const sound=(id,name,o={})=>effects.push({id,name,type:'Music',speed:false,color:!!o.color,length:!!o.length,direction:!!o.direction});
@@ -430,7 +438,7 @@ sound(101,'Rhythm spectrum - full');sound(102,'Rhythm spectrum - single',{color:
 const fxById=new Map(effects.map(x=>[x.id,x]));
 const observedCharacteristics=new WeakSet();
 const DEFAULT_SETTINGS=()=>({names:[...DEFAULT_NAMES],groups:[],looks:[],designs:[],sceneNames:Array.from({length:9},(_,i)=>`Scene ${i+1}`)});
-function loadSettings(){try{const s=JSON.parse(localStorage.getItem('smartease-cart-lights-v1')||'null');const b=DEFAULT_SETTINGS();if(!s||typeof s!=='object')return b;if(Array.isArray(s.names)&&s.names.length===8)b.names=s.names.map((v,i)=>typeof v==='string'?v.slice(0,26):DEFAULT_NAMES[i]);if(Array.isArray(s.groups))b.groups=s.groups.filter(g=>g&&typeof g.name==='string'&&Number.isInteger(g.mask)&&g.mask>0&&g.mask<=255).slice(0,16).map(g=>({name:g.name.slice(0,30),mask:g.mask}));if(Array.isArray(s.looks))b.looks=s.looks.filter(l=>l&&typeof l.name==='string'&&Array.isArray(l.channels)&&l.channels.length===8).slice(0,12);if(Array.isArray(s.sceneNames)&&s.sceneNames.length===9)b.sceneNames=s.sceneNames.map((x,i)=>typeof x==='string'?x.slice(0,28):`Scene ${i+1}`);if(Array.isArray(s.designs))b.designs=s.designs.filter(d=>d&&typeof d.name==='string'&&Number.isInteger(d.mask)&&d.mask>0&&d.mask<=255&&fxById.has(d.effect)&&typeof d.color==='string'&&/^#[0-9a-f]{6}$/i.test(d.color)).slice(0,20).map(d=>({name:d.name.slice(0,30),mask:d.mask,effect:d.effect,color:d.color,speed:Math.min(10,Math.max(1,Math.round(Number(d.speed)||5))),brightness:Math.min(255,Math.max(10,Math.round(Number(d.brightness)||115)))}));return b;}catch{return DEFAULT_SETTINGS();}}
+function loadSettings(){try{const s=JSON.parse(localStorage.getItem('smartease-cart-lights-v1')||'null');const b=DEFAULT_SETTINGS();if(!s||typeof s!=='object')return b;if(Array.isArray(s.names)&&s.names.length===8)b.names=s.names.map((v,i)=>typeof v==='string'?(v===OLD_DEFAULT_NAMES[i]?DEFAULT_NAMES[i]:v.slice(0,26)):DEFAULT_NAMES[i]);if(Array.isArray(s.groups))b.groups=s.groups.filter(g=>g&&typeof g.name==='string'&&Number.isInteger(g.mask)&&g.mask>0&&g.mask<=255).slice(0,16).map(g=>({name:g.name.slice(0,30),mask:g.mask}));if(Array.isArray(s.looks))b.looks=s.looks.filter(l=>l&&typeof l.name==='string'&&Array.isArray(l.channels)&&l.channels.length===8).slice(0,12);if(Array.isArray(s.sceneNames)&&s.sceneNames.length===9)b.sceneNames=s.sceneNames.map((x,i)=>typeof x==='string'?x.slice(0,28):`Scene ${i+1}`);if(Array.isArray(s.designs))b.designs=s.designs.filter(d=>d&&typeof d.name==='string'&&Number.isInteger(d.mask)&&d.mask>0&&d.mask<=255&&fxById.has(d.effect)&&typeof d.color==='string'&&/^#[0-9a-f]{6}$/i.test(d.color)).slice(0,20).map(d=>({name:d.name.slice(0,30),mask:d.mask,effect:d.effect,color:d.color,speed:Math.min(10,Math.max(1,Math.round(Number(d.speed)||5))),brightness:Math.min(255,Math.max(10,Math.round(Number(d.brightness)||115)))}));return b;}catch{return DEFAULT_SETTINGS();}}
 let settings=loadSettings();
 function saveSettings(){try{localStorage.setItem('smartease-cart-lights-v1',JSON.stringify(settings));}catch(e){log('Local storage is unavailable: '+e.message,'warn');}}
 const newChannel=()=>({known:false,power:false,effect:25,order:0,brightness:115,speed:5,length:32,direction:1,color:'#49e3d2'});
@@ -703,23 +711,48 @@ function captureLook(){if(!channels.every(c=>c.known)){notify('Read controller s
 function packetsForLook(look){const jobs=[];for(let i=0;i<N;i++){const c=look.channels[i],m=maskFor(i);if(!c||!Number.isInteger(c.effect)||!fxById.has(c.effect))continue;const fx=fxById.get(c.effect);jobs.push(packet(0x83,[m,c.effect]));if(fx.color&&isHex(c.color)){jobs.push(packet(0x89,[m,...rgbFromHex(c.color),0xff]));}if(fx.speed)jobs.push(packet(0x86,[m,cap(c.speed,1,10)]));if(fx.length){const n=cap(c.length,1,240);jobs.push(packet(0x87,[m,n>>8,n&255]));}if(fx.direction)jobs.push(packet(0x8a,[m,c.direction?1:0]));if(fx.type!=='Music')jobs.push(packet(0x85,[m,cap(c.brightness,0,255)]));jobs.push(packet(0x82,[m,c.power?1:0]));}return jobs;}
 async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}if(!confirm('Apply "'+look.name+'" to all eight SP608E channels? This sends many BLE commands and will change your current lighting.'))return;stopStudio();const jobs=packetsForLook(look);notify('Applying '+jobs.length+' lighting commands...');log('Applying local look "'+look.name+'" with '+jobs.length+' commands.');const success=await enqueuePackets(jobs,'Restore local look '+look.name);if(success)notify('Look commands sent. Read back to verify.');}
 
+/* Create presents five real cart areas, not eight hypothetical positions.
+   Lights, Effects and diagnostics retain raw SP608E channel-level controls. */
+function physicalCartZones(){
+ const mapped=typeof window.smarteaseCartZones==='function'?window.smarteaseCartZones():null;
+ if(Array.isArray(mapped)&&mapped.length===5)return mapped;
+ return [
+  {name:'Front bumper',channels:[1]},{name:'Canopy',channels:[5]},
+  {name:'Left undercarriage',channels:[2]},{name:'Right undercarriage',channels:[3]},
+  {name:'Rear bumper',channels:[4]}
+ ];
+}
+function maskForCartZone(zone){
+ return Array.isArray(zone.channels)?zone.channels.reduce((m,n)=>Number.isInteger(n)&&n>=1&&n<=8?m|maskFor(n-1):m,0):0;
+}
+function mappedCartMask(){return physicalCartZones().reduce((m,z)=>m|maskForCartZone(z),0);}
 function renderStudioZones(){
  const el=$('studioZones');if(!el)return;el.replaceChildren();
- settings.names.forEach((name,i)=>{
-  const selected=!!(selectedMask&maskFor(i));const btn=document.createElement('button');btn.type='button';btn.className='studio-zone'+(selected?' selected':'');btn.setAttribute('aria-pressed',String(selected));
-  const top=document.createElement('strong');top.textContent=name;const sub=document.createElement('small');sub.textContent=selected?'Selected':'Tap to select';btn.append(top,sub);
-  btn.onclick=()=>selectMask(selectedMask===ALL?maskFor(i):selectedMask^maskFor(i));el.append(btn);
- });
-}
-function selectedDesign(){return {mask:selectedMask,effect:Number($('studioEffect').value),color:$('studioColor').value,speed:Number($('studioSpeed').value),brightness:Number($('studioBrightness').value)};}
-function renderLookPreview(){
- const el=$('studioLookPreview');if(!el)return;el.replaceChildren();const look=selectedDesign();
- const multicolor=!fxById.get(look.effect)?.color&&look.effect!==25;
- for(let i=0;i<N;i++){
-  const active=!!(look.mask&maskFor(i));const cell=document.createElement('div');cell.className='preview-cell'+(active?' live':'')+(active&&multicolor?' rainbow':'');
-  cell.style.setProperty('--look-color',look.color);cell.textContent=String(i+1);cell.title=settings.names[i]+(active?' (selected)':' (not selected)');el.append(cell);
+ for(const zone of physicalCartZones()){
+  const m=maskForCartZone(zone),selected=!!m&&(selectedMask&m)===m;
+  const btn=document.createElement('button');btn.type='button';btn.className='studio-zone'+(selected?' selected':'');
+  btn.disabled=!m;btn.setAttribute('aria-pressed',String(selected));
+  const top=document.createElement('strong');top.textContent=zone.name;
+  const sub=document.createElement('small');sub.textContent=!m?'Map in Cart':selected?'Selected':'CH '+zone.channels.join(', ');
+  btn.append(top,sub);
+  btn.onclick=()=>{if(!m)return;const already=(selectedMask&m)===m;selectMask(selectedMask===ALL?m:already?selectedMask&~m:selectedMask|m);};
+  el.append(btn);
  }
- $('studioBrightnessValue').textContent=Math.round(100*look.brightness/255)+'%';$('studioSpeedValue').textContent=look.speed+' / 10';
+}
+function selectedDesign(){
+ return {mask:selectedMask&mappedCartMask(),effect:Number($('studioEffect').value),color:$('studioColor').value,speed:Number($('studioSpeed').value),brightness:Number($('studioBrightness').value)};
+}
+function renderLookPreview(){
+ const el=$('studioLookPreview');if(!el)return;el.replaceChildren();
+ const look=selectedDesign(),multicolor=!fxById.get(look.effect)?.color&&look.effect!==25;
+ for(const zone of physicalCartZones()){
+  const m=maskForCartZone(zone),active=!!m&&(look.mask&m)===m;
+  const cell=document.createElement('div');cell.className='preview-cell'+(active?' live':'')+(active&&multicolor?' rainbow':'');
+  cell.style.setProperty('--look-color',look.color);cell.textContent=zone.name;
+  cell.title=zone.name+(!m?' (not mapped)':active?' (selected)':' (not selected)');el.append(cell);
+ }
+ $('studioBrightnessValue').textContent=Math.round(100*look.brightness/255)+'%';
+ $('studioSpeedValue').textContent=look.speed+' / 10';
 }
 async function applyBuiltInLook(look,label='Your look'){
  if(!look.mask){notify('Select one or more lights first.');return false;}
