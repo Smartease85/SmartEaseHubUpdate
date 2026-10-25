@@ -35,7 +35,15 @@ class SP608EAdapter extends DeviceAdapter {
   disconnect() {
     disconnect();
   }
-  apply(rows, guard) {
+  async apply(rows, guard) {
+    // Controller-native effects need the physical LED chip order corrected
+    // BEFORE setting an effect. The same output mapping is shared by every
+    // SmartEase scene and survives device power cycles through local storage.
+    const outputs = [...new Set(SmartEaseEngine.zones.flatMap(
+      (zone) => czState.zones[zone]?.channels || [],
+    ))].filter(n => czState.activeOutputs.includes(n));
+    if (!await spEnsureChipColors(outputs, guard)) return false;
+    if (guard && !guard()) return false;
     const jobs = SmartEaseEngine.commands(
       rows,
       czState.zones,
