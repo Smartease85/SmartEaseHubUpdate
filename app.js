@@ -834,7 +834,7 @@ function updateHeader() {
             ? "Preview"
             : "Disconnected";
   ui("cartSubtitle").textContent = live
-    ? "Five zones. Connected to your cart."
+    ? "SP608E connected. This image shows your scene preview, not live LED colors."
     : transport === "demo"
       ? "Preview mode · real lights disconnected"
       : "Five zones. Endless possibilities.";

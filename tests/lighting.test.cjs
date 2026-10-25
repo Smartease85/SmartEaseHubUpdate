@@ -76,6 +76,31 @@ test("supplied RGB calibration is used on every output", () => {
   assert.deepEqual(visited, [1, 2, 3, 4, 5]);
   assert.ok(jobs.filter((p) => p[1] === 0x89).every((p) => p[4] === 3));
 });
+test("every mapped scene sends its calibrated RGB after power-on, matching the working color test", () => {
+  for (const [effect, expected] of [
+    [25, [0x83, 0x85, 0x82, 0x89]],
+    [3, [0x83, 0x85, 0x86, 0x82, 0x89]],
+    [1, [0x83, 0x85, 0x86, 0x82]],
+  ]) {
+    const rows = E.rows(["#ff0000", "#0000ff"], effect);
+    const jobs = E.commands(rows, mapping, [1, 2, 3, 4, 5], calibrate);
+    for (const [i, zone] of E.zones.entries()) {
+      const mask = 1 << i;
+      const writes = jobs.filter((p) => p[3] === mask);
+      assert.deepEqual(
+        writes.map((p) => p[1]),
+        expected,
+        `effect ${effect} must end with color, when supported, for ${zone}`,
+      );
+      if (effect !== 1) {
+        const sent = writes.at(-1);
+        assert.deepEqual(sent.slice(4, 7), [1, 3, 5].map((index) =>
+          Number.parseInt(rows[zone].color.slice(index, index + 2), 16),
+        ));
+      }
+    }
+  }
+});
 test("invalid mapping and malformed scene cannot produce commands", () => {
   const duplicate = structuredClone(mapping);
   duplicate.canopy.channels = [1];

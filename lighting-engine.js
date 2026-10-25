@@ -127,11 +127,14 @@
           jobs.push(p(0x82, [m, 0]));
           continue;
         }
+        // Apply the selected RGB only AFTER the controller is powered on.
+        // The working physical color test uses this ordering; sending 0x82
+        // last can cause some firmware to display an older/default color.
         jobs.push(p(0x83, [m, r.effect]));
-        if (r.effect !== 1) jobs.push(calibrate(n, r.color));
         jobs.push(p(0x85, [m, Math.round((r.brightness * 255) / 100)]));
         if (r.effect !== 25) jobs.push(p(0x86, [m, r.speed]));
         jobs.push(p(0x82, [m, 1]));
+        if (r.effect !== 1) jobs.push(calibrate(n, r.color));
       }
     }
     if (!seen.size)

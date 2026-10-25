@@ -340,10 +340,11 @@ async function czApplySceneRows(rows,name){
    if(!row.on){packets.push(packet(0x82,[mask,0]));continue;}
    const fx=czGetFx(row.effect);
    for(const n of assigned)packets.push(packet(0x83,[maskFor(n-1),fx.id]));
-   packets.push(packet(0x82,[mask,1]));
-   if(fx.color)for(const n of assigned)packets.push(hauntedColorCommand(n,row.color));
    packets.push(packet(0x85,[mask,Math.round(row.brightness*255/100)]));
    if(fx.speed)packets.push(packet(0x86,[mask,row.speed]));
+   packets.push(packet(0x82,[mask,1]));
+   // Final color write matches the guided calibration test's reliable order.
+   if(fx.color)for(const n of assigned)packets.push(hauntedColorCommand(n,row.color));
   }
   czStatus('Applying '+name+' to '+outputs.length+' mapped outputs…');
   const ok=await enqueuePackets(packets,'Golf cart zone scene '+name,{guard:()=>canSend()&&document.visibilityState==='visible'});
