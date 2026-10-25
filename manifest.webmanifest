@@ -1,10 +1,25 @@
 {
   "name": "SmartEase Cart Lights",
-  "short_name": "Cart Lights",
-  "description": "Bluefy compatible SP608E cart lighting control",
+  "short_name": "SmartEase",
+  "description": "Your cart. Your atmosphere. Beautiful lighting made simple.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#061319",
-  "theme_color": "#071419"
+  "background_color": "#071216",
+  "theme_color": "#071216",
+  "id": "./",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "purpose": "any maskable",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "purpose": "any maskable",
+      "sizes": "512x512"
+    }
+  ]
 }

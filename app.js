@@ -1,0 +1,1253 @@
+"use strict";
+/* Consumer layer on the retained, tested SP608E transport and storage model. */
+const E = SmartEaseEngine;
+const ui = (id) => document.getElementById(id);
+const uiStore = "smartease-experience-v1";
+let preferences = {
+  favorites: ["haunted", "signature", "sunset", "starlight"],
+  onboarded: false,
+  deviceIdentities: {},
+};
+try {
+  const p = JSON.parse(localStorage.getItem(uiStore) || "null");
+  if (p && Array.isArray(p.favorites))
+    preferences = {
+      ...preferences,
+      ...p,
+      favorites: p.favorites.filter((x) => typeof x === "string"),
+    };
+} catch {}
+if (
+  !preferences.deviceIdentities ||
+  typeof preferences.deviceIdentities !== "object"
+)
+  preferences.deviceIdentities = {};
+let draft = E.rows(),
+  activeScene = null,
+  previewRows = E.presets[1].rows,
+  page = "home",
+  filter = "All",
+  applying = false,
+  applyGeneration = 0,
+  liveToken = 0,
+  liveName = "",
+  powered = false;
+let editingSceneId = null,
+  cartView = "front",
+  draftAccessories = E.accessories(null, draft["front-bumper"]),
+  previewAccessories = E.accessories(null, previewRows["front-bumper"]);
+const icons = {
+  home: '<path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/>',
+  scenes:
+    '<path d="m12 3 2.8 6.2L21 12l-6.2 2.8L12 21l-2.8-6.2L3 12l6.2-2.8Z"/>',
+  create:
+    '<path d="m5 19 3-7L18 2l4 4-10 10-7 3Z"/><path d="m15 5 4 4M3 22h18"/>',
+  devices: '<path d="m8 7 8 10-4 4V3l4 4L8 17"/>',
+  settings:
+    '<path d="M4 7h16M4 17h16"/><circle cx="8" cy="7" r="3"/><circle cx="16" cy="17" r="3"/>',
+};
+const app = document.createElement("main");
+app.id = "app";
+app.innerHTML = `
+<header class="topline"><a class="wordmark" href="#home" aria-label="SmartEase home" style="color:inherit;text-decoration:none"><svg class="brand-symbol" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M26 6H14a8 8 0 0 0 0 16h8a4 4 0 0 1 0 8H9M10 30h12a8 8 0 0 0 0-16h-8a4 4 0 0 1 0-8h13" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>SmartEase<sup>®</sup></a><div class="connection-actions"><button class="status-pill" id="connectionSummary" aria-label="View device connection status"><span class="dot" id="connectionDot"></span><span id="connectionText">Disconnected</span></button><button class="reconnect" id="emergencyReconnect" aria-label="Reconnect all supported lighting devices">↻ Reconnect</button></div></header>
+<section class="page" data-page="home"><div class="welcome"><div><div class="overline">Your cart. Your atmosphere.</div><h1>Good nights.<br>Great lights.</h1><p>A little color makes every evening yours.</p></div><span class="pill">✦ Made simple. Made SmartEase.</span></div><div class="quick-favorites" id="quickFavorites" aria-label="Favorite scenes"></div><div class="dashboard"><article class="card cart-card"><div class="card-top"><div><h3>Your cart, in color</h3><p id="cartSubtitle">Five zones. Endless possibilities.</p></div><button class="round" id="cartPower" aria-label="Turn mapped decorative lights on" aria-pressed="false">⏻</button></div><div id="homeCart"></div><div class="now-playing"><div><small id="playState">SCENE PREVIEW</small><strong id="nowPlaying">SmartEase glow</strong></div><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><p class="busy-line" id="playProgress" role="status"></p></article><div class="right-stack"><article class="card feature"><div class="overline">A little seasonal magic</div><h2>Haunted Surge</h2><p>Toxic green. Haunted purple. Pumpkin orange. Let the night come alive.</p><div class="feature-orbs"><i style="--orb:#46ef77"></i><i style="--orb:#a24aec"></i><i style="--orb:#ff751e"></i><span>Flow + twinkle</span></div><button class="primary" id="featureHauntedPlay">Play scene <span>↗</span></button><button class="text-btn" id="stopShow" hidden>Stop live flow</button></article><article class="card brightness"><label for="appBrightness">Set the mood <span id="appBrightnessValue">45%</span></label><input id="appBrightness" type="range" min="0" max="100" value="45" aria-label="Mapped light brightness"><div style="display:flex;justify-content:space-between;font-size:10px;color:#718f89"><span>Subtle</span><span>Brilliant</span></div></article></div></div><div class="section-heading"><h2>Your favorites</h2><button class="text-btn" data-go="scenes">Explore scenes ↗</button></div><div class="scene-list" id="favoriteScenes"></div><p class="safety-note">Decorative lighting for parked moments.</p></section>
+<section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
+<section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p>Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
+<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
+<section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
+<nav class="bottom-nav" aria-label="Main navigation">${Object.entries(icons)
+  .map(
+    ([id, icon]) =>
+      `<button data-go="${id}" class="${id === "home" ? "active" : ""}" aria-label="${id === "create" ? "Create a scene" : id}" ${id === "home" ? 'aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${icon}</svg>${{ home: "My cart", scenes: "Scenes", create: "Create", devices: "Devices", settings: "Settings" }[id]}</button>`,
+  )
+  .join("")}</nav>
+<dialog id="welcomeDialog" aria-labelledby="welcomeTitle"><div class="overline">Welcome to SmartEase®</div><h2 id="welcomeTitle" style="margin-top:12px">Your best nights<br>start with a little color.</h2><p>Let’s get your cart glowing.</p><ol><li>Park and turn on your cart’s lighting power.</li><li>Open in Bluefy and close BanlanX or other lighting apps.</li><li>Tap Connect and choose your SP608E.</li></ol><div class="modal-actions"><button class="primary" id="welcomeConnect">Connect my cart ↗</button><button class="secondary" id="welcomePreview">Look around first</button></div><p class="small-note">Scenes save in this browser. No account. No subscription.</p></dialog>
+<dialog id="liveDialog" aria-labelledby="liveTitle"><div class="overline">Haunted Surge</div><h2 id="liveTitle" style="margin-top:12px">Choose your magic.</h2><p>Twinkle layers green, purple, and orange across the cart. Live flow sweeps color from front to rear, then bursts into stars.</p><label class="switchline"><input id="liveParked" type="checkbox">I’m parked and my five light connections are correct.</label><p class="small-note">Keep Bluefy open for live flow. Your cart’s switch must power the lights.</p><div class="modal-actions"><button class="primary" id="startLive">Play live flow ↗</button><button class="secondary" id="startTwinkle">Just twinkle</button><button class="text-btn" id="cancelLive">Cancel</button></div></dialog>
+<div class="toast-live" id="appToast" role="status" aria-live="polite" hidden></div>`;
+document.body.prepend(app);
+function persist() {
+  try {
+    localStorage.setItem(uiStore, JSON.stringify(preferences));
+    return true;
+  } catch {
+    toast("Your browser couldn’t save this. Try backing up your setup.");
+    return false;
+  }
+}
+function toast(message) {
+  ui("appToast").textContent = message;
+  ui("appToast").hidden = false;
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => (ui("appToast").hidden = true), 4200);
+}
+// All original diagnostics remain available in Advanced; consumer messages are concise.
+function renderAccessoryEditor() {
+  const n = draftAccessories.nokins,
+    t = draftAccessories.trinka;
+  ui("designNokinsOn").checked = n.on;
+  ui("designNokinsFollow").checked = n.follow === "front";
+  ui("designNokinsColor").value = n.color;
+  ui("designNokinsColor").disabled = n.follow === "front";
+  ui("designNokinsBrightness").value = n.brightness;
+  ui("designNokinsBrightness").disabled = n.follow === "front";
+  ui("designEyesOn").checked = t.on;
+  ui("designEyesPattern").value = t.pattern;
+  ui("designEyesColor").value = t.color;
+  ui("designEyesBrightness").value = t.brightness;
+}
+const legacyNotify = notify;
+notify = function (message) {
+  if (document.body.classList.contains("advanced-open")) {
+    toast(message);
+    return;
+  }
+  const known = [
+    [
+      /Connect to SP608E|Connect first|Connect to your SP608E/,
+      "Connect your cart lighting first.",
+    ],
+    [
+      /Bluetooth write failed/,
+      "Your connection was interrupted. Tap Reconnect to try again.",
+    ],
+    [
+      /Could not connect/,
+      "Couldn’t connect. Check the lighting power and close other lighting apps, then tap Reconnect.",
+    ],
+    [/DEMO|Demo UI/, "Preview mode is on. Your real lights aren’t connected."],
+  ];
+  toast(known.find(([pattern]) => pattern.test(message))?.[1] || message);
+};
+function go(next) {
+  if (!Object.hasOwn(icons, next)) next = "home";
+  page = next;
+  document
+    .querySelectorAll("#app [data-page]")
+    .forEach((el) => (el.hidden = el.dataset.page !== next));
+  document.querySelectorAll("#app .bottom-nav button").forEach((el) => {
+    el.classList.toggle("active", el.dataset.go === next);
+    if (el.dataset.go === next) el.setAttribute("aria-current", "page");
+    else el.removeAttribute("aria-current");
+  });
+  document.body.classList.remove("advanced-open");
+  history.replaceState(null, "", "#" + next);
+  if (next === "home") renderScenesUI();
+  if (next === "create") renderDesigner();
+  if (next === "scenes") renderScenesUI();
+  if (next === "devices") renderDevices();
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+function cartDrawing(prefix) {
+  const rear = cartView === "rear",
+    glow = prefix === "home" ? "glow" : "glow-designer";
+  const lighting = rear
+    ? `<path data-light="canopy" d="M177 150 Q520 203 1114 141"/><path data-light="rear-bumper" d="M686 1037 1265 977"/><path data-light="left-under" d="M146 894 330 959"/><path data-light="right-under" d="M1000 1030 1200 982"/>`
+    : `<path data-light="canopy" d="M221 129 Q437 153 680 172 Q940 192 1160 167"/><path data-light="front-bumper" d="M151 958 Q224 986 301 973"/><path data-light="left-under" d="M713 992 1032 928"/><path data-light="rear-bumper" d="m1220 814 62-20"/>`;
+  const nokins = rear
+    ? `<path data-nokins d="M511 771 Q550 742 627 744 L637 794 Q567 793 511 771Z"/><path data-nokins d="m1103 730 48 13 6 16-51 14Z"/>`
+    : `<path data-nokins d="m136 871 26 9 13 43 105 26 17-43 39 1"/><path data-nokins d="m141 882 16 6m-12 2 17 7m-14 0 17 7m142 6 24-4m-27 12 23-4m-26 12 21-5"/>`;
+  const eyes = rear
+    ? ""
+    : `<g class="windshield-display" transform="matrix(1 .035 -.20 1 292 424)"><rect width="280" height="86" rx="9" fill="#030b0e" stroke="#425253" stroke-width="3"/><defs><pattern id="eye-dots-${prefix}" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="3.8" height="3.8" fill="white"/></pattern><mask id="eye-mask-${prefix}"><rect width="280" height="86" fill="url(#eye-dots-${prefix})"/></mask></defs><g class="eye-glyphs" mask="url(#eye-mask-${prefix})"><path data-eye d="M20 19 128 40 113 66 62 63Z"/><path data-eye d="M152 40 260 19 218 63 166 66Z"/></g></g>`;
+  return `<div class="view-switch" role="group" aria-label="Cart view"><button data-cart-view="front" aria-pressed="${!rear}">Front</button><button data-cart-view="rear" aria-pressed="${rear}">Rear</button><span>2008 Precedent</span></div><div class="cart-stage model-stage"><svg class="cart-svg" viewBox="0 0 1312 1199" role="img" aria-label="${rear ? "Rear" : "Front"} view of a white 2008 Club Car Precedent with black trim, NOKINS lighting${rear ? "" : " and windshield Devil Eyes"}"><defs><filter id="${glow}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="10" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><image href="cart-precedent-${cartView}.webp" width="1312" height="1199"/><g fill="none" stroke-linecap="round" style="filter:url(#${glow})">${lighting}<g class="nokins-preview">${nokins}</g></g>${eyes}</svg><span class="preview-label">Whole-cart preview</span></div><div class="zone-tags">${E.zones.map((id) => `<span class="zone-tag" data-tag="${id}"><i></i>${{ "front-bumper": "Front", canopy: "Canopy", "left-under": "Left", "right-under": "Right", "rear-bumper": "Rear" }[id]}</span>`).join("")}<span class="zone-tag accessory-tag">NOKINS RGB</span>${rear ? "" : '<span class="zone-tag accessory-tag">Devil Eyes</span>'}</div>`;
+}
+ui("homeCart").innerHTML = cartDrawing("home");
+ui("designerCart").innerHTML = cartDrawing("designer");
+function paintCart(
+  container,
+  rows,
+  accessories = container === "designerCart"
+    ? draftAccessories
+    : previewAccessories,
+) {
+  for (const el of ui(container).querySelectorAll("[data-light]")) {
+    const r = rows[el.dataset.light];
+    el.style.stroke = r.on ? r.color : "#294244";
+    el.style.opacity = r.on ? String(0.25 + r.brightness / 133) : ".25";
+    el.classList.toggle("sparkle", r.on && r.effect !== 25);
+    el.classList.add("cart-light");
+  }
+  for (const el of ui(container).querySelectorAll("[data-tag]"))
+    el.style.setProperty(
+      "--light",
+      rows[el.dataset.tag].on ? rows[el.dataset.tag].color : "#294244",
+    );
+  const design = E.accessories(accessories, rows["front-bumper"]),
+    n = design.nokins,
+    t = design.trinka;
+  const accent =
+    n.follow === "front"
+      ? rows["front-bumper"]
+      : { on: n.on, color: n.color, brightness: n.brightness };
+  for (const el of ui(container).querySelectorAll("[data-nokins]")) {
+    el.style.stroke = n.on && accent.on ? accent.color : "#3a4a4a";
+    el.style.opacity =
+      n.on && accent.on ? String(0.25 + accent.brightness / 133) : ".2";
+  }
+  const display = ui(container).querySelector(".windshield-display");
+  if (display) {
+    display.style.opacity = t.on ? String(0.3 + t.brightness / 143) : ".2";
+    for (const el of display.querySelectorAll("[data-eye]"))
+      el.style.fill = t.on ? t.color : "#132326";
+    display
+      .querySelector(".eye-glyphs")
+      .setAttribute("class", "eye-glyphs " + t.pattern);
+  }
+}
+function redrawCartViews() {
+  for (const [id, prefix, rows, accessories] of [
+    ["homeCart", "home", previewRows, previewAccessories],
+    ["designerCart", "designer", draft, draftAccessories],
+  ]) {
+    ui(id).innerHTML = cartDrawing(prefix);
+    paintCart(id, rows, accessories);
+  }
+}
+app.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-cart-view]");
+  if (button) {
+    cartView = button.dataset.cartView;
+    redrawCartViews();
+  }
+});
+function savedScenes() {
+  return czState.scenes.map((s) => ({
+    ...s,
+    category: "Saved",
+    palette: [s.rows["front-bumper"].color, s.rows["rear-bumper"].color],
+    caption: "Made by you · saved here",
+    saved: true,
+  }));
+}
+function sceneById(id) {
+  return [...E.presets, ...savedScenes()].find((s) => s.id === id);
+}
+function sceneTile(scene) {
+  const tile = document.createElement("article");
+  tile.className =
+    "scene-tile" +
+    (scene.saved ? " saved-tile" : "") +
+    (activeScene?.id === scene.id ? " active-scene" : "");
+  tile.style.setProperty("--a", scene.palette[0]);
+  tile.style.setProperty("--b", scene.palette.at(-1));
+  const use = document.createElement("button");
+  use.className = "scene-main";
+  use.setAttribute("aria-label", "Play " + scene.name);
+  const art = document.createElement("span");
+  art.className = "scene-art";
+  art.style.display = "block";
+  art.setAttribute("aria-hidden", "true");
+  const copy = document.createElement("span");
+  copy.className = "scene-copy";
+  const title = document.createElement("strong");
+  title.textContent = scene.name;
+  const subtitle = document.createElement("small");
+  subtitle.textContent = scene.caption;
+  copy.append(title, subtitle);
+  use.append(art, copy);
+  use.onclick = () => chooseScene(scene);
+  const favorite = document.createElement("button");
+  favorite.className =
+    "favorite" + (preferences.favorites.includes(scene.id) ? " selected" : "");
+  favorite.textContent = preferences.favorites.includes(scene.id) ? "★" : "☆";
+  favorite.setAttribute(
+    "aria-label",
+    (preferences.favorites.includes(scene.id) ? "Unfavorite " : "Favorite ") +
+      scene.name,
+  );
+  favorite.setAttribute(
+    "aria-pressed",
+    String(preferences.favorites.includes(scene.id)),
+  );
+  favorite.onclick = () => {
+    preferences.favorites = preferences.favorites.includes(scene.id)
+      ? preferences.favorites.filter((id) => id !== scene.id)
+      : [...preferences.favorites, scene.id];
+    persist();
+    renderScenesUI();
+  };
+  tile.append(use, favorite);
+  if (scene.saved) {
+    const del = document.createElement("button");
+    del.className = "delete-scene";
+    del.textContent = "×";
+    del.setAttribute("aria-label", "Delete " + scene.name);
+    del.onclick = () => {
+      if (confirm("Delete “" + scene.name + "” from this browser?")) {
+        czState.scenes = czState.scenes.filter((s) => s.id !== scene.id);
+        preferences.favorites = preferences.favorites.filter(
+          (id) => id !== scene.id,
+        );
+        czSave();
+        persist();
+        renderScenesUI();
+        czRenderSaved();
+      }
+    };
+    const edit = document.createElement("button");
+    edit.className = "edit-scene";
+    edit.textContent = "✎";
+    edit.setAttribute("aria-label", "Edit " + scene.name);
+    edit.onclick = () => editScene(scene);
+    tile.append(edit, del);
+  }
+  return tile;
+}
+function renderScenesUI() {
+  const quick = preferences.favorites.map(sceneById).filter(Boolean);
+  ui("quickFavorites").replaceChildren(
+    ...quick.map((scene) => {
+      const button = document.createElement("button");
+      button.className = "quick-scene";
+      button.setAttribute("aria-label", "Play favorite " + scene.name);
+      const dot = document.createElement("i");
+      dot.style.background =
+        "linear-gradient(135deg," +
+        scene.palette[0] +
+        "," +
+        scene.palette.at(-1) +
+        ")";
+      button.append(dot, document.createTextNode(scene.name));
+      button.onclick = () => chooseScene(scene);
+      return button;
+    }),
+  );
+  ui("favoriteScenes").replaceChildren(
+    ...preferences.favorites.map(sceneById).filter(Boolean).map(sceneTile),
+  );
+  if (!ui("favoriteScenes").children.length)
+    ui("favoriteScenes").innerHTML =
+      '<div class="empty-state">Tap ☆ on any scene to make it a favorite.</div>';
+  const all = [...E.presets, ...savedScenes()].filter(
+    (s) => filter === "All" || s.category === filter,
+  );
+  ui("allScenes").replaceChildren(...all.map(sceneTile));
+  if (!all.length)
+    ui("allScenes").innerHTML =
+      '<div class="empty-state">Your next favorite is yours to create. Save your first scene in Create.</div>';
+}
+function showPreview(scene) {
+  activeScene = scene;
+  previewRows = structuredClone(scene.rows);
+  previewAccessories = E.accessories(
+    scene.accessories,
+    scene.rows["front-bumper"],
+  );
+  paintCart("homeCart", previewRows);
+  ui("nowPlaying").textContent = scene.name;
+  ui("playState").textContent = "SCENE PREVIEW";
+  const brightness = scene.rows["front-bumper"].brightness;
+  ui("appBrightness").value = brightness;
+  ui("appBrightnessValue").textContent = brightness + "%";
+  renderScenesUI();
+}
+async function chooseScene(scene) {
+  showPreview(scene);
+  if (!hasSceneTarget()) {
+    toast("Preview ready. Connect your cart to play it on your lights.");
+    return;
+  }
+  await applyScene(scene);
+}
+function hasSceneTarget() {
+  return cartDevices.some(
+    (a) => a.capabilities.scenes && a.connected && a.sceneEnabled !== false,
+  );
+}
+async function applyScene(scene) {
+  if (!hasSceneTarget()) {
+    toast("Connect your cart lighting first.");
+    go("devices");
+    return false;
+  }
+  if (applying) {
+    toast("Finishing your last scene. You can stop it with the power button.");
+    return false;
+  }
+  const generation = ++applyGeneration;
+  liveToken++;
+  liveName = "";
+  ui("stopShow").hidden = true;
+  applying = true;
+  updateHeader();
+  ui("playProgress").textContent = "Setting the mood…";
+  try {
+    const result = await cartSession.apply(scene.rows, scene.accessories);
+    if (generation !== applyGeneration || result.cancelled) return false;
+    const ok = result.results.length > 0 && result.results.every((r) => r.ok);
+    if (!ok)
+      throw Error(
+        "Your lights didn’t finish updating. Reconnect, then play the scene again.",
+      );
+    showPreview(scene);
+    powered = Object.values(scene.rows).some((r) => r.on);
+    ui("playState").textContent =
+      transport === "demo"
+        ? "PREVIEW MODE"
+        : previewAccessories.trinka.on
+          ? "LIGHTING SENT · EYES PREVIEW"
+          : "LIGHTING SENT TO YOUR CART";
+    toast(
+      transport === "demo"
+        ? "Preview playing."
+        : result.results
+            .map((r) => (r.id === "sp608e" ? "Cart lighting" : "NOKINS"))
+            .join(" + ") +
+            " updated." +
+            (previewAccessories.nokins.on &&
+            !result.results.some((r) => r.id === "nokins")
+              ? " NOKINS stays in preview."
+              : "") +
+            (previewAccessories.trinka.on ? " Eyes stay in preview." : ""),
+    );
+    return true;
+  } catch (e) {
+    if (generation === applyGeneration) toast(e.message);
+    return false;
+  } finally {
+    if (generation === applyGeneration) {
+      applying = false;
+      ui("playProgress").textContent = "";
+    }
+    updateHeader();
+  }
+}
+function cancelPlayback() {
+  applyGeneration++;
+  applying = false;
+  liveToken++;
+  liveName = "";
+  cartSession.stop();
+  ui("stopShow").hidden = true;
+  ui("playProgress").textContent = "";
+}
+async function lightsOff() {
+  cancelPlayback();
+  const targets = cartDevices.filter(
+    (a) => a.capabilities.scenes && a.connected && a.sceneEnabled !== false,
+  );
+  if (!targets.length) {
+    toast("Connect your cart lighting first.");
+    return;
+  }
+  const results = await Promise.allSettled(targets.map((a) => a.power(false)));
+  if (results.every((r) => r.status === "fulfilled" && r.value)) {
+    powered = false;
+    previewAccessories.nokins.on = false;
+    previewRows = Object.fromEntries(
+      E.zones.map((id) => [id, { ...previewRows[id], on: false }]),
+    );
+    paintCart("homeCart", previewRows);
+    ui("playState").textContent = "DECORATIVE LIGHTS OFF";
+    toast("Decorative lighting off request sent.");
+  } else toast("Some lights didn’t respond. Reconnect and try again.");
+  updateHeader();
+}
+async function startHauntedFlow() {
+  if (!ui("liveParked").checked) {
+    toast("Confirm you’re parked and your five light connections are correct.");
+    return;
+  }
+  if (!canSend()) {
+    ui("liveDialog").close();
+    go("devices");
+    toast("Connect your cart lighting first.");
+    return;
+  }
+  if (applying) {
+    toast("Let the current scene finish first.");
+    return;
+  }
+  ui("liveDialog").close();
+  cancelPlayback();
+  const token = ++liveToken,
+    generation = cartSession.generation;
+  const guard = () =>
+    token === liveToken &&
+    generation === cartSession.generation &&
+    canSend() &&
+    document.visibilityState === "visible";
+  liveName = "Haunted Surge";
+  powered = true;
+  ui("stopShow").hidden = false;
+  ui("playState").textContent =
+    transport === "demo" ? "LIVE PREVIEW" : "LIVE FLOW · KEEP BLUEFY OPEN";
+  ui("nowPlaying").textContent = liveName;
+  const order = E.zones.slice().sort((a, b) => E.positions[a] - E.positions[b]);
+  let previous = "#ff751e";
+  try {
+    while (guard()) {
+      for (const stage of ["#46ef77", "#a24aec", "#ff751e"]) {
+        if (!guard()) break;
+        if (cartDevices[2].connected && cartDevices[2].sceneEnabled)
+          await cartDevices[2].apply(
+            E.rows([stage, stage], 25, Number(ui("appBrightness").value)),
+            guard,
+          );
+        const initial = E.rows(
+          [previous, previous],
+          25,
+          Number(ui("appBrightness").value),
+        );
+        if (!(await cartDevices[0].apply(initial, guard)))
+          throw Error(
+            "Connection interrupted. Tap Reconnect to resume your lights.",
+          );
+        for (const id of order) {
+          if (!guard()) break;
+          const ports = czValidAssigned(id);
+          if (!ports.length) continue;
+          for (let step = 1; step <= 2; step++) {
+            if (!guard()) break;
+            const col = E.mix(previous, stage, step / 2);
+            const ok = await enqueuePackets(
+              ports.map((n) =>
+                hauntedFadeCommand(n, previous, stage, step / 2),
+              ),
+              "SmartEase live gradient",
+              { guard, skipRefresh: true },
+            );
+            if (!ok && guard())
+              throw Error(
+                "Connection interrupted. Tap Reconnect to resume your lights.",
+              );
+            initial[id].color = col;
+            paintCart("homeCart", initial);
+          }
+        }
+        if (!guard()) break;
+        const twinkle = E.rows(
+          [stage, stage],
+          3,
+          Number(ui("appBrightness").value),
+        );
+        if (!(await cartDevices[0].apply(twinkle, guard)))
+          throw Error(
+            "Connection interrupted. Tap Reconnect to resume your lights.",
+          );
+        paintCart("homeCart", twinkle);
+        ui("playProgress").textContent =
+          "Twinkling " +
+          {
+            "#46ef77": "toxic green",
+            "#a24aec": "haunted purple",
+            "#ff751e": "pumpkin orange",
+          }[stage];
+        for (let t = 0; t < 2400 && guard(); t += 100) await sleep(100);
+        previous = stage;
+      }
+    }
+  } catch (e) {
+    if (guard()) toast(e.message);
+  } finally {
+    if (token === liveToken) {
+      liveName = "";
+      ui("stopShow").hidden = true;
+      ui("playState").textContent = "LIVE FLOW STOPPED";
+      ui("playProgress").textContent = "";
+    }
+  }
+}
+function renderDesigner() {
+  ui("zoneEditors").replaceChildren();
+  for (const id of E.zones) {
+    const row = document.createElement("div");
+    row.className = "edit-row";
+    const label = document.createElement("span");
+    label.textContent = CZ_DEFS.find((z) => z.id === id).name;
+    const picker = document.createElement("input");
+    picker.type = "color";
+    picker.value = draft[id].color;
+    picker.setAttribute("aria-label", label.textContent + " color");
+    picker.oninput = () => {
+      draft[id].color = picker.value;
+      paintCart("designerCart", draft);
+    };
+    const state = document.createElement("select");
+    state.className = "input";
+    state.setAttribute("aria-label", label.textContent + " state");
+    for (const [value, text] of [
+      ["on", "Included"],
+      ["off", "Light off"],
+    ]) {
+      const opt = document.createElement("option");
+      opt.value = value;
+      opt.textContent = text;
+      state.append(opt);
+    }
+    state.value = draft[id].on ? "on" : "off";
+    state.onchange = () => {
+      draft[id].on = state.value === "on";
+      paintCart("designerCart", draft);
+    };
+    row.append(label, picker, state);
+    ui("zoneEditors").append(row);
+  }
+  ui("gradientLine").style.setProperty("--a", ui("gradientFront").value);
+  ui("gradientLine").style.setProperty("--b", ui("gradientRear").value);
+  renderAccessoryEditor();
+  paintCart("designerCart", draft);
+}
+function renderDevices() {
+  const list = ui("deviceList");
+  list.replaceChildren();
+  for (const adapter of cartDevices) {
+    const row = document.createElement("div");
+    row.className = "device-row";
+    const info = document.createElement("div");
+    info.className = "device-info";
+    const symbol = document.createElement("span");
+    symbol.className = "device-icon";
+    symbol.textContent =
+      adapter.id === "sp608e" ? "✦" : adapter.id === "trinka" ? "◉" : "◈";
+    symbol.setAttribute("aria-hidden", "true");
+    const words = document.createElement("div"),
+      heading = document.createElement("h3"),
+      detail = document.createElement("p");
+    heading.textContent = adapter.name;
+    if (adapter.id === "sp608e")
+      detail.textContent = isLive()
+        ? (device.name || "SP608E") + " · Connected"
+        : transport === "demo"
+          ? "Preview mode · No physical connection"
+          : connectionInProgress
+            ? "Connecting…"
+            : "SP608E · Disconnected";
+    else if (adapter.id === "nokins") {
+      detail.textContent = adapter.connected
+        ? adapter.device.name + " · Connected · Color control ready"
+        : adapter.connecting
+          ? "Connecting…"
+          : adapter.identity
+            ? adapter.identity.name +
+              " · " +
+              (adapter.profile ? "Disconnected" : "Setup needed")
+            : "LotusLamp X · Connect compatible decorative lighting";
+      if (adapter.connected) {
+        const label = document.createElement("label");
+        label.className = "switchline";
+        const match = document.createElement("input");
+        match.type = "checkbox";
+        match.checked = adapter.sceneEnabled;
+        match.onchange = () => {
+          adapter.sceneEnabled = match.checked;
+          toast(
+            match.checked
+              ? "NOKINS will follow the front scene color."
+              : "NOKINS scene matching is off.",
+          );
+        };
+        label.append(
+          match,
+          document.createTextNode(
+            "Match scene colors on decorative NOKINS lighting",
+          ),
+        );
+        words.append(heading, detail, label);
+        const note = document.createElement("p");
+        note.className = "small-note";
+        note.textContent =
+          "One matching color. Factory driving controls stay independent.";
+        words.append(note);
+      }
+    } else {
+      const identity = preferences.deviceIdentities?.[adapter.id];
+      detail.textContent = identity
+        ? identity.name + " · Identified, control setup needed"
+        : "Use your display’s app for now. Identify it to help finish setup.";
+    }
+    if (!words.children.length) words.append(heading, detail);
+    info.append(symbol, words);
+    const action = document.createElement("button");
+    action.className = adapter.id === "sp608e" ? "primary" : "secondary";
+    action.textContent =
+      adapter.id === "sp608e"
+        ? isLive()
+          ? "Connected"
+          : connectionInProgress
+            ? "Connecting…"
+            : "Connect"
+        : adapter.id === "nokins"
+          ? adapter.connected
+            ? "Disconnect"
+            : adapter.connecting
+              ? "Connecting…"
+              : "Connect"
+          : "Identify";
+    action.disabled =
+      (adapter.id === "sp608e" && (isLive() || connectionInProgress)) ||
+      adapter.connecting === true;
+    action.onclick = async () => {
+      if (adapter.id === "sp608e") {
+        await reconnectAll();
+        return;
+      }
+      if (adapter.id === "nokins" && adapter.connected) {
+        adapter.disconnect();
+        renderDevices();
+        updateHeader();
+        return;
+      }
+      action.disabled = true;
+      try {
+        if (adapter.id === "nokins") {
+          await adapter.connect(!adapter.profile);
+          toast(
+            "NOKINS connected. Choose scene matching to include its decorative lights.",
+          );
+        } else {
+          const identity = await adapter.identify();
+          preferences.deviceIdentities[adapter.id] = identity;
+          persist();
+          ui("deviceMessage").textContent =
+            identity.name +
+            " identified. Its control setup still needs verification; continue using its original app.";
+          toast("Device identified. Control setup is still needed.");
+        }
+      } catch (error) {
+        if (error.name !== "NotFoundError") toast(error.message);
+      } finally {
+        renderDevices();
+        updateHeader();
+      }
+    };
+    row.append(info, action);
+    list.append(row);
+    if (adapter.id === "nokins" && adapter.identity && !adapter.connected) {
+      const another = document.createElement("button");
+      another.className = "text-btn";
+      another.textContent = "Choose a different LotusLamp controller ↗";
+      another.onclick = async () => {
+        try {
+          await adapter.connect(true);
+          toast("NOKINS connected.");
+        } catch (error) {
+          if (error.name !== "NotFoundError") toast(error.message);
+        }
+        renderDevices();
+        updateHeader();
+      };
+      list.append(another);
+    }
+  }
+}
+async function reconnectAll(force = false) {
+  if (connectionInProgress) return;
+  if (force === true) {
+    cancelPlayback();
+    for (const adapter of cartDevices.filter(
+      (a) => a.capabilities.scenes && a.connected,
+    ))
+      adapter.disconnect();
+  }
+  if (transport === "demo") {
+    exitDemo();
+  }
+  const targets = cartDevices.filter(
+    (a) =>
+      a.capabilities.scenes &&
+      !a.connected &&
+      (a.id === "sp608e" || (a.device && a.profile)),
+  );
+  if (!targets.length) {
+    toast("Your supported cart lighting is already connected.");
+    go("devices");
+    return;
+  }
+  ui("emergencyReconnect").disabled = true;
+  ui("emergencyReconnect").textContent = "↻ Connecting";
+  ui("deviceMessage").textContent = "Connecting your supported lighting…";
+  try {
+    for (const adapter of targets) {
+      try {
+        if (rememberedDevice) await adapter.reconnect();
+        else await adapter.connect();
+      } catch (error) {
+        log(adapter.name + " reconnect: " + error.message, "warn");
+      }
+    }
+    const connected = targets.filter((a) => a.connected);
+    ui("deviceMessage").textContent =
+      connected.length === targets.length
+        ? "Cart lighting connected. Your other devices can be identified below."
+        : "Check the lighting switch, close other lighting apps, and try again. If needed, choose Find another controller.";
+    if (connected.length !== targets.length) {
+      toast("Reconnect didn’t finish. Open Devices to try another controller.");
+      go("devices");
+    } else toast("Your cart lighting is connected.");
+  } catch (e) {
+    toast("Couldn’t reconnect. Check power and try again.");
+  } finally {
+    ui("emergencyReconnect").disabled = false;
+    ui("emergencyReconnect").textContent = "↻ Reconnect";
+    renderDevices();
+    updateHeader();
+  }
+}
+function updateHeader() {
+  const live = isLive();
+  ui("connectionDot").classList.toggle("live", live);
+  const known = cartDevices.filter(
+    (a) =>
+      a.capabilities.scenes && (a.id === "sp608e" || (a.device && a.profile)),
+  );
+  const count = known.filter((a) =>
+    a.id === "sp608e" ? live : a.connected,
+  ).length;
+  ui("connectionDot").classList.toggle("live", count > 0);
+  ui("connectionText").textContent =
+    connectionInProgress || cartDevices[2].connecting
+      ? "Connecting"
+      : count === known.length && count > 0
+        ? count === 1
+          ? "Connected"
+          : count + " connected"
+        : count > 0
+          ? count + "/" + known.length + " connected"
+          : transport === "demo"
+            ? "Preview"
+            : "Disconnected";
+  ui("cartSubtitle").textContent = live
+    ? "Five zones. Connected to your cart."
+    : transport === "demo"
+      ? "Preview mode · real lights disconnected"
+      : "Five zones. Endless possibilities.";
+  ui("cartPower").classList.toggle("on", powered && hasSceneTarget());
+  ui("cartPower").setAttribute(
+    "aria-pressed",
+    String(powered && hasSceneTarget()),
+  );
+  ui("cartPower").setAttribute(
+    "aria-label",
+    applying
+      ? "Stop and turn mapped decorative lights off"
+      : powered
+        ? "Turn mapped decorative lights off"
+        : "Turn mapped decorative lights on",
+  );
+  ui("appAutoReconnect").checked = autoReconnectOn;
+  ui("previewMode").textContent =
+    transport === "demo" ? "Leave preview mode" : "Explore in preview mode";
+  ui("previewStatus").textContent =
+    transport === "demo"
+      ? "Preview only. Your real lights are disconnected."
+      : "";
+  ui("disconnectCart").disabled = !isLive();
+  ui("syncCart").disabled = !canSend();
+  if (page === "devices") renderDevices();
+}
+const oldUpdateTransport = updateTransport;
+updateTransport = function () {
+  oldUpdateTransport();
+  if (ui("connectionText")) updateHeader();
+};
+function backup() {
+  const values = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("smartease-")) values[key] = localStorage.getItem(key);
+  }
+  const blob = new Blob(
+    [
+      JSON.stringify(
+        {
+          format: "smartease-cart-backup",
+          version: 1,
+          date: new Date().toISOString(),
+          values,
+        },
+        null,
+        2,
+      ),
+    ],
+    { type: "application/json" },
+  );
+  const href = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = href;
+  a.download = "SmartEase-cart-backup.json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(href), 2000);
+  toast("Your SmartEase backup is ready.");
+}
+async function restoreBackup(file) {
+  if (!file) return;
+  if (file.size > 2_000_000) {
+    toast("Choose a SmartEase backup smaller than 2 MB.");
+    return;
+  }
+  try {
+    const data = JSON.parse(await file.text());
+    if (
+      data.format !== "smartease-cart-backup" ||
+      data.version !== 1 ||
+      !data.values ||
+      typeof data.values !== "object"
+    )
+      throw Error(
+        "Choose a full SmartEase backup. Older cart-zone backups can be imported separately.",
+      );
+    const allowed = new Set([
+      "smartease-cart-lights-v1",
+      "smartease-golf-cart-zones-v2",
+      "smartease-golf-cart-zones-v1",
+      "smartease-experience-v1",
+      "smartease-cart-ble-auto-v1",
+      "smartease-cart-ble-id-v1",
+      "smartease-nokins-device-v1",
+      "smartease-haunted-surge-v1",
+      "smartease-haunted-rgb-fix-v1",
+      "smartease-haunted-observations-v1",
+      "smartease-haunted-manual-rgb-v1",
+    ]);
+    const entries = Object.entries(data.values).filter(([k]) => allowed.has(k));
+    if (!entries.length) throw Error("This backup has no restorable settings.");
+    for (const [key, value] of entries) {
+      if (typeof value !== "string" || value.length > 500000)
+        throw Error("This backup has an invalid setting.");
+      if (!/ble-auto|ble-id|nokins-device/.test(key)) JSON.parse(value);
+      if (key === "smartease-golf-cart-zones-v2") czSanitize(JSON.parse(value));
+    }
+    if (
+      !confirm(
+        "Restore this backup? Your current saved setup will be replaced.",
+      )
+    )
+      return;
+    const before = entries.map(([k]) => [k, localStorage.getItem(k)]);
+    try {
+      for (const [key, value] of entries) localStorage.setItem(key, value);
+    } catch (e) {
+      for (const [key, value] of before) {
+        if (value === null) localStorage.removeItem(key);
+        else localStorage.setItem(key, value);
+      }
+      throw e;
+    }
+    cancelPlayback();
+    disconnect();
+    location.reload();
+  } catch (e) {
+    toast(e.message || "That backup could not be restored.");
+  } finally {
+    ui("backupFile").value = "";
+  }
+}
+app
+  .querySelectorAll("[data-go]")
+  .forEach((el) => (el.onclick = () => go(el.dataset.go)));
+ui("connectionSummary").onclick = () => go("devices");
+ui("emergencyReconnect").onclick = () => reconnectAll(true);
+ui("connectCart").onclick = reconnectAll;
+ui("disconnectCart").onclick = () => {
+  cancelPlayback();
+  disconnect();
+  powered = false;
+  updateHeader();
+};
+ui("syncCart").onclick = async () => {
+  const ok = await queryState();
+  toast(ok ? "Refreshing your lights." : "Connect your cart first.");
+};
+ui("cartPower").onclick = () =>
+  powered || applying || liveName
+    ? lightsOff()
+    : applyScene(activeScene || E.presets[1]);
+ui("featureHauntedPlay").onclick = () => {
+  showPreview(E.presets[0]);
+  ui("liveDialog").showModal();
+};
+ui("startLive").onclick = startHauntedFlow;
+ui("startTwinkle").onclick = () => {
+  ui("liveDialog").close();
+  applyScene(E.presets[0]);
+};
+ui("cancelLive").onclick = () => ui("liveDialog").close();
+ui("stopShow").onclick = () => {
+  cancelPlayback();
+  ui("playState").textContent = "FLOW STOPPED · LAST LOOK REMAINS";
+  toast("Live flow stopped. Use power to turn the lights off.");
+};
+ui("sceneFilters").onclick = (event) => {
+  const el = event.target.closest("[data-filter]");
+  if (!el) return;
+  filter = el.dataset.filter;
+  ui("sceneFilters")
+    .querySelectorAll("button")
+    .forEach((b) => b.classList.toggle("active", b === el));
+  renderScenesUI();
+};
+ui("appBrightness").oninput = () =>
+  (ui("appBrightnessValue").textContent = ui("appBrightness").value + "%");
+ui("appBrightness").onchange = async () => {
+  if (applying) {
+    toast("Let your scene finish before changing brightness.");
+    return;
+  }
+  if (liveName) return;
+  const value = Number(ui("appBrightness").value);
+  const rows = Object.fromEntries(
+    E.zones.map((id) => [id, { ...previewRows[id], brightness: value }]),
+  );
+  previewRows = rows;
+  paintCart("homeCart", rows);
+  if (!hasSceneTarget()) {
+    toast("Brightness preview updated. Connect to change your lights.");
+    return;
+  }
+  const mask = czUniqueOutputs().reduce((m, n) => m | maskFor(n - 1), 0);
+  const results = [];
+  if (canSend())
+    results.push(await sendBrightness(mask, Math.round((value * 255) / 100)));
+  if (cartDevices[2].connected && cartDevices[2].sceneEnabled)
+    results.push(
+      await cartDevices[2].apply(rows, () => true, previewAccessories),
+    );
+  toast(
+    results.every(Boolean)
+      ? "Brightness updated."
+      : "Some lights didn’t finish updating. Tap Reconnect.",
+  );
+};
+function blend() {
+  const brightness = Number(ui("designerBrightness").value),
+    speed = Number(ui("designerSpeed").value);
+  draft = E.rows(
+    [ui("gradientFront").value, ui("gradientRear").value],
+    Number(ui("designerEffect").value),
+    brightness,
+  );
+  for (const row of Object.values(draft)) row.speed = speed;
+  renderDesigner();
+}
+ui("blendGradient").onclick = blend;
+for (const id of ["gradientFront", "gradientRear"])
+  ui(id).oninput = () => {
+    ui("gradientLine").style.setProperty("--a", ui("gradientFront").value);
+    ui("gradientLine").style.setProperty("--b", ui("gradientRear").value);
+  };
+ui("designerEffect").onchange = () => {
+  for (const r of Object.values(draft))
+    r.effect = Number(ui("designerEffect").value);
+  paintCart("designerCart", draft);
+};
+ui("designerBrightness").oninput = () => {
+  const n = Number(ui("designerBrightness").value);
+  ui("designerBrightnessValue").textContent = n + "%";
+  for (const r of Object.values(draft)) r.brightness = n;
+  paintCart("designerCart", draft);
+};
+ui("designerSpeed").oninput = () => {
+  const n = Number(ui("designerSpeed").value);
+  ui("designerSpeedValue").textContent = n;
+  for (const r of Object.values(draft)) r.speed = n;
+};
+ui("applyDesign").onclick = () => {
+  const scene = {
+    id: "draft",
+    name: ui("sceneName").value.trim() || "My evening glow",
+    rows: E.validateRows(draft),
+    accessories: E.accessories(draftAccessories, draft["front-bumper"]),
+  };
+  showPreview(scene);
+  applyScene(scene);
+};
+ui("saveDesign").onclick = () => {
+  if (!editingSceneId && czState.scenes.length >= 24) {
+    toast("You have 24 saved scenes. Delete one in My scenes to make room.");
+    return;
+  }
+  const scene = {
+    id: editingSceneId || "cart-" + Date.now(),
+    name: ui("sceneName").value.trim() || "My evening glow",
+    rows: E.validateRows(draft),
+    accessories: E.accessories(draftAccessories, draft["front-bumper"]),
+  };
+  const previous = structuredClone(czState.scenes);
+  const index = czState.scenes.findIndex((item) => item.id === scene.id);
+  if (index >= 0) czState.scenes[index] = scene;
+  else czState.scenes.push(scene);
+  if (!czSave()) {
+    czState.scenes = previous;
+    return;
+  }
+  editingSceneId = scene.id;
+  if (!preferences.favorites.includes(scene.id))
+    preferences.favorites.push(scene.id);
+  persist();
+  czRenderSaved();
+  renderScenesUI();
+  ui("saveDesign").textContent = "Save changes ♡";
+  toast("Your whole-cart design is saved here.");
+};
+function editScene(scene) {
+  editingSceneId = scene.id;
+  draft = E.validateRows(scene.rows);
+  draftAccessories = E.accessories(scene.accessories, draft["front-bumper"]);
+  ui("sceneName").value = scene.name;
+  ui("gradientFront").value = draft["front-bumper"].color;
+  ui("gradientRear").value = draft["rear-bumper"].color;
+  ui("designerEffect").value = String(draft["front-bumper"].effect);
+  ui("designerBrightness").value = draft["front-bumper"].brightness;
+  ui("designerBrightnessValue").textContent =
+    draft["front-bumper"].brightness + "%";
+  ui("designerSpeed").value = draft["front-bumper"].speed;
+  ui("designerSpeedValue").textContent = draft["front-bumper"].speed;
+  ui("saveDesign").textContent = "Save changes ♡";
+  go("create");
+}
+const newDesign = document.createElement("button");
+newDesign.className = "secondary";
+newDesign.textContent = "＋ New design";
+newDesign.onclick = () => {
+  editingSceneId = null;
+  draft = E.rows();
+  draftAccessories = E.accessories(null, draft["front-bumper"]);
+  ui("sceneName").value = "My evening glow";
+  ui("designerEffect").value = "25";
+  ui("designerBrightness").value = "45";
+  ui("designerBrightnessValue").textContent = "45%";
+  ui("designerSpeed").value = "5";
+  ui("designerSpeedValue").textContent = "5";
+  ui("gradientFront").value = "#49e3d2";
+  ui("gradientRear").value = "#278dff";
+  ui("saveDesign").textContent = "Save scene ♡";
+  renderDesigner();
+};
+document.querySelector('#app [data-page="create"] .welcome').append(newDesign);
+ui("appAutoReconnect").onchange = () => {
+  ui("autoReconnect").checked = ui("appAutoReconnect").checked;
+  ui("autoReconnect").onchange();
+  cartDevices[2].scheduleReconnect();
+};
+ui("previewMode").onclick = () => {
+  cancelPlayback();
+  if (transport === "demo") exitDemo();
+  else enterDemo();
+  powered = false;
+  updateHeader();
+};
+ui("backupSetup").onclick = backup;
+ui("restoreSetup").onclick = () => ui("backupFile").click();
+ui("backupFile").onchange = () => restoreBackup(ui("backupFile").files[0]);
+ui("importPrevious").onclick = () => {
+  openAdvanced("zones");
+  ui("czImport").click();
+};
+ui("recallController").onclick = () => {
+  if (!canSend()) {
+    toast("Connect your cart lighting first.");
+    return;
+  }
+  cancelPlayback();
+  recallScene(Number(ui("controllerScene").value));
+  ui("nowPlaying").textContent =
+    "Controller scene " + (Number(ui("controllerScene").value) + 1);
+  ui("playState").textContent = "RECALL REQUESTED";
+  toast("Controller scene requested.");
+};
+function openAdvanced(tab = "diagnostics") {
+  cancelPlayback();
+  document.body.classList.add("advanced-open");
+  switchTab(tab);
+  document.querySelector("body>.shell").scrollIntoView({ behavior: "smooth" });
+}
+ui("openAdvanced").onclick = () => openAdvanced();
+ui("showWelcome").onclick = () => ui("welcomeDialog").showModal();
+ui("welcomeConnect").onclick = () => {
+  preferences.onboarded = true;
+  persist();
+  ui("welcomeDialog").close();
+  go("devices");
+  reconnectAll();
+};
+ui("welcomePreview").onclick = () => {
+  preferences.onboarded = true;
+  persist();
+  ui("welcomeDialog").close();
+};
+// A fresh chooser is always available if the remembered device cannot reconnect.
+const findAnother = document.createElement("button");
+findAnother.className = "text-btn";
+findAnother.textContent = "Find another controller ↗";
+findAnother.onclick = () => {
+  cancelPlayback();
+  disconnect();
+  connect("all");
+};
+ui("connectCart").parentElement.append(findAnother);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    const wasLive = !!liveName;
+    cancelPlayback();
+    if (wasLive)
+      ui("playState").textContent = "LIVE FLOW PAUSED · REOPEN TO PLAY";
+  }
+});
+window.addEventListener("pagehide", cancelPlayback);
+window.addEventListener("hashchange", () => go(location.hash.slice(1)));
+ui("welcomeDialog").addEventListener("close", () => {
+  preferences.onboarded = true;
+  persist();
+});
+renderScenesUI();
+renderDesigner();
+paintCart("homeCart", previewRows);
+renderDevices();
+updateHeader();
+go(location.hash.slice(1) || "home");
+if (!preferences.onboarded)
+  setTimeout(() => ui("welcomeDialog").showModal(), 300);
+
+window.updateCartDeviceUI = () => {
+  updateHeader();
+  if (page === "devices") renderDevices();
+};
+cartDevices[2].restoreGranted();
+
+const legacyEnterDemo = enterDemo;
+enterDemo = function () {
+  if (connectionInProgress || cartDevices[2].connecting) {
+    toast("Let the connection finish before entering preview mode.");
+    return;
+  }
+  cartDevices[2].disconnect();
+  return legacyEnterDemo();
+};
+
+const legacyHandleDisconnect = handleDisconnect;
+handleDisconnect = function () {
+  cancelPlayback();
+  return legacyHandleDisconnect();
+};
+
+function editAccessory() {
+  draftAccessories = {
+    nokins: {
+      on: ui("designNokinsOn").checked,
+      follow: ui("designNokinsFollow").checked ? "front" : "custom",
+      color: ui("designNokinsColor").value,
+      brightness: Number(ui("designNokinsBrightness").value),
+    },
+    trinka: {
+      on: ui("designEyesOn").checked,
+      pattern: ui("designEyesPattern").value,
+      color: ui("designEyesColor").value,
+      brightness: Number(ui("designEyesBrightness").value),
+    },
+  };
+  renderAccessoryEditor();
+  paintCart("designerCart", draft);
+}
+for (const id of [
+  "designNokinsOn",
+  "designNokinsFollow",
+  "designNokinsColor",
+  "designNokinsBrightness",
+  "designEyesOn",
+  "designEyesPattern",
+  "designEyesColor",
+  "designEyesBrightness",
+])
+  ui(id).addEventListener("input", editAccessory);
+renderAccessoryEditor();

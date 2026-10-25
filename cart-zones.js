@@ -70,7 +70,16 @@ function czRowFromAny(rows,id){
 function czValidScene(raw){
  if(!raw||typeof raw!=='object'||typeof raw.name!=='string')return null;
  const rows=Object.fromEntries(CZ_DEFS.map(z=>[z.id,czRowFromAny(raw.rows,z.id)]));
- return {id:String(raw.id||Date.now()).slice(0,50),name:raw.name.trim().slice(0,40)||'Cart scene',rows};
+ // Preserve the optional whole-cart design alongside the original five-zone rows.
+ // This is browser scene metadata, never an unsupported firmware save.
+ const scene={id:String(raw.id||Date.now()).slice(0,50),name:raw.name.trim().slice(0,40)||'Cart scene',rows};
+ if(raw.accessories&&typeof raw.accessories==='object'){
+  const n=raw.accessories.nokins||{},t=raw.accessories.trinka||{};
+  const color=(value,fallback)=>typeof value==='string'&&/^#[a-f0-9]{6}$/i.test(value)?value:fallback;
+  const percent=(value,fallback)=>Number.isFinite(value)?Math.max(0,Math.min(100,Math.round(value))):fallback;
+  scene.accessories={nokins:{on:n.on!==false,follow:n.follow==='custom'?'custom':'front',color:color(n.color,rows['front-bumper'].color),brightness:percent(n.brightness,45)},trinka:{on:t.on!==false,pattern:['devil','blink','sleep'].includes(t.pattern)?t.pattern:'devil',color:color(t.color,rows['front-bumper'].color),brightness:percent(t.brightness,70)}};
+ }
+ return scene;
 }
 function czSanitize(raw){
  const d=czFresh();
