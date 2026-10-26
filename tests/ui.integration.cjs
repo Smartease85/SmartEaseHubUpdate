@@ -64,6 +64,101 @@ test("real SmartEase house logo replaces placeholder S in header and installed i
  assert.equal(b.errors.length,0);
  b.dom.window.close();
 });
+test("gradient chase lab remembers palettes, speed and canopy reversal without transmitting on load", () => {
+ const b=boot();
+ const card=b.w.document.getElementById("gradientChaseLab");
+ assert.ok(card);
+ assert.equal(b.w.document.querySelector('[data-page="scenes"]').hidden,true);
+ assert.equal(b.w.document.getElementById("gradientColorFront").value,"#46ef77");
+ assert.equal(b.w.document.getElementById("gradientColorCanopy").value,"#a24aec");
+ assert.equal(b.w.document.getElementById("gradientColorRear").value,"#ff751e");
+ assert.equal(b.w.document.getElementById("gradientReverseCanopy").checked,true);
+ assert.equal(b.w.document.getElementById("gradientParked").checked,false,"safety acknowledgment never persisted");
+ b.w.document.getElementById("gradientColorRear").value="#ff9933";
+ b.w.document.getElementById("gradientColorRear").dispatchEvent(new b.w.Event("input"));
+ const reverse=b.w.document.getElementById("gradientReverseCanopy");
+ reverse.checked=false;reverse.dispatchEvent(new b.w.Event("input"));
+ b.w.document.getElementById("gradientNativeSpeed").value="8";
+ b.w.document.getElementById("gradientNativeSpeed").dispatchEvent(new b.w.Event("input"));
+ assert.equal(b.run("preferences.gradientChase.colors[2]"),"#ff9933");
+ assert.equal(b.run("preferences.gradientChase.reverseCanopy"),false);
+ assert.equal(b.run("preferences.gradientChase.speed"),8);
+ assert.equal(b.w.document.getElementById("gradientLiveStop").disabled,true);
+ const store=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ b.dom.window.close();
+ const again=boot(store);
+ assert.equal(again.w.document.getElementById("gradientColorRear").value,"#ff9933");
+ assert.equal(again.w.document.getElementById("gradientReverseCanopy").checked,false);
+ assert.equal(again.w.document.getElementById("gradientParked").checked,false);
+ assert.equal(again.w.document.getElementById("gradientNativeSpeed").value,"8");
+ assert.equal(again.errors.length,0);
+ again.dom.window.close();
+});
+test("gradient chase refuses unsafe or disconnected starts with zero controller writes", async () => {
+ const b=boot();
+ let sent=0;
+ b.run('cartDevices[0].apply=async()=>{globalThis.writesSent=(globalThis.writesSent||0)+1;return true;}');
+ assert.equal(await b.run("gradientRunNative()"),false,"requires explicit parked agreement");
+ assert.equal(await b.run("startGradientLive(1)"),false);
+ b.w.document.getElementById("gradientParked").checked=true;
+ assert.equal(await b.run("gradientRunNative()"),false,"requires real or demo SP608E connection");
+ assert.equal(b.run("globalThis.writesSent||0"),0);
+ assert.equal(b.w.localStorage.getItem("smartease-golf-cart-zones-v2"),null,"no scenes saved by test");
+ b.dom.window.close();
+});
+test("native chase writes calibrated five-zone colors and only documented per-output direction packets", async () => {
+ const b=boot();
+ b.run("enterDemo()");
+ b.w.document.getElementById("gradientParked").checked=true;
+ b.run('cartDevices[0].apply=async(rows)=>{globalThis.appliedGradientRows=rows;return true;};enqueuePackets=async(jobs)=>{globalThis.nativeGradientDir=jobs;return true;};');
+ assert.equal(await b.run("gradientRunNative()"),true);
+ assert.equal(b.run('appliedGradientRows["front-bumper"].color'),"#46ef77");
+ assert.equal(b.run('appliedGradientRows.canopy.color'),"#a24aec");
+ assert.equal(b.run('appliedGradientRows["rear-bumper"].color'),"#ff751e");
+ assert.equal(b.run('appliedGradientRows["left-under"].color'),b.run('appliedGradientRows["right-under"].color'));
+ assert.equal(b.run('Object.values(appliedGradientRows).every(r=>r.effect===7)'),true);
+ assert.deepEqual(JSON.parse(b.run('JSON.stringify(nativeGradientDir)')),[
+  [136,138,2,1,1],[136,138,2,16,0],[136,138,2,2,1],
+  [136,138,2,4,1],[136,138,2,8,1]
+ ]);
+ assert.equal(b.run("czState.scenes.length"),0,"test cannot overwrite saved scenes");
+ assert.equal(b.w.document.getElementById("gradientNativeRun").disabled,false);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
+test("canopy direction test sends exactly one mapped 0x8a packet, and toggle can restore forward", async () => {
+ const b=boot();
+ b.run("enterDemo()");
+ const parked=b.w.document.getElementById("gradientParked");
+ assert.equal(await b.run("gradientFlipCanopy()"),false);
+ parked.checked=true;
+ b.run('enqueuePackets=async(jobs)=>{globalThis.canopyDirectionJobs=jobs;return true;}');
+ assert.equal(await b.run("gradientFlipCanopy()"),true);
+ assert.deepEqual(JSON.parse(b.run('JSON.stringify(canopyDirectionJobs)')),[ [136,138,2,16,0] ]);
+ const reverse=b.w.document.getElementById("gradientReverseCanopy");
+ reverse.checked=false;reverse.dispatchEvent(new b.w.Event("input"));
+ assert.equal(await b.run("gradientFlipCanopy()"),true);
+ assert.deepEqual(JSON.parse(b.run('JSON.stringify(canopyDirectionJobs)')),[ [136,138,2,16,1] ]);
+ assert.equal(b.run("czState.scenes.length"),0);
+ b.dom.window.close();
+});
+test("traveling gradient sweeps front canopy both undercarriages rear; completes without saving firmware scenes", async () => {
+ const b=boot();
+ b.run("enterDemo()");
+ b.w.document.getElementById("gradientParked").checked=true;
+ b.run('cartDevices[0].apply=async(rows)=>{globalThis.initialSweepRows=rows;return true;};enqueuePackets=async(jobs,label)=>{(globalThis.gradientFrames??=[]).push({jobs,label});return true;};');
+ assert.equal(await b.run("startGradientLive(1,0)"),true);
+ assert.equal(b.run("gradientFrames.length"),36,"one cycle is three colors times four groups times three fades");
+ const packets=JSON.parse(b.run("JSON.stringify(gradientFrames.map(item=>item.jobs))"));
+ assert.deepEqual(packets.slice(0,4).map(jobs=>jobs.map(pkt=>pkt[3])),[[1],[1],[1],[16]]);
+ assert.deepEqual(packets.slice(6,9).map(jobs=>jobs.map(pkt=>pkt[3])),[[2,4],[2,4],[2,4]]);
+ assert.equal(b.run('initialSweepRows["front-bumper"].effect'),25,"traveling sweep needs steady colors not native chase");
+ assert.ok(packets.flat().every(pkt=>pkt[1]===0x89),"only mapped colors are updated after initialization");
+ assert.equal(b.w.document.getElementById("gradientLiveStop").disabled,true);
+ assert.equal(b.w.document.getElementById("stopShow").hidden,true);
+ assert.equal(b.run("czState.scenes.length"),0);
+ b.dom.window.close();
+});
 test("full app boots with unique IDs and no runtime errors", () => {
   const b = boot();
   const ids = [...b.w.document.querySelectorAll("[id]")].map((e) => e.id);

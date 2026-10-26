@@ -593,6 +593,86 @@ body > .nav {
   color: #09251f;
   background: var(--mint);
 }
+#app .gradient-chase-lab{
+  display:grid;
+  gap:15px;
+  margin:0 0 24px;
+  border-color:#72f5d044;
+  background:linear-gradient(138deg,#102e32,#112128 70%);
+}
+#app .gradient-chase-lab .card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+}
+#app .gradient-chase-lab h3{font-size:22px;margin:7px 0}
+#app .gradient-chase-lab .card-top p{font-size:13px;line-height:1.6;color:#aac8c4;max-width:640px}
+#app .gradient-chase-lab .card-top .pill{white-space:nowrap}
+#app .gradient-chase-ribbon{
+  --gradient-front:#46ef77;
+  --gradient-canopy:#a24aec;
+  --gradient-rear:#ff751e;
+  min-height:70px;
+  border:1px solid #ffffff24;
+  border-radius:14px;
+  background:linear-gradient(90deg,var(--gradient-front) 0%,var(--gradient-canopy) 32%,var(--gradient-rear) 100%);
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  padding:10px 13px;
+  color:#fff;
+  text-shadow:0 1px 5px #071216,0 0 6px #071216;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+#app .gradient-chase-controls{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+#app .gradient-chase-controls > label{
+  background:#071d23;
+  border:1px solid #2e5154;
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  font-size:12px;
+  color:#d2ece5;
+  font-weight:650;
+  flex-wrap:wrap;
+}
+#app .gradient-chase-controls > label input[type="color"]{width:58px;min-width:58px;height:43px}
+#app .gradient-chase-controls > label input[type="range"]{flex-basis:100%;min-width:0;accent-color:#72f5d0}
+#app .gradient-chase-controls > label select{max-width:145px;min-width:0}
+#app .gradient-chase-controls > label > span{color:#72f5d0}
+#app .gradient-chase-lab .gradient-parked{margin-top:6px}
+#app .gradient-chase-actions{display:flex;flex-wrap:wrap;gap:9px}
+#app .gradient-chase-actions button{min-height:43px;flex:1 1 170px;white-space:normal}
+#app #gradientChaseStatus{
+  min-height:45px;
+  padding:11px 13px;
+  border-radius:12px;
+  border:1px solid #345c5e;
+  background:#0c252b;
+  font-size:12px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+@media(max-width:600px){
+ #app .gradient-chase-lab{padding:17px;gap:13px}
+ #app .gradient-chase-lab .card-top{display:block}
+ #app .gradient-chase-lab .card-top .pill{display:inline-block;margin-top:12px}
+ #app .gradient-chase-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #app .gradient-chase-controls > label{padding:10px}
+ #app .gradient-chase-controls > label select{max-width:100%}
+ #app .gradient-chase-actions button{flex-basis:100%}
+}
 #app .library-grid {
   grid-template-columns: repeat(3, 1fr);
 }

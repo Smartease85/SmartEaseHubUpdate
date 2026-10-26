@@ -24,6 +24,26 @@ if (
 )
   preferences.deviceIdentities = {};
 if (typeof preferences.trueColors !== "boolean") preferences.trueColors = true;
+const GRADIENT_DEFAULTS = {
+  colors: ["#46ef77", "#a24aec", "#ff751e"],
+  effect: 7,
+  speed: 5,
+  brightness: 55,
+  reverseCanopy: true,
+};
+function gradientValidSettings(raw) {
+  const source=raw&&typeof raw==="object"?raw:{};
+  const colors=Array.isArray(source.colors)&&source.colors.length===3&&
+    source.colors.every(E.color)?source.colors.map(c=>c.toLowerCase()):[...GRADIENT_DEFAULTS.colors];
+  return {
+    colors,
+    effect:[7,8].includes(source.effect)?source.effect:GRADIENT_DEFAULTS.effect,
+    speed:Number.isInteger(source.speed)&&source.speed>=1&&source.speed<=10?source.speed:GRADIENT_DEFAULTS.speed,
+    brightness:Number.isInteger(source.brightness)&&source.brightness>=0&&source.brightness<=100?source.brightness:GRADIENT_DEFAULTS.brightness,
+    reverseCanopy:typeof source.reverseCanopy==="boolean"?source.reverseCanopy:true,
+  };
+}
+preferences.gradientChase = gradientValidSettings(preferences.gradientChase);
 let draft = E.rows(),
   activeScene = null,
   previewRows = E.presets[1].rows,
@@ -54,7 +74,24 @@ app.id = "app";
 app.innerHTML = `
 <header class="topline"><a class="wordmark" href="#home" aria-label="SmartEase home" style="color:inherit;text-decoration:none"><img class="brand-symbol" src="smartease-logo.svg" alt="" aria-hidden="true">SmartEase<sup>®</sup></a><div class="connection-actions"><button class="status-pill" id="connectionSummary" aria-label="View device connection status"><span class="dot" id="connectionDot"></span><span id="connectionText">Disconnected</span></button><button class="reconnect" id="emergencyReconnect" aria-label="Reconnect all supported lighting devices">↻ Reconnect</button></div></header>
 <section class="page" data-page="home"><div class="welcome"><div><div class="overline">Your cart. Your atmosphere.</div><h1>Good nights.<br>Great lights.</h1><p>A little color makes every evening yours.</p></div><span class="pill">✦ Made simple. Made SmartEase.</span></div><div class="quick-favorites" id="quickFavorites" aria-label="Favorite scenes"></div><div class="dashboard"><article class="card cart-card"><div class="card-top"><div><h3>Your cart, in color</h3><p id="cartSubtitle">Five zones. Endless possibilities.</p></div><button class="round" id="cartPower" aria-label="Turn mapped decorative lights on" aria-pressed="false">⏻</button></div><div id="homeCart"></div><div class="now-playing"><div><small id="playState">SCENE PREVIEW</small><strong id="nowPlaying">SmartEase glow</strong></div><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><p class="busy-line" id="playProgress" role="status"></p></article><div class="right-stack"><article class="card feature"><div class="overline">A little seasonal magic</div><h2>Haunted Surge</h2><p>Toxic green. Haunted purple. Pumpkin orange. Let the night come alive.</p><div class="feature-orbs"><i style="--orb:#46ef77"></i><i style="--orb:#a24aec"></i><i style="--orb:#ff751e"></i><span>Flow + twinkle</span></div><button class="primary" id="featureHauntedPlay">Play scene <span>↗</span></button><button class="text-btn" id="stopShow" hidden>Stop live flow</button></article><article class="card brightness"><label for="appBrightness">Set the mood <span id="appBrightnessValue">45%</span></label><input id="appBrightness" type="range" min="0" max="100" value="45" aria-label="Mapped light brightness"><div style="display:flex;justify-content:space-between;font-size:10px;color:#718f89"><span>Subtle</span><span>Brilliant</span></div></article></div></div><div class="section-heading"><h2>Your favorites</h2><button class="text-btn" data-go="scenes">Explore scenes ↗</button></div><div class="scene-list" id="favoriteScenes"></div><p class="safety-note">Decorative lighting for parked moments.</p></section>
-<section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><p class="small-note scene-hold-hint">Tap a scene to play it. <strong>Press and hold to edit</strong> its colors, or tap the pencil.</p><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
+<section class="page" data-page="scenes" hidden><div class="welcome"><div><div class="overline">Find your kind of night</div><h1>A scene for<br>every mood.</h1><p>One tap. A whole new atmosphere.</p></div><button class="secondary" data-go="create">＋ Create a scene</button></div><p class="small-note scene-hold-hint">Tap a scene to play it. <strong>Press and hold to edit</strong> its colors, or tap the pencil.</p><article class="card gradient-chase-lab" id="gradientChaseLab">
+  <div class="card-top"><div><div class="overline">NEW · SP608E LAB</div><h3>Front → Rear Gradient Chase</h3><p>Green → purple → orange, mapped around your cart. Test controller-native motion or a SmartEase-driven traveling color sweep.</p></div><span class="pill">Experimental</span></div>
+  <div class="gradient-chase-ribbon" id="gradientChaseRibbon" aria-label="Front green, canopy purple, rear orange"><span>FRONT</span><span>CANOPY</span><span>REAR</span></div>
+  <div class="gradient-chase-controls">
+   <label for="gradientColorFront">Front <input id="gradientColorFront" type="color" value="#46ef77" aria-label="Front color"></label>
+   <label for="gradientColorCanopy">Canopy <input id="gradientColorCanopy" type="color" value="#a24aec" aria-label="Canopy color"></label>
+   <label for="gradientColorRear">Rear <input id="gradientColorRear" type="color" value="#ff751e" aria-label="Rear color"></label>
+   <label for="gradientNativeEffect">Strip animation <select class="input" id="gradientNativeEffect"><option value="7">Wave</option><option value="8">Chase</option></select></label>
+   <label for="gradientNativeSpeed">Motion speed <span id="gradientNativeSpeedValue">5/10</span><input id="gradientNativeSpeed" type="range" min="1" max="10" value="5"></label>
+   <label for="gradientBrightness">Brightness <span id="gradientBrightnessValue">55%</span><input id="gradientBrightness" type="range" min="0" max="100" value="55"></label>
+  </div>
+  <label class="switchline"><input type="checkbox" id="gradientReverseCanopy" checked> Reverse canopy strip direction</label>
+  <p class="small-note">Reversal changes the SP608E's native per-strip Wave/Chase direction. The traveling sweep below instead moves through the mapped cart zones; it cannot reverse individual pixels.</p>
+  <label class="switchline gradient-parked"><input type="checkbox" id="gradientParked"> The cart is parked, and these are decorative lighting outputs.</label>
+  <div class="row-actions gradient-chase-actions"><button class="primary" type="button" id="gradientNativeRun">Try controller chase ↗</button><button class="secondary" type="button" id="gradientLiveRun">Try traveling gradient ↗</button><button class="secondary" type="button" id="gradientFlipCanopy">Test canopy reversal</button><button class="text-btn" type="button" id="gradientLiveStop">Stop live sweep</button></div>
+  <p class="small-note">Controller Chase can continue without Bluefy if the SP608E retains its settings. Traveling Gradient needs Bluefy connected in the foreground. Neither button overwrites an onboard scene slot.</p>
+  <p class="inline-status" id="gradientChaseStatus" role="status" aria-live="polite">Adjust your colors. Connecting and editing alone never sends lighting commands.</p>
+ </article><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
 <section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p id="designerIntro">Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><section class="scene-palette-editor"><div class="card-top"><h3>Mix your scene colors</h3><span class="pill">RGB editor</span></div><p class="small-note">Pick a color below, mix red, green and blue, then test it on the cart. Lights that share a color change together. Your saved BRG calibration stays intact.</p><div id="scenePaletteOptions" class="scene-palette-options" aria-label="Colors used in this scene"></div><div class="scene-palette-preview"><span id="scenePaletteColorPreview" class="scene-color-disc"></span><strong id="scenePaletteHex">#FFFFFF</strong><small>Scene color · 0 to 255 per channel</small></div><div class="scene-palette-sliders"><label for="scenePaletteR">Red <span id="scenePaletteRValue">0</span></label><input id="scenePaletteR" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteG">Green <span id="scenePaletteGValue">0</span></label><input id="scenePaletteG" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteB">Blue <span id="scenePaletteBValue">0</span></label><input id="scenePaletteB" type="range" min="0" max="255" step="1" value="0"></div><div class="row-actions"><button id="scenePaletteTest" class="secondary" type="button">Test selected color on cart ↗</button></div><p class="small-note" id="scenePaletteStatus" role="status">Adjust the colors, test them, then save your scene below. Your per-strip RGB balance still applies.</p></section><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select><p class="small-note" id="designerEffectHelp">Your chosen effect will be kept when playing this scene.</p></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
 <section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card nokins-test-card" id="nokinsTestPanel" style="margin-top:20px"><div class="card-top"><div><h3>NOKINS decorative RGB test</h3><p class="small-note">Connect the RGB controller using the NOKINS row above. This tests LotusLamp X-compatible decorative lighting—not turn signals, brake lights, headlights, or the stalk.</p></div><span class="pill">Parked test</span></div><p class="nokins-controller-info" id="nokinsControllerInfo">Bluetooth controller not identified.</p><label class="switchline nokins-safety-confirm"><input type="checkbox" id="nokinsParked">My cart is parked, and I can verify that the safety lights and stalk remain independent.</label><div class="row-actions nokins-test-actions"><button class="secondary" id="nokinsTestRed" type="button">Test red</button><button class="secondary" id="nokinsTestGreen" type="button">Test green</button><button class="secondary" id="nokinsTestBlue" type="button">Test blue</button><button class="secondary" id="nokinsTestOrange" type="button">Test orange</button></div><p id="nokinsTestResult" class="inline-status" role="status">Connecting does not change the lights. Test colors individually, then enable scene matching on the NOKINS device row if they work.</p><p class="small-note">Only verified ELK-BLEDOB and MELK-OA10 Bluetooth profiles can send these basic RGB commands. Unknown models receive no writes. Test buttons do not change your saved SP608E scenes, mappings, or controller memory. Commands have no physical readback.</p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
 <section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card true-color-card"><h3>Show my actual colors</h3><label class="switchline"><input type="checkbox" id="appTrueColors">Play my scenes in their chosen colors</label><p>For built-in scenes, choose exact solid shades or original controller animations. Scenes you create always keep the movement you selected. Some native effects (especially Rainbow) choose their own palette.</p><button type="button" class="secondary" id="appColorCheck">Check my calibrated colors ↗</button></article><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card map-launch"><div class="map-launch-head"><span class="map-launch-icon" aria-hidden="true">🗺️</span><div><h3>Map my lights</h3><p>Something lighting up in the wrong place? Show each strip, tell SmartEase where it is, and save it once.</p></div></div><button class="primary" id="openLightMap" type="button">Map my lights ↗</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
@@ -385,6 +422,173 @@ function renderScenesUI() {
   if (!all.length)
     ui("allScenes").innerHTML =
       '<div class="empty-state">Your next favorite is yours to create. Save your first scene in Create.</div>';
+}
+function renderGradientLab(){
+ const g=preferences.gradientChase;
+ if(!ui("gradientChaseLab"))return;
+ for(const [i,id] of ["gradientColorFront","gradientColorCanopy","gradientColorRear"].entries())
+  ui(id).value=g.colors[i];
+ ui("gradientNativeEffect").value=String(g.effect);
+ ui("gradientNativeSpeed").value=String(g.speed);
+ ui("gradientNativeSpeedValue").textContent=g.speed+"/10";
+ ui("gradientBrightness").value=String(g.brightness);
+ ui("gradientBrightnessValue").textContent=g.brightness+"%";
+ ui("gradientReverseCanopy").checked=g.reverseCanopy;
+ const ribbon=ui("gradientChaseRibbon");
+ ribbon.style.setProperty("--gradient-front",g.colors[0]);
+ ribbon.style.setProperty("--gradient-canopy",g.colors[1]);
+ ribbon.style.setProperty("--gradient-rear",g.colors[2]);
+ ui("gradientLiveStop").disabled=liveName!=="Gradient Sweep";
+}
+function gradientReadSettings(){
+ const options={
+  colors:["gradientColorFront","gradientColorCanopy","gradientColorRear"].map(id=>ui(id).value),
+  effect:Number(ui("gradientNativeEffect").value),
+  speed:Number(ui("gradientNativeSpeed").value),
+  brightness:Number(ui("gradientBrightness").value),
+  reverseCanopy:ui("gradientReverseCanopy").checked
+ };
+ preferences.gradientChase=gradientValidSettings(options);
+ persist();
+ renderGradientLab();
+ ui("gradientChaseStatus").textContent="Your gradient settings were saved in Bluefy. No lights were changed.";
+}
+function gradientReady(){
+ const status=ui("gradientChaseStatus");
+ if(!ui("gradientParked").checked){
+  status.textContent="Confirm that the cart is parked before testing decorative lighting.";
+  return false;
+ }
+ if(!canSend()){
+  status.textContent="Connect your SP608E first. The gradient only controls SP608E decorative outputs.";
+  return false;
+ }
+ if(document.visibilityState!=="visible"){
+  status.textContent="Keep Bluefy open in the foreground to begin this test.";
+  return false;
+ }
+ if(applying||liveName||nokinsTestBusy){
+  status.textContent="Finish or stop the current lighting action before starting another.";
+  return false;
+ }
+ for(const id of ["front-bumper","canopy","rear-bumper"]){
+  if(!czValidAssigned(id).length){
+   status.textContent="Map the front bumper, canopy and rear bumper SP608E outputs first. No controller writes were sent.";
+   return false;
+  }
+ }
+ return true;
+}
+function gradientLiveMapping(){
+ return Object.fromEntries(E.zones.map(id=>[id,{channels:czValidAssigned(id)}]));
+}
+async function gradientRunNative(){
+ if(!gradientReady())return false;
+ const g=preferences.gradientChase,rows=E.gradientRows(g.colors,g.effect,g.brightness,g.speed);
+ const direction=E.gradientDirectionCommands(gradientLiveMapping(),czState.activeOutputs,g.reverseCanopy);
+ const stamp=++applyGeneration,guard=()=>stamp===applyGeneration&&canSend()&&document.visibilityState==="visible";
+ applying=true;
+ ui("gradientNativeRun").disabled=true;
+ ui("gradientChaseStatus").textContent="Sending calibrated colors, controller motion and per-strip direction to mapped outputs…";
+ try{
+  // Existing SP608E adapter restores physical BRG order and calibrated colors.
+  if(!await cartDevices[0].apply(rows,guard)||!guard())throw Error("Color/effect setup was interrupted");
+  if(!await enqueuePackets(direction,"Gradient chase directional strips",{guard,skipRefresh:true})||!guard())
+   throw Error("Direction setup was interrupted");
+  showPreview({id:"gradient-native",name:"Gradient Chase",rows});
+  powered=true;
+  ui("playState").textContent="CONTROLLER WAVE/CHASE SENT";
+  ui("gradientChaseStatus").textContent="Controller-native "+(g.effect===7?"Wave":"Chase")+
+   " sent: front "+g.colors[0]+", canopy "+g.colors[1]+", rear "+g.colors[2]+
+   ". "+(g.reverseCanopy?"Canopy reverse":"Canopy forward")+
+   " command sent. Watch the real LED motion; the strips may not be phase-synchronized.";
+  return true;
+ }catch(error){
+  if(guard())ui("gradientChaseStatus").textContent="Chase interrupted: "+error.message+". Reconnect and retry.";
+  return false;
+ }finally{
+  if(stamp===applyGeneration)applying=false;
+  ui("gradientNativeRun").disabled=false;
+  updateHeader();
+ }
+}
+async function gradientFlipCanopy(){
+ if(!gradientReady())return false;
+ const g=preferences.gradientChase,ports=czValidAssigned("canopy"),guard=()=>canSend()&&document.visibilityState==="visible";
+ // Direction 0 is reverse and 1 forward in the SP608E firmware model.
+ const commands=ports.map(n=>packet(0x8A,[maskFor(n-1),g.reverseCanopy?0:1]));
+ ui("gradientChaseStatus").textContent="Sending canopy "+(g.reverseCanopy?"reverse":"forward")+" command…";
+ try{
+  const ok=await enqueuePackets(commands,"Test canopy chase direction",{guard,skipRefresh:true});
+  ui("gradientChaseStatus").textContent=ok
+   ?"Canopy direction command sent to "+ports.map(n=>"CH"+n).join(", ")+". It is visible only when a directional Wave/Chase effect is running."
+   :"Canopy direction command was interrupted. Reconnect and try again.";
+  return !!ok;
+ }catch(error){
+  ui("gradientChaseStatus").textContent="Canopy direction failed: "+error.message;
+  return false;
+ }
+}
+async function startGradientLive(cycles=Infinity,frameDelayOverride=null){
+ if(!gradientReady())return false;
+ const g=preferences.gradientChase,groups=[
+  ["front-bumper"],["canopy"],["left-under","right-under"],["rear-bumper"]
+ ];
+ cancelPlayback();
+ const token=++liveToken,generation=cartSession.generation;
+ const guard=()=>token===liveToken&&generation===cartSession.generation&&canSend()&&document.visibilityState==="visible";
+ liveName="Gradient Sweep";powered=true;
+ ui("gradientLiveStop").disabled=false;
+ ui("stopShow").hidden=false;
+ ui("nowPlaying").textContent="Gradient Sweep";
+ ui("playState").textContent=transport==="demo"?"GRADIENT PREVIEW":"TRAVELING GRADIENT · BLUEFY OPEN";
+ let previous=g.colors[2],cycle=0;
+ const current=E.rows([previous,previous],25,g.brightness);
+ try{
+  if(!await cartDevices[0].apply(current,guard))throw Error("Could not initialize the solid-color cart zones");
+  while(guard()&&cycle<cycles){
+   for(const stage of g.colors){
+    if(!guard())break;
+    for(const ids of groups){
+     if(!guard())break;
+     for(let step=1;step<=3&&guard();step++){
+      const portion=step/3;
+      const jobs=ids.flatMap(id=>czValidAssigned(id).map(n=>hauntedFadeCommand(n,previous,stage,portion)));
+      if(jobs.length&&!await enqueuePackets(jobs,"SmartEase front-to-rear gradient",{guard,skipRefresh:true}))
+       throw Error("The controller stopped accepting gradient frames");
+      for(const id of ids)current[id].color=E.mix(previous,stage,portion);
+      paintCart("homeCart",current);
+      ui("playProgress").textContent="Front → rear · "+stage;
+      ui("gradientChaseStatus").textContent="Traveling "+stage+" across mapped cart zones. Stop to leave the last color displayed.";
+      const pause=Number.isInteger(frameDelayOverride)&&frameDelayOverride>=0?frameDelayOverride:90+(10-g.speed)*25;
+      if(guard()&&pause>0)await sleep(pause);
+     }
+    }
+    previous=stage;
+   }
+   cycle++;
+  }
+  return true;
+ }catch(error){
+  if(guard())ui("gradientChaseStatus").textContent="Traveling gradient stopped: "+error.message;
+  return false;
+ }finally{
+  if(token===liveToken){
+   liveName="";
+   ui("gradientLiveStop").disabled=true;
+   ui("stopShow").hidden=true;
+   ui("playState").textContent="TRAVELING GRADIENT STOPPED · LAST COLORS REMAIN";
+   ui("playProgress").textContent="";
+   if(cycle>=cycles)ui("gradientChaseStatus").textContent="Gradient sweep complete. The last colors remain on your cart; no scene slot was saved.";
+  }
+ }
+}
+function gradientStopLive(){
+ if(liveName!=="Gradient Sweep")return;
+ cancelPlayback();
+ ui("gradientLiveStop").disabled=true;
+ ui("gradientChaseStatus").textContent="Traveling gradient stopped. Last colors remain until you play another scene or turn the lights off.";
+ ui("playState").textContent="GRADIENT STOPPED · LAST COLORS REMAIN";
 }
 function showPreview(scene) {
   activeScene = scene;
@@ -1165,6 +1369,13 @@ async function restoreBackup(file) {
 app
   .querySelectorAll("[data-go]")
   .forEach((el) => (el.onclick = () => go(el.dataset.go)));
+for(const id of ["gradientColorFront","gradientColorCanopy","gradientColorRear",
+ "gradientNativeEffect","gradientNativeSpeed","gradientBrightness","gradientReverseCanopy"])
+ ui(id).addEventListener("input",gradientReadSettings);
+ui("gradientNativeRun").onclick=gradientRunNative;
+ui("gradientLiveRun").onclick=()=>startGradientLive();
+ui("gradientFlipCanopy").onclick=gradientFlipCanopy;
+ui("gradientLiveStop").onclick=gradientStopLive;
 ui("connectionSummary").onclick = () => go("devices");
 ui("emergencyReconnect").onclick = () => reconnectAll(true);
 ui("connectCart").onclick = reconnectAll;
@@ -1848,6 +2059,7 @@ ui("welcomeDialog").addEventListener("close", () => {
 });
 renderScenesUI();
 renderDesigner();
+renderGradientLab();
 paintCart("homeCart", previewRows);
 renderDevices();
 updateHeader();

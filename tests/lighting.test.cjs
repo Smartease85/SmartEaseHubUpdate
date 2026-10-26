@@ -50,6 +50,35 @@ test("five zones: front-to-rear gradient retains equal left/right colors", () =>
   assert.equal(rows["rear-bumper"].color, "#0000ff");
   assert.equal(rows["left-under"].color, rows["right-under"].color);
 });
+test("gradient chase anchors front green, canopy purple, rear orange, with matching left/right shades", () => {
+  const rows = E.gradientRows(["#46ef77", "#a24aec", "#ff751e"],7,55,6);
+  assert.equal(rows["front-bumper"].color,"#46ef77");
+  assert.equal(rows.canopy.color,"#a24aec");
+  assert.equal(rows["rear-bumper"].color,"#ff751e");
+  assert.equal(rows["left-under"].color,rows["right-under"].color);
+  assert.equal(rows["left-under"].effect,7);
+  assert.equal(rows["left-under"].brightness,55);
+  const first = parseInt(rows["left-under"].color.slice(1,3),16);
+  assert.ok(first > 162 && first < 255,"undercarriage blends between purple and orange");
+  assert.ok(Object.values(E.gradientRows(["#00ff00","#8000ff","#ff7500"],8,45,3)).every(r=>r.effect===8));
+  assert.throws(()=>E.gradientRows(["#fff","#a24aec","#ff751e"]),/valid gradient/);
+  assert.throws(()=>E.gradientRows(["#46ef77","#a24aec","#ff751e"],25),/Wave or Chase/);
+});
+test("gradient direction reverses only mapped canopy output, never an unmapped port", () => {
+  const mapped={
+    "front-bumper":{channels:[6]},canopy:{channels:[8]},
+    "left-under":{channels:[2]},"right-under":{channels:[5]},
+    "rear-bumper":{channels:[7]}
+  };
+  const jobs=E.gradientDirectionCommands(mapped,[2,5,6,7,8],true);
+  assert.deepEqual(jobs,[
+    [0x88,0x8A,2,32,1],[0x88,0x8A,2,128,0],
+    [0x88,0x8A,2,2,1],[0x88,0x8A,2,16,1],[0x88,0x8A,2,64,1]
+  ]);
+  assert.equal(E.gradientDirectionCommands(mapped,[2,5,6,7,8],false)[1][4],1);
+  assert.ok(jobs.every(pkt=>pkt[1]===0x8A&&pkt[2]===2));
+  assert.throws(()=>E.gradientDirectionCommands(mapped,[2,5,6,7]),/Check the light/);
+});
 test("all presets validate; Halloween contains three-color twinkles", () => {
   for (const scene of E.presets) E.validateRows(scene.rows);
   const h = E.presets[0];
