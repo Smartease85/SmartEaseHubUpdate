@@ -1092,6 +1092,46 @@ function renderDevices() {
     };
     row.append(info, action);
     list.append(row);
+    if(adapter.id==="trinka"){
+      const inspect=document.createElement("button");
+      inspect.className="text-btn";
+      inspect.textContent="Inspect Devil Eyes Bluetooth (read-only) ↗";
+      inspect.disabled=!adapter.device;
+      inspect.title=adapter.device?"Collect only service UUIDs and characteristic permissions. Sends no commands.":"Identify the display first.";
+      inspect.onclick=async()=>{
+        inspect.disabled=true;
+        ui("deviceMessage").textContent="Reading Devil Eyes Bluetooth service metadata. No lighting commands will be sent.";
+        try{
+          const report=await adapter.inspectCoolLedProtocol();
+          preferences.devilEyesProtocolReport=report;
+          persist();
+          ui("deviceMessage").textContent="Read-only inspection complete. The report is shown below; share it so we can choose the right upload protocol.";
+        }catch(error){
+          ui("deviceMessage").textContent="Protocol inspection unavailable: "+error.message;
+        }finally{renderDevices();}
+      };
+      const report=document.createElement("textarea");
+      report.className="input";
+      report.readOnly=true;
+      report.rows=5;
+      report.id="devilEyesProtocolReport";
+      report.setAttribute("aria-label","Devil Eyes Bluetooth protocol inspection report");
+      const saved=adapter.protocolReport||preferences.devilEyesProtocolReport;
+      report.value=saved
+        ?"Name: "+saved.name+"\nPossible family: "+saved.family+
+         "\nFFF0 service: "+(saved.serviceFound?"present":"not accessible")+
+         "\nCharacteristics: "+(saved.characteristics?.length
+            ?saved.characteristics.map(ch=>ch.uuid+
+              " [write "+ch.write+", writeWithoutResponse "+ch.writeWithoutResponse+
+              ", notify "+ch.notify+"]").join("; "):"none exposed")+
+         "\n"+saved.detail+"\nNo BLE commands sent. Actual device family requires confirmation."
+        :"Identify and inspect your Devil Eyes to get a read-only protocol report. Close CoolLED1248 first.";
+      report.onclick=()=>{report.focus();report.select();};
+      const note=document.createElement("p");
+      note.className="small-note";
+      note.textContent="Connects briefly to inspect known CoolLED FFF0 service and characteristic metadata, then disconnects. No reads, firmware changes, animation uploads or write commands. The service alone cannot identify the protocol.";
+      list.append(inspect,note,report);
+    }
     if (adapter.id === "nokins" && adapter.identity && !adapter.connected) {
       const another = document.createElement("button");
       another.className = "text-btn";

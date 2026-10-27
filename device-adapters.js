@@ -67,6 +67,48 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
     });
     this.device = null;
     this.identity = null;
+    this.protocolReport = null;
+  }
+  async inspectCoolLedProtocol() {
+    // Read-only interoperability discovery. No characteristic reads or writes,
+    // notifications, firmware commands, pairing PINs or stored content changes.
+    if (!this.device) throw Error("Identify your Devil Eyes first, then inspect the selected controller.");
+    const serviceId="0000fff0-0000-1000-8000-00805f9b34fb";
+    const name=this.device.name||"Unnamed display";
+    const family=/coolledux/i.test(name)?"CoolLEDUX candidate":
+      /coolledx/i.test(name)?"CoolLEDX candidate":
+      /coolledm/i.test(name)?"CoolLEDM candidate":
+      /coolledu/i.test(name)?"CoolLEDU candidate":"Family unknown";
+    if(!this.device.gatt||typeof this.device.gatt.connect!=="function")
+      throw Error("Selected device does not expose GATT access in this browser.");
+    let server,service,characteristics=[],serviceFound=false,detail="";
+    try{
+      server=await this.device.gatt.connect();
+      try{
+        service=await server.getPrimaryService(serviceId);
+        serviceFound=true;
+        // UUIDs/properties are metadata only; do not call readValue/startNotifications.
+        const chars=await service.getCharacteristics();
+        characteristics=chars.map(ch=>({
+          uuid:String(ch.uuid||""),
+          read:!!ch.properties?.read,
+          notify:!!ch.properties?.notify,
+          write:!!ch.properties?.write,
+          writeWithoutResponse:!!ch.properties?.writeWithoutResponse
+        }));
+      }catch(error){
+        detail="FFF0 service unavailable: "+(error.message||String(error));
+      }
+    }finally{
+      // Never hold a connection that would block CoolLED1248 from reattaching.
+      if(this.device.gatt?.connected)this.device.gatt.disconnect();
+    }
+    this.protocolReport={
+      name,family,service:serviceId,serviceFound,characteristics,
+      detail:serviceFound?"Service discovered; controller family still unverified.":detail,
+      inspectedAt:new Date().toISOString(),writesSent:0
+    };
+    return this.protocolReport;
   }
   async identify() {
     if (!navigator.bluetooth)
@@ -74,8 +116,12 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
     // No speculative service access or protocol writes. Identity is evidence, not support.
     const picked = await navigator.bluetooth.requestDevice({
       acceptAllDevices: true,
+      // Read-only protocol inspection needs explicit access to the
+      // documented shared CoolLED service; identify itself does not connect.
+      optionalServices: ["0000fff0-0000-1000-8000-00805f9b34fb"],
     });
     this.device = picked;
+    this.protocolReport = null;
     this.identity = {
       name: picked.name || "Unnamed device",
       id: picked.id,

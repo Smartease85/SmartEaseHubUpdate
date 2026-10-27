@@ -341,6 +341,68 @@ test("preview scene applies mapped zones and power off cancels the pending scene
   assert.equal(b.run("channels[5].color"), b.run("COLORS[5]"));
   b.dom.window.close();
 });
+test("Devil Eyes read-only inspection identifies FFF0/FFF1 without reading or writing LED data", async () => {
+ const b=boot();
+ let gattConnects=0,gattDisconnects=0,infoReads=0,writes=0,requested=null;
+ const mock={
+  id:"devil-led-1",name:"CoolLEDUX-DEVIL",
+  gatt:{
+   connected:false,
+   connect:async function(){
+    gattConnects++;this.connected=true;
+    return {getPrimaryService:async id=>{
+      assert.equal(id,"0000fff0-0000-1000-8000-00805f9b34fb");
+      return {getCharacteristics:async()=>[{
+        uuid:"0000fff1-0000-1000-8000-00805f9b34fb",
+        properties:{notify:true,writeWithoutResponse:true,read:false,write:false},
+        readValue:async()=>{infoReads++;throw Error("Read forbidden");},
+        writeValueWithoutResponse:async()=>{writes++;throw Error("Write forbidden");}
+      }]};
+    }};
+   },
+   disconnect:function(){gattDisconnects++;this.connected=false;}
+  }
+ };
+ b.w.navigator.bluetooth={requestDevice:async options=>{requested=options;return mock;}};
+ await b.run("cartDevices[1].identify()");
+ assert.ok(requested.optionalServices.includes("0000fff0-0000-1000-8000-00805f9b34fb"));
+ assert.equal(gattConnects,0,"Identify alone must not connect");
+ const report=await b.run("cartDevices[1].inspectCoolLedProtocol()");
+ assert.equal(report.name,"CoolLEDUX-DEVIL");
+ assert.equal(report.family,"CoolLEDUX candidate");
+ assert.equal(report.serviceFound,true);
+ assert.equal(report.characteristics.length,1);
+ assert.equal(report.characteristics[0].writeWithoutResponse,true);
+ assert.equal(report.writesSent,0);
+ assert.equal(infoReads,0);
+ assert.equal(writes,0);
+ assert.equal(gattConnects,1);
+ assert.equal(gattDisconnects,1,"Inspection must release the GATT connection");
+ b.run("renderDevices()");
+ assert.match(b.w.document.getElementById("devilEyesProtocolReport").value,/CoolLEDUX candidate/);
+ assert.match(b.w.document.getElementById("devilEyesProtocolReport").value,/fff1/);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
+test("Devil Eyes missing FFF0 remains identify-only with zero writes", async () => {
+ const b=boot();
+ let disconnects=0;
+ b.w.navigator.bluetooth={requestDevice:async()=>({
+  name:"Unknown Eyes",id:"x",gatt:{
+   connected:false,
+   connect:async function(){this.connected=true;return {getPrimaryService:async()=>{throw Error("Service not found");}};},
+   disconnect:function(){disconnects++;this.connected=false;}
+  }
+ })};
+ await b.run("cartDevices[1].identify()");
+ const report=await b.run("cartDevices[1].inspectCoolLedProtocol()");
+ assert.equal(report.serviceFound,false);
+ assert.equal(report.family,"Family unknown");
+ assert.equal(report.characteristics.length,0);
+ assert.equal(disconnects,1);
+ assert.equal(b.run("cartDevices[1].capabilities.pixelUpload"),false);
+ b.dom.window.close();
+});
 test("TRINKA identifies without GATT writes; unknown Lotus model never connects", async () => {
   const b = boot();
   let gattCalls = 0;
