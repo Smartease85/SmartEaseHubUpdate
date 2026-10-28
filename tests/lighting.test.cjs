@@ -32,6 +32,35 @@ test("Lotus variants retain distinct captured brightness frames and exclude spec
   assert.equal(Lotus.commands("melk-oa10", { ...row, on: false })[0][3], 0);
   assert.throws(() => Lotus.commands("generic-elk", row));
 });
+test("LotusLamp X MELK-OA10 catalog enumerates 213 verified-format native modes in eight categories", () => {
+ const catalog=Lotus.nativeModes("melk-oa10");
+ assert.equal(catalog.length,213);
+ assert.deepEqual(catalog.map(x=>x.id),Array.from({length:213},(_,i)=>i));
+ assert.deepEqual(Object.fromEntries(Lotus.categories.map(cat=>
+   [cat.id,Lotus.nativeModes("melk-oa10",cat.id).length])),{
+   basic:47,trans:20,tail:16,water:18,curtain:20,run:34,runback:34,flow:24
+ });
+ assert.equal(Lotus.categoryForMode(0),"basic");
+ assert.equal(Lotus.categoryForMode(143),"flow");
+ assert.equal(Lotus.categoryForMode(138),"runback");
+ assert.equal(Lotus.categoryForMode(167),"run");
+ assert.equal(Lotus.categoryForMode(213),null);
+ assert.deepEqual(Lotus.nativeModes("bledob"),[],"ELK-BLEDOB is a separate protocol");
+ assert.deepEqual(Lotus.nativeModes(null),[],"unknown hardware must not be treated as MELK");
+});
+test("MELK native effect frames use documented length, timing, brightness and numeric guardrails", () => {
+ assert.deepEqual(Lotus.nativeModeCommands("melk-oa10",143,{speed:30,brightness:45}),[
+   [126,7,3,143,255,255,255,0,239],
+   [126,4,2,30,255,255,255,0,239],
+   [126,7,1,45,255,255,255,0,239],
+ ]);
+ for(const id of [-1,213,1.5,"3",NaN])assert.throws(
+   ()=>Lotus.nativeModeCommands("melk-oa10",id),/valid MELK/);
+ for(const settings of [{speed:101},{speed:-1},{brightness:101},{brightness:0.1}])
+   assert.throws(()=>Lotus.nativeModeCommands("melk-oa10",1,settings),/must be whole numbers/);
+ assert.throws(()=>Lotus.nativeModeCommands("bledob",1),/requires a verified MELK/);
+ assert.throws(()=>Lotus.nativeModeCommands(null,1),/requires a verified MELK/);
+});
 const mapping = Object.fromEntries(
   E.zones.map((id, i) => [id, { channels: [i + 1] }]),
 );

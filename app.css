@@ -888,6 +888,52 @@ body > .nav {
   gap: 14px;
   align-items: center;
 }
+#app .native-controllers{display:grid;gap:17px;min-width:0}
+#app .native-controllers .card-top{align-items:flex-start;gap:12px}
+#app .native-controllers .card-top .pill{white-space:nowrap}
+#app .native-controller-grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;
+}
+#app .native-control-panel{
+ background:#09252a;
+ border:1px solid #345756;
+ border-radius:15px;
+ padding:15px;
+ display:flex;flex-direction:column;gap:10px;min-width:0;
+}
+#app .native-control-panel h4{
+ font-size:17px;line-height:1.25;margin:0;color:#e6fff4;
+}
+#app .native-control-panel p{line-height:1.6;margin:0}
+#app .native-control-panel select{width:100%;max-width:100%;min-width:0}
+#app .native-control-panel input[type="range"]{width:100%;accent-color:#72f5d0}
+#app .native-control-panel .field-label{margin:4px 0 0;display:flex;justify-content:space-between;gap:12px}
+#app .native-control-panel .field-label span{color:#72f5d0}
+#app .native-control-panel .row-actions{
+ flex-wrap:wrap;
+ gap:9px;
+}
+#app .native-control-panel .row-actions button{
+ min-width:0;min-height:41px;white-space:normal;
+}
+#app .native-control-panel #nativeLotusApply{min-height:48px;margin-top:4px}
+#app .native-control-panel #nativeLotusStatus{
+ border:1px solid #355958;
+ background:#0d3134;
+ padding:10px;
+ border-radius:9px;
+ overflow-wrap:anywhere;
+}
+@media(max-width:850px){
+ #app .native-controller-grid{grid-template-columns:1fr}
+ #app .native-controller-grid .native-control-panel{gap:12px}
+ #app .native-controllers .card-top{display:block}
+ #app .native-controllers .card-top .pill{display:inline-block;margin-top:12px}
+}
+@media(max-width:520px){
+ #app [data-page="devices"]{padding-bottom:120px}
+ #app .native-control-panel{padding:13px}
+}
 #app .settings-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

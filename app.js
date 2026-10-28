@@ -44,6 +44,17 @@ function gradientValidSettings(raw) {
   };
 }
 preferences.gradientChase = gradientValidSettings(preferences.gradientChase);
+const legacyNative = preferences.lotusNative || {};
+preferences.lotusNative = {
+  category: SmartEaseLotus.categories.some(x => x.id === legacyNative.category)
+    ? legacyNative.category : "basic",
+  mode: Number.isInteger(legacyNative.mode) && legacyNative.mode >= 0 &&
+        legacyNative.mode <= 212 ? legacyNative.mode : 0,
+  speed: Number.isInteger(legacyNative.speed) && legacyNative.speed >= 0 &&
+         legacyNative.speed <= 100 ? legacyNative.speed : 50,
+  brightness: Number.isInteger(legacyNative.brightness) && legacyNative.brightness >= 0 &&
+              legacyNative.brightness <= 100 ? legacyNative.brightness : 45,
+};
 let draft = E.rows(),
   activeScene = null,
   previewRows = E.presets[1].rows,
@@ -93,7 +104,35 @@ app.innerHTML = `
   <p class="inline-status" id="gradientChaseStatus" role="status" aria-live="polite">Adjust your colors. Connecting and editing alone never sends lighting commands.</p>
  </article><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
 <section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p id="designerIntro">Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><section class="scene-palette-editor"><div class="card-top"><h3>Mix your scene colors</h3><span class="pill">RGB editor</span></div><p class="small-note">Pick a color below, mix red, green and blue, then test it on the cart. Lights that share a color change together. Your saved BRG calibration stays intact.</p><div id="scenePaletteOptions" class="scene-palette-options" aria-label="Colors used in this scene"></div><div class="scene-palette-preview"><span id="scenePaletteColorPreview" class="scene-color-disc"></span><strong id="scenePaletteHex">#FFFFFF</strong><small>Scene color · 0 to 255 per channel</small></div><div class="scene-palette-sliders"><label for="scenePaletteR">Red <span id="scenePaletteRValue">0</span></label><input id="scenePaletteR" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteG">Green <span id="scenePaletteGValue">0</span></label><input id="scenePaletteG" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteB">Blue <span id="scenePaletteBValue">0</span></label><input id="scenePaletteB" type="range" min="0" max="255" step="1" value="0"></div><div class="row-actions"><button id="scenePaletteTest" class="secondary" type="button">Test selected color on cart ↗</button></div><p class="small-note" id="scenePaletteStatus" role="status">Adjust the colors, test them, then save your scene below. Your per-strip RGB balance still applies.</p></section><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select><p class="small-note" id="designerEffectHelp">Your chosen effect will be kept when playing this scene.</p></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
-<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card nokins-test-card" id="nokinsTestPanel" style="margin-top:20px"><div class="card-top"><div><h3>NOKINS decorative RGB test</h3><p class="small-note">Connect the RGB controller using the NOKINS row above. This tests LotusLamp X-compatible decorative lighting—not turn signals, brake lights, headlights, or the stalk.</p></div><span class="pill">Parked test</span></div><p class="nokins-controller-info" id="nokinsControllerInfo">Bluetooth controller not identified.</p><label class="switchline nokins-safety-confirm"><input type="checkbox" id="nokinsParked">My cart is parked, and I can verify that the safety lights and stalk remain independent.</label><div class="row-actions nokins-test-actions"><button class="secondary" id="nokinsTestRed" type="button">Test red</button><button class="secondary" id="nokinsTestGreen" type="button">Test green</button><button class="secondary" id="nokinsTestBlue" type="button">Test blue</button><button class="secondary" id="nokinsTestOrange" type="button">Test orange</button></div><p id="nokinsTestResult" class="inline-status" role="status">Connecting does not change the lights. Test colors individually, then enable scene matching on the NOKINS device row if they work.</p><p class="small-note">Only verified ELK-BLEDOB and MELK-OA10 Bluetooth profiles can send these basic RGB commands. Unknown models receive no writes. Test buttons do not change your saved SP608E scenes, mappings, or controller memory. Commands have no physical readback.</p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p></section>
+<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card nokins-test-card" id="nokinsTestPanel" style="margin-top:20px"><div class="card-top"><div><h3>NOKINS decorative RGB test</h3><p class="small-note">Connect the RGB controller using the NOKINS row above. This tests LotusLamp X-compatible decorative lighting—not turn signals, brake lights, headlights, or the stalk.</p></div><span class="pill">Parked test</span></div><p class="nokins-controller-info" id="nokinsControllerInfo">Bluetooth controller not identified.</p><label class="switchline nokins-safety-confirm"><input type="checkbox" id="nokinsParked">My cart is parked, and I can verify that the safety lights and stalk remain independent.</label><div class="row-actions nokins-test-actions"><button class="secondary" id="nokinsTestRed" type="button">Test red</button><button class="secondary" id="nokinsTestGreen" type="button">Test green</button><button class="secondary" id="nokinsTestBlue" type="button">Test blue</button><button class="secondary" id="nokinsTestOrange" type="button">Test orange</button></div><p id="nokinsTestResult" class="inline-status" role="status">Connecting does not change the lights. Test colors individually, then enable scene matching on the NOKINS device row if they work.</p><p class="small-note">Only verified ELK-BLEDOB and MELK-OA10 Bluetooth profiles can send these basic RGB commands. Unknown models receive no writes. Test buttons do not change your saved SP608E scenes, mappings, or controller memory. Commands have no physical readback.</p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p>
+<article class="card native-controllers" id="nativeControllerLibrary" style="margin-top:20px">
+  <div class="card-top"><div><div class="overline">SmartEase · Individual Device</div><h3>Original controller functions</h3><p class="small-note">Choose a controller to use its own capabilities. Whole-cart scenes remain under Scenes and Create. This is an original SmartEase interface, not a copy of another app's graphics.</p></div><span class="pill">Function parity</span></div>
+  <div class="native-controller-grid">
+   <section class="native-control-panel">
+    <h4>SP608E · BanlanX</h4>
+    <p class="small-note">The existing advanced controller includes eight-channel control, effect library, color/speed/length/direction, grouping, music sensitivity, and recall of nine firmware scene slots. Saving new slots, triggers and firmware timers are not yet implemented.</p>
+    <div class="row-actions"><button class="secondary" id="nativeSpChannels" type="button">8-channel controls</button><button class="secondary" id="nativeSpEffects" type="button">Factory effects</button><button class="secondary" id="nativeSpScenes" type="button">9 scene slots</button></div>
+   </section>
+   <section class="native-control-panel">
+    <h4>NOKINS · LotusLamp X</h4>
+    <p id="nativeLotusInfo" class="small-note">Connect NOKINS above. Basic color tests are available for supported controllers. The MELK-OA10 native effects are a separate, model-specific option.</p>
+    <label class="field-label" for="nativeLotusCategory">Effect category</label>
+    <select class="input" id="nativeLotusCategory" aria-label="Lotus native effect category"></select>
+    <label class="field-label" for="nativeLotusMode">Controller effect</label>
+    <select class="input" id="nativeLotusMode" aria-label="Lotus native effect ID"></select>
+    <label class="field-label" for="nativeLotusSpeed">Speed <span id="nativeLotusSpeedValue">50%</span></label><input type="range" id="nativeLotusSpeed" min="0" max="100" value="50" step="1">
+    <label class="field-label" for="nativeLotusBrightness">Brightness <span id="nativeLotusBrightnessValue">45%</span></label><input type="range" id="nativeLotusBrightness" min="0" max="100" value="45" step="1">
+    <label class="switchline"><input type="checkbox" id="nativeLotusParked"> My cart is parked; only decorative RGB lighting is being controlled.</label>
+    <button class="primary" type="button" id="nativeLotusApply">Play selected native effect ↗</button>
+    <p class="small-note" id="nativeLotusStatus" role="status">Nothing is sent until you connect a matching MELK-OA10 controller and tap Play. The tested MELK-OA10 profile has 213 modes; other LotusLamp models may use different codes.</p>
+   </section>
+   <section class="native-control-panel">
+    <h4>Devil Eyes · CoolLED1248</h4>
+    <p class="small-note" id="nativeEyesInfo">Text, pictures, frame-by-frame animations, templates and multi-program display features belong here. This controller is still identification-only: we won't send an unverified upload packet or overwrite its factory programs.</p>
+    <p class="small-note">Use the Devil Eyes Identify and read-only Bluetooth inspection controls above. Once its BLE family and pixel layout are confirmed, we'll enable its own editor and transfer tools alongside grouped scenes.</p>
+   </section>
+  </div>
+</article></section>
 <section class="page" data-page="settings" hidden><div class="welcome"><div><div class="overline">Just the way you like it</div><h1>Make yourself<br>at home.</h1><p>A few thoughtful touches for an effortless ride.</p></div></div><div class="settings-grid"><article class="card true-color-card"><h3>Show my actual colors</h3><label class="switchline"><input type="checkbox" id="appTrueColors">Play my scenes in their chosen colors</label><p>For built-in scenes, choose exact solid shades or original controller animations. Scenes you create always keep the movement you selected. Some native effects (especially Rainbow) choose their own palette.</p><button type="button" class="secondary" id="appColorCheck">Check my calibrated colors ↗</button></article><article class="card"><h3>Connection preferences</h3><label class="switchline"><input type="checkbox" id="appAutoReconnect">Reconnect my lighting automatically</label><p>When your lights have power and Bluefy is open, we’ll try to bring your connection back. You can always use Reconnect above.</p><button class="secondary" id="previewMode">Explore in preview mode</button><p class="inline-status" id="previewStatus"></p></article><article class="card"><h3>Keep your favorites close</h3><p>Back up your saved scenes, light connections, and color tuning. Restore a backup when changing browsers or app addresses.</p><div class="row-actions"><button class="secondary" id="backupSetup">Back up my setup</button><button class="secondary" id="restoreSetup">Restore backup</button><input type="file" id="backupFile" accept="application/json,.json" hidden></div><button class="text-btn" id="importPrevious">Import previous cart-zone backup ↗</button></article><article class="card"><h3>Restore a controller scene</h3><p>Recall a scene you already saved with your controller’s own app.</p><label class="field-label" for="controllerScene">Controller scene</label><select class="input" id="controllerScene">${Array.from({ length: 9 }, (_, i) => `<option value="${i}">Scene ${i + 1}</option>`).join("")}</select><button class="secondary" id="recallController" style="margin-top:14px">Recall scene</button></article><article class="card map-launch"><div class="map-launch-head"><span class="map-launch-icon" aria-hidden="true">🗺️</span><div><h3>Map my lights</h3><p>Something lighting up in the wrong place? Show each strip, tell SmartEase where it is, and save it once.</p></div></div><button class="primary" id="openLightMap" type="button">Map my lights ↗</button></article><article class="card cal-launch"><div class="cal-launch-title"><span aria-hidden="true">🎨</span><div><h3>Fix my light colors</h3><p>Blue looks red? Purple looks orange? Tune each light in a few taps.</p></div></div><button class="primary" id="openColorCalibration" type="button">Fix my colors ↗</button></article><article class="card"><h3>A little extra help</h3><p>Fine-tune your five light connections, adjust color calibration, or get help with a connection.</p><div class="row-actions"><button class="secondary" id="openAdvanced">Advanced settings ↗</button><button class="text-btn" id="showWelcome">Getting started</button></div><a class="text-btn" href="docs/HARDWARE.md" target="_blank" rel="noopener" style="display:inline-block">Device compatibility details ↗</a></article></div></section>
 
 <section class="page cal-page" data-page="calibrate" hidden>
@@ -967,6 +1006,107 @@ function designerEffectNotice() {
    ?"Rainbow uses the controller's changing palette; individual colors you pick do not control its rainbow."
    :"Your scene keeps this animation. SP608E effects can change the visible shade; choose Steady glow to verify an exact color.";
 }
+/* Original device controls are deliberately separate from Whole Cart.
+   MELK mode IDs come from the tested MELK-OA10 profile only: no guessing
+   for other Lotus variants or the Devil Eyes display. */
+let nativeLotusBusy=false;
+function nativeLotusMenu(){
+ const category=ui("nativeLotusCategory").value;
+ const menu=ui("nativeLotusMode"),old=Number(menu.value);
+ const entries=SmartEaseLotus.nativeModes("melk-oa10",category);
+ menu.replaceChildren();
+ for(const entry of entries){
+  const option=document.createElement("option");
+  option.value=String(entry.id);
+  option.textContent=entry.label+" · "+entry.category;
+  menu.append(option);
+ }
+ const saved=preferences.lotusNative.mode;
+ const next=entries.some(e=>e.id===old)?old:
+   entries.some(e=>e.id===saved)?saved:entries[0]?.id;
+ if(next!==undefined)menu.value=String(next);
+ preferences.lotusNative.mode=Number(menu.value);
+}
+function initNativeLibrary(){
+ const categories=ui("nativeLotusCategory");
+ for(const cat of SmartEaseLotus.categories){
+  const option=document.createElement("option");
+  option.value=cat.id;option.textContent=cat.name;
+  categories.append(option);
+ }
+ categories.value=preferences.lotusNative.category;
+ nativeLotusMenu();
+ for(const id of ["Speed","Brightness"]){
+  ui("nativeLotus"+id).value=String(preferences.lotusNative[id.toLowerCase()]);
+  ui("nativeLotus"+id+"Value").textContent=ui("nativeLotus"+id).value+"%";
+  ui("nativeLotus"+id).addEventListener("input",()=>{
+   preferences.lotusNative[id.toLowerCase()]=Number(ui("nativeLotus"+id).value);
+   ui("nativeLotus"+id+"Value").textContent=ui("nativeLotus"+id).value+"%";
+   persist();
+  });
+ }
+ categories.onchange=()=>{
+  preferences.lotusNative.category=categories.value;
+  nativeLotusMenu();persist();
+ };
+ ui("nativeLotusMode").onchange=()=>{
+  preferences.lotusNative.mode=Number(ui("nativeLotusMode").value);
+  persist();
+ };
+ ui("nativeLotusParked").onchange=renderNativeLibrary;
+ ui("nativeLotusApply").onclick=applyNativeLotusMode;
+ ui("nativeSpChannels").onclick=()=>openAdvanced("control");
+ ui("nativeSpEffects").onclick=()=>openAdvanced("effects");
+ ui("nativeSpScenes").onclick=()=>openAdvanced("scenes");
+}
+function renderNativeLibrary(){
+ const adapter=cartDevices[2];
+ const supported=adapter.connected&&adapter.profile==="melk-oa10";
+ if(!adapter.connected)ui("nativeLotusParked").checked=false;
+ ui("nativeLotusApply").disabled=!supported||!ui("nativeLotusParked").checked||
+   nativeLotusBusy||applying||!!liveName||nokinsTestBusy||
+   document.visibilityState!=="visible";
+ ui("nativeLotusInfo").textContent=supported
+  ?"MELK-OA10 connected. Native modes 0–212 are available for hardware testing. Other app features still need separate validation."
+  :adapter.connected
+   ?"Connected "+adapter.identity?.name+". Native mode codes are not verified for this controller profile. Only the existing color tests are enabled."
+   :adapter.identity
+    ?"Detected "+adapter.identity.name+". Reconnect a verified MELK-OA10 to try native effects."
+    :"Connect your NOKINS decorative controller above. Unknown LotusLamp variants receive no effect packets.";
+ ui("nativeEyesInfo").textContent=cartDevices[1].identity
+  ?"Detected "+cartDevices[1].identity.name+". Text, art and animations are planned; upload remains disabled until the BLE protocol is verified."
+  :"CoolLED1248: Text, pictures, animations and program templates are planned. Identify Devil Eyes above to establish its BLE family; uploads are still disabled.";
+}
+async function applyNativeLotusMode(){
+ const adapter=cartDevices[2],status=ui("nativeLotusStatus");
+ const mode=Number(ui("nativeLotusMode").value),settings={
+  speed:Number(ui("nativeLotusSpeed").value),
+  brightness:Number(ui("nativeLotusBrightness").value)
+ };
+ if(!adapter.connected||adapter.profile!=="melk-oa10"||
+    !ui("nativeLotusParked").checked||document.visibilityState!=="visible"||
+    transport==="demo"||applying||!!liveName||nokinsTestBusy||nativeLotusBusy){
+  status.textContent="No commands sent. Park the cart, connect a verified MELK-OA10, close other shows, and confirm the safety box.";
+  return false;
+ }
+ // Validate before touching the write queue. No command for unknown profiles.
+ let jobs;
+ try{jobs=SmartEaseLotus.nativeModeCommands(adapter.profile,mode,settings);}
+ catch(error){status.textContent=error.message;return false;}
+ const guard=()=>adapter.connected&&adapter.profile==="melk-oa10"&&
+  document.visibilityState==="visible"&&!applying&&!liveName;
+ nativeLotusBusy=true;renderNativeLibrary();
+ status.textContent="Sending native effect "+mode+" at "+settings.brightness+"% brightness…";
+ try{
+  const ok=await adapter.nativeMode(mode,settings,guard);
+  status.textContent=ok
+   ?"Sent "+jobs.length+" verified-format MELK-OA10 commands for mode "+mode+
+      ". Check the real NOKINS light; mode names and appearance still need on-cart verification. This did not save an onboard slot."
+   :"Native effect interrupted. Reconnect the controller and try again.";
+  return !!ok;
+ }catch(error){status.textContent="Native effect failed: "+error.message;return false;}
+ finally{nativeLotusBusy=false;renderNativeLibrary();}
+}
 function renderDevices() {
   const list = ui("deviceList");
   list.replaceChildren();
@@ -1150,6 +1290,7 @@ function renderDevices() {
     }
   }
   renderNokinsTestPanel();
+  renderNativeLibrary();
 }
 /* Explicit on-cart NOKINS check. Connecting/identifying never writes RGB
    commands. A supported identity, user parked acknowledgment and live GATT
@@ -2097,6 +2238,7 @@ ui("welcomeDialog").addEventListener("close", () => {
   preferences.onboarded = true;
   persist();
 });
+initNativeLibrary();
 renderScenesUI();
 renderDesigner();
 renderGradientLab();

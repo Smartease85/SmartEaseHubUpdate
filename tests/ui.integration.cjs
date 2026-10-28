@@ -475,6 +475,90 @@ test("unknown Lotus controller identity cannot activate NOKINS RGB test buttons"
  assert.equal(b.errors.length,0);
  b.dom.window.close();
 });
+test("individual-device library exposes SP608E advanced control and gates MELK effects", async () => {
+ const b=boot();
+ const box=b.w.document.getElementById("nativeControllerLibrary");
+ assert.ok(box,"Devices must provide a discoverable original-function panel");
+ assert.equal(b.w.document.getElementById("nativeLotusMode").options.length,47);
+ assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
+ assert.equal(b.w.document.getElementById("nativeLotusParked").checked,false);
+ b.w.document.getElementById("nativeSpEffects").click();
+ assert.equal(b.w.document.body.classList.contains("advanced-open"),true);
+ assert.equal(b.w.document.getElementById("tab-effects").getAttribute("aria-hidden"),"false");
+ b.w.document.getElementById("nativeSpScenes").click();
+ assert.equal(b.w.document.getElementById("tab-scenes").getAttribute("aria-hidden"),"false");
+ const categories=b.w.document.getElementById("nativeLotusCategory");
+ categories.value="flow";categories.dispatchEvent(new b.w.Event("change"));
+ assert.equal(b.w.document.getElementById("nativeLotusMode").options.length,24);
+ assert.equal(b.w.document.getElementById("nativeLotusMode").value,"143");
+ const mode=b.w.document.getElementById("nativeLotusMode");
+ mode.value="157";mode.dispatchEvent(new b.w.Event("change"));
+ const speed=b.w.document.getElementById("nativeLotusSpeed");
+ speed.value="29";speed.dispatchEvent(new b.w.Event("input"));
+ const current=JSON.parse(b.w.localStorage.getItem("smartease-experience-v1"));
+ assert.equal(current.lotusNative.mode,157);
+ assert.equal(current.lotusNative.speed,29);
+ assert.equal(current.lotusNative.category,"flow");
+ const stored=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ b.dom.window.close();
+ const again=boot(stored);
+ assert.equal(again.w.document.getElementById("nativeLotusCategory").value,"flow");
+ assert.equal(again.w.document.getElementById("nativeLotusMode").value,"157");
+ assert.equal(again.w.document.getElementById("nativeLotusSpeed").value,"29");
+ assert.equal(again.w.document.getElementById("nativeLotusParked").checked,false);
+ assert.equal(again.errors.length,0);
+ again.dom.window.close();
+});
+test("Lotus native MELK mode only writes with recognized hardware and parked consent", async () => {
+ const b=boot();
+ const park=b.w.document.getElementById("nativeLotusParked");
+ assert.equal(await b.run("applyNativeLotusMode()"),false);
+ installLotusMock(b,"MELK-OA10   5F");
+ await b.run("cartDevices[2].connect()");
+ b.run("renderDevices()");
+ assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
+ assert.equal(b.run("lotusWrites.length"),0,"connection alone should not act");
+ park.checked=true;park.dispatchEvent(new b.w.Event("change"));
+ assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,false);
+ const cat=b.w.document.getElementById("nativeLotusCategory");
+ cat.value="flow";cat.dispatchEvent(new b.w.Event("change"));
+ const mode=b.w.document.getElementById("nativeLotusMode");
+ mode.value="143";mode.dispatchEvent(new b.w.Event("change"));
+ const speed=b.w.document.getElementById("nativeLotusSpeed");
+ speed.value="30";speed.dispatchEvent(new b.w.Event("input"));
+ const brightness=b.w.document.getElementById("nativeLotusBrightness");
+ brightness.value="45";brightness.dispatchEvent(new b.w.Event("input"));
+ assert.equal(await b.run("applyNativeLotusMode()"),true);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(lotusWrites)")),[
+  [126,7,3,143,255,255,255,0,239],
+  [126,4,2,30,255,255,255,0,239],
+  [126,7,1,45,255,255,255,0,239],
+ ]);
+ assert.equal(b.run("czState.scenes.length"),0);
+ assert.equal(b.run("cartDevices[2].sceneEnabled"),false);
+ assert.equal(b.run("cartDevices[1].capabilities.pixelUpload"),false);
+ b.run("cartDevices[2].disconnect()");
+ b.run("renderDevices()");
+ assert.equal(park.checked,false,"disconnect clears parked approval");
+ assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
+test("ELK-BLEDOB profile never inherits MELK native effects or sends unverified packets", async () => {
+ const b=boot();
+ installLotusMock(b,"ELK-BLEDOB");
+ await b.run("cartDevices[2].connect()");
+ b.run("renderDevices()");
+ const park=b.w.document.getElementById("nativeLotusParked");
+ park.checked=true;park.dispatchEvent(new b.w.Event("change"));
+ assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
+ assert.match(b.w.document.getElementById("nativeLotusInfo").textContent,/not verified/);
+ assert.equal(await b.run("applyNativeLotusMode()"),false);
+ assert.equal(b.run("lotusWrites.length"),0);
+ assert.equal(b.run("czState.scenes.length"),0);
+ assert.equal(b.errors.length,0);
+ b.dom.window.close();
+});
 test("Lotus connects without side effects, matches opted-in color and cancels after disconnect", async () => {
   const b = boot();
   installLotusMock(b);

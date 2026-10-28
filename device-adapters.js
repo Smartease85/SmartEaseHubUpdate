@@ -356,6 +356,16 @@ class LotusLampAdapter extends DeviceAdapter {
         : { on: design.on, color: design.color, brightness: design.brightness };
     return this.write(SmartEaseLotus.commands(this.profile, target), guard);
   }
+  nativeMode(mode, settings, guard = () => true) {
+    if (!this.connected || this.profile !== "melk-oa10")
+      throw Error("Connect a supported MELK-OA10 LotusLamp X controller first.");
+    // Deliberate, single-device user action. Unrecognized ELK models and the
+    // TRINKA display receive no commands. The queue enforces 180ms pacing.
+    return this.write(
+      SmartEaseLotus.nativeModeCommands(this.profile, mode, settings),
+      guard,
+    );
+  }
   power(on) {
     return this.write(
       SmartEaseLotus.commands(this.profile, {
