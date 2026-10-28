@@ -20,6 +20,8 @@ function boot(storage = {}) {
   const w = dom.window;
   w.structuredClone = structuredClone;
   w.scrollTo = () => {};
+  // Pixel rendering is browser-owned; these tests exercise authoring state and transport guards.
+  w.HTMLCanvasElement.prototype.getContext = () => null;
   w.HTMLElement.prototype.scrollIntoView = () => {};
   w.HTMLDialogElement.prototype.showModal = function () {
     this.open = true;
@@ -39,6 +41,96 @@ function boot(storage = {}) {
   }
   return { dom, w, ctx, errors, run: (code) => vm.runInContext(code, ctx) };
 }
+
+test("display studio paints, edits animation, undoes changes and survives reload without touching BLE",()=>{
+ const b=boot(),d=b.w.document;let writes=0;
+ b.w.navigator.bluetooth={requestDevice:()=>{writes++;throw Error("No BLE in editor");}};
+ d.getElementById("displayPaint").value="#ff0000";d.getElementById("displayPixel").click();
+ assert.equal(b.run("displayCurrent().pixels[0]"),0xff0000);
+ d.getElementById("displayCopyFrame").click();assert.equal(b.run("displayProject.programs[0].frames.length"),2);
+ d.getElementById("displayClear").click();assert.equal(b.run("displayCurrent().pixels[0]"),0);
+ d.getElementById("displayUndo").click();assert.equal(b.run("displayCurrent().pixels[0]"),0xff0000);
+ d.getElementById("displayRedo").click();assert.equal(b.run("displayCurrent().pixels[0]"),0);
+ d.getElementById("displayDuration").value="350";d.getElementById("displayDuration").dispatchEvent(new b.w.Event("change"));
+ d.getElementById("displayAddProgram").click();d.getElementById("displayName").value="Night eyes";d.getElementById("displayName").dispatchEvent(new b.w.Event("change"));
+ d.querySelector('[data-template="gaze"]').click();assert.equal(b.run("displayCurrent().pixels.some(Boolean)"),true);
+ const values=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
+ assert.equal(writes,0);assert.equal(d.getElementById("displayUpload").disabled,true);assert.equal(b.errors.length,0);b.dom.window.close();
+ const again=boot(values);assert.equal(again.run("displayProject.programs.length"),2);assert.equal(again.run("displayProject.programs[1].name"),"Night eyes");assert.equal(again.run("displayProject.programs[0].frames[1].duration"),350);again.dom.window.close();
+});
+
+test("display editor invalid imports and dimensions preserve the current picture and history",async()=>{
+ const b=boot(),d=b.w.document;
+ d.getElementById("displayFill").click();const before=b.run("JSON.stringify(displayProject)");
+ d.getElementById("displayWidth").value="999";d.getElementById("displayResize").click();assert.equal(b.run("JSON.stringify(displayProject)"),before);
+ Object.defineProperty(d.getElementById("displayImport"),"files",{value:[{size:20,text:async()=>'{"format":"unknown"}'}],configurable:true});
+ await d.getElementById("displayImport").onchange();assert.equal(b.run("JSON.stringify(displayProject)"),before);
+ assert.match(d.getElementById("displayStatus").textContent,/SmartEase display project/);
+ Object.defineProperty(d.getElementById("displayImage"),"files",{value:[{size:20,type:"image/gif"}],configurable:true});
+ await d.getElementById("displayImage").onchange();assert.match(d.getElementById("displayStatus").textContent,/GIF import is not supported/);
+ d.getElementById("displayUndo").click();assert.equal(b.run("displayCurrent().pixels.some(Boolean)"),false);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test("display playlist stops on navigation and visibility changes and never enables upload for a named candidate",async()=>{
+ const b=boot(),d=b.w.document;b.run('go("devices");nativeSelectDevice(2)');
+ d.getElementById("displayPlay").click();assert.equal(b.run("displayPlaying"),true);
+ b.run('go("home")');await new Promise(r=>setTimeout(r,0));assert.equal(b.run("displayPlaying"),false);
+ b.run('go("devices");cartDevices[1].identity={name:"CoolLEDX",id:"candidate"};renderNativeLibrary()');
+ assert.equal(d.getElementById("displayUpload").disabled,true);assert.equal(b.run("cartDevices[1].capabilities.pixelUpload"),false);
+ d.getElementById("displayPlay").click();Object.defineProperty(d,"visibilityState",{value:"hidden",configurable:true});d.dispatchEvent(new b.w.Event("visibilitychange"));assert.equal(b.run("displayPlaying"),false);b.dom.window.close();
+});
+
+test("native device tabs support keyboard navigation, preserve workspace and stop hidden previews",async()=>{
+ const b=boot(),d=b.w.document;b.run('go("devices")');assert.equal(d.getElementById("nativeWorkspace0").hidden,false);assert.equal(d.getElementById("displayStudio").hidden,true);
+ d.getElementById("nativeDeviceTab2").click();assert.equal(d.getElementById("displayStudio").hidden,false);assert.equal(d.getElementById("nativeDeviceTab2").getAttribute("aria-selected"),"true");
+ d.getElementById("displayPlay").click();assert.equal(b.run("displayPlaying"),true);
+ d.getElementById("nativeDeviceTab2").dispatchEvent(new b.w.KeyboardEvent("keydown",{key:"ArrowLeft",bubbles:true}));
+ assert.equal(d.getElementById("nativeWorkspace1").hidden,false);assert.equal(b.run("displayPlaying"),false);assert.equal(d.activeElement.id,"nativeDeviceTab1");
+ const values=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));b.dom.window.close();const again=boot(values);assert.equal(again.w.document.getElementById("nativeWorkspace1").hidden,false);again.dom.window.close();
+});
+
+test("native SP608E editor sends calibrated packets only to explicitly selected outputs",async()=>{
+ const b=boot({"smartease-haunted-rgb-fix-v1":'{"2":["r","g","b"]}',"smartease-sp608e-rgb-balance-v1":'{"2":[100,50,100]}'}),d=b.w.document;
+ b.run('enterDemo();globalThis.nativePackets=[];spEnsureChipColors=async(outputs)=>{globalThis.nativePorts=[...outputs];spChipRecord(2);spChipApplied[2]={session:bleSession,order:0};return true};enqueuePackets=async(jobs,label,options)=>{if(options?.guard&&!options.guard())return false;globalThis.nativePackets.push(...(typeof jobs[0]==="number"?[jobs]:jobs));return true}');
+ for(const input of d.querySelectorAll("[data-native-output]"))input.checked=input.dataset.nativeOutput==="2";
+ assert.equal(await b.run('nativeSpSend("apply")'),false);assert.equal(b.run("nativePackets.length"),0);
+ d.getElementById("nativeSpParked").checked=true;d.getElementById("nativeSpColor").value="#a24aec";d.getElementById("nativeSpBrightness").value="30";
+ assert.equal(await b.run('nativeSpSend("apply")'),true);
+ assert.equal(b.run("JSON.stringify(nativePorts)"),"[2]");
+ assert.equal(b.run("JSON.stringify(nativePackets)"),JSON.stringify([[136,131,2,2,25],[136,137,5,2,162,37,236,255],[136,133,2,2,77],[136,130,2,2,1]]));
+ assert.equal(b.w.localStorage.getItem("smartease-golf-cart-zones-v2"),null);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test("native SP608E queued settings cancel when a new scene takes over",async()=>{
+ const b=boot(),d=b.w.document;
+ b.run('enterDemo();globalThis.nativePackets=[];spEnsureChipColors=async()=>{applyGeneration++;return true};enqueuePackets=async(jobs,label,opts)=>{if(!opts.guard())return false;nativePackets.push(...jobs);return true}');
+ d.getElementById("nativeSpParked").checked=true;
+ assert.equal(await b.run('nativeSpSend("apply")'),false);assert.equal(b.run("nativePackets.length"),0);assert.equal(b.run("nativeSpBusy"),false);b.dom.window.close();
+});
+
+test("native SP608E global recall requires explicit whole-controller confirmation",async()=>{
+ const b=boot(),d=b.w.document;let confirmations=0;b.w.confirm=message=>{confirmations++;assert.match(message,/all eight/);return false;};
+ b.run('enterDemo();globalThis.recalls=0;recallScene=async()=>{recalls++;return true}');d.getElementById("nativeSpParked").checked=true;
+ assert.equal(await b.run('nativeSpSend("recall")'),false);assert.equal(b.run("recalls"),0);assert.equal(confirmations,1);b.dom.window.close();
+});
+
+test("native Lotus solid control keeps OF21 blocked and uses existing exact-profile packets",async()=>{
+ const b=boot(),d=b.w.document;installLotusMock(b);await b.run("cartDevices[2].connect()");
+ assert.equal(await b.run("nativeLotusSolid(true)"),false);assert.equal(b.run("lotusWrites.length"),0);
+ d.getElementById("nativeLotusParked").checked=true;d.getElementById("nativeLotusColor").value="#ff751e";d.getElementById("nativeLotusBrightness").value="33";
+ assert.equal(await b.run("nativeLotusSolid(true)"),true);assert.equal(b.run("JSON.stringify(lotusWrites[1])"),"[126,7,5,3,255,117,30,16,239]");
+ b.run('cartDevices[2].profile=null;cartDevices[2].identity={name:"MELK-OF21 1D"}');const count=b.run("lotusWrites.length");assert.equal(await b.run("nativeLotusSolid(true)"),false);assert.equal(b.run("lotusWrites.length"),count);b.dom.window.close();
+});
+
+test("full backup validation accepts display projects and rejects invalid project content before writes",async()=>{
+ const b=boot(),values={"smartease-display-project-v1":JSON.stringify(require("../display-project.js").create(8,8)),"smartease-sp608e-rgb-balance-v1":'{"2":[100,50,100]}'};
+ const invalid=JSON.parse(values["smartease-display-project-v1"]);invalid.programs[0].frames[0].pixels=[];
+ const bad={...values,"smartease-display-project-v1":JSON.stringify(invalid)};let confirmations=0;b.w.confirm=()=>{confirmations++;return false;};
+ b.w.badBackup={size:500,text:async()=>JSON.stringify({format:"smartease-cart-backup",version:1,values:bad})};
+ await b.run("restoreBackup(badBackup)");assert.equal(confirmations,0);assert.equal(b.w.localStorage.getItem("smartease-display-project-v1"),null);
+ b.w.goodBackup={size:500,text:async()=>JSON.stringify({format:"smartease-cart-backup",version:1,values})};
+ await b.run("restoreBackup(goodBackup)");assert.equal(confirmations,1,"valid project reaches explicit restore confirmation");assert.equal(b.w.localStorage.getItem("smartease-display-project-v1"),null,"declining leaves storage intact");b.dom.window.close();
+});
 test("real SmartEase house logo replaces placeholder S in header and installed icons", () => {
  const b=boot();
  const brand=b.w.document.querySelector("#app .wordmark .brand-symbol");

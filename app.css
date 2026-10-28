@@ -1631,6 +1631,32 @@ body > .nav {
 }
 
 
+/* Native controller workspace and device-independent pixel studio. */
+#app .native-controller-grid{align-items:start}
+#app .native-controller-grid.native-workspace{display:block}
+#app .native-workspace>.native-control-panel[hidden]{display:none}
+#app .native-device-tabs{display:flex;gap:6px;padding:6px;background:#071c18;border:1px solid #315347;border-radius:14px;margin:20px 0}
+#app .native-device-tabs button{flex:1;border:0;border-radius:9px;background:transparent;color:#a6c2b9;min-height:44px;font-weight:700;cursor:pointer}
+#app .native-device-tabs button[aria-selected=true]{background:#25564a;color:#edfff5}
+#app .native-device-tabs button:focus-visible{outline:2px solid #69e2bd;outline-offset:2px}
+#app .native-output-picker{display:flex;flex-wrap:wrap;gap:12px;border:1px solid #416259;border-radius:12px;padding:12px;margin:16px 0}
+#app .native-output-picker label{display:flex;align-items:center;gap:4px;min-height:32px}
+#app .display-studio{margin-top:28px;padding-top:24px;border-top:1px solid #37594e}
+#app .display-studio>.small-note{max-width:78ch;margin:16px 0}
+#app .display-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(220px,1fr);gap:24px;margin-top:20px}
+#app .display-layout>*{min-width:0}
+#app .display-settings{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin:14px 0}
+#app .display-settings label{display:grid;gap:6px;font-size:12px;flex:1;min-width:80px}
+#app .display-settings .input{width:100%;min-width:0}
+#app .display-canvas-wrap{padding:12px;background:#030907;border:1px solid #3b6454;border-radius:16px;overflow:hidden}
+#app #displayCanvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none;cursor:crosshair}
+#app .display-timeline{padding:18px;background:#102923;border-radius:16px;border:1px solid #33584c}
+#app .display-studio details{border-top:1px solid #37594e;margin-top:16px;padding-top:16px}
+#app .display-studio summary{cursor:pointer;min-height:40px;color:#c0ddd4}
+#app .display-studio .row-actions{gap:8px;margin-top:12px}
+#app button:disabled{cursor:default;opacity:.48}
+@media(max-width:800px){#app .display-layout{grid-template-columns:1fr}#app .display-studio .card-top{align-items:start;gap:12px}#app .display-settings{gap:10px}}
+
 /* Scene fidelity and guided calibrated-color proof */
 #app .true-color-card{background:linear-gradient(142deg,#113236,#0b252c);border-color:#62eac441}
 #app .true-color-card>h3{margin-bottom:12px}

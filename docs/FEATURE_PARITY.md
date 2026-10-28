@@ -6,13 +6,18 @@ Status: 2026-10-28 • `smartease-cart-lights` branch
 
 ## Matrix (hardware support and application support are distinct)
 
+**Native workspace update:** direct SP608E controls, independent Lotus solid controls and the
+Devil Eyes local picture/text/animation/program studio now exist. Offline CoolLEDX candidate
+encoding is tested; live upload remains gated. The detailed current status, acceptance steps
+and smallest missing captures are in [NATIVE_ACCEPTANCE.md](NATIVE_ACCEPTANCE.md).
+
 | Feature | SP608E / BanlanX | NOKINS / LotusLamp X | TRINKA Devil Eyes / CoolLED1248 |
 |---|---|---|---|
 | Connection | Working Bluefy BLE | Verified profiles `ELK-BLEDOB`, `MELK-OA10`; unknown models blocked | Discovery and read-only FFF0 inspection, upload blocked |
 | Power, solid color, brightness | Existing advanced and scenes controls | Working color/brightness for verified profiles; power packet limited by profile | Not implemented until exact protocol identified |
 | Native animations | Existing advanced list of 41; speed, direction and supported pixel-length controls | **New:** full 0–212 mode catalog, category selector, speed and brightness **only** on `MELK-OA10` | Not implemented; pixel count and BLE family still unknown |
 | Music reactive | SP608E microphone-sensitive factory effects exposed | Unknown / profile-specific; do not promise | Unknown |
-| Local scene library | Existing saved scenes (Bluefy localStorage) | Follows supported SmartEase accessory color when opt-in | Scene editor preview only |
+| Local scene library | Existing saved scenes (Bluefy localStorage) | Follows supported SmartEase accessory color when opt-in | Pixel/text/picture/frame/program studio with local persistence and import/export; no hardware transfer |
 | Controller onboard scenes | Existing nine scene recall buttons; writing scene slots unverified | Controller persistence unverified | Image/animation upload and persistence unverified |
 | Whole-cart scenes | Working mapped SP608E five-zone scenes, gradients and calibration; optional NOKINS color-follow | One color-follow only for now; native effect synchronization not validated | Preview only |
 | Timers / triggers | Not implemented; firmware persistence and semantics need tests | Not implemented | Not implemented |
