@@ -1,0 +1,9 @@
+{
+  "reference": "CharlesLennon/coolledux-ble",
+  "commit": "4f5656d9882adb4926c9dff4dc3fa5783b40a7ac",
+  "dimensions": {"width":10,"height":16},
+  "programs": [
+    {"index":0,"rawLength":386,"rawSha256":"c801096ab0f11245a0d22ab97463bfcb478ad937df24070d470e201c91c650aa","compressedSha256":"a486676e406369f13cb1e656a2e074b6850736f4bab3e28fc6a846f31e135e71","crc32":"5b57ff2c","announceHex":"01000c02065b57ff2c0000020582000206020603","packetCount":5,"packetsSha256":"698d95f07d46c10a0cb5701bdb8e2dfebb1b1fbd782f200bf620b0c729495e41"},
+    {"index":1,"rawLength":706,"rawSha256":"2c0c8bb5e93bc7bc921dd38666ad547e46c720a9214c9ebe3894fc10ccba4bff","compressedSha256":"2b855412fc805f03aa3f10b3e0002964574d59bd5fa6d39ad0b229d37a68b036","crc32":"933cc8cd","announceHex":"01000c0206933cc8cd00000206c202050206020503","packetCount":8,"packetsSha256":"29f2282c81fc16fe1b6e84837da20886b6fa2166f47a0c5a0870fb411c6530bb"}
+  ]
+}

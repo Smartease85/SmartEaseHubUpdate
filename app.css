@@ -1652,6 +1652,10 @@ body > .nav {
 #app #displayCanvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none;cursor:crosshair}
 #app .display-timeline{padding:18px;background:#102923;border-radius:16px;border:1px solid #33584c}
 #app .display-studio details{border-top:1px solid #37594e;margin-top:16px;padding-top:16px}
+#app .ux-workspace{margin-top:20px;padding:18px;background:#102923;border:1px solid #33584c;border-radius:16px}
+#app .ux-workspace summary{cursor:pointer;font-weight:700;min-height:40px}
+#app .ux-workspace .small-note{margin:12px 0}
+#app .ux-report{max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.5;color:#bdd9d0;margin-top:14px}
 #app .display-studio summary{cursor:pointer;min-height:40px;color:#c0ddd4}
 #app .display-studio .row-actions{gap:8px;margin-top:12px}
 #app button:disabled{cursor:default;opacity:.48}

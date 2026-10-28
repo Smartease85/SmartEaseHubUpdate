@@ -9,6 +9,7 @@ A Bluefy-first, buildless lighting PWA for the five physical decorative zones on
 - Direct SP608E native controls in Devices, using the retained queue and color calibration.
 - Devil Eyes local studio: pictures, raster text, pixel painting, frame animations, program playlists and project backup. Bluetooth upload still requires the exact TRINKA profile.
 - Tested offline CoolLEDX candidate packet encoder; it is not connected to a live transport and does not establish owner-device compatibility.
+- Separate CoolLEDUX adapter and offline RGB444 picture/animation compiler, following the owner's identified UX family. Transfer preparation and bounded captured-info decoding send no Bluetooth commands. See [UX evidence and acceptance](docs/COOLLEDUX.md).
 
 Open `index.html` from HTTPS in Bluefy. There is no runtime installation, account, subscription or API requirement. For development checks: Node 24+, `npm ci --ignore-scripts`, `npm test`.
 

@@ -10,6 +10,9 @@ Status: 2026-10-28 • `smartease-cart-lights` branch
 Devil Eyes local picture/text/animation/program studio now exist. Offline CoolLEDX candidate
 encoding is tested; live upload remains gated. The detailed current status, acceptance steps
 and smallest missing captures are in [NATIVE_ACCEPTANCE.md](NATIVE_ACCEPTANCE.md).
+Owner identification now establishes CoolLEDUX. Its separate adapter, offline program
+compiler and zero-write preparation workflow are documented in [COOLLEDUX.md](COOLLEDUX.md).
+MELK-OF21 remains distinct while static app/protocol investigation proceeds.
 
 | Feature | SP608E / BanlanX | NOKINS / LotusLamp X | TRINKA Devil Eyes / CoolLED1248 |
 |---|---|---|---|

@@ -191,6 +191,33 @@ test("full backup validation accepts display projects and rejects invalid projec
  b.w.goodBackup={size:500,text:async()=>JSON.stringify({format:"smartease-cart-backup",version:1,values})};
  await b.run("restoreBackup(goodBackup)");assert.equal(confirmations,1,"valid project reaches explicit restore confirmation");assert.equal(b.w.localStorage.getItem("smartease-display-project-v1"),null,"declining leaves storage intact");b.dom.window.close();
 });
+
+test("CoolLEDUX adapter never falls back to X, connects, or writes during offline preparation",async()=>{
+ const b=boot();let connects=0,writes=0;
+ const device={id:"ux-test",name:"CoolLEDUX-31B8",gatt:{connect:async()=>{connects++;throw Error("No connections during preparation");},writeValue:async()=>{writes++;}}};
+ b.w.navigator.bluetooth={requestDevice:async()=>device};await b.run("cartDevices[1].identify()");
+ b.run('SmartEaseCoolLEDX.image=()=>{throw Error("Wrong encoder");};SmartEaseCoolLEDX.animation=()=>{throw Error("Wrong encoder");}');
+ const before=b.run("JSON.stringify(displayProject)"),plan=b.run("cartDevices[1].prepareProject(displayProject)");
+ assert.equal(plan.family,"coolledux");assert.equal(plan.uploadEnabled,false);assert.equal(plan.dimensions.verified,false);
+ assert.equal(b.run("cartDevices[1].profile"),"coolledux");assert.equal(b.run("cartDevices[1].connected"),false);assert.equal(b.run("cartDevices[1].capabilities.pixelUpload"),false);
+ assert.equal(b.run("JSON.stringify(displayProject)"),before);await assert.rejects(b.run("cartDevices[1].upload()"),/not enabled/);
+ for(const name of ["CoolLEDX","CoolLEDM","CoolLEDU","unknown","CoolLEDUXX"]){device.name=name;assert.throws(()=>b.run("cartDevices[1].prepareProject(displayProject)"),/CoolLEDUX display/);assert.throws(()=>b.run('cartDevices[1].prepareCommand("power",true)'),/CoolLEDUX display/);}
+ assert.equal(connects,0);assert.equal(writes,0);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test("CoolLEDUX offline UI prepares a download and decodes historical info without live state or writes",async()=>{
+ const b=boot(),d=b.w.document;let connects=0,downloads=0,blobs=0;
+ b.w.navigator.bluetooth={requestDevice:async()=>({id:"ux-test",name:"CoolLEDUX",gatt:{connect:async()=>{connects++;throw Error("No BLE connection");}}})};
+ b.w.URL.createObjectURL=()=>{blobs++;return "blob:ux-plan";};b.w.URL.revokeObjectURL=()=>{};b.w.HTMLAnchorElement.prototype.click=()=>{downloads++;};
+ assert.equal(d.getElementById("uxPrepare").disabled,true);await b.run("cartDevices[1].identify()");b.run('go("devices");nativeSelectDevice(2);uxRender()');
+ assert.equal(d.getElementById("uxPrepare").disabled,false);d.getElementById("uxIncludeSettings").checked=true;d.getElementById("uxBrightness").value="33";
+ d.getElementById("uxPrepare").click();assert.equal(downloads,1);assert.equal(blobs,1);
+ const report=JSON.parse(d.getElementById("uxReport").textContent);assert.equal(report.family,"coolledux");assert.equal(report.uploadEnabled,false);assert.equal(report.draftDimensions.verified,false);
+ const encoded=b.run("SmartEaseCoolLEDUX.envelope([31,1,200,...Array(27).fill(0)])");d.getElementById("uxCapturedReply").value=Buffer.from(encoded).toString("hex");d.getElementById("uxDecode").click();
+ const decoded=JSON.parse(d.getElementById("uxReport").textContent);assert.equal(decoded.brightness,200);assert.equal(decoded.dimensions,null);assert.equal(decoded.source,"imported-capture");assert.equal(decoded.hardwareVerified,false);
+ d.getElementById("uxCapturedReply").value="ff ".repeat(1025);d.getElementById("uxDecode").click();assert.match(d.getElementById("uxReport").textContent,/bounded hexadecimal/);
+ assert.equal(d.getElementById("displayUpload").disabled,true);assert.equal(b.run("cartDevices[1].connected"),false);assert.equal(connects,0);assert.equal(b.errors.length,0);b.dom.window.close();
+});
 test("real SmartEase house logo replaces placeholder S in header and installed icons", () => {
  const b=boot();
  const brand=b.w.document.querySelector("#app .wordmark .brand-symbol");

@@ -58,12 +58,13 @@ class SP608EAdapter extends DeviceAdapter {
   }
 }
 class IdentifiableDeviceAdapter extends DeviceAdapter {
-  constructor(id, name) {
+  constructor(id, name, capabilities = {}) {
     super(id, name, {
       discovery: true,
       scenes: false,
       firmwareSave: false,
       pixelUpload: false,
+      ...capabilities,
     });
     this.device = null;
     this.identity = null;
@@ -75,10 +76,8 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
     if (!this.device) throw Error("Identify your Devil Eyes first, then inspect the selected controller.");
     const serviceId="0000fff0-0000-1000-8000-00805f9b34fb";
     const name=this.device.name||"Unnamed display";
-    const family=/coolledux/i.test(name)?"CoolLEDUX candidate":
-      /coolledx/i.test(name)?"CoolLEDX candidate":
-      /coolledm/i.test(name)?"CoolLEDM candidate":
-      /coolledu/i.test(name)?"CoolLEDU candidate":"Family unknown";
+    const selectedFamily=SmartEaseCoolLEDUX.family(name);
+    const family=({coolledux:"CoolLEDUX candidate",coolledx:"CoolLEDX candidate",coolledm:"CoolLEDM candidate",coolledu:"CoolLEDU candidate"})[selectedFamily]||"Family unknown";
     if(!this.device.gatt||typeof this.device.gatt.connect!=="function")
       throw Error("Selected device does not expose GATT access in this browser.");
     let server,service,characteristics=[],serviceFound=false,detail="";
@@ -105,7 +104,7 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
     }
     this.protocolReport={
       name,family,service:serviceId,serviceFound,characteristics,
-      detail:serviceFound?"Service discovered; controller family still unverified.":detail,
+      detail:serviceFound?"Service discovered; command compatibility still unverified.":detail,
       inspectedAt:new Date().toISOString(),writesSent:0
     };
     return this.protocolReport;
@@ -129,6 +128,26 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
     };
     return this.identity;
   }
+}
+class CoolLEDUXAdapter extends IdentifiableDeviceAdapter {
+  constructor(){
+    super("trinka","TRINKA Devil Eyes",{offlineCompile:true});
+    // Owner screenshots establish this family, not a connection or pixel size.
+    this.expectedFamily="coolledux";
+    this.capturedInfo=null;
+  }
+  get profile(){return SmartEaseCoolLEDUX.family(this.device?.name||this.identity?.name);}
+  requireUX(){
+    if(this.profile!=="coolledux")throw Error("Identify the CoolLEDUX display first. X, U, M and unknown names cannot use the UX encoder.");
+  }
+  prepareProject(project){this.requireUX();return SmartEaseCoolLEDUX.compileProject(project);}
+  prepareCommand(kind,value){this.requireUX();return SmartEaseCoolLEDUX.command(kind,value);}
+  decodeCapturedInfo(text){
+    this.requireUX();
+    const info=SmartEaseCoolLEDUX.decodeInfo(SmartEaseCoolLEDUX.parseHex(text));
+    this.capturedInfo={...info,importedAt:new Date().toISOString()};return this.capturedInfo;
+  }
+  async upload(){throw Error("CoolLEDUX upload is not enabled: panel dimensions, exact GATT transport and on-device acceptance are still pending.");}
 }
 class CartSession {
   constructor(adapters) {
@@ -378,7 +397,7 @@ class LotusLampAdapter extends DeviceAdapter {
 }
 const cartDevices = [
   new SP608EAdapter(),
-  new IdentifiableDeviceAdapter("trinka", "TRINKA Devil Eyes"),
+  new CoolLEDUXAdapter(),
   new LotusLampAdapter(),
 ];
 const cartSession = new CartSession(cartDevices);
