@@ -46,12 +46,16 @@ async function nativeSpSend(action){
    // Preserve physical chip order and manual/RGB balance corrections for each output.
    if(!await spEnsureChipColors(ports,guard))throw Error("Color calibration setup was interrupted.");
    const jobs=[];
-   for(const n of ports){const m=maskFor(n-1);jobs.push(packet(0x83,[m,fx.id]));if(fx.color)jobs.push(hauntedColorCommand(n,color));}
+   for(const n of ports){const m=maskFor(n-1);jobs.push(packet(0x83,[m,fx.id]));}
    if(fx.speed)jobs.push(packet(0x86,[mask,speed]));
    if(fx.length)jobs.push(packet(0x87,[mask,length>>8,length&255]));
    if(fx.direction)jobs.push(packet(0x8a,[mask,direction]));
    if(fx.type==="Music")jobs.push(packet(0x8b,[mask,gain]));else jobs.push(packet(0x85,[mask,Math.round(level*255/100)]));
-   jobs.push(packet(0x82,[mask,1]));ok=await enqueuePackets(jobs,"Native SP608E settings",{guard});
+   jobs.push(packet(0x82,[mask,1]));
+   // Match the proven scene path: power-on can restore an old/default color.
+   // Reapply each output's calibrated RGB only AFTER every selected output is on.
+   if(fx.color)for(const n of ports)jobs.push(hauntedColorCommand(n,color));
+   ok=await enqueuePackets(jobs,"Native SP608E settings",{guard});
   }else if(action==="on"||action==="off")ok=await sendPower(mask,action==="on",{guard});
   else if(action==="recall"){
    // Onboard recall is controller-wide, including outputs outside this selection.

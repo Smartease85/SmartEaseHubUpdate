@@ -80,6 +80,29 @@ test("display playlist stops on navigation and visibility changes and never enab
  d.getElementById("displayPlay").click();Object.defineProperty(d,"visibilityState",{value:"hidden",configurable:true});d.dispatchEvent(new b.w.Event("visibilitychange"));assert.equal(b.run("displayPlaying"),false);b.dom.window.close();
 });
 
+test("slow display JSON import cannot overwrite edits or a newer import and does not pollute undo",async()=>{
+ const b=boot(),d=b.w.document,input=d.getElementById("displayImport"),D=require("../display-project.js");
+ const choose=file=>Object.defineProperty(input,"files",{value:[file],configurable:true});
+ const stale=D.create(8,8);stale.programs[0].name="Old slow import";let finish;
+ choose({size:100,text:()=>new Promise(resolve=>{finish=resolve;})});const pending=input.onchange();
+ d.getElementById("displayPaint").value="#ff0000";d.getElementById("displayFill").click();
+ const edited=b.run("JSON.stringify(displayProject)"),history=b.run("displayUndo.length");
+ finish(JSON.stringify(stale));await pending;
+ assert.equal(b.run("JSON.stringify(displayProject)"),edited);assert.equal(b.run("displayUndo.length"),history);
+ let finishOlder;choose({size:100,text:()=>new Promise(resolve=>{finishOlder=resolve;})});const older=input.onchange();
+ const fresh=D.create(16,8);fresh.programs[0].name="New import";
+ choose({size:100,text:async()=>JSON.stringify(fresh)});await input.onchange();
+ finishOlder(JSON.stringify(stale));await older;
+ assert.equal(b.run("displayProject.width"),16);assert.equal(b.run("displayProject.programs[0].name"),"New import");
+ assert.equal(b.run("displayUndo.length"),history+1,"only the accepted import adds undo history");
+ d.getElementById("displayUndo").click();assert.equal(b.run("JSON.stringify(displayProject)"),edited);
+ d.getElementById("displayRedo").click();assert.equal(b.run("displayProject.programs[0].name"),"New import");
+ let finishBeforeUndo;choose({size:100,text:()=>new Promise(resolve=>{finishBeforeUndo=resolve;})});const beforeUndo=input.onchange();
+ d.getElementById("displayUndo").click();finishBeforeUndo(JSON.stringify(stale));await beforeUndo;
+ assert.equal(b.run("JSON.stringify(displayProject)"),edited,"undo supersedes a pending import");
+ assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
 test("native device tabs support keyboard navigation, preserve workspace and stop hidden previews",async()=>{
  const b=boot(),d=b.w.document;b.run('go("devices")');assert.equal(d.getElementById("nativeWorkspace0").hidden,false);assert.equal(d.getElementById("displayStudio").hidden,true);
  d.getElementById("nativeDeviceTab2").click();assert.equal(d.getElementById("displayStudio").hidden,false);assert.equal(d.getElementById("nativeDeviceTab2").getAttribute("aria-selected"),"true");
@@ -97,8 +120,45 @@ test("native SP608E editor sends calibrated packets only to explicitly selected 
  d.getElementById("nativeSpParked").checked=true;d.getElementById("nativeSpColor").value="#a24aec";d.getElementById("nativeSpBrightness").value="30";
  assert.equal(await b.run('nativeSpSend("apply")'),true);
  assert.equal(b.run("JSON.stringify(nativePorts)"),"[2]");
- assert.equal(b.run("JSON.stringify(nativePackets)"),JSON.stringify([[136,131,2,2,25],[136,137,5,2,162,37,236,255],[136,133,2,2,77],[136,130,2,2,1]]));
+ assert.equal(b.run("JSON.stringify(nativePackets)"),JSON.stringify([[136,131,2,2,25],[136,133,2,2,77],[136,130,2,2,1],[136,137,5,2,162,37,236,255]]));
  assert.equal(b.w.localStorage.getItem("smartease-golf-cart-zones-v2"),null);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test("native SP Apply restores per-output calibrated RGB after firmware resets color on power-on",async()=>{
+ const b=boot({"smartease-haunted-rgb-fix-v1":'{"2":["b","r","g"],"5":["r","g","b"]}',"smartease-sp608e-rgb-balance-v1":'{"2":[100,50,100],"5":[50,100,100]}'}),d=b.w.document;
+ b.run(`enterDemo();
+  globalThis.nativeResetWrites=[];
+  globalThis.nativeHardware=Array.from({length:8},()=>({power:false,color:[9,9,9],effect:25,order:0}));
+  enqueuePackets=async(jobs,label,options)=>{
+   for(const bytes of (typeof jobs[0]==="number"?[jobs]:jobs)){
+    if(options?.guard&&!options.guard())return false;
+    nativeResetWrites.push([...bytes]);
+    const [,opcode,,mask,...args]=bytes;
+    for(const index of indexes(mask)){
+     const output=nativeHardware[index];
+     if(opcode===0x82){output.power=!!args[0];if(output.power)output.color=[9,9,9];}
+     if(opcode===0x83)output.effect=args[0];
+     if(opcode===0x84)output.order=args[0];
+     if(opcode===0x89)output.color=args.slice(0,3);
+    }
+   }return true;
+  }`);
+ for(const input of d.querySelectorAll("[data-native-output]"))input.checked=["2","5"].includes(input.dataset.nativeOutput);
+ d.getElementById("nativeSpParked").checked=true;d.getElementById("nativeSpColor").value="#a24aec";
+ for(const effect of [25,7,102,1]){
+  b.run("nativeResetWrites=[]");d.getElementById("nativeSpEffect").value=String(effect);
+  const untouched=b.run("JSON.stringify(nativeHardware.filter((_,i)=>![1,4].includes(i)))");
+  assert.equal(await b.run('nativeSpSend("apply")'),true);
+  assert.equal(b.run("JSON.stringify(nativeHardware.filter((_,i)=>![1,4].includes(i)))"),untouched,"unselected outputs remain intact");
+  assert.equal(b.run("nativeHardware[1].order"),4,"saved BRG chip calibration is retained");
+  assert.equal(b.run("nativeHardware[4].order"),0);
+  if(effect===1){assert.equal(b.run("nativeResetWrites.some(p=>p[1]===0x89)"),false,"factory palette must not receive user RGB");continue;}
+  assert.equal(b.run("JSON.stringify(nativeHardware[1].color)"),"[162,37,236]","output 2 retains its own RGB balance after reset");
+  assert.equal(b.run("JSON.stringify(nativeHardware[4].color)"),"[81,74,236]","output 5 retains its independent balance");
+  assert.equal(b.run("nativeHardware[1].power&&nativeHardware[4].power"),true);
+  assert.equal(b.run("nativeResetWrites.filter(p=>p[1]===0x89).every(p=>nativeResetWrites.indexOf(p)>nativeResetWrites.findLastIndex(x=>x[1]===0x82))"),true);
+ }
+ assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test("native SP608E queued settings cancel when a new scene takes over",async()=>{

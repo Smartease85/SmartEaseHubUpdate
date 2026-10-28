@@ -62,7 +62,7 @@ function displayCommit(change){
 }
 function displaySave(){try{localStorage.setItem(displayKey,JSON.stringify(displayProject));displaySay("Project saved in this browser. Export a copy to keep it elsewhere.");}catch{displaySay("Browser storage is full. Export your project now; current edits are only in memory.");}}
 function displayHistory(from,to){
- if(!from.length)return;displayStop();to.push({project:displayModel.clone(displayProject),program:displayProgram,frame:displayFrame});
+ if(!from.length)return;displayImportGeneration++;displayStop();to.push({project:displayModel.clone(displayProject),program:displayProgram,frame:displayFrame});
  const state=from.pop();displayProject=state.project;displayProgram=state.program;displayFrame=state.frame;displaySave();displayRender();
 }
 function displayDraw(p=displayProgram,f=displayFrame){
@@ -163,7 +163,17 @@ du("Export").onclick=()=>{
 du("ImportButton").onclick=()=>du("Import").click();
 du("Import").onchange=async()=>{
  const file=du("Import").files[0];if(!file)return;
- try{if(file.size>2_000_000)throw Error("Project files must be smaller than 2 MB.");const next=displayModel.validate(JSON.parse(await file.text()));displayCommit(()=>{displayProject=next;displayProgram=displayFrame=0;});}catch(error){displaySay(error.message);}finally{du("Import").value="";}
+ const generation=++displayImportGeneration;
+ try{
+  if(file.size>2_000_000)throw Error("Project files must be smaller than 2 MB.");
+  const text=await file.text();
+  // A later import, edit, undo or redo supersedes this request. Stale imports
+  // must neither replace the document nor add an entry to its undo history.
+  if(generation!==displayImportGeneration)return;
+  const next=displayModel.validate(JSON.parse(text));
+  displayCommit(()=>{displayProject=next;displayProgram=displayFrame=0;});
+ }catch(error){if(generation===displayImportGeneration)displaySay(error.message);}
+ finally{if(du("Import").files[0]===file)du("Import").value="";}
 };
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"){displayFinishStroke();displayStop();}});
 window.addEventListener("pagehide",displayStop);
