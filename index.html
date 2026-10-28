@@ -448,6 +448,8 @@ function saveSettings(){try{localStorage.setItem('smartease-cart-lights-v1',JSON
 const newChannel=()=>({known:false,power:false,effect:25,order:0,brightness:115,speed:5,length:32,direction:1,color:'#49e3d2'});
 let channels=Array.from({length:N},newChannel);
 let selectedMask=ALL, device=null, rememberedDevice=null, char=null, transport='offline', bleSession=0, writeQueue=Promise.resolve(), txCount=0, rxCount=0, frameBuffer=null, pendingRefresh=null, lastRefreshAt=null, lastWriteAt=0, connectionInProgress=false, disconnectCount=0, lastDisconnectReason='', disconnectRequested=false, writeQueueSize=0;
+let spConnectionAttempt=0;
+const isSP608EName=name=>/^SP608E(?:$|[\s_-])/i.test(name||'');
 let studioRunning=false,studioToken=0,studioStep=0,studioMask=ALL,studioCurrent=0;
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const cap=(n,min,max)=>Math.min(max,Math.max(min,Math.round(Number(n)||0)));
@@ -530,10 +532,7 @@ async function restoreGrantedBle(){
   const available=await navigator.bluetooth.getDevices();
   let id=null;try{id=localStorage.getItem(SAVED_BLE_ID_KEY);}catch{}
   let picked=id?available.find(d=>d.id===id):null;
-  if(!picked){
-   const matches=available.filter(d=>/^(SP608E|SP60|Banlan)/i.test(d.name||''));
-   if(matches.length===1)picked=matches[0];
-  }
+  if(picked&&!isSP608EName(picked.name))picked=null;
   if(!picked){
    setAutoBleMessage('Tap Find SP608E once to select your controller (or resolve multiple paired devices).');
    return;
@@ -577,28 +576,27 @@ function installAutoBle(){
 
 async function connect(mode='name',automatic=false){
  stopStudio();
- if(connectionInProgress||isLive())return;
+ if(connectionInProgress||isLive())return isLive();
  if(automatic&&!rememberedDevice)return;
  if(!automatic){cancelAutoBle();reconnectTry=0;}
  lastConnectError='';
  if(!navigator.bluetooth){lastConnectError='Web Bluetooth unavailable. Open HTTPS in Bluefy and allow Bluetooth access.';log(lastConnectError,'error');updateTransport();return;}
  if(transport==='demo')exitDemo();
  connectionInProgress=true;updateTransport();
+ const attempt=++spConnectionAttempt;
+ const check=()=>{if(attempt!==spConnectionAttempt)throw Object.assign(Error('SP608E connection cancelled.'),{name:'AbortError'});};
+ let attemptedDevice=null;
  try{
   let picked;
   if(mode==='remembered'&&rememberedDevice){picked=rememberedDevice;log('Reconnecting to previously selected '+(picked.name||'controller')+'.');}
   else{
-   const custom=$('blePrefix').value.trim();
-   const namePrefixes=[...new Set([custom,'SP','sp','Banlan','Scene','LED','BTF'].filter(Boolean))];
-   const options=mode==='service'?{filters:[{services:[BLE_SERVICE]}],optionalServices:[BLE_SERVICE]}:
-    mode==='all'?{acceptAllDevices:true,optionalServices:[BLE_SERVICE]}:
-    {filters:namePrefixes.map(namePrefix=>({namePrefix})),optionalServices:[BLE_SERVICE]};
+   const options={filters:[{namePrefix:'SP608E'},{namePrefix:'sp608e'}],optionalServices:[BLE_SERVICE]};
    log('Opening Bluetooth device picker ('+mode+'). Close BanlanX first.');
-   picked=await navigator.bluetooth.requestDevice(options);
+   picked=window.SmartEasePairing?await SmartEasePairing.choose('sp608e'):await navigator.bluetooth.requestDevice(options);
   }
   if(!picked)throw Error('No Bluetooth device selected');
-  rememberedDevice=picked;device=picked;autoReconnectArmed=true;
-  try{if(picked.id)localStorage.setItem(SAVED_BLE_ID_KEY,picked.id);}catch{}
+  check();if(!isSP608EName(picked.name))throw Error('Choose only the SP608E underglow controller.');
+  attemptedDevice=picked;device=picked;
   ++bleSession;
   if(!observedBleDevices.has(picked)){
    observedBleDevices.add(picked);
@@ -611,30 +609,38 @@ async function connect(mode='name',automatic=false){
   }
   $('deviceName').textContent=picked.name||'Unnamed BLE device';
   const gatt=await picked.gatt.connect();
+  check();
   const service=await gatt.getPrimaryService(BLE_SERVICE);
+  check();
   char=await service.getCharacteristic(BLE_CHARACTERISTIC);
+  check();
+  if(!char.properties?.write&&!char.properties?.writeWithoutResponse)throw Error('SP608E FFE1 is not writable in this browser.');
+  rememberedDevice=picked;autoReconnectArmed=true;
+  try{if(picked.id)localStorage.setItem(SAVED_BLE_ID_KEY,picked.id);window.SmartEasePairing?.remember('sp608e',picked);}catch{}
   transport='ble';lastDisconnectReason='';lastWriteAt=0;cancelAutoBle();reconnectTry=0;setAutoBleMessage('Connected to '+(picked.name||'SP608E')+'. Auto-reconnect '+(autoReconnectOn?'armed.':'off.'));
   log('Bluetooth connected to '+(picked.name||'SP608E')+'. Writes: '+!!char.properties.write+'; notifications: '+!!char.properties.notify);
   frameBuffer=null;channels=Array.from({length:N},newChannel);
-  try{if(typeof char.startNotifications==='function'){if(!observedCharacteristics.has(char)){char.addEventListener('characteristicvaluechanged',onNotification);observedCharacteristics.add(char);}await char.startNotifications();log('Readback notifications enabled.');}else log('Notifications not exposed by browser.','warn');}
+  try{if(typeof char.startNotifications==='function'){if(!observedCharacteristics.has(char)){char.addEventListener('characteristicvaluechanged',event=>{if(device===picked&&char===event.target&&isLive())onNotification(event);});observedCharacteristics.add(char);}await char.startNotifications();check();log('Readback notifications enabled.');}else log('Notifications not exposed by browser.','warn');}
   catch(e){log('Notifications unavailable: '+e.message,'warn');}
-  renderState();await queryState();
+  check();renderState();await queryState();check();
   if(typeof czUniqueOutputs==='function'&&typeof spEnsureChipColors==='function'){
    // Restore the user's saved LED color order when Bluefy reconnects,
    // without replaying the old scene or modifying unmapped outputs.
    const ok=await spEnsureChipColors(czUniqueOutputs());
    if(!ok)log('Saved color-order synchronization postponed until the next scene.','warn');
   }
+  check();return true;
  }catch(err){
   lastConnectError=(err.name||'Error')+': '+(err.message||String(err));
   log('Connection attempt failed ('+mode+(automatic?', auto':'')+'): '+lastConnectError,'error');
-  if(!automatic)notify('Could not connect. Try reconnect or Scan all.');
+  if(!automatic)notify(err.name==='NotFoundError'||err.name==='AbortError'?'SP608E connection cancelled.':lastConnectError);
   if(automatic&&(err.name==='NotAllowedError'||err.name==='SecurityError')){
    autoReconnectArmed=false;
    setAutoBleMessage('Permission needed. Tap Find SP608E to select the device again.');
   }
-  try{device?.gatt?.disconnect();}catch{}
-  handleDisconnect();
+  try{attemptedDevice?.gatt?.disconnect();}catch{}
+  if(attempt===spConnectionAttempt)handleDisconnect();
+  return false;
  }finally{
   connectionInProgress=false;updateTransport();
   if(autoReconnectOn&&autoReconnectArmed&&!isLive())scheduleAutoBle();
@@ -649,9 +655,10 @@ function handleDisconnect(){
  if(autoReconnectOn&&autoReconnectArmed&&!disconnectRequested)scheduleAutoBle();
 }
 function disconnect(){
+ spConnectionAttempt++;
  lastDisconnectReason='';lastConnectError='';disconnectRequested=true;
  autoReconnectArmed=false;reconnectTry=0;cancelAutoBle();
- if(isLive())try{device.gatt.disconnect();}catch(e){log('Disconnect: '+e.message,'warn');}
+ if(device?.gatt?.connected)try{device.gatt.disconnect();}catch(e){log('Disconnect: '+e.message,'warn');}
  handleDisconnect();disconnectRequested=false;
  setAutoBleMessage('You disconnected manually. Tap Reconnect SP608E to connect again.');
  log('Disconnected manually.');
@@ -1419,7 +1426,9 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="cart-zones.js"></script>
 <script src="lighting-engine.js"></script>
 <script src="lotus-protocol.js"></script>
+<script src="of21-protocol.js"></script>
 <script src="coolledux-protocol.js"></script>
+<script src="device-connections.js"></script>
 <script src="device-adapters.js"></script>
 <script src="app.js"></script>
 <script src="display-project.js"></script>
@@ -1427,5 +1436,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="display-editor.js"></script>
 <script src="native-controls.js"></script>
 <script src="coolledux-workspace.js"></script>
+<script src="of21-workspace.js"></script>
+<script src="connection-workspace.js"></script>
 </body>
 </html>

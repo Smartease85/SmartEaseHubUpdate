@@ -80,6 +80,7 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
     const family=({coolledux:"CoolLEDUX candidate",coolledx:"CoolLEDX candidate",coolledm:"CoolLEDM candidate",coolledu:"CoolLEDU candidate"})[selectedFamily]||"Family unknown";
     if(!this.device.gatt||typeof this.device.gatt.connect!=="function")
       throw Error("Selected device does not expose GATT access in this browser.");
+    const wasConnected=!!this.device.gatt.connected;
     let server,service,characteristics=[],serviceFound=false,detail="";
     try{
       server=await this.device.gatt.connect();
@@ -100,7 +101,7 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
       }
     }finally{
       // Never hold a connection that would block CoolLED1248 from reattaching.
-      if(this.device.gatt?.connected)this.device.gatt.disconnect();
+      if(!wasConnected&&this.device.gatt?.connected)this.device.gatt.disconnect();
     }
     this.protocolReport={
       name,family,service:serviceId,serviceFound,characteristics,
@@ -135,8 +136,29 @@ class CoolLEDUXAdapter extends IdentifiableDeviceAdapter {
     // Owner screenshots establish this family, not a connection or pixel size.
     this.expectedFamily="coolledux";
     this.capturedInfo=null;
+    this.link=new SmartEasePairing.MetadataTransport("trinka");
   }
+  get connected(){return !!this.link?.connected;}
+  get connecting(){return !!this.link?.connecting;}
+  get lastError(){return this.link?.error||"";}
+  async connect(pickNew=false){
+    const previous=this.identity?.id;
+    try{return await this.link.connect(pickNew);}
+    finally{if(this.link.identity){this.device=this.link.device;this.identity=this.link.identity;if(previous!==this.identity.id)this.capturedInfo=null;}}
+  }
+  reconnect(){return this.connect();}
+  disconnect(){this.link.disconnect();}
+  restoreGranted(devices){if(this.link.restore(devices)){this.device=this.link.device;this.identity=this.link.identity;return true;}return false;}
   get profile(){return SmartEaseCoolLEDUX.family(this.device?.name||this.identity?.name);}
+  async identify(){
+    const identity=await super.identify();
+    if(this.link.device&&this.link.device!==this.device)this.link.disconnect();
+    this.link.device=this.device;this.link.identity=identity;
+    // A capture associated with a prior selection must never follow a newly
+    // selected display into its identification report. Cancelled pickers leave
+    // the existing selection and its explicitly historical capture intact.
+    this.capturedInfo=null;return identity;
+  }
   requireUX(){
     if(this.profile!=="coolledux")throw Error("Identify the CoolLEDUX display first. X, U, M and unknown names cannot use the UX encoder.");
   }
@@ -145,7 +167,7 @@ class CoolLEDUXAdapter extends IdentifiableDeviceAdapter {
   decodeCapturedInfo(text){
     this.requireUX();
     const info=SmartEaseCoolLEDUX.decodeInfo(SmartEaseCoolLEDUX.parseHex(text));
-    this.capturedInfo={...info,importedAt:new Date().toISOString()};return this.capturedInfo;
+    this.capturedInfo={...info,selectedDeviceAtImport:{id:this.device?.id||this.identity?.id||null,name:this.device?.name||this.identity?.name||null},captureOriginVerified:false,importedAt:new Date().toISOString()};return this.capturedInfo;
   }
   async upload(){throw Error("CoolLEDUX upload is not enabled: panel dimensions, exact GATT transport and on-device acceptance are still pending.");}
 }
@@ -163,7 +185,7 @@ class CartSession {
     this.stop();
     const generation = this.generation;
     const targets = this.adapters.filter(
-      (a) => a.capabilities.scenes && a.connected && a.sceneEnabled !== false,
+      (a) => a.capabilities.scenes && a.connected && a.controlReady !== false && a.sceneEnabled !== false,
     );
     if (!targets.length) throw Error("Connect your cart lighting first.");
     const results = [];
@@ -185,6 +207,14 @@ class CartSession {
     return { cancelled: this.generation !== generation, results };
   }
 }
+class OF21OfflineAdapter extends DeviceAdapter {
+  constructor(){super("nokins-of21","MELK-OF21 native preparation",{offlineCompile:true,scenes:false,pixelUpload:false,firmwareSave:false});this.identity=null;}
+  select(identity){if(this.identity?.id!==identity?.id)this.totalNodes=null;this.identity=identity&&SmartEaseOF21.profile(identity.name)?{...identity}:null;}
+  get profile(){return SmartEaseOF21.profile(this.identity?.name);}
+  prepareCommand(kind,value,options){if(!this.profile)throw Error("Select the exact MELK-OF21 controller first.");return SmartEaseOF21.command(kind,value,options);}
+  prepareExamples(color){if(!this.profile)throw Error("Select the exact MELK-OF21 controller first.");return {...SmartEaseOF21.examples(color),selectedDevice:{...this.identity}};}
+  async transmit(){throw Error("OF21 bulk/DIY transmission remains disabled; ordinary controls use their guarded source-derived path.");}
+}
 class LotusLampAdapter extends DeviceAdapter {
   constructor() {
     super("nokins", "NOKINS RGB Deluxe", {
@@ -198,6 +228,9 @@ class LotusLampAdapter extends DeviceAdapter {
     this.device = null;
     this.characteristic = null;
     this.profile = null;
+    this.of21 = new OF21OfflineAdapter();
+    this.ownerLink=new SmartEasePairing.MetadataTransport("nokins");
+    this.ownerLink.onNotification=bytes=>{if(this.profile!=="melk-of21")return;const result=SmartEaseOF21.parseGeometry(bytes);if(result){this.of21.totalNodes=result.totalNodes;this.emit();}};
     this.sceneEnabled = false;
     this.queue = Promise.resolve();
     this.session = 0;
@@ -209,10 +242,38 @@ class LotusLampAdapter extends DeviceAdapter {
     this.listeners = new WeakSet();
   }
   get connected() {
+    if(this.profile==="melk-of21")return this.ownerLink.connected;
     return (
       !!this.device?.gatt?.connected && !!this.characteristic && !!this.profile
     );
   }
+  get controlReady(){return this.connected&&(this.profile!=="melk-of21"||!!this.ownerLink.report?.writeMethod);}
+  get connecting(){return !!this.legacyConnecting||!!this.ownerLink?.connecting;}
+  set connecting(value){this.legacyConnecting=!!value;}
+  async connectOwner(pickNew=false){
+    this.manual=false;
+    this.session++;
+    try{return await this.ownerLink.connect(pickNew);}
+    finally{
+      if(this.ownerLink.identity){this.device=this.ownerLink.device;this.identity=this.ownerLink.identity;this.profile="melk-of21";this.characteristic=this.ownerLink.characteristic;this.of21.select(this.identity);}
+      this.lastError=this.ownerLink.error;this.emit();
+    }
+  }
+  ownerCommands(commands,guard=()=>true){
+    const allowed=["power","rgb-power","color","brightness","speed","effect","scene","microphone","mic-rhythm","geometry-query"];
+    if(this.profile!=="melk-of21"||!this.controlReady)throw Error("Connect the exact OF21 controller with writable FFF3 first.");
+    const jobs=commands.map(c=>{if(!allowed.includes(c.kind))throw Error("This OF21 configuration or bulk operation is not enabled.");return SmartEaseOF21.command(c.kind,c.value,c.options);});
+    const generation=this.ownerLink.generation,picked=this.device;
+    const task=this.queue.catch(()=>false).then(async()=>{
+      for(const bytes of jobs){
+        if(!guard()||!this.controlReady||generation!==this.ownerLink.generation||this.device!==picked)return false;
+        try{await this.ownerLink.characteristic[this.ownerLink.report.writeMethod](Uint8Array.from(bytes));}
+        catch(error){this.lastError=error.message;this.emit();return false;}
+        await sleep(100);
+      }return true;
+    });this.queue=task.catch(()=>false);return task;
+  }
+  ownerCommand(kind,value,options,guard){return this.ownerCommands([{kind,value,options}],guard);}
   emit() {
     if (typeof window.updateCartDeviceUI === "function")
       window.updateCartDeviceUI();
@@ -241,9 +302,10 @@ class LotusLampAdapter extends DeviceAdapter {
         id: picked.id,
         identifiedAt: new Date().toISOString(),
       };
+      this.of21.select(this.identity);
       if (!this.profile)
         throw Error(
-          "This LotusLamp model still needs setup. Continue using LotusLamp X for now.",
+          this.of21.profile?"MELK-OF21 identified. Offline native preparation is available; live transport remains gated.":"This LotusLamp model still needs setup. Continue using LotusLamp X for now.",
         );
       if (!this.listeners.has(picked)) {
         picked.addEventListener("gattserverdisconnected", () => {
@@ -291,9 +353,10 @@ class LotusLampAdapter extends DeviceAdapter {
     }
   }
   reconnect() {
-    return this.connect();
+    return this.profile==="melk-of21"?this.connectOwner():this.connect();
   }
   disconnect() {
+    if(this.profile==="melk-of21")this.ownerLink.disconnect();
     this.manual = true;
     this.session++;
     clearTimeout(this.timer);
@@ -326,22 +389,13 @@ class LotusLampAdapter extends DeviceAdapter {
     }, delay);
   }
   async restoreGranted() {
-    if (!navigator.bluetooth?.getDevices) return;
-    try {
-      const id = localStorage.getItem("smartease-nokins-device-v1");
-      if (!id) return;
-      const devices = await navigator.bluetooth.getDevices();
-      this.device = devices.find((d) => d.id === id) || null;
-      if (
-        this.device &&
-        autoReconnectOn &&
-        !this.manual &&
-        transport !== "demo"
-      )
-        await this.connect();
-    } catch {}
+    if(!navigator.bluetooth?.getDevices)return false;
+    const devices=await navigator.bluetooth.getDevices();
+    if(!this.ownerLink.restore(devices))return false;
+    this.device=this.ownerLink.device;this.identity=this.ownerLink.identity;this.profile="melk-of21";this.of21.select(this.identity);this.emit();return true;
   }
   write(jobs, guard = () => true) {
+    if(this.profile==="melk-of21")throw Error("Use the exact OF21 command path; OA10 writes are blocked.");
     const session = this.session;
     const task = this.queue
       .catch(() => false)
@@ -373,6 +427,7 @@ class LotusLampAdapter extends DeviceAdapter {
       design.follow === "front"
         ? { ...rows["front-bumper"], on: design.on && rows["front-bumper"].on }
         : { on: design.on, color: design.color, brightness: design.brightness };
+    if(this.profile==="melk-of21")return this.ownerCommands(target.on?[{kind:"power",value:true},{kind:"brightness",value:Math.round(target.brightness)},{kind:"color",value:target.color}]:[{kind:"power",value:false}],guard);
     return this.write(SmartEaseLotus.commands(this.profile, target), guard);
   }
   nativeMode(mode, settings, guard = () => true) {
@@ -386,6 +441,7 @@ class LotusLampAdapter extends DeviceAdapter {
     );
   }
   power(on) {
+    if(this.profile==="melk-of21")return this.ownerCommand("power",on);
     return this.write(
       SmartEaseLotus.commands(this.profile, {
         on,

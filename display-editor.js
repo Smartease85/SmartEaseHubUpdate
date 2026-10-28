@@ -1,6 +1,9 @@
 /* Device-independent authoring: project files never imply a compatible BLE upload. */
 "use strict";
 const displayModel=SmartEaseDisplay, displayKey="smartease-display-project-v1";
+// Numeric specification verified by the parent from the owner's device screen.
+// This is an explicit preset, never a migration of existing saved documents.
+const displayOwnerSize=Object.freeze({width:96,height:16,orientationVerified:false});
 let displayProject=displayModel.create(),displayProgram=0,displayFrame=0,displayTimer=null,displayPlaying=false;
 let displayUndo=[],displayRedo=[],displayDrawing=false;
 try{const saved=localStorage.getItem(displayKey);if(saved)displayProject=displayModel.validate(JSON.parse(saved));}catch{}
@@ -10,10 +13,12 @@ displayHost.innerHTML=`
  <div class="card-top"><div><div class="overline">Devil Eyes studio</div><h3>Make it yours, pixel by pixel.</h3></div><span class="pill">Local editor</span></div>
  <p class="small-note">Create pictures, text and frame animations here. Projects stay in this browser and in Settings backups. Panel size is a draft setting until confirmed in CoolLED1248. GIF import is excluded; use individual pictures as frames.</p>
  <div class="display-settings">
+  <label>Size preset <select class="input" id="displaySizePreset"><option value="manual">Manual size</option><option value="owner-ux">Owned CoolLEDUX: 96 columns, 16 rows</option></select></label>
   <label>Columns <input class="input" id="displayWidth" type="number" min="8" max="128"></label>
   <label>Rows <input class="input" id="displayHeight" type="number" min="8" max="64"></label>
   <button class="secondary" id="displayResize" type="button">Apply panel size</button>
  </div>
+ <p class="small-note" id="displaySizeNote">Owner-device preset: 96 columns by 16 rows. Selecting it fills the fields only; Apply panel size changes the canvas. Orientation remains unverified.</p>
  <div class="display-layout"><div>
   <div class="display-canvas-wrap"><canvas id="displayCanvas" width="768" height="192" aria-label="Editable pixel picture; choose a pixel below for keyboard editing"></canvas></div>
   <p class="small-note" id="displayPreviewLabel">Editing frame 1</p>
@@ -76,6 +81,7 @@ function displayDraw(p=displayProgram,f=displayFrame){
 function displayRender(){
  const program=displayProject.programs[displayProgram];
  du("Width").value=displayProject.width;du("Height").value=displayProject.height;
+ du("SizePreset").value=displayProject.width===displayOwnerSize.width&&displayProject.height===displayOwnerSize.height?"owner-ux":"manual";
  du("X").max=displayProject.width;du("Y").max=displayProject.height;
  for(const [id,list,selected,label] of [["Programs",displayProject.programs,displayProgram,(p,i)=>(i+1)+". "+p.name],["Frames",program.frames,displayFrame,(f,i)=>"Frame "+(i+1)+" · "+f.duration+" ms"]]){
   du(id).replaceChildren();list.forEach((item,i)=>{const option=document.createElement("option");option.value=i;option.textContent=label(item,i);du(id).append(option);});du(id).value=selected;
@@ -120,6 +126,12 @@ du("Fill").onclick=()=>displayCommit(()=>displayCurrent().pixels.fill(parseInt(d
 du("Clear").onclick=()=>displayCommit(()=>displayCurrent().pixels.fill(0));
 du("Transforms").onclick=e=>{const op=e.target.dataset.transform;if(op)displayCommit(()=>displayCurrent().pixels=displayModel.transform(displayProject,displayProgram,displayFrame,op));};
 du("Templates").onclick=e=>{const kind=e.target.dataset.template;if(kind)displayCommit(()=>displayCurrent().pixels=displayModel.template(displayProject.width,displayProject.height,kind,parseInt(du("Paint").value.slice(1),16)));};
+du("SizePreset").onchange=()=>{
+ if(du("SizePreset").value!=="owner-ux")return;
+ du("Width").value=displayOwnerSize.width;du("Height").value=displayOwnerSize.height;
+ displaySay("96-column by 16-row owner preset selected. Canvas unchanged until Apply panel size. Verify orientation on the display.");
+};
+for(const id of ["Width","Height"])du(id).addEventListener("input",()=>{du("SizePreset").value="manual";});
 du("Resize").onclick=()=>displayCommit(()=>displayProject=displayModel.resize(displayProject,Number(du("Width").value),Number(du("Height").value)));
 for(const [id,key] of [["Name","name"],["Hold","hold"],["Repeat","repeat"]])du(id).onchange=()=>displayCommit(()=>displayProject.programs[displayProgram][key]=id==="Name"?du(id).value:Number(du(id).value));
 du("Duration").onchange=()=>displayCommit(()=>displayCurrent().duration=Number(du("Duration").value));

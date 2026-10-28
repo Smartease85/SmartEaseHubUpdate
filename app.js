@@ -104,7 +104,7 @@ app.innerHTML = `
   <p class="inline-status" id="gradientChaseStatus" role="status" aria-live="polite">Adjust your colors. Connecting and editing alone never sends lighting commands.</p>
  </article><div class="filters" id="sceneFilters"><button class="active" data-filter="All">All scenes</button><button data-filter="Everyday">Everyday</button><button data-filter="Holidays">Holidays</button><button data-filter="Saved">My scenes</button></div><div class="scene-list library-grid" id="allScenes"></div><p class="small-note">Your saved scenes stay in this browser. Back them up in Settings to take them with you.</p></section>
 <section class="page" data-page="create" hidden><div class="welcome"><div><div class="overline">Made by you</div><h1>Paint the night.</h1><p id="designerIntro">Blend a front-to-rear gradient or make every zone your own.</p></div></div><div class="designer"><article class="card cart-card"><div class="card-top"><h3>Your canvas</h3><span class="pill">Preview</span></div><div id="designerCart"></div><div class="small-note">A visual guide to the mood. Actual motion depends on your lights.</div></article><article class="card designer-controls"><div><label class="field-label" for="sceneName">Give your scene a name</label><input class="input" id="sceneName" value="My evening glow" maxlength="40"></div><section class="scene-palette-editor"><div class="card-top"><h3>Mix your scene colors</h3><span class="pill">RGB editor</span></div><p class="small-note">Pick a color below, mix red, green and blue, then test it on the cart. Lights that share a color change together. Your saved BRG calibration stays intact.</p><div id="scenePaletteOptions" class="scene-palette-options" aria-label="Colors used in this scene"></div><div class="scene-palette-preview"><span id="scenePaletteColorPreview" class="scene-color-disc"></span><strong id="scenePaletteHex">#FFFFFF</strong><small>Scene color · 0 to 255 per channel</small></div><div class="scene-palette-sliders"><label for="scenePaletteR">Red <span id="scenePaletteRValue">0</span></label><input id="scenePaletteR" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteG">Green <span id="scenePaletteGValue">0</span></label><input id="scenePaletteG" type="range" min="0" max="255" step="1" value="0"><label for="scenePaletteB">Blue <span id="scenePaletteBValue">0</span></label><input id="scenePaletteB" type="range" min="0" max="255" step="1" value="0"></div><div class="row-actions"><button id="scenePaletteTest" class="secondary" type="button">Test selected color on cart ↗</button></div><p class="small-note" id="scenePaletteStatus" role="status">Adjust the colors, test them, then save your scene below. Your per-strip RGB balance still applies.</p></section><div><label class="field-label" for="gradientFront">Front → rear gradient</label><div class="palette-row"><input type="color" id="gradientFront" value="#49e3d2" aria-label="Front gradient color"><div class="gradient-line" id="gradientLine"></div><input type="color" id="gradientRear" value="#278dff" aria-label="Rear gradient color"></div><button class="text-btn" id="blendGradient">Blend across my cart ↗</button></div><div><label class="field-label" for="designerEffect">A little movement</label><select class="input" id="designerEffect"><option value="25">Steady glow</option><option value="3">Twinkling stars</option><option value="17">Soft breathing</option><option value="7">Color wave</option><option value="6">Comet</option><option value="1">Rainbow</option></select><p class="small-note" id="designerEffectHelp">Your chosen effect will be kept when playing this scene.</p></div><div><label class="field-label" for="designerBrightness">Brightness <span id="designerBrightnessValue">45%</span></label><input type="range" id="designerBrightness" min="0" max="100" value="45"></div><div><label class="field-label" for="designerSpeed">Movement speed <span id="designerSpeedValue">5</span></label><input type="range" id="designerSpeed" min="1" max="10" value="5"></div><div id="zoneEditors"></div><section class="accessory-editor"><div class="card-top"><h3>NOKINS RGB accents</h3><span class="pill">Front + rear</span></div><label class="switchline"><input type="checkbox" id="designNokinsOn" checked>Include decorative RGB accents</label><label class="switchline"><input type="checkbox" id="designNokinsFollow" checked>Match the front zone color</label><div class="palette-row"><label class="field-label" for="designNokinsColor">Accent color</label><input type="color" id="designNokinsColor" value="#49e3d2"></div><label class="field-label" for="designNokinsBrightness" style="margin-top:14px">Accent brightness</label><input type="range" min="0" max="100" value="45" id="designNokinsBrightness"><p class="small-note">One decorative color across compatible NOKINS lights.</p></section><section class="accessory-editor"><div class="card-top"><h3>Windshield Devil Eyes</h3><span class="pill">Preview</span></div><label class="switchline"><input type="checkbox" id="designEyesOn" checked>Include Devil Eyes in my design</label><label class="field-label" for="designEyesPattern">Expression</label><select class="input" id="designEyesPattern"><option value="devil">Devil gaze</option><option value="blink">Blinking eyes</option><option value="sleep">Sleepy eyes</option></select><div class="palette-row" style="margin-top:14px"><label class="field-label" for="designEyesColor">Eye color</label><input type="color" id="designEyesColor" value="#49e3d2"></div><label class="field-label" for="designEyesBrightness" style="margin-top:14px">Eye brightness</label><input type="range" min="0" max="100" value="70" id="designEyesBrightness"><p class="small-note">Saved with your design. Visual preview for now. Apply the eyes with your display’s app.</p></section><div class="row-actions"><button class="primary" id="applyDesign">Send to cart ↗</button><button class="secondary" id="saveDesign">Save scene ♡</button></div><p class="small-note">Saved on this device, ready whenever you are.</p></article></div></section>
-<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card nokins-test-card" id="nokinsTestPanel" style="margin-top:20px"><div class="card-top"><div><h3>NOKINS decorative RGB test</h3><p class="small-note">Connect the RGB controller using the NOKINS row above. This tests LotusLamp X-compatible decorative lighting—not turn signals, brake lights, headlights, or the stalk.</p></div><span class="pill">Parked test</span></div><p class="nokins-controller-info" id="nokinsControllerInfo">Bluetooth controller not identified.</p><label class="switchline nokins-safety-confirm"><input type="checkbox" id="nokinsParked">My cart is parked, and I can verify that the safety lights and stalk remain independent.</label><div class="row-actions nokins-test-actions"><button class="secondary" id="nokinsTestRed" type="button">Test red</button><button class="secondary" id="nokinsTestGreen" type="button">Test green</button><button class="secondary" id="nokinsTestBlue" type="button">Test blue</button><button class="secondary" id="nokinsTestOrange" type="button">Test orange</button></div><p id="nokinsTestResult" class="inline-status" role="status">Connecting does not change the lights. Test colors individually, then enable scene matching on the NOKINS device row if they work.</p><p class="small-note">Only verified ELK-BLEDOB and MELK-OA10 Bluetooth profiles can send these basic RGB commands. Unknown models receive no writes. Test buttons do not change your saved SP608E scenes, mappings, or controller memory. Commands have no physical readback.</p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p>
+<section class="page" data-page="devices" hidden><div class="welcome"><div><div class="overline">Everything, together</div><h1>Meet your cart.</h1><p>Your lighting, connections, and a little peace of mind.</p></div></div><article class="card"><div id="deviceList"></div><p class="inline-status" id="deviceMessage" role="status"></p></article><article class="card nokins-test-card" id="nokinsTestPanel" style="margin-top:20px"><div class="card-top"><div><h3>NOKINS decorative RGB test</h3><p class="small-note">Connect the RGB controller using the NOKINS row above. This tests LotusLamp X-compatible decorative lighting—not turn signals, brake lights, headlights, or the stalk.</p></div><span class="pill">Parked test</span></div><p class="nokins-controller-info" id="nokinsControllerInfo">Bluetooth controller not identified.</p><label class="switchline nokins-safety-confirm"><input type="checkbox" id="nokinsParked">My cart is parked, and I can verify that the safety lights and stalk remain independent.</label><div class="row-actions nokins-test-actions"><button class="secondary" id="nokinsTestRed" type="button">Test red</button><button class="secondary" id="nokinsTestGreen" type="button">Test green</button><button class="secondary" id="nokinsTestBlue" type="button">Test blue</button><button class="secondary" id="nokinsTestOrange" type="button">Test orange</button></div><p id="nokinsTestResult" class="inline-status" role="status">Connecting does not change the lights. Test colors individually, then enable scene matching on the NOKINS device row if they work.</p><p class="small-note">Exact supported profiles use separate command definitions. MELK-OF21 uses source-derived E1 commands; unknown models receive no writes. Test buttons do not change your saved SP608E scenes, mappings, or controller memory. Commands have no physical readback.</p></article><article class="card" style="margin-top:20px"><h3>Ready for a brighter evening?</h3><p class="small-note" style="margin:12px 0 18px">Turn the cart’s lighting switch to the first position for underglow and Devil Eyes. Use the second position to include the canopy. Close other lighting apps before connecting here.</p><div class="row-actions"><button class="primary" id="connectCart">Connect cart lighting ↗</button><button class="secondary" id="syncCart">Refresh lights</button><button class="text-btn" id="disconnectCart">Disconnect</button></div></article><div class="row-actions cal-device-link"><button class="secondary" type="button" id="devicesColorCalibration">🎨 Fix underglow colors</button></div><div class="row-actions map-device-link"><button class="secondary" id="devicesLightMap" type="button">🗺️ Fix light locations</button></div><p class="small-note">Brake, turn, and hazard lights continue to use your cart’s own controls.</p>
 <article class="card native-controllers" id="nativeControllerLibrary" style="margin-top:20px">
   <div class="card-top"><div><div class="overline">SmartEase · Individual Device</div><h3>Original controller functions</h3><p class="small-note">Choose a controller to use its own capabilities. Whole-cart scenes remain under Scenes and Create.</p></div><span class="pill">Parity in progress</span></div>
   <div class="native-controller-grid">
@@ -654,7 +654,7 @@ async function chooseScene(scene) {
 }
 function hasSceneTarget() {
   return cartDevices.some(
-    (a) => a.capabilities.scenes && a.connected && a.sceneEnabled !== false,
+    (a) => a.capabilities.scenes && a.connected && a.controlReady !== false && a.sceneEnabled !== false,
   );
 }
 async function applyScene(scene) {
@@ -1068,6 +1068,8 @@ function renderNativeLibrary(){
    document.visibilityState!=="visible";
  ui("nativeLotusInfo").textContent=supported
   ?"MELK-OA10 connected. Native modes 0–212 are available for hardware testing. Other app features still need separate validation."
+  :adapter.of21?.profile
+   ?"MELK-OF21 uses its separate source-derived controls below: 234 effect IDs and 33 native scenes. The OA10 library is not used for it."
   :adapter.connected
    ?"Connected "+adapter.identity?.name+". Native mode codes are not verified for this controller profile. Only the existing color tests are enabled."
    :adapter.identity
@@ -1134,7 +1136,7 @@ function renderDevices() {
             : "SP608E · Disconnected";
     else if (adapter.id === "nokins") {
       detail.textContent = adapter.connected
-        ? adapter.device.name + " · Connected · Color control ready"
+        ? adapter.device.name + (adapter.controlReady?" · Connected · Source-derived color control ready":" · Connected · Control transport unavailable")
         : adapter.connecting
           ? "Connecting…"
           : adapter.identity
@@ -1142,7 +1144,7 @@ function renderDevices() {
               " · " +
               (adapter.profile ? "Disconnected" : "Setup needed")
             : "LotusLamp X · Connect compatible decorative lighting";
-      if (adapter.connected) {
+      if (adapter.connected && adapter.controlReady !== false) {
         const label = document.createElement("label");
         label.className = "switchline";
         const match = document.createElement("input");
@@ -1150,6 +1152,7 @@ function renderDevices() {
         match.checked = adapter.sceneEnabled;
         match.onchange = () => {
           adapter.sceneEnabled = match.checked;
+          preferences.nokinsSceneEnabled=match.checked;persist();
           toast(
             match.checked
               ? "NOKINS will follow the front scene color."
@@ -1170,19 +1173,19 @@ function renderDevices() {
         words.append(note);
       }
     } else {
-      const identity = preferences.deviceIdentities?.[adapter.id];
-      detail.textContent = identity
-        ? identity.name + " · Identified, control setup needed"
-        : "Use your display’s app for now. Identify it to help finish setup.";
+      const identity = adapter.identity||preferences.deviceIdentities?.[adapter.id]||SmartEasePairing.assignment(adapter.id);
+      detail.textContent = adapter.connected?identity.name+" · Connected · Upload remains gated":adapter.connecting?"Connecting CoolLEDUX…":identity?identity.name+(SmartEasePairing.assignment(adapter.id)?.id===identity.id?" · Remembered; tap Connect":" · Selected; disconnected"):"CoolLEDUX · Disconnected";
     }
     if (!words.children.length) words.append(heading, detail);
     info.append(symbol, words);
     const action = document.createElement("button");
     action.className = adapter.id === "sp608e" ? "primary" : "secondary";
+    action.dataset.deviceConnect=adapter.id;
+    action.id="deviceConnect-"+adapter.id;
     action.textContent =
       adapter.id === "sp608e"
         ? isLive()
-          ? "Connected"
+          ? "Disconnect"
           : connectionInProgress
             ? "Connecting…"
             : "Connect"
@@ -1192,13 +1195,14 @@ function renderDevices() {
             : adapter.connecting
               ? "Connecting…"
               : "Connect"
-          : "Identify";
+          : adapter.connected?"Disconnect":adapter.connecting?"Connecting…":"Connect";
     action.disabled =
-      (adapter.id === "sp608e" && (isLive() || connectionInProgress)) ||
+      (adapter.id === "sp608e" && connectionInProgress) ||
       adapter.connecting === true;
     action.onclick = async () => {
+      if(window.SmartEaseConnections)return SmartEaseConnections.connectOne(adapter.id);
       if (adapter.id === "sp608e") {
-        await reconnectAll();
+        await adapter.connect();
         return;
       }
       if (adapter.id === "nokins" && adapter.connected) {
@@ -1230,7 +1234,12 @@ function renderDevices() {
         updateHeader();
       }
     };
+    const error=adapter.id==="sp608e"?lastConnectError:adapter.profile==="melk-of21"?adapter.ownerLink.error:adapter.lastError;
+    if(error){const message=document.createElement("p");message.className="small-note";message.textContent=error;words.append(message);}
     row.append(info, action);
+    if(adapter.connecting||(adapter.id==="sp608e"&&connectionInProgress)){
+      const cancel=document.createElement("button");cancel.className="text-btn";cancel.type="button";cancel.textContent="Cancel";cancel.dataset.deviceCancel=adapter.id;cancel.onclick=()=>window.SmartEaseConnections?.cancel(adapter.id);row.append(cancel);
+    }
     list.append(row);
     if(adapter.id==="trinka"){
       const inspect=document.createElement("button");
@@ -1278,7 +1287,7 @@ function renderDevices() {
       another.textContent = "Choose a different LotusLamp controller ↗";
       another.onclick = async () => {
         try {
-          await adapter.connect(true);
+          if(window.SmartEaseConnections)await SmartEaseConnections.connectOne("nokins",{newDevice:true,toggle:false});else await adapter.connectOwner(true);
           toast("NOKINS connected.");
         } catch (error) {
           if (error.name !== "NotFoundError") toast(error.message);
@@ -1306,12 +1315,12 @@ function renderNokinsTestPanel(){
   (adapter.profile?" · Supported profile, currently disconnected. Reconnect to test.":" · Protocol unsupported. No RGB commands will be sent. Share this name to add a verified adapter.");
  else info.textContent="No NOKINS controller identified yet. In Devices, tap Connect beside NOKINS, then select the Bluetooth device shown in LotusLamp X.";
  for(const id of ["nokinsTestRed","nokinsTestGreen","nokinsTestBlue","nokinsTestOrange"])
-  ui(id).disabled=nokinsTestBusy||!adapter.connected||!parked.checked||document.visibilityState!=="visible";
+  ui(id).disabled=nokinsTestBusy||!adapter.connected||adapter.controlReady===false||!parked.checked||document.visibilityState!=="visible";
 }
 async function testNokinsColor(hex,label){
  const adapter=cartDevices.find(a=>a.id==="nokins");
  const status=ui("nokinsTestResult");
- if(!adapter.connected||!adapter.profile){
+ if(!adapter.connected||!adapter.profile||adapter.controlReady===false){
   status.textContent="Connect a recognized LotusLamp X controller before testing colors.";
   return false;
  }
@@ -1327,8 +1336,7 @@ async function testNokinsColor(hex,label){
  status.textContent="Sending "+label+" at 35% to the NOKINS RGB controller…";
  const guard=()=>adapter.connected&&document.visibilityState==="visible"&&!applying&&!liveName;
  try{
-  const frames=SmartEaseLotus.commands(adapter.profile,{on:true,color:hex,brightness:35});
-  const ok=await adapter.write(frames,guard);
+  const ok=adapter.profile==="melk-of21"?await adapter.ownerCommands([{kind:"power",value:true},{kind:"brightness",value:35},{kind:"color",value:hex}],guard):await adapter.write(SmartEaseLotus.commands(adapter.profile,{on:true,color:hex,brightness:35}),guard);
   status.textContent=ok
    ?"Sent "+label+" RGB test at 35%. Confirm the actual decorative color. Before driving, verify the stalk, turn signals, brake lights and hazards still work normally. No on-cart readback is available."
    :"The RGB test was interrupted. Check the controller is powered, close LotusLamp X, reconnect and try again.";
@@ -1344,6 +1352,7 @@ for(const [id,hex,label] of [
  ["nokinsTestBlue","#0000ff","blue"],["nokinsTestOrange","#ff751e","orange"],
 ])ui(id).onclick=()=>testNokinsColor(hex,label);
 async function reconnectAll(force = false) {
+  if(window.SmartEaseConnections)return SmartEaseConnections.reconnectRemembered(force===true);
   if (connectionInProgress) return;
   if (force === true) {
     cancelPlayback();
@@ -1399,16 +1408,13 @@ async function reconnectAll(force = false) {
 function updateHeader() {
   const live = isLive();
   ui("connectionDot").classList.toggle("live", live);
-  const known = cartDevices.filter(
-    (a) =>
-      a.capabilities.scenes && (a.id === "sp608e" || (a.device && a.profile)),
-  );
+  const known = cartDevices;
   const count = known.filter((a) =>
     a.id === "sp608e" ? live : a.connected,
   ).length;
   ui("connectionDot").classList.toggle("live", count > 0);
   ui("connectionText").textContent =
-    connectionInProgress || cartDevices[2].connecting
+    connectionInProgress || cartDevices[2].connecting || cartDevices[1].connecting
       ? "Connecting"
       : count === known.length && count > 0
         ? count === 1
@@ -1445,7 +1451,7 @@ function updateHeader() {
     transport === "demo"
       ? "Preview only. Your real lights are disconnected."
       : "";
-  ui("disconnectCart").disabled = !isLive();
+  ui("disconnectCart").disabled = !cartDevices.some(a=>a.id==="sp608e"?isLive():a.connected);
   ui("syncCart").disabled = !canSend();
   if (page === "devices") renderDevices();
 }
@@ -1515,6 +1521,7 @@ async function restoreBackup(file) {
       "smartease-sp608e-chip-orders-v1",
       "smartease-sp608e-rgb-balance-v1",
       "smartease-display-project-v1",
+      "smartease-device-assignments-v1",
     ]);
     const entries = Object.entries(data.values).filter(([k]) => allowed.has(k));
     if (!entries.length) throw Error("This backup has no restorable settings.");
@@ -2256,15 +2263,16 @@ window.updateCartDeviceUI = () => {
   updateHeader();
   if (page === "devices") renderDevices();
 };
-cartDevices[2].restoreGranted();
+// Per-device granted assignments are restored by connection-workspace.js.
 
 const legacyEnterDemo = enterDemo;
 enterDemo = function () {
-  if (connectionInProgress || cartDevices[2].connecting) {
+  if (connectionInProgress || cartDevices[2].connecting || cartDevices[1].connecting) {
     toast("Let the connection finish before entering preview mode.");
     return;
   }
   cartDevices[2].disconnect();
+  cartDevices[1].disconnect();
   return legacyEnterDemo();
 };
 

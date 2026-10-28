@@ -105,9 +105,9 @@ document.addEventListener("visibilitychange",nativeLotusSolidRender);nativeLotus
 const evidenceButton=document.createElement("button");evidenceButton.className="secondary";evidenceButton.type="button";evidenceButton.id="nativeEvidenceExport";evidenceButton.textContent="Export device identification report";
 evidenceButton.onclick=()=>{
  const report={format:"smartease-native-evidence",version:1,createdAt:new Date().toISOString(),
-  devices:cartDevices.map(a=>({id:a.id,name:a.identity?.name||null,profile:a.profile||null,expectedFamily:a.expectedFamily||null,connected:a.connected,protocolReport:a.protocolReport||null,capturedInfo:a.capturedInfo||null})),
+  devices:cartDevices.map(a=>({id:a.id,name:a.identity?.name||null,profile:a.profile||null,expectedFamily:a.expectedFamily||null,connected:a.connected,assignment:SmartEasePairing.assignment(a.id),transportReport:a.ownerLink?.report||a.link?.report||null,protocolReport:a.protocolReport||null,capturedInfo:a.capturedInfo||null})),
   displayDraft:{width:displayProject.width,height:displayProject.height,hardwareDimensionsConfirmed:false},
-  pending:["MELK-OF21 1D: exact protocol investigation; no OA10 equivalence","CoolLEDUX: orientation, FFF0/FFF1 transport evidence and native upload comparison","SP608E: slot-write/timer/trigger evidence; saved scenes alone do not identify commands"],writesSentByExport:0};
+  pending:["MELK-OF21: source-derived ordinary controls; physical equivalence, DIY geometry/HSV and persistence remain unverified","CoolLEDUX: orientation, transport memory-fit and native upload acceptance","SP608E: slot-write/timer/trigger evidence; saved scenes alone do not identify commands"],writesSentByExport:0};
  const blob=new Blob([JSON.stringify(report,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="smartease-device-identification.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
 ui("nativeControllerLibrary").append(evidenceButton);

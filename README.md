@@ -15,4 +15,4 @@ Open `index.html` from HTTPS in Bluefy. There is no runtime installation, accoun
 
 Read [hardware capabilities and protocol sources](docs/HARDWARE.md) and the [on-cart acceptance checklist](docs/RELEASE-QA.md). SmartEase scenes save in browser storage; arbitrary pixel uploads and firmware scene saves are not implemented.
 
-See the [native feature acceptance matrix and exact capture requirements](docs/NATIVE_ACCEPTANCE.md). Jack's MELK-OF21 remains gated; this release does not claim 1:1 parity.
+See [three-device pairing and memory](docs/CONNECTIONS.md), the [exact OF21 implementation](docs/LOTUS_OF21.md), and the [native feature acceptance matrix](docs/NATIVE_ACCEPTANCE.md). OF21 ordinary controls are source-derived; configuration and bulk uploads remain gated. This release does not claim 1:1 parity.

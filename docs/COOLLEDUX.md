@@ -14,9 +14,12 @@ The original offline CoolLEDX encoder remains separate and is never a UX fallbac
   LZSS, 128-byte data chunks, length fields, XOR and delimiter escaping.
 - Bounded, strict offline parsing of captured envelopes and the documented 30-byte
   info reply. Only power and brightness are interpreted. **No dimensions are inferred.**
-- Separate `CoolLEDUXAdapter`: identify/metadata inspection, offline project preparation,
-  offline command preparation and captured-report decoding. `connected`, scene control,
-  firmware saving and pixel upload remain false. `upload()` always rejects.
+  Imported info is tagged with the device selected at import, explicitly marked as
+  unverified capture provenance, and cleared after every successful new selection.
+- Separate `CoolLEDUXAdapter`: actual family-validated metadata GATT connection,
+  inspection, offline project/command preparation and captured-report decoding.
+  Connected reflects the real link; scene control, firmware saving and pixel upload
+  remain disabled. `upload()` always rejects. See [CONNECTIONS.md](CONNECTIONS.md).
 - Devices → Devil Eyes → CoolLEDUX preparation: export a plan for the current studio
   document, optionally including proposed brightness/mirror/power, or decode an existing
   device-info capture. Neither action connects, queries or writes to Bluetooth.
@@ -36,20 +39,30 @@ ATT write of its escaped length fits the owner's negotiated MTU. The reference u
 60 ms inter-write pacing and says echoes are not reliable per-chunk acknowledgments.
 No delivery/retry policy is enabled until transport evidence establishes safe framing.
 
+The independent review reports a roughly 12–16 KiB per-tile decode budget upstream.
+Before any live upload, gate each tile's pixel bytes separately from the global plan
+size: `tileColumns × rows × 2 × frameCount`, plus the decoder's framing overhead.
+At 8 columns, 16 rows and 32 frames, pixel data is 8 KiB per tile; generic 64-row,
+32-frame documents need 32 KiB per tile and exceed that reported budget. Offline
+compilation does not certify device memory fit. The exact firmware limit still needs
+acceptance before a live transport can admit a program.
+
 Unsupported commands include passwords, firmware updates, rotation with unknown angle
 mapping, music/FFT streaming, timer writes and native vendor template/font libraries.
 No proprietary font data or artwork is copied. Text already rasterized in the studio
 can become ordinary UX pixels, avoiding the reference's extracted glyph assets.
 
-## Dimensions and current screenshot limitation
+## Owner-device size preset
 
-The parent inspected the new owner screen and reported **Pixel:16x96**, interpreted
-as a landscape 96-column × 16-row panel, with orientation still to be checked.
-The Windows consumer could not independently inspect the supplied screenshot:
-the supported Library materializer failed on missing `os.setxattr` before installing
-either local image. This checkpoint therefore does not replace an existing studio
-canvas or introduce an image-derived dimension default. All saved projects are retained.
-Canvas dimensions can already be edited explicitly and reversed with Undo.
+The parent personally inspected the owner screen and verified **Pixel:16x96** beside
+**CoolLEDUX-31B8**. That numeric device specification supplies an explicit landscape
+**96-column × 16-row** preset; orientation and physical acceptance remain unverified.
+The implementing agent does not claim to have viewed the screenshots.
+
+Selecting the preset only fills the Columns/Rows fields. It does not resize, save,
+crop or migrate a project. Apply panel size performs the existing local resize,
+which can be undone; manual dimensions remain available. Existing saved projects
+load at their own dimensions. No selection or resize enables hardware upload.
 
 No sharing QR was fetched, decoded, committed or activated. The Lotus screen inventory
 reported to this task names MELK-OF21 1D and includes Wires Order, Pixel Setting,
@@ -59,11 +72,13 @@ static LotusLamp X protocol investigation continues.
 
 ## Owner-safe acceptance now
 
-1. Back up Settings. Use Identify to select the exact CoolLEDUX display. Identify alone
-   does not connect or write. Optional read-only inspection retrieves FFF0 service and
-   characteristic properties, then disconnects; it does not read/subscribe/write values.
-2. In the studio, enter dimensions from the owned device screen and check orientation
-   against its native app. Changing the canvas is local and undoable.
+1. Back up Settings. Use Connect to select the exact CoolLEDUX display and establish
+   its metadata GATT link. Identify-only remains an internal inspection path. Optional
+   metadata inspection retains an existing link or closes its own temporary one.
+   It sends no lighting command or upload.
+2. In the studio, select the owned CoolLEDUX 96-column/16-row preset, then Apply panel
+   size when ready. Check orientation against the display/native app. Manual dimensions
+   remain available; canvas changes are local and undoable.
 3. Create a still and two-frame animation, then prepare the UX transfer file offline.
    Check its summary and local preview. **Do not transmit the file using another tool**
    as part of this checkpoint; physical uploads remain parked for a validated transport.

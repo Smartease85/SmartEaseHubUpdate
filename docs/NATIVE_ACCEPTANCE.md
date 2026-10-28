@@ -3,6 +3,10 @@
 Updated 2026-10-28. This release is a software milestone, **not 1:1 hardware parity**.
 The subsequent [CoolLEDUX checkpoint](COOLLEDUX.md) adds a separate UX adapter,
 offline encoder, transfer preparation and captured-reply decoding after owner family identification.
+The current [connection/memory checkpoint](CONNECTIONS.md) adds three independent
+real GATT routes and [OF21 source-derived ordinary controls](LOTUS_OF21.md).
+Jack confirms all three native configurations survive complete cart power removal.
+That is owner-confirmed native persistence, not proof of future SmartEase custom-upload persistence.
 No live BLE writes were performed during implementation. No website settings, sharing,
 firmware, passwords or trigger wiring were changed.
 

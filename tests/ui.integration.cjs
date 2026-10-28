@@ -71,6 +71,29 @@ test("display editor invalid imports and dimensions preserve the current picture
  d.getElementById("displayUndo").click();assert.equal(b.run("displayCurrent().pixels.some(Boolean)"),false);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
+test("owned CoolLEDUX size preset fills fields without resizing or saving an existing project",()=>{
+ const D=require("../display-project.js"),project=D.create(128,64);project.programs[0].frames[0].pixels[8191]=0xa24aec;
+ const saved=JSON.stringify(project),b=boot({"smartease-display-project-v1":saved}),d=b.w.document;
+ const before=b.run("JSON.stringify(displayProject)");
+ d.getElementById("displaySizePreset").value="owner-ux";d.getElementById("displaySizePreset").dispatchEvent(new b.w.Event("change"));
+ assert.equal(d.getElementById("displayWidth").value,"96");assert.equal(d.getElementById("displayHeight").value,"16");
+ assert.equal(b.run("JSON.stringify(displayProject)"),before);assert.equal(b.run("displayUndo.length"),0);assert.equal(b.w.localStorage.getItem("smartease-display-project-v1"),saved);
+ assert.match(d.getElementById("displaySizeNote").textContent,/Orientation remains unverified/);assert.equal(b.run("displayOwnerSize.orientationVerified"),false);
+ d.getElementById("displayWidth").value="64";d.getElementById("displayWidth").dispatchEvent(new b.w.Event("input"));assert.equal(d.getElementById("displaySizePreset").value,"manual");
+ assert.equal(b.run("JSON.stringify(displayProject)"),before);b.dom.window.close();
+ const again=boot({"smartease-display-project-v1":saved});assert.equal(again.run("displayProject.width"),128);assert.equal(again.run("displayProject.height"),64);assert.equal(again.run("displayCurrent().pixels[8191]"),0xa24aec);again.dom.window.close();
+});
+
+test("owned size applies only explicitly, preserves pixel coordinates and supports undo and manual override",()=>{
+ const D=require("../display-project.js"),project=D.create(10,8);project.programs[0].frames[0].pixels[79]=0xff751e;
+ const b=boot({"smartease-display-project-v1":JSON.stringify(project)}),d=b.w.document,before=b.run("JSON.stringify(displayProject)");
+ d.getElementById("displaySizePreset").value="owner-ux";d.getElementById("displaySizePreset").dispatchEvent(new b.w.Event("change"));d.getElementById("displayResize").click();
+ assert.equal(b.run("displayProject.width"),96);assert.equal(b.run("displayProject.height"),16);assert.equal(b.run("displayCurrent().pixels[7*96+9]"),0xff751e);assert.equal(b.run("displayCurrent().pixels[1535]"),0);
+ d.getElementById("displayUndo").click();assert.equal(b.run("JSON.stringify(displayProject)"),before);
+ d.getElementById("displayWidth").value="32";d.getElementById("displayHeight").value="12";d.getElementById("displayWidth").dispatchEvent(new b.w.Event("input"));d.getElementById("displayResize").click();
+ assert.equal(b.run("displayProject.width"),32);assert.equal(b.run("displayProject.height"),12);assert.equal(d.getElementById("displaySizePreset").value,"manual");assert.equal(d.getElementById("displayUpload").disabled,true);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
 test("display playlist stops on navigation and visibility changes and never enables upload for a named candidate",async()=>{
  const b=boot(),d=b.w.document;b.run('go("devices");nativeSelectDevice(2)');
  d.getElementById("displayPlay").click();assert.equal(b.run("displayPlaying"),true);
@@ -217,6 +240,20 @@ test("CoolLEDUX offline UI prepares a download and decodes historical info witho
  const decoded=JSON.parse(d.getElementById("uxReport").textContent);assert.equal(decoded.brightness,200);assert.equal(decoded.dimensions,null);assert.equal(decoded.source,"imported-capture");assert.equal(decoded.hardwareVerified,false);
  d.getElementById("uxCapturedReply").value="ff ".repeat(1025);d.getElementById("uxDecode").click();assert.match(d.getElementById("uxReport").textContent,/bounded hexadecimal/);
  assert.equal(d.getElementById("displayUpload").disabled,true);assert.equal(b.run("cartDevices[1].connected"),false);assert.equal(connects,0);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test("UX captured info is associated with its selected device and cleared on successful reselection",async()=>{
+ const b=boot();let selected={id:"ux-first",name:"CoolLEDUX-31B8"},cancel=false;
+ b.w.navigator.bluetooth={requestDevice:async()=>{if(cancel)throw Error("Picker cancelled");return selected;}};
+ await b.run("cartDevices[1].identify()");
+ b.w.infoHex=Buffer.from(b.run("SmartEaseCoolLEDUX.envelope([31,1,180,...Array(27).fill(0)])")).toString("hex");
+ const info=b.run("cartDevices[1].decodeCapturedInfo(infoHex)");
+ assert.equal(info.selectedDeviceAtImport.id,"ux-first");assert.equal(info.selectedDeviceAtImport.name,"CoolLEDUX-31B8");assert.equal(info.captureOriginVerified,false);assert.equal(info.hardwareVerified,false);
+ cancel=true;await assert.rejects(b.run("cartDevices[1].identify()"),/Picker cancelled/);assert.equal(b.run("cartDevices[1].capturedInfo.selectedDeviceAtImport.id"),"ux-first");
+ cancel=false;selected={id:"ux-second",name:"CoolLEDUX-TEST"};await b.run("cartDevices[1].identify()");
+ assert.equal(b.run("cartDevices[1].capturedInfo"),null,"old info must not enter the new display's export");assert.equal(b.run("cartDevices[1].identity.id"),"ux-second");
+ const second=b.run("cartDevices[1].decodeCapturedInfo(infoHex)");assert.equal(second.selectedDeviceAtImport.id,"ux-second");assert.equal(second.captureOriginVerified,false,"association does not prove where the bytes originated");
+ assert.equal(b.errors.length,0);b.dom.window.close();
 });
 test("real SmartEase house logo replaces placeholder S in header and installed icons", () => {
  const b=boot();
@@ -781,7 +818,7 @@ test("emergency reconnect refreshes a stale Lotus link and restores independent 
   assert.equal(b.run("cartDevices[2].connected"), true);
   assert.equal(
     b.w.document.getElementById("connectionText").textContent,
-    "1/2 connected",
+    "1/3 connected",
   );
   b.dom.window.close();
 });
@@ -1096,4 +1133,88 @@ test("color tests never write to a real controller while preview mode is enabled
   assert.equal(b.run("txCount"),before);
   assert.match(b.w.document.getElementById("calStatus").textContent,/connect|devices/i);
   b.dom.window.close();
+});
+function installThreeDeviceMock(b, config={}) {
+ const w=b.w,state={requests:[],connects:{sp608e:0,nokins:0,trinka:0},writes:{sp608e:[],nokins:[],trinka:[]},subscriptions:[],fail:{},pause:{},omitWriter:{},active:0,peak:0,notifyOnQuery:false};
+ const specs={sp608e:{name:'SP608E_cart',id:'under-1',service:'ffe0',char:'ffe1'},nokins:{name:'MELK-OF21 1D',id:'nokins-1',service:'fff0',char:'fff3'},trinka:{name:'CoolLEDUX-31B8',id:'eyes-1',service:'fff0',char:'fff1'}};
+ const uuid=short=>'0000'+short+'-0000-1000-8000-00805f9b34fb',devices={},chars={};
+ for(const [id,spec] of Object.entries(specs)){
+  const d=new w.EventTarget();d.id=spec.id;d.name=spec.name;
+  const ch=new w.EventTarget();ch.uuid=uuid(spec.char);ch.properties=config.writeWithoutResponse?{write:true,writeWithoutResponse:true}:{write:true,writeWithoutResponse:false};
+  const write=async bytes=>{state.active++;state.peak=Math.max(state.peak,state.active);await Promise.resolve();state.writes[id].push(Array.from(bytes));state.active--;if(id==='nokins'&&bytes[2]===0x37&&state.notifyOnQuery)emitGeometry(96);};
+  ch.writeValueWithResponse=write;if(config.writeWithoutResponse)ch.writeValueWithoutResponse=write;
+  const notify=new w.EventTarget();notify.uuid=uuid('fff9');notify.properties={notify:true,indicate:true};notify.startNotifications=async()=>{state.subscriptions.push(notify.uuid);return notify;};
+  const service={getCharacteristic:async expected=>{assert.equal(expected,ch.uuid);return ch;},getCharacteristics:async()=>state.omitWriter[id]?[notify]:id==='nokins'?[ch,notify]:[ch]};
+  const server={getPrimaryService:async expected=>{assert.equal(expected,uuid(spec.service));if(state.pause[id])await state.pause[id];if(state.fail[id])throw Error('Missing expected service for '+id);return service;}};
+  d.gatt={connected:false,connect:async()=>{state.connects[id]++;d.gatt.connected=true;return server;},disconnect:()=>{const was=d.gatt.connected;d.gatt.connected=false;if(was)d.dispatchEvent(new w.Event('gattserverdisconnected'));}};
+  devices[id]=d;chars[id]={writer:ch,notify};
+ }
+ function emitGeometry(total){const data=w.Uint8Array.from([0x7e,7,0x37,total&255,total>>8,255,0,0x88,0xef]);chars.nokins.notify.value=new w.DataView(data.buffer);chars.nokins.notify.dispatchEvent(new w.Event('characteristicvaluechanged'));}
+ const api={requestDevice:async options=>{assert.equal(options.acceptAllDevices,undefined,'main connections must use family filters');const prefix=options.filters[0].namePrefix.toLowerCase();const id=prefix.startsWith('sp608e')?'sp608e':prefix.startsWith('melk-of21')?'nokins':'trinka';state.requests.push({id,options});return devices[id];}};
+ if(config.getDevices!==false)api.getDevices=async()=>config.grants||Object.values(devices);
+ const timeout=w.setTimeout.bind(w);w.setTimeout=(fn,delay,...args)=>timeout(fn,delay===100||delay===200?0:delay,...args);
+ w.navigator.bluetooth=api;b.run('queryState=async()=>true;spEnsureChipColors=async()=>true;');return {state,devices,chars,api,emitGeometry};
+}
+
+test('each visible Connect routes to only its own family and establishes three independent transports',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);b.run('go("devices")');
+ for(const id of ['sp608e','nokins','trinka'])assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),true);
+ assert.deepEqual(m.state.requests.map(r=>r.id),['sp608e','nokins','trinka']);assert.deepEqual(m.state.connects,{sp608e:1,nokins:1,trinka:1});
+ assert.equal(b.run('isLive()&&cartDevices[1].connected&&cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].profile'),'melk-of21');assert.equal(b.run('cartDevices[2].controlReady'),true);
+ assert.equal(b.run('cartDevices[2].ownerLink.report.writeMethod'),'writeValueWithResponse');assert.deepEqual(m.state.subscriptions,['0000fff9-0000-1000-8000-00805f9b34fb']);
+ assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]},'connection alone does not send lighting commands');assert.equal(b.w.document.getElementById('connectionText').textContent,'3 connected');
+ assert.equal(b.w.document.getElementById('displayUpload').disabled,true);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('wrong-family selections and partial GATT failure cannot disconnect or reassign another device',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
+ const remembered=b.w.localStorage.getItem('smartease-device-assignments-v1');m.api.requestDevice=async()=>m.devices.nokins;
+ assert.equal(await b.run('SmartEaseConnections.connectOne("sp608e",{toggle:false})'),false);assert.equal(m.state.connects.sp608e,0);assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.w.localStorage.getItem('smartease-device-assignments-v1'),remembered);
+ m.api.requestDevice=async()=>m.devices.trinka;m.state.fail.trinka=true;assert.equal(await b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})'),false);
+ assert.equal(b.run('cartDevices[1].connected'),false);assert.equal(b.run('cartDevices[2].connected'),true);assert.match(b.w.document.getElementById('deviceMessage').textContent,/Missing expected service/);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('cancelled chooser, repeated clicks and a late GATT completion are isolated to that device',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');let finish;
+ m.api.requestDevice=()=>new Promise(resolve=>{finish=resolve;});const first=b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})'),second=b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})');assert.equal(first,second);
+ b.run('SmartEaseConnections.cancel("trinka")');finish(m.devices.trinka);assert.equal(await first,false);assert.equal(m.state.connects.trinka,0);assert.equal(b.run('cartDevices[2].connected'),true);
+ m.api.requestDevice=async()=>m.devices.trinka;let release;m.state.pause.trinka=new Promise(resolve=>{release=resolve;});const pending=b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})');await new Promise(r=>setTimeout(r,0));b.run('SmartEaseConnections.cancel("trinka")');release();assert.equal(await pending,false);assert.equal(m.devices.trinka.gatt.connected,false);assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[1].connected'),false);b.dom.window.close();
+});
+
+test('Connect All uses separate user steps, retaining successful devices through a cancelled step',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.start()');assert.deepEqual(m.state.requests.map(r=>r.id),['sp608e']);assert.equal(b.run('isLive()'),true);
+ const original=m.api.requestDevice;m.api.requestDevice=async()=>{throw Object.assign(Error('cancel'),{name:'NotFoundError'});};await b.w.document.getElementById('pairNext').onclick();assert.equal(b.run('isLive()'),true);assert.equal(b.run('cartDevices[2].connected'),false);
+ m.api.requestDevice=original;await b.w.document.getElementById('pairNext').onclick();assert.equal(b.run('cartDevices[1].connected'),true,b.run('JSON.stringify({guide:connectionGuide,notes:connectionNotes,error:cartDevices[1].lastError})'));assert.equal(b.run('cartDevices[2].connected'),false);assert.match(b.w.document.getElementById('pairProgress').textContent,/2\/3 connected/);b.dom.window.close();
+});
+
+test('assignments survive reload, restore only exact granted IDs, and preserve saved user data',async()=>{
+ const storage={'smartease-experience-v1':JSON.stringify({favorites:['haunted'],trueColors:false,onboarded:true,deviceIdentities:{},nokinsSceneEnabled:true}),'smartease-sp608e-rgb-balance-v1':'{"2":[100,65,100]}','smartease-display-project-v1':JSON.stringify(require('../display-project.js').create(96,16))};
+ const b=boot(storage);installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);
+ const values=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));b.dom.window.close();
+ const again=boot(values);const m=installThreeDeviceMock(again);assert.equal(again.run('cartDevices.some(a=>a.id==="sp608e"?isLive():a.connected)'),false,'stored IDs never mean connected');await again.run('SmartEaseConnections.restore()');
+ assert.equal(m.state.requests.length,0,'getDevices restoration never opens a chooser');assert.equal(again.run('isLive()&&cartDevices[1].connected&&cartDevices[2].connected'),true);
+ for(const [key,value] of Object.entries(storage))assert.equal(again.w.localStorage.getItem(key),value);assert.equal(again.run('cartDevices[2].sceneEnabled'),true);again.dom.window.close();
+ const wrong=boot(values),n=installThreeDeviceMock(wrong,{grants:[{id:'nokins-1',name:'CoolLEDUX-WRONG',gatt:{connected:false}},{id:'unassigned-eyes',name:'CoolLEDUX-OTHER',gatt:{connected:false}}]});await wrong.run('SmartEaseConnections.restore()');assert.equal(wrong.run('cartDevices.some(a=>a.id==="sp608e"?isLive():a.connected)'),false);assert.equal(n.state.requests.length,0);assert.equal(wrong.w.localStorage.getItem('smartease-device-assignments-v1'),values['smartease-device-assignments-v1']);wrong.dom.window.close();
+ const limited=boot(values);installThreeDeviceMock(limited,{getDevices:false});await limited.run('SmartEaseConnections.restore()');assert.match(limited.w.document.getElementById('pairMemory').textContent,/cannot recover granted devices/);assert.equal(limited.run('cartDevices[1].connected'),false);limited.dom.window.close();
+});
+
+test('OF21 discovered write properties drive source controls, serialized writes and cancellation guards',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b,{writeWithoutResponse:true});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.equal(b.run('cartDevices[2].ownerLink.report.writeMethod'),'writeValueWithoutResponse');
+ assert.equal(await b.run('of21Run("color")'),false);assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;b.w.document.getElementById('of21Level').value='50';b.w.document.getElementById('of21LiveColor').value='#ff0000';
+ assert.equal(await b.run('of21Run("color")'),true);assert.deepEqual(m.state.writes.nokins,[[126,7,4,255,0,1,2,1,239],[126,4,1,50,1,255,2,1,239],[126,7,5,3,255,0,0,16,239]]);
+ b.w.document.getElementById('of21Effects').value='233';assert.equal(await b.run('of21Run("effect")'),true);assert.deepEqual(m.state.writes.nokins.at(-3),[126,7,3,233,6,255,255,0,239]);assert.deepEqual(m.state.writes.nokins.at(-1),[126,4,1,50,0,255,2,1,239]);
+ assert.equal(b.w.document.getElementById('of21Effects').options.length,234);assert.equal(b.w.document.getElementById('of21Scenes').options.length,33);assert.equal([...b.w.document.getElementById('of21Scenes').options].some(x=>x.value==='100'),false);
+ await Promise.all([b.run('cartDevices[2].ownerCommand("speed",20)'),b.run('cartDevices[2].ownerCommand("brightness",30)')]);assert.equal(m.state.peak,1);
+ assert.throws(()=>b.run('cartDevices[2].ownerCommand("point-count",30)'),/not enabled/);assert.throws(()=>b.run('cartDevices[2].write([[126,7,3,1,6,255,255,0,239]])'),/OA10 writes are blocked/);
+ const before=m.state.writes.nokins.length,pending=b.run('cartDevices[2].ownerCommand("speed",40)');b.run('cartDevices[2].disconnect()');assert.equal(await pending,false);assert.equal(m.state.writes.nokins.length,before);assert.equal(m.state.writes.sp608e.length,0);b.dom.window.close();
+});
+
+test('OF21 LED-count read uses discovered notify characteristic, validates markers and bounds retries',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;m.state.notifyOnQuery=true;
+ assert.equal(await b.run('of21Run("nodes")'),true);assert.equal(b.run('cartDevices[2].of21.totalNodes'),96);assert.equal(m.state.writes.nokins.length,1);assert.equal(b.run('cartDevices[2].of21.prepareExamples().diyExample.uploadEnabled'),false);
+ m.state.notifyOnQuery=false;const before=m.state.writes.nokins.length;assert.equal(await b.run('of21Run("nodes")'),false);assert.equal(m.state.writes.nokins.length-before,3);assert.match(b.w.document.getElementById('of21LiveResult').textContent,/at most three/);b.dom.window.close();
+});
+
+test('a genuine GATT connection is reported even when its control characteristic is unavailable',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);m.state.omitWriter.nokins=true;await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;assert.equal(await b.run('of21Run("on")'),false);b.dom.window.close();
 });
