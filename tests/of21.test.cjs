@@ -1,6 +1,13 @@
 const test=require("node:test"),assert=require("node:assert/strict");
 const OF=require("../of21-protocol.js"),OA=require("../lotus-protocol.js");
 const hex=bytes=>Buffer.from(bytes).toString("hex").toUpperCase();
+test("OF21 microphone rhythm IDs are hexadecimal 0x80–0x87, never decimal 80–87",()=>{
+ for(let index=0;index<8;index++){
+  assert.equal(hex(OF.command("mic-rhythm",0x80+index)),`7E07038${index}04FFFF00EF`);
+  assert.throws(()=>OF.command("mic-rhythm",0x50+index));
+ }
+ for(const value of [0x7f,0x88,128.5,NaN,"128"])assert.throws(()=>OF.command("mic-rhythm",value));
+});
 test("OF21 exact identity remains distinct from OA10 and unsupported near-matches",()=>{
  assert.equal(OF.profile("MELK-OF21 1D"),"melk-of21");assert.equal(OF.profile("MELK-OF21"),"melk-of21");assert.equal(OA.profile("MELK-OF21 1D"),null);
  for(const name of ["MELK-OA10","MELK-OA21","MELK-OF210","MELK-OF21x","NOKINS"])assert.equal(OF.profile(name),null);

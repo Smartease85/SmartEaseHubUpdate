@@ -21,7 +21,7 @@
   if(kind==="effect"&&effects.includes(value))return frame(3,[value,6,255,255,0]);
   if(kind==="scene"&&scenes.includes(value))return frame(0x31,[value,7,255,255,0]);
   if(kind==="microphone"&&typeof value==="boolean")return frame(7,[value?1:0,255,255,255,0]);
-  if(kind==="mic-rhythm"&&Number.isInteger(value)&&value>=80&&value<=87)return frame(3,[value,4,255,255,0]);
+  if(kind==="mic-rhythm"&&Number.isInteger(value)&&value>=0x80&&value<=0x87)return frame(3,[value,4,255,255,0]);
   if(kind==="clock"&&value&&Number.isInteger(value.hour)&&value.hour>=0&&value.hour<=23&&Number.isInteger(value.minute)&&value.minute>=0&&value.minute<=59&&Number.isInteger(value.second)&&value.second>=0&&value.second<=59&&Number.isInteger(value.weekday)&&value.weekday>=0&&value.weekday<=6)return frame(0x83,[value.hour,value.minute,value.second,value.weekday,0]);
   if(kind==="geometry-query"&&value===undefined)return frame(0x37,[255,255,255,0,255]);
   throw Error("Unsupported OF21 value. Effect/scene catalogs and control ranges are not hardware-verified.");

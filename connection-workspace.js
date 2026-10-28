@@ -79,7 +79,11 @@ async function restoreConnections(){
   const nokins=cartDevices[2];
   if(snapshots.nokins===nokins.ownerLink.generation&&!nokins.connecting&&!nokins.connected&&!nokins.device&&nokins.ownerLink.restore(devices)){nokins.device=nokins.ownerLink.device;nokins.identity=nokins.ownerLink.identity;nokins.profile="melk-of21";nokins.of21.select(nokins.identity);recovered++;}
   ui("pairMemory").textContent=recovered+" saved device assignment(s) recovered from browser grants. Missing or revoked assignments need an explicit Connect tap; no device is selected by proximity.";
-  if(autoReconnectOn&&transport!=="demo")for(const a of cartDevices)if(!physicalConnection(a)&&!a.connecting&&!(a.id==="sp608e"&&connectionInProgress))await connectOne(a.id,{toggle:false,knownOnly:true});
+  if(autoReconnectOn&&transport!=="demo")for(const a of cartDevices){
+   const generation=a.id==="sp608e"?spConnectionAttempt:a.id==="trinka"?a.link.generation:a.ownerLink.generation;
+   const manual=a.id==="nokins"?a.manual:false;
+   if(snapshots[a.id]===generation&&!manual&&!physicalConnection(a)&&!a.connecting&&!(a.id==="sp608e"&&connectionInProgress))await connectOne(a.id,{toggle:false,knownOnly:true});
+  }
  }catch(error){ui("pairMemory").textContent="Saved assignments remain intact. Bluetooth grants could not be recovered: "+error.message+". Tap Connect for each device.";}
  connectionPaint();
 }

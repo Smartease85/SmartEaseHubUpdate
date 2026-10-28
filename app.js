@@ -1173,7 +1173,7 @@ function renderDevices() {
         words.append(note);
       }
     } else {
-      const identity = adapter.identity||preferences.deviceIdentities?.[adapter.id]||SmartEasePairing.assignment(adapter.id);
+      const identity = adapter.link?.identity||adapter.identity||preferences.deviceIdentities?.[adapter.id]||SmartEasePairing.assignment(adapter.id);
       detail.textContent = adapter.connected?identity.name+" · Connected · Upload remains gated":adapter.connecting?"Connecting CoolLEDUX…":identity?identity.name+(SmartEasePairing.assignment(adapter.id)?.id===identity.id?" · Remembered; tap Connect":" · Selected; disconnected"):"CoolLEDUX · Disconnected";
     }
     if (!words.children.length) words.append(heading, detail);

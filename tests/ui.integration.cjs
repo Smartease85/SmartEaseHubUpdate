@@ -1156,6 +1156,48 @@ function installThreeDeviceMock(b, config={}) {
  w.navigator.bluetooth=api;b.run('queryState=async()=>true;spEnsureChipColors=async()=>true;');return {state,devices,chars,api,emitGeometry};
 }
 
+test('fresh OF21 cancellation invalidates both late chooser and late GATT without touching UX',async()=>{
+ for(const phase of ['chooser','gatt']){
+  const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})');
+  const saved=b.w.localStorage.getItem('smartease-device-assignments-v1');let finish;
+  if(phase==='chooser')m.api.requestDevice=()=>new Promise(resolve=>{finish=()=>resolve(m.devices.nokins);});
+  else m.state.pause.nokins=new Promise(resolve=>{finish=resolve;});
+  const pending=b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');await new Promise(r=>setTimeout(r,0));
+  assert.equal(b.run('cartDevices[2].profile'),null);b.run('SmartEaseConnections.cancel("nokins")');finish();
+  assert.equal(await pending,false);assert.equal(m.devices.nokins.gatt.connected,false);assert.equal(b.run('cartDevices[2].connected'),false);
+  assert.equal(b.run('cartDevices[1].connected'),true);assert.equal(b.w.localStorage.getItem('smartease-device-assignments-v1'),saved);
+  if(phase==='chooser')assert.equal(m.state.connects.nokins,0);assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('slow grant recovery respects manual disconnect for each known device while restoring the others',async()=>{
+ for(const id of ['sp608e','nokins','trinka']){
+  const b=boot(),m=installThreeDeviceMock(b);for(const family of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${family}',{toggle:false})`);
+  // Retained device objects with unavailable links must recover independently.
+  for(const device of Object.values(m.devices))device.gatt.connected=false;
+  let finish;m.api.getDevices=()=>new Promise(resolve=>{finish=resolve;});const pending=b.run('SmartEaseConnections.restore()');
+  b.run(`cartDevices.find(a=>a.id==='${id}').disconnect()`);finish(Object.values(m.devices));await pending;
+  assert.equal(m.devices[id].gatt.connected,false,id+' must remain disconnected');assert.equal(m.state.connects[id],1);
+  for(const other of ['sp608e','nokins','trinka'].filter(x=>x!==id)){assert.equal(m.devices[other].gatt.connected,true);assert.equal(m.state.connects[other],2);}
+  assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('first UX connection remains usable when assignment storage is unavailable',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);
+ b.run('Storage.prototype.setItem=function(){throw new DOMException("Storage full","QuotaExceededError");}');
+ assert.equal(await b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})'),true);
+ assert.equal(b.run('cartDevices[1].connected'),true);assert.match(b.w.document.getElementById('deviceList').textContent,/could not save the device assignment/);
+ assert.equal(b.w.localStorage.getItem('smartease-device-assignments-v1'),null);assert.equal(m.state.writes.trinka.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('OF21 mic UI maps all eight choices to hexadecimal native rhythm bytes',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ const select=b.w.document.getElementById('of21MicMode');assert.deepEqual([...select.options].map(o=>Number(o.value)),Array.from({length:8},(_,i)=>0x80+i));
+ for(let i=0;i<8;i++){select.value=String(0x80+i);assert.equal(await b.run('of21Run("mic")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[0x7e,7,3,0x80+i,4,255,255,0,0xef]);}
+ assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
 test('each visible Connect routes to only its own family and establishes three independent transports',async()=>{
  const b=boot(),m=installThreeDeviceMock(b);b.run('go("devices")');
  for(const id of ['sp608e','nokins','trinka'])assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),true);

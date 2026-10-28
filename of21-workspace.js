@@ -36,7 +36,7 @@ const of21Live=document.createElement("div");of21Live.innerHTML=`<h4>MELK-OF21 o
  <label class="field-label" for="of21Effects">Factory effect (source-derived IDs)</label><select class="input" id="of21Effects">${SmartEaseOF21.effects.map(id=>`<option value="${id}">Effect ${id}</option>`).join("")}</select>
  <label class="field-label" for="of21Speed">Effect speed (%)</label><input class="input" id="of21Speed" type="number" min="0" max="100" value="50"><button class="secondary" type="button" data-of21="effect">Play effect</button>
  <label class="field-label" for="of21Scenes">Native scene</label><select class="input" id="of21Scenes">${SmartEaseOF21.scenes.map(id=>`<option value="${id}">Scene ${id}</option>`).join("")}</select><button class="secondary" type="button" data-of21="scene">Recall scene</button>
- <label class="field-label" for="of21MicMode">Device-microphone rhythm</label><select class="input" id="of21MicMode">${Array.from({length:8},(_,i)=>`<option value="${80+i}">Mic pattern ${80+i}</option>`).join("")}</select>
+<label class="field-label" for="of21MicMode">Device-microphone rhythm</label><select class="input" id="of21MicMode">${Array.from({length:8},(_,i)=>`<option value="${0x80+i}">Mic pattern ${i+1} (0x${(0x80+i).toString(16).toUpperCase()})</option>`).join("")}</select>
  <div class="row-actions"><button class="secondary" type="button" data-of21="mic">Play mic rhythm</button><button class="secondary" type="button" data-of21="mic-off">Mic off</button><button class="secondary" type="button" data-of21="nodes">Read LED count</button></div>
  <p id="of21Nodes" class="small-note"></p><p id="of21LiveResult" class="inline-status" role="status">Connecting alone sends no lighting commands.</p>`;
 of21Workspace.prepend(of21Live);

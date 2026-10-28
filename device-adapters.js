@@ -356,7 +356,9 @@ class LotusLampAdapter extends DeviceAdapter {
     return this.profile==="melk-of21"?this.connectOwner():this.connect();
   }
   disconnect() {
-    if(this.profile==="melk-of21")this.ownerLink.disconnect();
+    // A fresh owner connection has no profile until its async work finishes.
+    // Cancel that pending attempt too, before a late chooser/GATT can adopt it.
+    this.ownerLink.disconnect();
     this.manual = true;
     this.session++;
     clearTimeout(this.timer);

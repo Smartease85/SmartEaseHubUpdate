@@ -34,7 +34,7 @@ bytes and final parameter `00`; there is no standard-frame checksum.
 | Speed | speed 3067 | 0–100 unscaled |
 | Factory effects | setSymphonyMode 3005; SYModeFragment 188–199 and integer arrays | Exactly 234 IDs, 0–233. Generic SmartEase labels, no vendor assets |
 | Factory scenes | setSymphonyScene 3019; SYInternalSceneFragment 337–350/505–516 | Exactly 33 IDs: 1–28,150,152,154,155,156. Excludes enum100 and unlisted gaps |
-| Microphone | setMicOpen 2444; symphonyMicRhythmMode 3272 | On/off and rhythm IDs80–87, subtype `04` |
+| Microphone | setMicOpen 2444; symphonyMicRhythmMode 3272 | On/off and rhythm IDs `0x80–0x87` (128–135 decimal), subtype `0x04` |
 | Sensitivity | sens 3357 | Known byte serializer/example50; complete native UI range not claimed or exposed as a live arbitrary slider |
 | Clock | syncData 3659 | Offline encoder; Sunday0–Saturday6; no automatic clock write |
 | Timer / collapse / wire order / point count | setTimingArray3601, collapse3280, lineOrder2 3135, pointSetting3141 | Configuration writers remain gated. Day labels, persistence, channel-ID mapping or physical limits still need acceptance |
