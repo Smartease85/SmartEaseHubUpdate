@@ -50,6 +50,21 @@ or color correction. Complete-build export and exported-draft import are bounded
 validated and local. Imported builds receive a fresh scene identity when saved.
 Slow imports cannot overwrite a newer edit or import.
 
+Scene loads also invalidate pending display imports and clear display undo/redo
+history so art from one scene cannot enter another through an older operation.
+Built-in and legacy scene editors own their display draft just like richer scenes;
+the standalone project storage is preserved. Opening Create or Edit Devil Eyes
+enters scene-owned authoring, and the retained native tabs do not hide that editor.
+
+Full Settings backup restoration accepts files up to32 MB. Scene-library values
+are bounded to24 MB, standalone display projects retain their1 MB value limit,
+the recovered draft is bounded to4 MB, and OF21 local data keeps its128 KiB limit.
+The existing24-scene, display dimension/frame/pixel and32-pattern limits remain
+validated. The higher library/file ceilings accommodate supported multi-frame
+projects rather than rejecting a valid scene at the old500KB setting limit.
+OF21 local patterns/requested history and recoverable drafts are explicitly
+included in restore; no stored setting is applied to hardware by restoration.
+
 ## Applying honestly
 
 Explicit per-device Apply and whole-cart Apply require parked foreground use.
@@ -58,6 +73,11 @@ SP power precedes its calibrated RGB reapplication. OF21 uses its exact profile
 and native codecs; custom-pattern sending additionally requires matching geometry
 returned on the current connection. Neither path promises physical acknowledgement.
 The operations are coordinated, not atomic or frame-synchronized.
+Ordinary and complete scenes use shared playback invalidation. Starting a newer
+complete Apply invalidates older queued ordinary work and live tokens before
+submission; an older completion cannot replace the newer preview/status.
+Advanced saved-scene Apply follows the same scene resolver/coordinator and brings
+the per-device outcomes into view.
 
 Results list each device as submitted, failed, disconnected, cancelled, excluded,
 or unsupported. A partly submitted scene is never labeled complete. Stop prevents

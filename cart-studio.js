@@ -66,18 +66,18 @@ function studioCaptureDraft(){
  return {version:1,sp608e:{include:ui("studioSPInclude").checked,mode:ui("studioSPMode").value,channels:studioCopy(studioChannels)},nokins:{include:ui("studioNInclude").checked,kind:ui("studioNKind").value,follow,color:follow?draft["front-bumper"].color:ui("of21LiveColor").value,brightness:Number(ui("of21Level").value),speed:Number(ui("of21Speed").value),effect:Number(ui("of21Effects").value),scene:Number(ui("of21Scenes").value),rhythm:Number(ui("of21MicMode").value),sensitivity:Number(ui("of21Sensitivity").value),diy},trinka:{include:ui("studioEyesInclude").checked,project:displayModel.clone(displayProject)},context:studioContext()};
 }
 function studioCapture(){if(studioUnsupported)return studioCopy(studioUnsupported);return studioValidate(studioCaptureDraft());}
-function studioLoad(raw){
+function studioLoad(raw,sceneOwned=true){
  studioUnsupported=null;let state;
  try{state=raw?studioValidate(raw):null;}catch(error){studioUnsupported=studioCopy(raw);sceneSaveMessage(error.message,true);}
  studioChannels=state?.sp608e.channels||studioDefaultChannels();ui("studioSPInclude").checked=state?.sp608e.include??true;ui("studioSPMode").value=state?.sp608e.mode||"zones";
  const n=state?.nokins;ui("studioNInclude").checked=n?.include??true;ui("studioNKind").value=n?.kind||"solid";ui("studioNFollow").checked=n?.follow??(draftAccessories.nokins.follow==="front");
  for(const [key,id,fallback] of [["color","of21LiveColor",draftAccessories.nokins.color],["brightness","of21Level",draftAccessories.nokins.brightness],["speed","of21Speed",50],["effect","of21Effects",0],["scene","of21Scenes",1],["rhythm","of21MicMode",128],["sensitivity","of21Sensitivity",50]])ui(id).value=n?.[key]??fallback;
  if(n?.diy){for(const [key,id] of [["nodeCount","Nodes"],["totalNodes","Total"],["mode","Mode"],["gradient","Gradient"],["speed","Speed"],["brightness","Brightness"]])ui("of21Diy"+id).value=n.diy[key]??100;ui("of21DiyColors").value=n.diy.colors.join(" ");}
- ui("studioEyesInclude").checked=state?.trinka.include??true;studioOwnsDisplay=!!raw;
- displayStop();displayProject=displayModel.clone(state?.trinka.project||studioBaseDisplay);displayProgram=0;displayFrame=0;displayRender();studioSelectedPort=1;ui("studioPort").value="1";studioRenderPort();of21NativePreview();studioSourceRender();
+ ui("studioEyesInclude").checked=state?.trinka.include??true;studioOwnsDisplay=sceneOwned;
+ displayImportGeneration++;displayStop();displayDrawing=false;displayUndo=[];displayRedo=[];displayProject=displayModel.clone(state?.trinka.project||studioBaseDisplay);displayProgram=0;displayFrame=0;displayRender();studioSelectedPort=1;ui("studioPort").value="1";studioRenderPort();of21NativePreview();studioSourceRender();
  ui("studioParked").checked=false;ui("homeSceneParked").checked=false;ui("studioContext").textContent=state?.context?"This scene keeps a wiring and calibration snapshot for reference. Apply uses your current global mapping and color correction; it never overwrites them.":"Saving includes your current wiring and calibration snapshot. Loading never changes global wiring or calibration.";
 }
-function studioOpen(id){go("create");studioOwnsDisplay=true;for(const [key,node] of [["sp608e","studioSP"],["nokins","studioNokins"],["trinka","studioEyes"]])ui(node).hidden=key!==id;ui("studioTabs").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.studio===id)));ui("cartStudio").scrollIntoView({block:"start",behavior:"smooth"});}
+function studioOpen(id){go("create");studioOwnsDisplay=true;displayHost.hidden=false;for(const [key,node] of [["sp608e","studioSP"],["nokins","studioNokins"],["trinka","studioEyes"]])ui(node).hidden=key!==id;ui("studioTabs").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.studio===id)));ui("cartStudio").scrollIntoView({block:"start",behavior:"smooth"});}
 function studioReport(results,pending=false){studioLastResults=results;const host=ui("studioResults");host.replaceChildren();for(const result of results){const p=document.createElement("p");p.className="inline-status";p.textContent=connectionLabel(result.id)+": "+result.status+" — "+result.detail;host.append(p);}const p=document.createElement("strong");const included=results.filter(r=>r.status!=="excluded");p.textContent=pending?"Applying remaining devices… earlier submissions are shown below.":included.length&&included.every(r=>r.status==="submitted")?"All included commands submitted; check the physical devices.":"Whole-cart scene incomplete. Review each device above.";host.prepend(p);ui("homeStudioResults").replaceChildren(...[...host.children].map(node=>node.cloneNode(true)));}
 async function studioApplySP(state,rows,guard){
  if(state.mode==="zones")return cartDevices[0].apply(rows,guard);
@@ -101,8 +101,8 @@ async function studioApplyScene(scene,only=null){
  if(studioApplying)return {complete:false,results:studioLastResults};
  if(!ui("studioParked").checked||document.visibilityState!=="visible"){const message="Confirm the cart is parked before Apply. Editing and saving work disconnected.";sceneSaveMessage(message,true);toast(message);return {complete:false,results:[]};}
  let state,rows;try{state=studioValidate(scene.composition);rows=E.validateRows(scene.rows);}catch(error){sceneSaveMessage(error.message,true);return {complete:false,results:[]};}
- const epoch=++studioEpoch,spSession=bleSession,nGeneration=cartDevices[2].ownerLink.generation;
- const guard=()=>epoch===studioEpoch&&ui("studioParked").checked&&document.visibilityState==="visible";
+ const playbackGeneration=beginScenePlayback(),epoch=++studioEpoch,spSession=bleSession,nGeneration=cartDevices[2].ownerLink.generation;
+ const guard=()=>epoch===studioEpoch&&playbackGeneration===applyGeneration&&ui("studioParked").checked&&document.visibilityState==="visible";
  studioApplying=true;const results=[];
  try{
   for(const id of ["sp608e","nokins","trinka"]){
@@ -115,10 +115,10 @@ async function studioApplyScene(scene,only=null){
    studioReport(results,true);
   }
   studioReport(results);if(results.some(r=>r.status==="submitted"))powered=results.some(r=>r.status==="submitted"&&(r.id==="sp608e"?(state.sp608e.mode==="zones"?Object.values(rows).some(x=>x.on):Object.values(state.sp608e.channels).some(x=>x.include&&x.on)):state.nokins.kind!=="off"));const complete=results.length>0&&results.every(r=>["excluded","submitted"].includes(r.status))&&results.some(r=>r.status==="submitted");ui("playState").textContent=complete?"INCLUDED COMMANDS SUBMITTED":"WHOLE-CART SCENE INCOMPLETE";updateHeader();return {complete,results};
- }finally{studioApplying=false;}
+ }finally{studioApplying=false;if(playbackGeneration===applyGeneration)applying=false;updateHeader();}
 }
 function studioCurrentScene(){return {id:"draft",sourceSceneId:editingSceneId,name:ui("sceneName").value||"Current build",custom:true,rows:E.validateRows(draft),accessories:E.accessories(draftAccessories,draft["front-bumper"]),composition:studioCapture()};}
-window.SmartEaseStudio={open:studioOpen,load:studioLoad,capture:studioCapture,captureDraft:studioCaptureDraft,validate:studioValidate,applyScene:studioApplyScene,preview:studioPreview,get ownsDisplay(){return studioOwnsDisplay;},get applying(){return studioApplying;},stop:()=>{studioEpoch++;cartDevices[2].cancelOwner();}};
+window.SmartEaseStudio={open:studioOpen,load:studioLoad,enter:()=>{studioOwnsDisplay=true;},capture:studioCapture,captureDraft:studioCaptureDraft,validate:studioValidate,applyScene:studioApplyScene,preview:studioPreview,get ownsDisplay(){return studioOwnsDisplay;},get applying(){return studioApplying;},stop:()=>{studioEpoch++;cartDevices[2].cancelOwner();}};
 ui("studioTabs").onclick=event=>{if(event.target.dataset.studio)studioOpen(event.target.dataset.studio);};
 ui("studioPort").onchange=()=>{studioReadPort();studioSelectedPort=Number(ui("studioPort").value);studioRenderPort();};
 for(const input of ui("studioSP").querySelectorAll('[id^="studioPort"]'))if(input.id!=="studioPort")input.addEventListener("input",studioReadPort);
@@ -141,5 +141,5 @@ studioImport.onchange=async()=>{
  }catch(error){sceneSaveMessage("Import failed: "+error.message+". Current draft retained.",true);return false;}finally{studioImport.value="";}
 };
 const originalRenderDevices=renderDevices;renderDevices=function(){originalRenderDevices();for(const id of ["sp608e","nokins","trinka"]){const connect=ui("deviceConnect-"+id);if(!connect)continue;const button=document.createElement("button");button.type="button";button.className="secondary";button.id="deviceEdit-"+id;button.textContent=id==="sp608e"?"Edit SP608E":id==="nokins"?"Edit NOKINS":"Edit Devil Eyes";button.onclick=()=>studioOpen(id);connect.parentElement.append(button);}};
-studioLoad(activeScene?.composition||draftComposition);studioPreview(activeScene);renderDevices();
+studioLoad(activeScene?.composition||draftComposition,!!activeScene||page==="create");studioPreview(activeScene);renderDevices();
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible"){SmartEaseStudio.stop();ui("studioParked").checked=false;ui("homeSceneParked").checked=false;}});

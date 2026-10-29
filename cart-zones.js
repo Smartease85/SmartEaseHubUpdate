@@ -383,7 +383,7 @@ function czRenderSaved(){
    czSave();czRenderSceneRows();czRenderMap();czStatus('Loaded '+scene.name+' for editing. No Bluetooth commands sent.');
    czId('czSceneDesigner').scrollIntoView({behavior:'smooth',block:'start'});
   };
-  const play=document.createElement('button');play.type='button';play.className='button primary';play.textContent='Apply';play.onclick=()=>czApplySceneRows(scene.rows,scene.name);
+  const play=document.createElement('button');play.type='button';play.className='button primary';play.textContent='Apply';play.onclick=()=>{if(typeof chooseScene==='function'){go('home');return chooseScene(sceneById(scene.id)||scene);}return czApplySceneRows(scene.rows,scene.name);};
   const del=document.createElement('button');del.type='button';del.className='button danger';del.textContent='Delete';del.onclick=()=>{
    if(!confirm('Delete local scene "'+scene.name+'"? This will NOT touch the SP608E.'))return;
    const previous=czState.scenes;czState.scenes=czState.scenes.filter(s=>s.id!==scene.id);

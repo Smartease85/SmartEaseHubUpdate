@@ -235,6 +235,7 @@ function go(next) {
   history.replaceState(null, "", "#" + next);
   if (next === "home") renderScenesUI();
   if (next === "create") renderDesigner();
+  if (next === "create") window.SmartEaseStudio?.enter();
   if (next === "scenes") renderScenesUI();
   if (next === "devices") renderDevices();
   if (next === "calibrate") calOpen();
@@ -675,11 +676,7 @@ async function applyScene(scene) {
     return false;
   }
   const playScene = E.forPlayback(scene, preferences.trueColors);
-  const generation = ++applyGeneration;
-  liveToken++;
-  liveName = "";
-  ui("stopShow").hidden = true;
-  applying = true;
+  const generation = beginScenePlayback();
   updateHeader();
   ui("playProgress").textContent = "Setting the mood…";
   try {
@@ -723,6 +720,7 @@ async function applyScene(scene) {
     updateHeader();
   }
 }
+function beginScenePlayback(){cancelPlayback();applying=true;return applyGeneration;}
 function cancelPlayback() {
   window.SmartEaseStudio?.stop();
   applyGeneration++;
@@ -1501,8 +1499,8 @@ function backup() {
 }
 async function restoreBackup(file) {
   if (!file) return;
-  if (file.size > 2_000_000) {
-    toast("Choose a SmartEase backup smaller than 2 MB.");
+  if (file.size > 32_000_000) {
+    toast("Choose a SmartEase backup smaller than 32 MB.");
     return;
   }
   try {
@@ -1532,14 +1530,19 @@ async function restoreBackup(file) {
       "smartease-sp608e-rgb-balance-v1",
       "smartease-display-project-v1",
       "smartease-device-assignments-v1",
+      "smartease-of21-native-v1",
+      "smartease-scene-draft-v1",
     ]);
     const entries = Object.entries(data.values).filter(([k]) => allowed.has(k));
     if (!entries.length) throw Error("This backup has no restorable settings.");
     for (const [key, value] of entries) {
-      if (typeof value !== "string" || value.length > (key === "smartease-display-project-v1" ? 1_000_000 : 500000))
+      const limit=key==="smartease-golf-cart-zones-v2"||key==="smartease-golf-cart-zones-v1"?24_000_000:key==="smartease-scene-draft-v1"?4_000_000:key==="smartease-of21-native-v1"?131072:key === "smartease-display-project-v1"?1_000_000:500000;
+      if (typeof value !== "string" || value.length > limit)
         throw Error("This backup has an invalid setting.");
       if (!/ble-auto|ble-id|nokins-device/.test(key)) JSON.parse(value);
       if (key === "smartease-golf-cart-zones-v2") czSanitize(JSON.parse(value));
+      if (key === "smartease-golf-cart-zones-v2" || key === "smartease-golf-cart-zones-v1") {const parsed=JSON.parse(value);if(parsed.scenes!==undefined&&(!Array.isArray(parsed.scenes)||parsed.scenes.length>24))throw Error("A scene library supports at most 24 scenes.");for(const scene of parsed.scenes||[])if(scene.composition?.version===1)SmartEaseStudio.validate(scene.composition);}
+      if(key==="smartease-of21-native-v1"){const parsed=JSON.parse(value);if(parsed.version!==1||!Array.isArray(parsed.scenes)||parsed.scenes.length>32||!parsed.requested||typeof parsed.requested!=="object"||Array.isArray(parsed.requested))throw Error("Invalid OF21 pattern library.");for(const scene of parsed.scenes){if(typeof scene.name!=="string"||!scene.name.trim()||scene.name.length>70)throw Error("Invalid OF21 pattern name.");SmartEaseOF21.diy(scene.project);}}
       if (key === "smartease-display-project-v1") SmartEaseDisplay.validate(JSON.parse(value));
     }
     if (

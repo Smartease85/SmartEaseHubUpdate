@@ -129,7 +129,7 @@ nativePanels.forEach((panel,i)=>{
 nativeGrid.before(nativeTabs);
 function nativeSelectDevice(index,remember=false){
  nativePanels.forEach((panel,i)=>{panel.hidden=i!==index;nativeTabs.children[i].setAttribute("aria-selected",String(i===index));nativeTabs.children[i].tabIndex=i===index?0:-1;});
- displayHost.hidden=index!==2;if(index!==2)displayStop();else displayRender();
+ displayHost.hidden=window.SmartEaseStudio?false:index!==2;if(index!==2)displayStop();else displayRender();
  if(remember){preferences.nativeController=nativeKeys[index];persist();}
 }
 nativeSelectDevice(Math.max(0,nativeKeys.indexOf(preferences.nativeController)));

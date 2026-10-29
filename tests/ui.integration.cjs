@@ -1508,3 +1508,45 @@ test('whole-cart partial failure and cancellation never report all included devi
  const failed=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(failed.complete,false);assert.equal(failed.results[0].status,'failed');assert.equal(failed.results[1].status,'submitted');assert.equal(failed.results[2].status,'unsupported');
  let release;b.w.holdSP=new Promise(resolve=>{release=resolve;});b.run('cartDevices[0].apply=async(rows,guard)=>{await holdSP;return guard();}');const pending=b.w.document.getElementById('studioApplyAll').onclick();await Promise.resolve();b.w.document.getElementById('studioStop').onclick();release();const stopped=await pending;assert.equal(stopped.complete,false);assert.equal(stopped.results.some(r=>r.status==='cancelled'),true);assert.match(b.w.document.getElementById('studioResults').textContent,/incomplete/);assert.equal(m.state.writes.trinka.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
 });
+
+test('new complete Apply invalidates delayed ordinary Apply and live playback before it can overwrite the newer revision',async()=>{
+ const b=boot();b.run('enterDemo()');let release;b.w.oldOrdinaryWait=new Promise(resolve=>{release=resolve;});b.run('globalThis.playbackCalls=0;globalThis.playbackWrites=[];cartDevices[0].apply=async(rows,guard)=>{if(++playbackCalls===1)await oldOrdinaryWait;if(!guard())return false;playbackWrites.push(rows["front-bumper"].color);return true;};');
+ const old=b.run('applyScene(E.presets[1])');await Promise.resolve();b.run('liveName="old-live";liveToken=100;draft["front-bumper"].color="#112233";');b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioNInclude').checked=false;b.w.document.getElementById('studioEyesInclude').checked=false;
+ const next=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(next.complete,true);assert.equal(b.run('liveName'),'');assert.ok(b.run('liveToken')>100);release();assert.equal(await old,false);assert.deepEqual(JSON.parse(b.run('JSON.stringify(playbackWrites)')),['#112233']);assert.match(b.w.document.getElementById('playState').textContent,/INCLUDED COMMANDS/);assert.equal(b.run('applying'),false);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('scene switching resets display history and invalidates an older pending project import',async()=>{
+ const b=boot();b.run('editScene(sceneById("haunted"));displayCommit(()=>displayCurrent().pixels[0]=0xff0000);saveDesignerScene();displayCommit(()=>displayCurrent().pixels[0]=0x0000ff)');assert.ok(b.run('displayUndo.length')>0);
+ const project=JSON.parse(b.run('JSON.stringify(displayProject)'));project.programs[0].frames[0].pixels[0]=0x00ff00;let release;const input=b.w.document.getElementById('displayImport');Object.defineProperty(input,'files',{configurable:true,value:[{size:100,text:()=>new Promise(resolve=>{release=resolve;})}]});const pending=input.onchange();
+ b.run('editScene(sceneById("signature"))');const expected=b.run('displayCurrent().pixels[0]');assert.equal(b.run('displayUndo.length'),0);assert.equal(b.run('displayRedo.length'),0);b.w.document.getElementById('displayUndo').click();assert.equal(b.run('displayCurrent().pixels[0]'),expected);release(JSON.stringify(project));await pending;assert.equal(b.run('displayCurrent().pixels[0]'),expected);assert.equal(b.run('displayUndo.length'),0);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('editing built-in and legacy scenes isolates display art from the standalone project storage',()=>{
+ const original=JSON.stringify(require('../display-project.js').create(96,16)),b=boot({'smartease-display-project-v1':original});
+ b.run('editScene(sceneById("haunted"));displayCommit(()=>displayCurrent().pixels[0]=0x123456)');assert.equal(b.run('SmartEaseStudio.ownsDisplay'),true);assert.equal(b.w.localStorage.getItem('smartease-display-project-v1'),original);
+ b.run('czState.scenes.push({id:"cart-legacy",name:"Legacy",rows:E.rows()});editScene(sceneById("cart-legacy"));displayCommit(()=>displayCurrent().pixels[0]=0xabcdef)');assert.equal(b.w.localStorage.getItem('smartease-display-project-v1'),original);assert.equal(b.run('SmartEaseStudio.ownsDisplay'),true);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('fresh Devices Edit Devil Eyes reveals the display canvas despite the retained SP native tab selection',()=>{
+ const b=boot({'smartease-experience-v1':JSON.stringify({favorites:['haunted'],nativeController:'sp608e'})});b.run('go("devices")');b.w.document.getElementById('deviceEdit-trinka').onclick();assert.equal(b.w.document.getElementById('displayStudio').hidden,false);assert.equal(b.w.document.getElementById('displayCanvas').closest('[hidden]'),null);b.run('nativeSelectDevice(0,true)');assert.equal(b.w.document.getElementById('displayStudio').hidden,false);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('full backup restore accepts a supported eight-frame scene above 500KB while retaining explicit file bounds',async()=>{
+ const b=boot(),project=require('../display-project.js').create(128,64);project.programs[0].frames=Array.from({length:8},()=>({duration:100,pixels:Array(128*64).fill(0xffffff)}));
+ const scene=JSON.parse(b.run('JSON.stringify(studioCurrentScene())'));scene.id='cart-large';scene.composition.trinka.project=project;
+ const zones=JSON.parse(b.run('JSON.stringify(czState)'));zones.scenes=[scene];const value=JSON.stringify(zones);assert.ok(value.length>500000);
+ const key=b.run('CZ_STORE'),text=JSON.stringify({format:'smartease-cart-backup',version:1,values:{[key]:value}});b.w.largeSceneBackup={size:Buffer.byteLength(text),text:async()=>text};await b.run('restoreBackup(largeSceneBackup)');assert.equal(b.w.localStorage.getItem(key),value);
+ let read=false;b.w.overLimitBackup={size:32_000_001,text:async()=>{read=true;return text;}};await b.run('restoreBackup(overLimitBackup)');assert.equal(read,false);assert.match(b.w.document.getElementById('appToast').textContent,/32 MB/);b.dom.window.close();
+});
+
+test('full backup restore includes validated OF21 native patterns and requested-history data',async()=>{
+ const b=boot(),model=require('../of21-protocol.js');const library={version:1,scenes:[{name:'Owner pattern',project:{nodeCount:10,totalNodes:96,mode:1,gradient:0,speed:50,brightness:70,colors:['#ff0000','#0000ff']}}],requested:{'nokins-1':{'wire-order':'GRB'}}};model.diy(library.scenes[0].project);
+ const value=JSON.stringify(library),text=JSON.stringify({format:'smartease-cart-backup',version:1,values:{'smartease-of21-native-v1':value}});b.w.of21Backup={size:Buffer.byteLength(text),text:async()=>text};await b.run('restoreBackup(of21Backup)');assert.equal(b.w.localStorage.getItem('smartease-of21-native-v1'),value);
+ const later=boot({'smartease-of21-native-v1':b.w.localStorage.getItem('smartease-of21-native-v1')});assert.equal(later.run('of21Local.scenes[0].name'),'Owner pattern');assert.equal(later.run('of21Local.requested["nokins-1"]["wire-order"]'),'GRB');later.dom.window.close();b.dom.window.close();
+});
+
+test('Advanced saved complete-scene Apply uses shared coordination and exposes all device outcomes',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioNKind').value='effect';b.w.document.getElementById('of21Effects').value='233';
+ b.run('cartDevices[0].apply=async(rows,guard)=>guard();const advancedScene=studioCurrentScene();advancedScene.id="cart-advanced";advancedScene.name="Advanced complete";czState.scenes.push(advancedScene);czRenderSaved();');
+ const apply=[...b.w.document.querySelectorAll('#czSavedScenes button')].find(button=>button.textContent==='Apply');assert.equal(await apply.onclick(),false);assert.equal(b.w.document.querySelector('[data-page="home"]').hidden,false);assert.ok(m.state.writes.nokins.some(p=>p[2]===3&&p[3]===233));assert.equal(m.state.writes.trinka.length,0);assert.match(b.w.document.getElementById('homeStudioResults').textContent,/unsupported/);assert.match(b.w.document.getElementById('homeStudioResults').textContent,/incomplete/);assert.equal(b.errors.length,0);b.dom.window.close();
+});
