@@ -7,7 +7,7 @@
  const accepts=(id,name)=>id==="sp608e"?/^SP608E(?:$|[\s_-])/i.test(name||""):id==="nokins"?!!SmartEaseOF21.profile(name):id==="trinka"?SmartEaseCoolLEDUX.family(name)==="coolledux":false;
  const options=id=>({filters:(id==="sp608e"?["SP608E","sp608e"]:id==="nokins"?["MELK-OF21","melk-of21"]:["CoolLEDUX","coolledux"]).map(namePrefix=>({namePrefix})),optionalServices:[id==="sp608e"?"0000ffe0-0000-1000-8000-00805f9b34fb":service]});
  const assignments={},diagnostics={};let chooser=null,warning="";
- const build="cart-native-20261029-01";
+ const build="cart-scenes-20261029-02";
  function describeError(error){
   const name=typeof error?.name==="string"?error.name:"BrowserError",message=typeof error?.message==="string"?error.message:String(error??"Unknown error");
   return name+": "+message.slice(0,600)+(error?.code!==undefined?" [code="+String(error.code).slice(0,80)+"]":"");

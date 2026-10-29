@@ -65,7 +65,7 @@ function displayCommit(change){
   displaySave();displayRender();
  }catch(error){displayProject=old;displayProgram=p;displayFrame=f;displayRender();displaySay(error.message);}
 }
-function displaySave(){try{localStorage.setItem(displayKey,JSON.stringify(displayProject));displaySay("Project saved in this browser. Export a copy to keep it elsewhere.");}catch{displaySay("Browser storage is full. Export your project now; current edits are only in memory.");}}
+function displaySave(){if(window.SmartEaseStudio?.ownsDisplay){scheduleSceneDraft();displaySay("Display project updated in this scene draft. Save changes to keep the complete build. The standalone project is unchanged.");return;}try{localStorage.setItem(displayKey,JSON.stringify(displayProject));displaySay("Project saved in this browser. Export a copy to keep it elsewhere.");}catch{displaySay("Browser storage is full. Export your project now; current edits are only in memory.");}}
 function displayHistory(from,to){
  if(!from.length)return;displayImportGeneration++;displayStop();to.push({project:displayModel.clone(displayProject),program:displayProgram,frame:displayFrame});
  const state=from.pop();displayProject=state.project;displayProgram=state.program;displayFrame=state.frame;displaySave();displayRender();

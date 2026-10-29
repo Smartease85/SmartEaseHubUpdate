@@ -424,7 +424,7 @@ test("create, favorite, reload: existing mapping/calibration and scene storage s
   );
   again.dom.window.close();
 });
-test("built-in Halloween exposes one-tap edit and three RGB groups; Save creates a durable personal copy", () => {
+test("built-in Halloween exposes one-tap edit and three RGB groups; Save persists a durable built-in override", () => {
  const b=boot({
    "smartease-haunted-rgb-fix-v1":'{"1":["b","r","g"]}',
    "smartease-sp608e-rgb-balance-v1":'{"1":[100,42,0]}'
@@ -437,7 +437,7 @@ test("built-in Halloween exposes one-tap edit and three RGB groups; Save creates
  assert.ok(edit,"a factory scene must have an accessible edit button");
  edit.click();
  assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);
- assert.equal(b.w.document.getElementById("sceneName").value,"My Haunted Surge");
+ assert.equal(b.w.document.getElementById("sceneName").value,"Haunted Surge");
  assert.equal(b.w.document.querySelectorAll(".scene-palette-choice").length,3,"Halloween should group three actual shades");
  const options=b.w.document.querySelectorAll(".scene-palette-choice");
  options[1].click();
@@ -454,8 +454,8 @@ test("built-in Halloween exposes one-tap edit and three RGB groups; Save creates
  b.w.document.getElementById("saveDesign").click();
  assert.equal(b.run("czState.scenes.length"),1);
  const newId=b.run("czState.scenes[0].id");
- assert.match(newId,/^cart-/);
- assert.equal(b.run("czState.scenes[0].name"),"My Haunted Surge");
+ assert.equal(newId,"haunted");
+ assert.equal(b.run("czState.scenes[0].name"),"Haunted Surge");
  assert.equal(b.run('czState.scenes[0].rows.canopy.color'),purple);
  assert.equal(b.run('E.presets[0].rows.canopy.color'),"#a24aec","factory preset must not change");
  assert.equal(b.run('E.presets[0].id'),"haunted");
@@ -480,7 +480,7 @@ test("holding a scene edits it without accidentally playing; tapping still plays
  first.dispatchEvent(new b.w.MouseEvent("pointerdown",{bubbles:true,button:0,clientX:25,clientY:60}));
  await new Promise(resolve=>setTimeout(resolve,610));
  assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);
- assert.equal(b.w.document.getElementById("sceneName").value,"My Haunted Surge");
+ assert.equal(b.w.document.getElementById("sceneName").value,"Haunted Surge");
  first.click();
  assert.equal(b.run("activeScene===null"),true,"synthetic followup click must not play after hold");
  assert.equal(b.errors.length,0);
@@ -504,7 +504,7 @@ test("dragging to scroll cancels scene long press, but holding favorite edits it
  favorite.dispatchEvent(new b.w.MouseEvent("pointerdown",{bubbles:true,button:0,clientX:10,clientY:10}));
  await new Promise(resolve=>setTimeout(resolve,590));
  assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);
- assert.equal(b.w.document.getElementById("sceneName").value,"My Haunted Surge");
+ assert.equal(b.w.document.getElementById("sceneName").value,"Haunted Surge");
  b.dom.window.close();
 });
 test("editing an existing saved scene keeps its ID and updates that scene instead of duplicating", () => {
@@ -1103,6 +1103,7 @@ test("fine-tune sends corrected-order RGB and saves matches without double-swapp
 test("custom scene effects are not replaced with solid colors on apply", async () => {
  const b=boot();
  b.run("enterDemo()");
+ b.w.document.getElementById("studioParked").checked=true;
  b.run('cartDevices[0].apply=async(rows)=>{globalThis.sentEffects=Object.values(rows).map(x=>x.effect);return true;}');
  b.w.document.getElementById("designerEffect").value="7";
  b.w.document.getElementById("designerEffect").dispatchEvent(new b.w.Event("change"));
@@ -1245,7 +1246,7 @@ test('bounded GATT stages retain exact native error code and never launch hidden
   const b=boot(),m=installThreeDeviceMock(b);b.run('SmartEasePairing.stageTimeoutMs=20');m.state.pause[id]=new Promise(()=>{});
   assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`),false);assert.equal(m.state.requests.length,1);assert.match(b.w.document.getElementById('pairDiagnostics').value,/TimeoutError/);
   m.state.pause[id]=null;m.devices[id].gatt.connect=async()=>{throw Object.assign(Error('error 2'),{name:'NetworkError',code:2});};
-  assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),false);assert.match(b.w.document.getElementById('pairDiagnostics').value,/NetworkError: error 2 \[code=2\]/);assert.match(b.w.document.getElementById('pairBuild').textContent,/cart-native-20261029-01/);
+  assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),false);assert.match(b.w.document.getElementById('pairDiagnostics').value,/NetworkError: error 2 \[code=2\]/);assert.match(b.w.document.getElementById('pairBuild').textContent,/cart-scenes-20261029-02/);
   assert.equal(m.state.requests.length,2);b.dom.window.close();
  }
 });
@@ -1444,4 +1445,66 @@ test('OF21 returned geometry outside native bounds is surfaced and cannot enable
  assert.equal(b.run('cartDevices[2].of21.geometryGeneration'),b.run('cartDevices[2].ownerLink.generation'));assert.equal(b.errors.length,0,b.errors.map(e=>e.stack).join('\n'));
  assert.match(b.w.document.getElementById('of21Nodes').textContent,/2000/);await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
  assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,0);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/10–1000/);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('every built-in scene saves an override with stable identity, distinct copy and latest Home playback after reload',async()=>{
+ const b=boot();const ids=JSON.parse(b.run('JSON.stringify(E.presets.map(s=>s.id))'));
+ for(const [index,id] of ids.entries()){
+  b.run(`editScene(sceneById('${id}'))`);b.run(`draft['front-bumper'].color='#${(0x110000+index*257).toString(16).padStart(6,'0')}'`);
+  assert.equal(b.run('!!saveDesignerScene()'),true);assert.equal(b.run(`sceneById('${id}').revision`),1);assert.equal(b.run('activeScene.id'),id);
+  b.run("draft['front-bumper'].brightness=61");assert.equal(b.run('!!saveDesignerScene()'),true);assert.equal(b.run(`sceneById('${id}').revision`),2);
+ }
+ assert.equal(b.run('czState.scenes.length'),ids.length);assert.equal(b.run('new Set(allSceneVersions().map(s=>s.id)).size===allSceneVersions().length'),true);
+ b.run('editScene(sceneById("haunted"))');const before=b.run('czState.scenes.length');assert.equal(b.run('!!saveDesignerScene(true)'),true);assert.equal(b.run('czState.scenes.length'),before+1);assert.notEqual(b.run('editingSceneId'),'haunted');
+ b.run('editScene(sceneById("haunted"));saveDesignerScene()');const state=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));b.dom.window.close();
+ const again=boot(state);assert.equal(again.run('sceneById("haunted").revision'),3);assert.equal(again.run('activeScene.id'),'haunted');
+ again.run('chooseScene=scene=>{globalThis.playedSavedScene=scene;return true;}');again.w.document.getElementById('featureHauntedPlay').onclick();assert.equal(again.run('playedSavedScene.revision'),3);assert.equal(again.run('playedSavedScene.rows["front-bumper"].brightness'),61);assert.equal(again.errors.length,0);again.dom.window.close();
+});
+
+test('failed scene storage is visible and preserves the saved revision plus recoverable/exportable current draft',()=>{
+ const b=boot();b.run('editScene(sceneById("haunted"));saveDesignerScene()');const saved=b.w.localStorage.getItem('smartease-cart-zones-v2')||b.run('localStorage.getItem(CZ_STORE)');
+ b.run("draft.canopy.color='#123456'");b.w.document.getElementById('sceneName').value='Edited but not saved';b.run('rememberSceneDraft()');const recovery=b.w.localStorage.getItem('smartease-scene-draft-v1');assert.ok(recovery);
+ b.run('Storage.prototype.setItem=function(){throw new DOMException("full","QuotaExceededError");}');assert.equal(b.run('saveDesignerScene()'),false);assert.equal(b.run('sceneById("haunted").revision'),1);assert.equal(b.run('draft.canopy.color'),'#123456');assert.equal(b.run('sceneDraftSnapshot().name'),'Edited but not saved');assert.match(b.w.document.getElementById('sceneSaveStatus').textContent,/Could not save.*Export/);assert.equal(b.run('localStorage.getItem(CZ_STORE)'),saved);
+ b.w.document.getElementById('recoverSceneDraft').onclick();assert.equal(b.run('draft.canopy.color'),'#123456');assert.equal(b.w.document.getElementById('sceneName').value,'Edited but not saved');assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('Devices Edit actions allow independent offline editing and save complete scene snapshots without touching standalone project or calibration',async()=>{
+ const project=require('../display-project.js').create(96,16);const original=JSON.stringify(project),cal='{"2":[100,65,100]}';
+ const b=boot({'smartease-display-project-v1':original,'smartease-sp608e-rgb-balance-v1':cal}),m=installThreeDeviceMock(b);b.run('go("devices")');
+ for(const [id,panel] of [['sp608e','studioSP'],['nokins','studioNokins'],['trinka','studioEyes']]){b.w.document.getElementById('deviceEdit-'+id).onclick();assert.equal(b.w.document.querySelector('[data-page="create"]').hidden,false);assert.equal(b.w.document.getElementById(panel).hidden,false);}
+ b.w.document.getElementById('studioSPMode').value='outputs';b.w.document.getElementById('studioPortColor').value='#aabbcc';b.w.document.getElementById('studioPortColor').dispatchEvent(new b.w.Event('input',{bubbles:true}));
+ b.w.document.getElementById('studioNKind').value='effect';b.w.document.getElementById('of21Effects').value='233';b.w.document.getElementById('of21Level').value='37';
+ b.w.document.getElementById('displayPaint').value='#ff0000';b.w.document.getElementById('displayPixel').click();b.w.document.getElementById('sceneName').value='Complete cart draft';assert.equal(b.run('!!saveDesignerScene()'),true);const id=b.run('editingSceneId');
+ assert.equal(b.run('sceneById(editingSceneId).composition.sp608e.channels[1].color'),'#aabbcc');assert.equal(b.run('sceneById(editingSceneId).composition.nokins.effect'),233);assert.equal(b.run('sceneById(editingSceneId).composition.trinka.project.programs[0].frames[0].pixels[0]'),0xff0000);assert.equal(b.w.localStorage.getItem('smartease-display-project-v1'),original);assert.equal(b.w.localStorage.getItem('smartease-sp608e-rgb-balance-v1'),cal);assert.equal(m.state.requests.length,0);
+ const state=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));b.dom.window.close();const again=boot(state);again.run(`editScene(sceneById('${id}'))`);assert.equal(again.w.document.getElementById('of21Effects').value,'233');assert.equal(again.run('displayProject.programs[0].frames[0].pixels[0]'),0xff0000);assert.equal(again.run('studioChannels[1].color'),'#aabbcc');assert.equal(again.w.localStorage.getItem('smartease-display-project-v1'),original);assert.equal(again.errors.length,0);again.dom.window.close();
+});
+
+test('whole-cart Apply coordinates supported queues and reports included UX as unsupported, never complete',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioParked').checked=true;
+ b.run('cartDevices[0].apply=async(rows,guard)=>{globalThis.coordinatedSP=rows;return guard();}');b.w.document.getElementById('studioNKind').value='effect';b.w.document.getElementById('of21Effects').value='233';
+ const result=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(result.complete,false);assert.deepEqual(Array.from(result.results,r=>r.status),['submitted','submitted','unsupported']);assert.ok(m.state.writes.nokins.some(bytes=>bytes[2]===3&&bytes[3]===233));assert.equal(m.state.writes.trinka.length,0);assert.match(b.w.document.getElementById('studioResults').textContent,/incomplete/);assert.match(b.w.document.getElementById('homeStudioResults').textContent,/unsupported/);
+ b.w.document.getElementById('studioEyesInclude').checked=false;const lights=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(lights.complete,true);assert.equal(lights.results.at(-1).status,'excluded');assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('individual native SP drafts keep per-output settings and reapply calibrated RGB after power-on',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("sp608e",{toggle:false})');b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioSPMode').value='outputs';
+ b.run('for(const r of Object.values(studioChannels))r.include=false;studioChannels[1].include=true;studioChannels[1].effect=25;studioChannels[1].color="#123456";studioRenderPort();enqueuePackets=async packets=>{globalThis.studioPackets=packets;return true;}');
+ const result=await b.w.document.getElementById('studioApplySP').onclick();assert.equal(result.complete,true);const packets=JSON.parse(b.run('JSON.stringify(studioPackets)'));const power=packets.findIndex(p=>p[1]===0x82),rgb=packets.findIndex(p=>p[1]===0x89);assert.ok(power>=0&&rgb>power);assert.ok(packets.every(p=>p[3]===1));assert.equal(m.state.writes.nokins.length,0);assert.equal(m.state.writes.trinka.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('stale scene objects and Home power-on resolve the latest persisted custom revision',async()=>{
+ const b=boot();b.run('editScene(sceneById("haunted"));saveDesignerScene(true);globalThis.oldSceneObject=sceneById(editingSceneId);draft.canopy.color="#abcdef";saveDesignerScene();SmartEaseStudio.applyScene=async scene=>{globalThis.appliedRevisionScene=scene;return {complete:true,results:[]};}');
+ await b.run('applyScene(oldSceneObject)');assert.equal(b.run('appliedRevisionScene.revision'),2);assert.equal(b.run('appliedRevisionScene.rows.canopy.color'),'#abcdef');b.run('activeScene=oldSceneObject;powered=false');await b.w.document.getElementById('cartPower').onclick();assert.equal(b.run('appliedRevisionScene.revision'),2);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('complete-build import validates locally and an older slow import cannot overwrite newer edits',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b),input=b.w.document.getElementById('studioImport');const snapshot=JSON.parse(b.run('JSON.stringify(studioCurrentScene())'));snapshot.name='Imported complete build';snapshot.composition.nokins.effect=233;
+ const json=JSON.stringify({format:'smartease-complete-scene',version:1,scene:snapshot});let release;Object.defineProperty(input,'files',{configurable:true,value:[{size:json.length,text:()=>new Promise(resolve=>{release=resolve;})}]});const pending=input.onchange();b.w.document.getElementById('sceneName').value='Newer local edit';b.w.document.getElementById('sceneName').dispatchEvent(new b.w.Event('input',{bubbles:true}));release(json);assert.equal(await pending,false);assert.equal(b.w.document.getElementById('sceneName').value,'Newer local edit');
+ Object.defineProperty(input,'files',{configurable:true,value:[{size:json.length,text:async()=>json}]});assert.equal(await input.onchange(),true);assert.equal(b.w.document.getElementById('sceneName').value,'Imported complete build');assert.equal(b.run('editingSceneId'),null);assert.equal(b.run('czState.scenes.length'),0);assert.equal(m.state.requests.length,0);assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});assert.equal(b.run('!!saveDesignerScene()'),true);assert.match(b.run('editingSceneId'),/^cart-/);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('whole-cart partial failure and cancellation never report all included devices complete',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioParked').checked=true;b.run('cartDevices[0].apply=async()=>false');
+ const failed=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(failed.complete,false);assert.equal(failed.results[0].status,'failed');assert.equal(failed.results[1].status,'submitted');assert.equal(failed.results[2].status,'unsupported');
+ let release;b.w.holdSP=new Promise(resolve=>{release=resolve;});b.run('cartDevices[0].apply=async(rows,guard)=>{await holdSP;return guard();}');const pending=b.w.document.getElementById('studioApplyAll').onclick();await Promise.resolve();b.w.document.getElementById('studioStop').onclick();release();const stopped=await pending;assert.equal(stopped.complete,false);assert.equal(stopped.results.some(r=>r.status==='cancelled'),true);assert.match(b.w.document.getElementById('studioResults').textContent,/incomplete/);assert.equal(m.state.writes.trinka.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
 });

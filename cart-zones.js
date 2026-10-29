@@ -72,12 +72,12 @@ function czValidScene(raw){
  const rows=Object.fromEntries(CZ_DEFS.map(z=>[z.id,czRowFromAny(raw.rows,z.id)]));
  // Preserve the optional whole-cart design alongside the original five-zone rows.
  // This is browser scene metadata, never an unsupported firmware save.
- const scene={id:String(raw.id||Date.now()).slice(0,50),name:raw.name.trim().slice(0,40)||'Cart scene',rows};
+ const scene={...JSON.parse(JSON.stringify(raw)),id:String(raw.id||Date.now()).slice(0,50),name:raw.name.trim().slice(0,40)||'Cart scene',rows,revision:Number.isInteger(raw.revision)&&raw.revision>0?raw.revision:1};
  if(raw.accessories&&typeof raw.accessories==='object'){
   const n=raw.accessories.nokins||{},t=raw.accessories.trinka||{};
   const color=(value,fallback)=>typeof value==='string'&&/^#[a-f0-9]{6}$/i.test(value)?value:fallback;
   const percent=(value,fallback)=>Number.isFinite(value)?Math.max(0,Math.min(100,Math.round(value))):fallback;
-  scene.accessories={nokins:{on:n.on!==false,follow:n.follow==='custom'?'custom':'front',color:color(n.color,rows['front-bumper'].color),brightness:percent(n.brightness,45)},trinka:{on:t.on!==false,pattern:['devil','blink','sleep'].includes(t.pattern)?t.pattern:'devil',color:color(t.color,rows['front-bumper'].color),brightness:percent(t.brightness,70)}};
+  scene.accessories={...raw.accessories,nokins:{...n,on:n.on!==false,follow:n.follow==='custom'?'custom':'front',color:color(n.color,rows['front-bumper'].color),brightness:percent(n.brightness,45)},trinka:{...t,on:t.on!==false,pattern:['devil','blink','sleep'].includes(t.pattern)?t.pattern:'devil',color:color(t.color,rows['front-bumper'].color),brightness:percent(t.brightness,70)}};
  }
  return scene;
 }
@@ -359,7 +359,7 @@ function czSaveDraft(){
  if(czState.scenes.length>=24){czStatus('The local scene list is full (24). Delete an old scene first.',true);return;}
  const scene={id:'cz-'+Date.now()+'-'+Math.floor(Math.random()*1e6),name,rows:Object.fromEntries(CZ_DEFS.map(z=>[z.id,{...czState.draft[z.id]}]))};
  czState.scenes.push(scene);czState.draftName=name;
- if(!czSave())return;
+ if(!czSave()){czState.scenes.pop();return;}
  czRenderSaved();
  czStatus('Saved '+name+' locally on this phone. It will follow your cart zone mapping; it was not uploaded into SP608E memory.');
 }
@@ -377,6 +377,7 @@ function czRenderSaved(){
   left.append(name,sub);
   const actions=document.createElement('div');actions.className='cz-saved-ops';
   const load=document.createElement('button');load.type='button';load.className='button';load.textContent='Edit';load.onclick=()=>{
+   if(typeof editScene==='function'){editScene(scene);return;}
    czState.draft=Object.fromEntries(CZ_DEFS.map(z=>[z.id,czValidRow(scene.rows[z.id])]));
    czState.draftName=scene.name;czId('czDraftName').value=scene.name;
    czSave();czRenderSceneRows();czRenderMap();czStatus('Loaded '+scene.name+' for editing. No Bluetooth commands sent.');
@@ -385,8 +386,8 @@ function czRenderSaved(){
   const play=document.createElement('button');play.type='button';play.className='button primary';play.textContent='Apply';play.onclick=()=>czApplySceneRows(scene.rows,scene.name);
   const del=document.createElement('button');del.type='button';del.className='button danger';del.textContent='Delete';del.onclick=()=>{
    if(!confirm('Delete local scene "'+scene.name+'"? This will NOT touch the SP608E.'))return;
-   czState.scenes=czState.scenes.filter(s=>s.id!==scene.id);
-   czSave();czRenderSaved();czStatus('Deleted local scene '+scene.name+'.');
+   const previous=czState.scenes;czState.scenes=czState.scenes.filter(s=>s.id!==scene.id);
+   if(!czSave()){czState.scenes=previous;return;}czRenderSaved();czStatus('Deleted local scene '+scene.name+'.');
   };
   actions.append(load,play,del);item.append(left,actions);host.append(item);
  }

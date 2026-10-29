@@ -124,12 +124,14 @@
       Number.isFinite(v) ? Math.max(0, Math.min(100, Math.round(v))) : fallback;
     return {
       nokins: {
+        ...n,
         on: n.on !== false,
         follow: n.follow === "custom" ? "custom" : "front",
         color: color(n.color) ? n.color : front.color,
         brightness: percent(n.brightness, front.brightness),
       },
       trinka: {
+        ...t,
         on: t.on !== false,
         pattern: ["devil", "blink", "sleep"].includes(t.pattern)
           ? t.pattern

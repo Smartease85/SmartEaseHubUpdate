@@ -1,5 +1,5 @@
 /* Complete releases cache atomically. An update never interrupts a live BLE session. */
-const CACHE_NAME = "smartease-cart-lights-v24";
+const CACHE_NAME = "smartease-cart-lights-v25";
 const ASSETS = [
   "./index.html",
   "./cart-zones.js",
@@ -15,6 +15,7 @@ const ASSETS = [
   "./coolledux-protocol.js",
   "./coolledux-workspace.js",
   "./app.js",
+  "./cart-studio.js",
   "./display-project.js",
   "./coolled-protocol.js",
   "./display-editor.js",

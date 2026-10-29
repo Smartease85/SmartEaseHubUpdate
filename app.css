@@ -1676,3 +1676,11 @@ body > .nav {
 #app #calVerifyG{border-color:#48e69277}
 #app #calVerifyB{border-color:#5d98ff77}
 @media(max-width:420px){#app .cal-verify .row-actions{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* One visible authoring journey, including disconnected editing. */
+#cartStudio>section{margin-top:20px;padding-top:18px;border-top:1px solid var(--line,#24443e)}
+#studioTabs{margin:18px 0;flex-wrap:wrap}
+#studioTabs [aria-pressed="true"]{outline:2px solid #49e3d2;background:#173b35}
+#studioResults p,#homeStudioResults p{overflow-wrap:anywhere}
+#sceneSaveStatus[data-error="true"]{color:#ffb6a9;border-left:3px solid #ff8870;padding-left:12px}
+#cartStudio details{margin:16px 0}
+#cartStudio textarea,#cartStudio .display-settings{max-width:100%;min-width:0}

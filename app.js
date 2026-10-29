@@ -70,6 +70,7 @@ let editingSceneId = null,
   cartView = "front",
   draftAccessories = E.accessories(null, draft["front-bumper"]),
   previewAccessories = E.accessories(null, previewRows["front-bumper"]);
+let draftComposition=null;
 const icons = {
   home: '<path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/>',
   scenes:
@@ -316,14 +317,15 @@ app.addEventListener("click", (event) => {
 function savedScenes() {
   return czState.scenes.map((s) => ({
     ...s,
-    category: "Saved",
+    category: E.presets.find(p=>p.id===s.id)?.category||"Saved",
     palette: [s.rows["front-bumper"].color, s.rows["rear-bumper"].color],
     caption: "Made by you · saved here",
     saved: true,
   }));
 }
+function allSceneVersions(){const saved=savedScenes();return [...E.presets.map(s=>saved.find(x=>x.id===s.id)||s),...saved.filter(s=>!E.presets.some(p=>p.id===s.id))];}
 function sceneById(id) {
-  return [...E.presets, ...savedScenes()].find((s) => s.id === id);
+  return savedScenes().find(s=>s.id===id)||E.presets.find(s=>s.id===id);
 }
 /* A tap still plays the scene. Holding for 550 ms opens the same editor
    as the accessible pencil button, with movement cancellation for scrolling. */
@@ -413,11 +415,11 @@ function sceneTile(scene) {
     del.setAttribute("aria-label", "Delete " + scene.name);
     del.onclick = () => {
       if (confirm("Delete “" + scene.name + "” from this browser?")) {
-        czState.scenes = czState.scenes.filter((s) => s.id !== scene.id);
+        const previousScenes=czState.scenes;czState.scenes = czState.scenes.filter((s) => s.id !== scene.id);
+        if(!czSave()){czState.scenes=previousScenes;sceneSaveMessage("Could not delete the saved scene; the previous library is retained.",true);toast("Scene could not be deleted. Your saved library is unchanged.");return;}
         preferences.favorites = preferences.favorites.filter(
           (id) => id !== scene.id,
         );
-        czSave();
         persist();
         renderScenesUI();
         czRenderSaved();
@@ -454,8 +456,8 @@ function renderScenesUI() {
   if (!ui("favoriteScenes").children.length)
     ui("favoriteScenes").innerHTML =
       '<div class="empty-state">Tap ☆ on any scene to make it a favorite.</div>';
-  const all = [...E.presets, ...savedScenes()].filter(
-    (s) => filter === "All" || s.category === filter,
+  const all = allSceneVersions().filter(
+    (s) => filter === "All" || (filter==="Saved"?s.saved:s.category === filter),
   );
   ui("allScenes").replaceChildren(...all.map(sceneTile));
   if (!all.length)
@@ -630,6 +632,7 @@ function gradientStopLive(){
  ui("playState").textContent="GRADIENT STOPPED · LAST COLORS REMAIN";
 }
 function showPreview(scene) {
+  window.SmartEaseStudio?.preview(scene);
   activeScene = scene;
   previewRows = structuredClone(scene.rows);
   previewAccessories = E.accessories(
@@ -645,7 +648,9 @@ function showPreview(scene) {
   renderScenesUI();
 }
 async function chooseScene(scene) {
+  scene=sceneById(scene.id)||scene;
   showPreview(E.forPlayback(scene, preferences.trueColors));
+  if(scene.composition&&window.SmartEaseStudio)return applyScene(scene);
   if (!hasSceneTarget()) {
     toast("Preview ready. Connect your cart to play it on your lights.");
     return;
@@ -658,12 +663,14 @@ function hasSceneTarget() {
   );
 }
 async function applyScene(scene) {
+  scene=sceneById(scene.id)||scene;
+  if(scene.composition&&window.SmartEaseStudio){const result=await SmartEaseStudio.applyScene(scene);return result.complete;}
   if (!hasSceneTarget()) {
     toast("Connect your cart lighting first.");
     go("devices");
     return false;
   }
-  if (applying) {
+  if (applying || window.SmartEaseStudio?.applying) {
     toast("Finishing your last scene. You can stop it with the power button.");
     return false;
   }
@@ -717,6 +724,7 @@ async function applyScene(scene) {
   }
 }
 function cancelPlayback() {
+  window.SmartEaseStudio?.stop();
   applyGeneration++;
   applying = false;
   liveToken++;
@@ -1583,17 +1591,18 @@ ui("syncCart").onclick = async () => {
   toast(ok ? "Refreshing your lights." : "Connect your cart first.");
 };
 ui("cartPower").onclick = () =>
-  powered || applying || liveName
+  powered || applying || liveName || window.SmartEaseStudio?.applying
     ? lightsOff()
-    : applyScene(activeScene || E.presets[1]);
+    : applyScene(sceneById(activeScene?.id)||activeScene||sceneById(E.presets[1].id));
 ui("featureHauntedPlay").onclick = () => {
-  showPreview(E.presets[0]);
+  if(sceneById(E.presets[0].id)?.saved)return chooseScene(sceneById(E.presets[0].id));
+  showPreview(sceneById(E.presets[0].id));
   ui("liveDialog").showModal();
 };
 ui("startLive").onclick = startHauntedFlow;
 ui("startTwinkle").onclick = () => {
   ui("liveDialog").close();
-  applyScene(E.presets[0]);
+  applyScene(sceneById(E.presets[0].id));
 };
 ui("cancelLive").onclick = () => ui("liveDialog").close();
 ui("stopShow").onclick = () => {
@@ -1687,63 +1696,48 @@ ui("applyDesign").onclick = () => {
   showPreview(scene);
   applyScene(scene);
 };
-ui("saveDesign").onclick = () => {
-  if (!editingSceneId && czState.scenes.length >= 24) {
-    toast("You have 24 saved scenes. Delete one in My scenes to make room.");
-    return;
-  }
-  const scene = {
-    id: editingSceneId || "cart-" + Date.now(),
-    custom: true,
-    name: ui("sceneName").value.trim() || "My evening glow",
-    rows: E.validateRows(draft),
-    accessories: E.accessories(draftAccessories, draft["front-bumper"]),
-  };
-  const previous = structuredClone(czState.scenes);
-  const index = czState.scenes.findIndex((item) => item.id === scene.id);
-  if (index >= 0) czState.scenes[index] = scene;
-  else czState.scenes.push(scene);
-  if (!czSave()) {
-    czState.scenes = previous;
-    return;
-  }
-  editingSceneId = scene.id;
-  if (!preferences.favorites.includes(scene.id))
-    preferences.favorites.push(scene.id);
-  persist();
-  czRenderSaved();
-  renderScenesUI();
-  ui("saveDesign").textContent = "Save changes ♡";
-  toast("Your whole-cart design is saved here.");
-};
-function editScene(scene) {
-  // Factory presets are immutable. A long-press edits a new personal copy,
-  // while saved scenes keep their ID and get updated in place.
-  const builtIn=E.presets.some(item=>item.id===scene.id);
-  editingSceneId=builtIn?null:scene.id;
-  designerPaletteSelection="front-bumper";
-  draft = E.validateRows(scene.rows);
-  draftAccessories = E.accessories(scene.accessories, draft["front-bumper"]);
-  ui("sceneName").value = builtIn ? ("My "+scene.name).slice(0,40) : scene.name;
-  ui("designerIntro").textContent=builtIn
-   ?"Mix the colors and save your own version. The original "+scene.name+" remains unchanged."
-   :"Adjust this saved scene, test on the cart, then Save changes to keep your edits.";
-  ui("gradientFront").value = draft["front-bumper"].color;
-  ui("gradientRear").value = draft["rear-bumper"].color;
-  ui("designerEffect").value = String(draft["front-bumper"].effect);
-  ui("designerBrightness").value = draft["front-bumper"].brightness;
-  ui("designerBrightnessValue").textContent =
-    draft["front-bumper"].brightness + "%";
-  ui("designerSpeed").value = draft["front-bumper"].speed;
-  ui("designerSpeedValue").textContent = draft["front-bumper"].speed;
-  ui("saveDesign").textContent = builtIn ? "Save my version ♡" : "Save changes ♡";
-  go("create");
+function saveDesignerScene(copy=false){
+  sceneDraftEpoch++;
+  clearTimeout(sceneDraftTimer);
+  if((copy||!czState.scenes.some(s=>s.id===editingSceneId))&&czState.scenes.length>=24){sceneSaveMessage("Your library has 24 saved scenes. Export or delete one before adding another.",true);return false;}
+  let scene;
+  try{
+    const previousScene=copy?null:sceneById(editingSceneId);
+    scene={...(previousScene||{}),id:!copy&&editingSceneId||"cart-"+(globalThis.crypto?.randomUUID?.()||Date.now()+"-"+Math.random().toString(36).slice(2)),revision:copy?1:(previousScene?.revision||0)+1,custom:true,name:ui("sceneName").value.trim()||"My evening glow",rows:E.validateRows(draft),accessories:E.accessories(draftAccessories,draft["front-bumper"])};
+    const composition=window.SmartEaseStudio?.capture()||draftComposition;if(composition)scene.composition=structuredClone(composition);
+  }catch(error){sceneSaveMessage(error.message,true);return false;}
+  const previous=structuredClone(czState.scenes),index=czState.scenes.findIndex(s=>s.id===scene.id);
+  if(index>=0)czState.scenes[index]=scene;else czState.scenes.push(scene);
+  if(!czSave()){czState.scenes=previous;sceneSaveMessage("Could not save. Your edits are still open. Export the draft before closing, free browser storage, then try Save again.",true);return false;}
+  editingSceneId=scene.id;draftComposition=scene.composition?structuredClone(scene.composition):null;
+  sceneDraftDirty=false;
+  if(!preferences.favorites.includes(scene.id))preferences.favorites.push(scene.id);
+  preferences.lastSceneId=scene.id;const preferencesSaved=persist();czRenderSaved();renderScenesUI();showPreview(sceneById(scene.id));
+  ui("saveDesign").textContent="Save changes";
+  sceneSaveMessage("Saved “"+scene.name+"” · revision "+scene.revision+". Reopening and playback use this version."+(preferencesSaved?"":" Scene saved, but favorites could not be saved."));
+  try{localStorage.removeItem("smartease-scene-draft-v1");}catch{}
+  return scene;
+}
+ui("saveDesign").onclick=()=>saveDesignerScene(false);
+function editScene(scene){
+  sceneDraftEpoch++;
+  if(sceneDraftDirty){rememberSceneDraft();sceneDraftDirty=false;}
+  scene=sceneById(scene.id)||scene;editingSceneId=scene.id;draftComposition=scene.composition?structuredClone(scene.composition):null;
+  designerPaletteSelection="front-bumper";draft=E.validateRows(scene.rows);draftAccessories=E.accessories(scene.accessories,draft["front-bumper"]);
+  ui("sceneName").value=scene.name;ui("designerIntro").textContent="Save changes updates this scene everywhere. Save a copy makes a separate scene.";
+  ui("gradientFront").value=draft["front-bumper"].color;ui("gradientRear").value=draft["rear-bumper"].color;
+  ui("designerEffect").value=String(draft["front-bumper"].effect);ui("designerBrightness").value=draft["front-bumper"].brightness;ui("designerBrightnessValue").textContent=draft["front-bumper"].brightness+"%";
+  ui("designerSpeed").value=draft["front-bumper"].speed;ui("designerSpeedValue").textContent=draft["front-bumper"].speed;ui("saveDesign").textContent="Save changes";
+  window.SmartEaseStudio?.load(scene.composition);go("create");
 }
 const newDesign = document.createElement("button");
 newDesign.className = "secondary";
 newDesign.textContent = "＋ New design";
 newDesign.onclick = () => {
+  sceneDraftEpoch++;
+  if(sceneDraftDirty){rememberSceneDraft();sceneDraftDirty=false;}
   editingSceneId = null;
+  draftComposition=null;window.SmartEaseStudio?.load(null);
   designerPaletteSelection="front-bumper";
   ui("designerIntro").textContent="Mix your own colors, test them, then save a scene that uses them.";
   draft = E.rows();
@@ -2314,3 +2308,20 @@ for (const id of [
 ])
   ui(id).addEventListener("input", editAccessory);
 renderAccessoryEditor();
+
+// Persistent, visible save feedback and a recoverable authoring draft.
+const sceneSavePanel=document.createElement("section");sceneSavePanel.className="card";
+let sceneDraftTimer=null,sceneDraftDirty=false,sceneDraftEpoch=0;
+sceneSavePanel.innerHTML=`<p id="sceneSaveStatus" class="inline-status" role="status">Save changes keeps this scene's identity. Save a copy creates a new scene.</p><div class="row-actions"><button class="secondary" id="saveDesignCopy" type="button">Save a copy</button><button class="secondary" id="exportSceneDraft" type="button">Export current draft</button><button class="secondary" id="recoverSceneDraft" type="button">Recover unsaved draft</button></div>`;
+ui("saveDesign").parentElement.after(sceneSavePanel);
+function sceneSaveMessage(message,error=false){ui("sceneSaveStatus").textContent=message;ui("sceneSaveStatus").dataset.error=String(error);}
+function sceneDraftSnapshot(){return {format:"smartease-scene-draft",version:1,editingSceneId,name:ui("sceneName").value,rows:structuredClone(draft),accessories:structuredClone(draftAccessories),composition:window.SmartEaseStudio?.captureDraft?.()||draftComposition};}
+function exportCurrentSceneDraft(){const url=URL.createObjectURL(new Blob([JSON.stringify(sceneDraftSnapshot(),null,2)],{type:"application/json"})),link=document.createElement("a");link.href=url;link.download="smartease-scene-draft.json";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+ui("saveDesignCopy").onclick=()=>saveDesignerScene(true);ui("exportSceneDraft").onclick=exportCurrentSceneDraft;
+function rememberSceneDraft(){clearTimeout(sceneDraftTimer);sceneDraftDirty=true;try{localStorage.setItem("smartease-scene-draft-v1",JSON.stringify(sceneDraftSnapshot()));sceneSaveMessage("Unsaved edits. Save changes to keep this revision, or export your draft.");}catch{sceneSaveMessage("Unsaved edits remain open, but browser storage failed. Export the draft before closing.",true);}}
+function scheduleSceneDraft(){sceneDraftEpoch++;clearTimeout(sceneDraftTimer);sceneDraftDirty=true;sceneSaveMessage("Unsaved edits. Save changes to keep this revision.");sceneDraftTimer=setTimeout(rememberSceneDraft,120);}
+ui("recoverSceneDraft").onclick=()=>{sceneDraftEpoch++;try{const saved=JSON.parse(localStorage.getItem("smartease-scene-draft-v1")||"null");if(saved?.format!=="smartease-scene-draft"||saved.version!==1)throw Error("No recoverable draft was found.");draft=E.validateRows(saved.rows);draftAccessories=E.accessories(saved.accessories,draft["front-bumper"]);draftComposition=saved.composition||null;editingSceneId=typeof saved.editingSceneId==="string"?saved.editingSceneId:null;ui("sceneName").value=saved.name||"Recovered scene";window.SmartEaseStudio?.load(saved.composition);go("create");sceneSaveMessage("Draft recovered. Save changes or Save a copy to keep it.");}catch(error){sceneSaveMessage(error.message,true);}};
+document.querySelector('[data-page="create"]').addEventListener("input",event=>{if(event.target.type!=="file")scheduleSceneDraft();});
+document.querySelector('[data-page="create"]').addEventListener("change",event=>{if(event.target.type!=="file")scheduleSceneDraft();});
+window.addEventListener("pagehide",()=>{if(sceneDraftDirty)rememberSceneDraft();});
+if(preferences.lastSceneId&&sceneById(preferences.lastSceneId))showPreview(sceneById(preferences.lastSceneId));
