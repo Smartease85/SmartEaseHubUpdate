@@ -1550,3 +1550,13 @@ test('Advanced saved complete-scene Apply uses shared coordination and exposes a
  b.run('cartDevices[0].apply=async(rows,guard)=>guard();const advancedScene=studioCurrentScene();advancedScene.id="cart-advanced";advancedScene.name="Advanced complete";czState.scenes.push(advancedScene);czRenderSaved();');
  const apply=[...b.w.document.querySelectorAll('#czSavedScenes button')].find(button=>button.textContent==='Apply');assert.equal(await apply.onclick(),false);assert.equal(b.w.document.querySelector('[data-page="home"]').hidden,false);assert.ok(m.state.writes.nokins.some(p=>p[2]===3&&p[3]===233));assert.equal(m.state.writes.trinka.length,0);assert.match(b.w.document.getElementById('homeStudioResults').textContent,/unsupported/);assert.match(b.w.document.getElementById('homeStudioResults').textContent,/incomplete/);assert.equal(b.errors.length,0);b.dom.window.close();
 });
+
+test('Stop during the final real SP transport write remains cancelled after GATT resolves',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("sp608e",{toggle:false})');
+ b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioSPMode').value='outputs';
+ b.run('for(const row of Object.values(studioChannels))row.include=false;studioChannels[1].include=true;studioChannels[1].on=false;studioRenderPort()');
+ let started,release;const entered=new Promise(resolve=>{started=resolve;});m.chars.sp608e.writer.writeValueWithResponse=bytes=>{m.state.writes.sp608e.push(Array.from(bytes));started();return new Promise(resolve=>{release=resolve;});};
+ const pending=b.w.document.getElementById('studioApplySP').onclick();await entered;assert.equal(m.state.writes.sp608e.length,1,'only the final power-off packet is pending');
+ b.w.document.getElementById('studioStop').onclick();const stoppedResults=b.w.document.getElementById('studioResults').textContent,stoppedHome=b.w.document.getElementById('homeStudioResults').textContent,stoppedState=b.w.document.getElementById('playState').textContent;
+ release();const result=await pending;assert.equal(result.complete,false);assert.equal(result.cancelled,true);assert.equal(result.results[0].status,'cancelled');assert.equal(b.w.document.getElementById('studioResults').textContent,stoppedResults);assert.equal(b.w.document.getElementById('homeStudioResults').textContent,stoppedHome);assert.equal(b.w.document.getElementById('playState').textContent,stoppedState);assert.match(stoppedState,/CANCELLED/);assert.equal(b.run('applying'),false);assert.equal(b.errors.length,0);b.dom.window.close();
+});

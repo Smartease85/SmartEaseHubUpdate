@@ -111,11 +111,17 @@ async function studioApplyScene(scene,only=null){
    if(!guard()){results.push({id,status:"cancelled",detail:"Apply stopped; earlier submitted changes can remain."});continue;}
    if(id==="trinka"){results.push({id,status:"unsupported",detail:"Project saved and previewable locally. UX upload requires a verified fragmentation/ATT-capacity path; no display command sent."});continue;}
    const adapter=cartDevices.find(a=>a.id===id);if(!adapter.connected){results.push({id,status:"disconnected",detail:"Draft retained. Connect this device and Apply again."});continue;}
-   try{const ok=id==="sp608e"?await studioApplySP(item,rows,()=>guard()&&bleSession===spSession):await studioApplyN(item,rows,()=>guard()&&cartDevices[2].ownerLink.generation===nGeneration);results.push({id,status:ok?"submitted":"failed",detail:ok?"Commands submitted, not physical acknowledgement.":"Command sequence stopped or failed; partial changes may remain."});}catch(error){results.push({id,status:"failed",detail:error.message});}
-   studioReport(results,true);
+   const deviceGuard=()=>guard()&&(id==="sp608e"?bleSession===spSession:cartDevices[2].ownerLink.generation===nGeneration);
+   try{
+    const ok=id==="sp608e"?await studioApplySP(item,rows,deviceGuard):await studioApplyN(item,rows,deviceGuard);
+    if(!deviceGuard())results.push({id,status:"cancelled",detail:"Apply was cancelled or its connection changed during submission. An in-flight write may have completed."});
+    else results.push({id,status:ok?"submitted":"failed",detail:ok?"Commands submitted, not physical acknowledgement.":"Command sequence stopped or failed; partial changes may remain."});
+   }catch(error){results.push({id,status:guard()?"failed":"cancelled",detail:guard()?error.message:"Apply cancelled during an in-flight operation; earlier changes may remain."});}
+   if(guard())studioReport(results,true);
   }
+  if(!guard())return {complete:false,cancelled:true,results};
   studioReport(results);if(results.some(r=>r.status==="submitted"))powered=results.some(r=>r.status==="submitted"&&(r.id==="sp608e"?(state.sp608e.mode==="zones"?Object.values(rows).some(x=>x.on):Object.values(state.sp608e.channels).some(x=>x.include&&x.on)):state.nokins.kind!=="off"));const complete=results.length>0&&results.every(r=>["excluded","submitted"].includes(r.status))&&results.some(r=>r.status==="submitted");ui("playState").textContent=complete?"INCLUDED COMMANDS SUBMITTED":"WHOLE-CART SCENE INCOMPLETE";updateHeader();return {complete,results};
- }finally{studioApplying=false;if(playbackGeneration===applyGeneration)applying=false;updateHeader();}
+ }finally{studioApplying=false;if(playbackGeneration===applyGeneration){applying=false;updateHeader();}}
 }
 function studioCurrentScene(){return {id:"draft",sourceSceneId:editingSceneId,name:ui("sceneName").value||"Current build",custom:true,rows:E.validateRows(draft),accessories:E.accessories(draftAccessories,draft["front-bumper"]),composition:studioCapture()};}
 window.SmartEaseStudio={open:studioOpen,load:studioLoad,enter:()=>{studioOwnsDisplay=true;},capture:studioCapture,captureDraft:studioCaptureDraft,validate:studioValidate,applyScene:studioApplyScene,preview:studioPreview,get ownsDisplay(){return studioOwnsDisplay;},get applying(){return studioApplying;},stop:()=>{studioEpoch++;cartDevices[2].cancelOwner();}};
@@ -125,7 +131,7 @@ for(const input of ui("studioSP").querySelectorAll('[id^="studioPort"]'))if(inpu
 const applyDraft=only=>{try{const scene=studioCurrentScene();showPreview(scene);return studioApplyScene(scene,only);}catch(error){sceneSaveMessage(error.message,true);return Promise.resolve({complete:false,results:[]});}};
 ui("studioApplySP").onclick=()=>applyDraft("sp608e");ui("studioApplyN").onclick=()=>applyDraft("nokins");ui("studioApplyAll").onclick=()=>applyDraft(null);
 ui("applyDesign").onclick=()=>{try{const scene=studioCurrentScene();showPreview(scene);return studioApplyScene(scene);}catch(error){sceneSaveMessage(error.message,true);return Promise.resolve({complete:false,results:[]});}};
-ui("studioStop").onclick=()=>{SmartEaseStudio.stop();studioReport([{id:"sp608e",status:"cancelled",detail:"No further queued scene commands; an in-flight write cannot be recalled."},{id:"nokins",status:"cancelled",detail:"Partial changes may remain. Reconnect if command outcome is uncertain."},{id:"trinka",status:"unsupported",detail:"No upload was sent."}]);};
+ui("studioStop").onclick=()=>{SmartEaseStudio.stop();applying=false;ui("playState").textContent="APPLY CANCELLED — EARLIER CHANGES MAY REMAIN";studioReport([{id:"sp608e",status:"cancelled",detail:"No further queued scene commands; an in-flight write cannot be recalled."},{id:"nokins",status:"cancelled",detail:"Partial changes may remain. Reconnect if command outcome is uncertain."},{id:"trinka",status:"unsupported",detail:"No upload was sent."}]);updateHeader();};
 ui("studioExport").onclick=()=>{try{const data=studioCurrentScene(),url=URL.createObjectURL(new Blob([JSON.stringify({format:"smartease-complete-scene",version:1,scene:data},null,2)],{type:"application/json"})),a=document.createElement("a");a.href=url;a.download="smartease-complete-scene.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){sceneSaveMessage(error.message,true);}};
 studioImport.onchange=async()=>{
  const file=studioImport.files?.[0];if(!file)return;const token=++studioImportEpoch,epoch=sceneDraftEpoch;
