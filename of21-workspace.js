@@ -1,4 +1,5 @@
-/* OF21 source-derived ordinary controls; bulk/configuration remain gated. */
+/* OF21 source-derived ordinary controls and synthetic offline examples.
+ * Explicit native configuration/pattern workflows live in of21-native.js. */
 "use strict";
 const of21Workspace=document.createElement("section");of21Workspace.className="ux-workspace";
 of21Workspace.innerHTML=`<details><summary>MELK-OF21 native preparation (offline)</summary>
@@ -14,8 +15,9 @@ function of21Render(){
  ui("of21Status").textContent=ready?"MELK-OF21 selected. Offline examples are available; physical acceptance remains outstanding.":"Select the exact MELK-OF21 device first. OA10 and unknown models cannot use this encoder.";
  if(!adapter.connected&&ui("of21Parked"))ui("of21Parked").checked=false;
  if(ui("of21LiveStatus")){
-  ui("of21LiveStatus").textContent=adapter.profile==="melk-of21"&&adapter.connected?(adapter.controlReady?"Connected. Source-derived ordinary controls ready; check the real lights while parked.":"Connected, but writable FFF3 is unavailable. Inspect browser Bluetooth permissions."):"Connect your exact MELK-OF21 above to use ordinary controls.";
-  ui("of21Nodes").textContent=adapter.of21.totalNodes?"Reported total LED nodes: "+adapter.of21.totalNodes+". This is partial readback; bulk upload remains gated.":"Total LED count has not been read. Bulk upload remains gated.";
+  ui("of21LiveStatus").textContent=adapter.profile==="melk-of21"&&adapter.connected?(adapter.controlReady?"Connected. Source-derived controls ready; check the real lights while parked.":adapter.ownerUncertainGeneration===adapter.ownerLink.generation?"Connected, but the last command outcome is uncertain. Disconnect and reconnect before sending more commands.":"Connected, but writable FFF3 is unavailable. Inspect browser Bluetooth permissions."):"Connect your exact MELK-OF21 above to use ordinary controls.";
+  const current=adapter.connected&&adapter.of21.geometryGeneration===adapter.ownerLink.generation;
+  ui("of21Nodes").textContent=current&&adapter.of21.totalNodes?"Reported total LED nodes: "+adapter.of21.totalNodes+". Partial readback from this connection; DIY still requires an explicit send action.":"Total LED count is unknown on this connection. Read it before sending a DIY pattern.";
   for(const button of of21Live.querySelectorAll("button"))button.disabled=of21Busy||adapter.profile!=="melk-of21"||!adapter.controlReady||!ui("of21Parked").checked||document.visibilityState!=="visible";
  }
 }
@@ -41,7 +43,7 @@ const of21Live=document.createElement("div");of21Live.innerHTML=`<h4>MELK-OF21 o
  <p id="of21Nodes" class="small-note"></p><p id="of21LiveResult" class="inline-status" role="status">Connecting alone sends no lighting commands.</p>`;
 of21Workspace.prepend(of21Live);
 async function of21Run(kind){
- const a=cartDevices[2],guard=()=>a.profile==="melk-of21"&&a.controlReady&&ui("of21Parked").checked&&document.visibilityState==="visible";
+ const a=cartDevices[2],generation=a.ownerLink.generation,picked=a.device,epoch=a.ownerEpoch||0,guard=()=>a.profile==="melk-of21"&&a.controlReady&&a.ownerLink.generation===generation&&a.device===picked&&(a.ownerEpoch||0)===epoch&&ui("of21Parked").checked&&document.visibilityState==="visible";
  if(of21Busy||!guard())return false;
  const percent=id=>{const n=Number(ui(id).value);if(!Number.isInteger(n)||n<0||n>100)throw Error("Brightness and speed must be whole percentages from 0 to 100.");return n;};
  of21Busy=true;of21Render();
@@ -54,13 +56,15 @@ async function of21Run(kind){
   else if(kind==="mic")commands=[{kind:"power",value:true},{kind:"microphone",value:true},{kind:"mic-rhythm",value:Number(ui("of21MicMode").value)}];
   else if(kind==="mic-off")commands=[{kind:"microphone",value:false}];
   else if(kind==="nodes"){
-   a.of21.totalNodes=null;
+   a.of21.totalNodes=null;a.of21.geometryGeneration=null;
    for(let retry=0;retry<3&&guard()&&!a.of21.totalNodes;retry++){if(!await a.ownerCommand("geometry-query",undefined,undefined,guard))break;await sleep(200);}
-   ui("of21LiveResult").textContent=a.of21.totalNodes?"LED count received; this is partial state, not complete device readback.":"No valid LED-count reply after at most three requests. Keep bulk upload disabled.";return !!a.of21.totalNodes;
+   const received=guard()&&a.of21.geometryGeneration===generation&&!!a.of21.totalNodes;
+   ui("of21LiveResult").textContent=received?"LED count received; this is partial state, not complete device readback.":"No valid LED-count reply after at most three requests. Keep bulk upload disabled.";return !!received;
   }else throw Error("Unknown OF21 action.");
   const ok=await a.ownerCommands(commands,guard);ui("of21LiveResult").textContent=ok?"Commands submitted. Check the physical lights; submission is not state acknowledgement.":"Operation stopped or failed. Check the device connection.";return !!ok;
  }catch(error){ui("of21LiveResult").textContent=error.message;return false;}finally{of21Busy=false;of21Render();}
 }
 of21Live.addEventListener("click",event=>{const kind=event.target.dataset.of21;if(kind)of21Run(kind);});
 ui("of21Parked").onchange=of21Render;
+window.addEventListener("smartease-of21-state",of21Render);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")ui("of21Parked").checked=false;of21Render();});of21Render();

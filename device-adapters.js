@@ -209,11 +209,11 @@ class CartSession {
 }
 class OF21OfflineAdapter extends DeviceAdapter {
   constructor(){super("nokins-of21","MELK-OF21 native preparation",{offlineCompile:true,scenes:false,pixelUpload:false,firmwareSave:false});this.identity=null;}
-  select(identity){if(this.identity?.id!==identity?.id)this.totalNodes=null;this.identity=identity&&SmartEaseOF21.profile(identity.name)?{...identity}:null;}
+  select(identity){if(this.identity?.id!==identity?.id){this.totalNodes=null;this.geometryGeneration=null;this.timers={};}this.identity=identity&&SmartEaseOF21.profile(identity.name)?{...identity}:null;}
   get profile(){return SmartEaseOF21.profile(this.identity?.name);}
   prepareCommand(kind,value,options){if(!this.profile)throw Error("Select the exact MELK-OF21 controller first.");return SmartEaseOF21.command(kind,value,options);}
   prepareExamples(color){if(!this.profile)throw Error("Select the exact MELK-OF21 controller first.");return {...SmartEaseOF21.examples(color),selectedDevice:{...this.identity}};}
-  async transmit(){throw Error("OF21 bulk/DIY transmission remains disabled; ordinary controls use their guarded source-derived path.");}
+  async transmit(){throw Error("Offline preparation cannot write. Use the selected OF21 controller's explicit guarded pattern send.");}
 }
 class LotusLampAdapter extends DeviceAdapter {
   constructor() {
@@ -230,7 +230,7 @@ class LotusLampAdapter extends DeviceAdapter {
     this.profile = null;
     this.of21 = new OF21OfflineAdapter();
     this.ownerLink=new SmartEasePairing.MetadataTransport("nokins");
-    this.ownerLink.onNotification=bytes=>{if(this.profile!=="melk-of21")return;const result=SmartEaseOF21.parseGeometry(bytes);if(result){this.of21.totalNodes=result.totalNodes;this.emit();}};
+    this.ownerLink.onNotification=bytes=>this.ownerResponse(bytes);
     this.sceneEnabled = false;
     this.queue = Promise.resolve();
     this.session = 0;
@@ -247,7 +247,7 @@ class LotusLampAdapter extends DeviceAdapter {
       !!this.device?.gatt?.connected && !!this.characteristic && !!this.profile
     );
   }
-  get controlReady(){return this.connected&&(this.profile!=="melk-of21"||!!this.ownerLink.report?.writeMethod);}
+  get controlReady(){return this.connected&&(this.profile!=="melk-of21"||(!!this.ownerLink.report?.writeMethod&&this.ownerUncertainGeneration!==this.ownerLink.generation));}
   get connecting(){return !!this.legacyConnecting||!!this.ownerLink?.connecting;}
   set connecting(value){this.legacyConnecting=!!value;}
   async connectOwner(pickNew=false){
@@ -260,18 +260,73 @@ class LotusLampAdapter extends DeviceAdapter {
     }
   }
   ownerCommands(commands,guard=()=>true){
-    const allowed=["power","rgb-power","color","brightness","speed","effect","scene","microphone","mic-rhythm","geometry-query"];
+    const allowed=["power","rgb-power","color","brightness","speed","effect","scene","microphone","mic-rhythm","sensitivity","geometry-query","point-count","wire-order","collapse","clock"];
     if(this.profile!=="melk-of21"||!this.controlReady)throw Error("Connect the exact OF21 controller with writable FFF3 first.");
     const jobs=commands.map(c=>{if(!allowed.includes(c.kind))throw Error("This OF21 configuration or bulk operation is not enabled.");return SmartEaseOF21.command(c.kind,c.value,c.options);});
-    const generation=this.ownerLink.generation,picked=this.device;
-    const task=this.queue.catch(()=>false).then(async()=>{
-      for(const bytes of jobs){
-        if(!guard()||!this.controlReady||generation!==this.ownerLink.generation||this.device!==picked)return false;
-        try{await this.ownerLink.characteristic[this.ownerLink.report.writeMethod](Uint8Array.from(bytes));}
-        catch(error){this.lastError=error.message;this.emit();return false;}
-        await sleep(100);
-      }return true;
-    });this.queue=task.catch(()=>false);return task;
+    return this.ownerSequence(jobs.map((bytes,index)=>({bytes,delay:100,before:()=>{if(commands[index].kind==="point-count"){this.of21.totalNodes=null;this.of21.geometryGeneration=null;}}})),guard);
+  }
+  ownerResponse(bytes){
+    if(this.profile!=="melk-of21"||!this.ownerLink.connected)return;
+    const result=SmartEaseOF21.parseGeometry(bytes),timer=SmartEaseOF21.parseTimer(bytes);
+    if(result){this.of21.totalNodes=result.totalNodes;this.of21.geometryGeneration=this.ownerLink.generation;}
+    const readWindow=this.ownerTimerWindow;
+    if(timer&&readWindow&&readWindow.epoch===(this.ownerEpoch||0)&&readWindow.generation===this.ownerLink.generation&&readWindow.requested.has(timer.kind)){
+      this.of21.timers??={};this.of21.timers[timer.kind]={...timer,generation:this.ownerLink.generation,readRevision:readWindow.revision,source:"device-returned"};
+    }
+    if(result||timer){this.emit();window.dispatchEvent(new Event("smartease-of21-state"));}
+  }
+  ownerUncertain(generation){
+    if(generation!==this.ownerLink.generation)return;
+    this.ownerUncertainGeneration=generation;this.lastError=this.ownerLink.error="OF21 operation outcome is uncertain. Disconnect and reconnect before sending more commands.";this.emit();
+  }
+  cancelOwner(){this.ownerEpoch=(this.ownerEpoch||0)+1;for(const cancel of [...(this.ownerCancels||[])])cancel();this.ownerTimerWindow=null;}
+  ownerSequence(steps,guard=()=>true,lifecycle={}){
+    if(this.profile!=="melk-of21"||!this.controlReady)throw Error("Connect writable OF21 FFF3 first.");
+    const generation=this.ownerLink.generation,picked=this.device,epoch=this.ownerEpoch||0;
+    let cancelled=false,inFlight=false,stop;
+    const stopped=new Promise(resolve=>{stop=()=>{cancelled=true;if(inFlight)this.ownerUncertain(generation);resolve(false);};});
+    this.ownerCancels??=new Set();this.ownerCancels.add(stop);
+    const valid=()=>!cancelled&&guard()&&this.controlReady&&generation===this.ownerLink.generation&&this.device===picked&&epoch===(this.ownerEpoch||0);
+    const work=this.queue.catch(()=>false).then(async()=>{
+      try{
+      if(!valid())return false;lifecycle.begin?.();
+      for(const step of steps){
+        if(!valid())return false;
+        try{
+          const ch=this.ownerLink.characteristic;
+          step.before?.();
+          if(step.bytes){inFlight=true;await SmartEasePairing.stage(ch[this.ownerLink.report.writeMethod](Uint8Array.from(step.bytes)),"nokins","OF21 command submission");inFlight=false;}
+          if(step.read&&ch.properties?.read&&typeof ch.readValue==="function"){
+            inFlight=true;const value=await SmartEasePairing.stage(ch.readValue(),"nokins","OF21 timer readback");inFlight=false;if(!valid())return false;
+            if(value&&value.byteLength<=1024)this.ownerResponse(Array.from(new Uint8Array(value.buffer,value.byteOffset,value.byteLength)));
+          }
+        }
+        catch(error){inFlight=false;if(generation===this.ownerLink.generation){this.ownerUncertain(generation);this.lastError=SmartEasePairing.describeError(error)+". Reconnect before sending more OF21 commands.";this.emit();}return false;}
+        if(step.delay)await sleep(step.delay);
+      }return !!valid();
+      }finally{lifecycle.end?.();}
+    });
+    // Preserve serialization until a pending GATT call settles or times out,
+    // even when cancellation returns to the UI immediately.
+    this.queue=work.catch(()=>false);const task=Promise.race([work,stopped]);task.finally(()=>this.ownerCancels.delete(stop)).catch(()=>{});return task;
+  }
+  async ownerReadTimers(guard=()=>true){
+    const window={epoch:this.ownerEpoch||0,generation:this.ownerLink.generation,revision:(this.ownerTimerRevision||0)+1,requested:new Set()};this.ownerTimerRevision=window.revision;
+    const ok=await this.ownerSequence([0,1].flatMap(kind=>[{before:()=>window.requested.add(kind),bytes:SmartEaseOF21.command("timer-query",kind),delay:300},{read:true,delay:300}]),guard,{begin:()=>{this.of21.timers={};this.ownerTimerWindow=window;},end:()=>{if(this.ownerTimerWindow===window)this.ownerTimerWindow=null;}});
+    return !!ok&&[0,1].every(kind=>this.of21.timers[kind]?.generation===window.generation&&this.of21.timers[kind]?.readRevision===window.revision);
+  }
+  ownerWriteTimers(edited,guard=()=>true){
+    if(!SmartEaseOF21.validTimer(edited))throw Error("Invalid timer fields.");
+    const current=this.of21.timers;
+    if(![0,1].every(kind=>SmartEaseOF21.validTimer(current?.[kind])&&current[kind].generation===this.ownerLink.generation&&current[kind].readRevision===this.ownerTimerRevision))throw Error("Read both timer slots from this connection first; the other slot must be preserved.");
+    const pair=[0,1].map(kind=>kind===edited.kind?{...edited}:{...current[kind]}),revision=this.ownerTimerRevision;
+    return this.ownerSequence(pair.map(t=>({bytes:SmartEaseOF21.command("timer",t),delay:100})),()=>guard()&&this.ownerTimerRevision===revision,{begin:()=>{this.of21.timers={};}});
+  }
+  ownerUploadDIY(project,guard=()=>true){
+    const reported=this.of21.totalNodes,generation=this.ownerLink.generation;
+    if(this.of21.geometryGeneration!==generation||project.totalNodes!==reported)throw Error("Read matching LED geometry from this connection before upload.");
+    const plan=SmartEaseOF21.diy(project);
+    return this.ownerSequence(plan.packets.map(bytes=>({bytes,delay:75})),()=>guard()&&this.of21.geometryGeneration===generation&&this.of21.totalNodes===reported);
   }
   ownerCommand(kind,value,options,guard){return this.ownerCommands([{kind,value,options}],guard);}
   emit() {
@@ -358,7 +413,7 @@ class LotusLampAdapter extends DeviceAdapter {
   disconnect() {
     // A fresh owner connection has no profile until its async work finishes.
     // Cancel that pending attempt too, before a late chooser/GATT can adopt it.
-    this.ownerLink.disconnect();
+    this.cancelOwner();this.ownerLink.disconnect();
     this.manual = true;
     this.session++;
     clearTimeout(this.timer);

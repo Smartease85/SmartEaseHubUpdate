@@ -12,19 +12,22 @@ encoding is tested; live upload remains gated. The detailed current status, acce
 and smallest missing captures are in [NATIVE_ACCEPTANCE.md](NATIVE_ACCEPTANCE.md).
 Owner identification now establishes CoolLEDUX. Its separate adapter, offline program
 compiler and zero-write preparation workflow are documented in [COOLLEDUX.md](COOLLEDUX.md).
-MELK-OF21 remains distinct while static app/protocol investigation proceeds.
+Exact MELK-OF21 now has source-derived native controls, timer readback and explicit
+configuration/DIY workflows. [LOTUS_OF21.md](LOTUS_OF21.md) documents their gates.
+Owner confirmed all three connections on pinned `2b12451e` (2026-10-29); command
+behavior and custom-upload persistence remain separate acceptance work.
 
 | Feature | SP608E / BanlanX | NOKINS / LotusLamp X | TRINKA Devil Eyes / CoolLED1248 |
 |---|---|---|---|
-| Connection | Working Bluefy BLE | Verified profiles `ELK-BLEDOB`, `MELK-OA10`; unknown models blocked | Discovery and read-only FFF0 inspection, upload blocked |
-| Power, solid color, brightness | Existing advanced and scenes controls | Working color/brightness for verified profiles; power packet limited by profile | Not implemented until exact protocol identified |
-| Native animations | Existing advanced list of 41; speed, direction and supported pixel-length controls | **New:** full 0–212 mode catalog, category selector, speed and brightness **only** on `MELK-OA10` | Not implemented; pixel count and BLE family still unknown |
-| Music reactive | SP608E microphone-sensitive factory effects exposed | Unknown / profile-specific; do not promise | Unknown |
-| Local scene library | Existing saved scenes (Bluefy localStorage) | Follows supported SmartEase accessory color when opt-in | Pixel/text/picture/frame/program studio with local persistence and import/export; no hardware transfer |
+| Connection | Owner confirmed connected on `2b12451e` | Exact MELK-OF21 connected on `2b12451e`; separate legacy adapters retained | Exact CoolLEDUX connected on `2b12451e`; UX upload remains gated |
+| Power, solid color, brightness | Existing advanced and scenes controls | OF21 source-derived ALL power/RGB/brightness; parked controls, hardware acceptance pending | Separate UX offline codec; live commands not enabled |
+| Native animations | Existing advanced list of 41; speed, direction and supported pixel-length controls | OF21 234 effects / 33 scenes, speed and brightness; OA10 retains distinct 213-mode catalog | Owner CoolLEDUX 96 columns x16 rows identified; offline UX compilation/editor, upload gated by transport capacity |
+| Music reactive | SP608E microphone-sensitive factory effects exposed | OF21 mic enable, eight rhythm IDs `0x80–0x87`, sensitivity0–100; no phone FFT streaming | Not enabled |
+| Local scene library | Existing saved scenes (Bluefy localStorage) | Native-shaped static/dynamic patterns, local save/load/delete, preview and explicit guarded send; opted-in SmartEase accessory color retained | Pixel/text/picture/frame/program studio with local persistence and import/export; no hardware transfer |
 | Controller onboard scenes | Existing nine scene recall buttons; writing scene slots unverified | Controller persistence unverified | Image/animation upload and persistence unverified |
 | Whole-cart scenes | Working mapped SP608E five-zone scenes, gradients and calibration; optional NOKINS color-follow | One color-follow only for now; native effect synchronization not validated | Preview only |
-| Timers / triggers | Not implemented; firmware persistence and semantics need tests | Not implemented | Not implemented |
-| Backup / restore | Existing SmartEase browser-settings backup | Profiles/settings included where stored | Read-only protocol report included where stored |
+| Timers / triggers | Not implemented; firmware persistence and semantics need tests | OF21 two-slot query/read-modify-write, Monday–Sunday mask, explicit local clock sync; firing/retention unverified | Not implemented |
+| Backup / restore | Existing SmartEase browser-settings backup | OF21 local library/last requests included; restore never applies configuration | Projects, preset, assignments and read-only protocol report included where stored |
 
 ### Test sequence
 1. **Create a backup** of the working SmartEase configuration before experimenting.

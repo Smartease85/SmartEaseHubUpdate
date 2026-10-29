@@ -47,3 +47,45 @@ test("OF21 total-node query/parser is bounded and does not apply a generic 50-no
  assert.equal(OF.parseGeometry([0x7e,7,0x37,96,0,255,0,0x88,0xef]).totalNodes,96);
  assert.equal(OF.parseGeometry([0x7e,7,0x37,96,0,255,0,0x87,0xef]),null);assert.equal(OF.parseGeometry(Array(1025).fill(0)),null);
 });
+
+test("OF21 two timer slots encode all weekday/enable masks and reject query echoes or malformed responses",()=>{
+ assert.equal(hex(OF.command('timer',{kind:0,hour:7,minute:30,days:31,enabled:true})), '7E0782071E00009FEF');
+ assert.equal(hex(OF.command('timer',{kind:1,hour:22,minute:15,days:96,enabled:true})), '7E0782160F0001E0EF');
+ assert.equal(hex(OF.command('timer',{kind:0,hour:7,minute:30,days:0,enabled:true})), '7E0782071E000080EF');
+ assert.equal(hex(OF.command('timer',{kind:0,hour:7,minute:30,days:31,enabled:false})), '7E0782071E00001FEF');
+ for(let mask=0;mask<256;mask++)for(const kind of [0,1]){
+  const timer={kind,hour:23,minute:59,days:mask&127,enabled:!!(mask&128)},bytes=OF.command('timer',timer);
+  assert.equal(bytes[7],mask);assert.deepEqual(OF.parseTimer(bytes),timer);
+ }
+ for(let day=0;day<7;day++)assert.equal(OF.command('timer',{kind:0,hour:7,minute:30,days:1<<day,enabled:true})[7],0x80|(1<<day));
+ assert.equal(hex(OF.command('timer-query',0)),'7E0782FFFFFF0000EF');assert.equal(hex(OF.command('timer-query',1)),'7E0782FFFFFF0100EF');
+ for(const kind of [0,1])assert.equal(OF.parseTimer(OF.command('timer-query',kind)),null);
+ const valid=OF.command('timer',{kind:0,hour:7,minute:30,days:127,enabled:true});
+ for(const [offset,value] of [[0,0],[1,6],[2,0x37],[3,24],[4,60],[5,255],[6,2],[8,0]]){const bytes=valid.slice();bytes[offset]=value;assert.equal(OF.parseTimer(bytes),null);}
+ assert.equal(OF.parseTimer(valid.slice(0,8)),null);assert.equal(OF.parseTimer([...valid,0]),null);
+ for(const timer of [{kind:2},{hour:24},{minute:60},{days:128},{enabled:1}])assert.throws(()=>OF.command('timer',{kind:0,hour:7,minute:30,days:0,enabled:true,...timer}));
+});
+
+test("OF21 source configuration vectors distinguish order permutations, count bounds, collapse and mic range",()=>{
+ const orders={RGB:[1,2,3],RBG:[1,3,2],GRB:[2,1,3],GBR:[2,3,1],BRG:[3,1,2],BGR:[3,2,1]};
+ for(const [name,codes] of Object.entries(orders))assert.deepEqual(OF.command('wire-order',name),[0x7e,7,0x81,...codes,255,0,0xef]);
+ assert.equal(hex(OF.command('wire-order','GRB')),'7E0781020103FF00EF');
+ for(const value of ['',0,'RRG','RG','RGBW','rgb'])assert.throws(()=>OF.command('wire-order',value));
+ for(const [value,expected] of [[10,'7E07210A0000FF00EF'],[300,'7E07212C0100FF00EF'],[1000,'7E0721E80300FF00EF']])assert.equal(hex(OF.command('point-count',value)),expected);
+ for(const value of [9,1001,300.5,'300',NaN])assert.throws(()=>OF.command('point-count',value));
+ assert.equal(hex(OF.command('collapse',true)),'7E072201FFFFFF00EF');assert.equal(hex(OF.command('collapse',false)),'7E072200FFFFFF00EF');assert.throws(()=>OF.command('collapse',0));
+ for(const value of [0,50,100])assert.equal(OF.command('sensitivity',value)[3],value);for(const value of [-1,101,255,0.5])assert.throws(()=>OF.command('sensitivity',value));
+ assert.equal(OF.parseGeometry([0x7e,7,0x37,44,1,255,0,0x88,0xef]).totalNodes,300);
+ for(const [offset,value] of [[0,0],[1,6],[2,0x82],[6,1],[7,0],[8,0]]){const b=[0x7e,7,0x37,44,1,255,0,0x88,0xef];b[offset]=value;assert.equal(OF.parseGeometry(b),null);}
+});
+
+test("OF21 native geometry combinations fit section fields and HSV brightness replaces rather than compounds value",()=>{
+ assert.equal(OF.hsvValue('#804000',100),'#ff8000');assert.equal(OF.hsvValue('#ff8000',50),'#804000');assert.equal(OF.hsvValue(OF.hsvValue('#ff8000',50),50),'#804000');assert.equal(OF.hsvValue('#000000',50),'#808080');
+ for(const b of [0,101,50.5,NaN])assert.throws(()=>OF.hsvValue('#ff0000',b));
+ let count=0;for(let totalNodes=10;totalNodes<=1000;totalNodes++)for(let nodeCount=10;nodeCount<=30;nodeCount++){
+  const p=OF.diy({nodeCount,totalNodes,colors:['#804000','#0000ff'],mode:1,brightness:100});
+  assert.equal(p.sectionCount,Math.ceil(totalNodes/nodeCount));assert.ok(p.sectionCount>=1&&p.sectionCount<=100);assert.ok(p.packets.every(bytes=>bytes.length===9));count++;
+ }
+ assert.equal(count,20811);
+ for(const totalNodes of [9,1001,65535])assert.throws(()=>OF.diy({nodeCount:10,totalNodes,colors:['#ff0000','#0000ff'],mode:1}));
+});

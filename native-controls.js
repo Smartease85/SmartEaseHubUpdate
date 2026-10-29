@@ -86,7 +86,7 @@ ui("nativeLotusStatus").before(lotusSolid);
 async function nativeLotusSolid(on){
  const adapter=cartDevices[2],status=ui("nativeLotusStatus");
  const ready=()=>adapter.connected&&["bledob","melk-oa10"].includes(adapter.profile)&&ui("nativeLotusParked").checked&&document.visibilityState==="visible"&&transport!=="demo"&&!applying&&!liveName&&!nokinsTestBusy&&!nativeSpBusy;
- if(!ready()||nativeLotusBusy){status.textContent="Connect a supported exact Lotus profile and confirm parked first. MELK-OF21 remains unsupported.";return false;}
+ if(!ready()||nativeLotusBusy){status.textContent=adapter.profile==="melk-of21"?"Use the dedicated MELK-OF21 controls below.":"Connect a supported exact Lotus profile and confirm parked first.";return false;}
  nativeLotusBusy=true;renderNativeLibrary();
  try{
   const ok=await adapter.write(SmartEaseLotus.commands(adapter.profile,{on,color:ui("nativeLotusColor").value,brightness:Number(ui("nativeLotusBrightness").value)}),ready);
@@ -95,6 +95,7 @@ async function nativeLotusSolid(on){
 }
 ui("nativeLotusSolid").onclick=()=>nativeLotusSolid(true);ui("nativeLotusDim").onclick=()=>nativeLotusSolid(false);
 function nativeLotusSolidRender(){
+ lotusSolid.hidden=cartDevices[2].profile==="melk-of21";
  const adapter=cartDevices[2],ready=adapter.connected&&["bledob","melk-oa10"].includes(adapter.profile)&&ui("nativeLotusParked").checked&&document.visibilityState==="visible"&&transport!=="demo"&&!applying&&!liveName&&!nokinsTestBusy&&!nativeSpBusy&&!nativeLotusBusy;
  ui("nativeLotusSolid").disabled=ui("nativeLotusDim").disabled=!ready;
 }

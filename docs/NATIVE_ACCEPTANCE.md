@@ -1,5 +1,35 @@
 # Native app parity: implementation and exact-hardware acceptance
 
+## Current OF21 checkpoint, 2026-10-29
+
+Owner reported **all three connected** on pinned `2b12451e`, build
+`cart-connect-20261028-02`. This confirms connection success only. New timer,
+configuration and DIY workflows are independently implemented from static protocol
+facts and covered by codec/mocked-GATT tests; they are not physically validated.
+See [LOTUS_OF21.md](LOTUS_OF21.md) for current details, superseding older OF21
+gates in the historical inventory below. Owned display identity is CoolLEDUX,
+96 columns x16 rows; UX upload remains disabled due to the separate envelope/ATT
+capacity problem, not unknown identity or dimensions.
+
+For parked acceptance of this OF21 checkpoint:
+
+1. Keep a full Settings backup. Verify each connection and existing SP calibration.
+2. Read both OF21 timer slots first. If either is unknown, Apply refuses to write.
+   Edit one, then compare both returned slots; verify the other remains unchanged.
+   Once/daily/day labels are source-established; firing, clock survival and durable
+   timer persistence still need physical checks.
+3. Wire order, LED count and collapse require their explicit configuration
+   acknowledgement and Apply. Do not use these as connectivity tests. Count Apply
+   queries and compares the reported count. Order/collapse have no proven readback.
+4. Author and save a local OF21 pattern. Load/delete/reload must send no command.
+   A send requires current returned geometry matching the draft, native bounds and
+   per-send acknowledgement. It submits once at75ms spacing, with no device ACK
+   or automatic retry. Check the actual result separately. Cancel may leave partial
+   changes; an uncertain in-flight outcome requires reconnect before further writes.
+5. Reconnect requires a fresh geometry read before another pattern send. A local
+   saved pattern or last request must never be presented as device readback or
+   proof that the custom program survives complete cart power loss.
+
 Updated 2026-10-28. This release is a software milestone, **not 1:1 hardware parity**.
 The subsequent [CoolLEDUX checkpoint](COOLLEDUX.md) adds a separate UX adapter,
 offline encoder, transfer preparation and captured-reply decoding after owner family identification.

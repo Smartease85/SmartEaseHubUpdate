@@ -1,5 +1,12 @@
 # Three independent connections and remembered assignments
 
+**Owner acceptance, 2026-10-29:** Jack reported “All 3 connected” on pinned
+commit `2b12451e15279740487285a763917f71767a7b23`, build
+`cart-connect-20261028-02`. This confirms the three connection routes on his
+setup. It does not establish control isolation, reconnect behavior, command
+visual equivalence, DIY uploads, timer firing or persistence. Automated mocks
+and owner physical acceptance remain separate evidence.
+
 ## Bluefy chooser repair checkpoint: cart-connect-20261028-02
 
 The owner reported that only NOKINS opened the chooser and saw “error 2” on

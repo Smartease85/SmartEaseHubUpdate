@@ -1136,14 +1136,21 @@ test("color tests never write to a real controller while preview mode is enabled
   b.dom.window.close();
 });
 function installThreeDeviceMock(b, config={}) {
- const w=b.w,state={requests:[],connects:{sp608e:0,nokins:0,trinka:0},writes:{sp608e:[],nokins:[],trinka:[]},subscriptions:[],fail:{},pause:{},omitWriter:{},active:0,peak:0,notifyOnQuery:false};
+ const w=b.w,state={requests:[],connects:{sp608e:0,nokins:0,trinka:0},writes:{sp608e:[],nokins:[],trinka:[]},subscriptions:[],fail:{},pause:{},omitWriter:{},active:0,peak:0,notifyOnQuery:false,geometryTotal:96,reads:[],timers:{0:{hour:7,minute:30,kind:0,days:31,enabled:true},1:{hour:22,minute:15,kind:1,days:96,enabled:true}},lastTimerQuery:null,delays:[]};
  const specs={sp608e:{name:'SP608E_cart',id:'under-1',service:'ffe0',char:'ffe1'},nokins:{name:'MELK-OF21 1D',id:'nokins-1',service:'fff0',char:'fff3'},trinka:{name:'CoolLEDUX-31B8',id:'eyes-1',service:'fff0',char:'fff1'}};
  const uuid=short=>'0000'+short+'-0000-1000-8000-00805f9b34fb',devices={},chars={};
  for(const [id,spec] of Object.entries(specs)){
   const d=new w.EventTarget();d.id=spec.id;d.name=spec.name;
   const ch=new w.EventTarget();ch.uuid=uuid(spec.char);ch.properties=config.writeWithoutResponse?{write:true,writeWithoutResponse:true}:{write:true,writeWithoutResponse:false};
-  const write=async bytes=>{state.active++;state.peak=Math.max(state.peak,state.active);await Promise.resolve();state.writes[id].push(Array.from(bytes));state.active--;if(id==='nokins'&&bytes[2]===0x37&&state.notifyOnQuery)emitGeometry(96);};
+  const write=async bytes=>{state.active++;state.peak=Math.max(state.peak,state.active);await Promise.resolve();state.writes[id].push(Array.from(bytes));state.active--;
+   if(id==='nokins'){
+    if(bytes[2]===0x21)state.geometryTotal=bytes[3]|(bytes[4]<<8);
+    if(bytes[2]===0x37&&state.notifyOnQuery)emitGeometry(state.geometryTotal);
+    if(bytes[2]===0x82){const kind=bytes[6];if(bytes[3]===255){state.lastTimerQuery=kind;if(config.timerNotify)emitTimer(timerBytes(kind));}else if(!config.ignoreTimerWrites)state.timers[kind]={kind,hour:bytes[3],minute:bytes[4],days:bytes[7]&127,enabled:!!(bytes[7]&128)};}
+   }
+  };
   ch.writeValueWithResponse=write;if(config.writeWithoutResponse)ch.writeValueWithoutResponse=write;
+  if(id==='nokins'&&config.read){ch.properties.read=true;ch.readValue=async()=>{state.reads.push(state.lastTimerQuery);const bytes=w.Uint8Array.from(timerBytes(state.lastTimerQuery));return new w.DataView(bytes.buffer);};}
   const notify=new w.EventTarget();notify.uuid=uuid('fff9');notify.properties={notify:true,indicate:true};notify.startNotifications=async()=>{state.subscriptions.push(notify.uuid);return notify;};
   const service={getCharacteristic:async expected=>{assert.equal(expected,ch.uuid);return ch;},getCharacteristics:async()=>state.omitWriter[id]?[notify]:id==='nokins'?[ch,notify]:[ch]};
   const server={getPrimaryService:async expected=>{assert.equal(expected,uuid(spec.service));if(state.pause[id])await state.pause[id];if(state.fail[id])throw Error('Missing expected service for '+id);return service;}};
@@ -1151,10 +1158,12 @@ function installThreeDeviceMock(b, config={}) {
   devices[id]=d;chars[id]={writer:ch,notify};
  }
  function emitGeometry(total){const data=w.Uint8Array.from([0x7e,7,0x37,total&255,total>>8,255,0,0x88,0xef]);chars.nokins.notify.value=new w.DataView(data.buffer);chars.nokins.notify.dispatchEvent(new w.Event('characteristicvaluechanged'));}
+ function timerBytes(kind){if(config.timerEcho)return [0x7e,7,0x82,255,255,255,kind,0,0xef];const t=state.timers[kind];return t?[0x7e,7,0x82,t.hour,t.minute,0,kind,t.days|(t.enabled?128:0),0xef]:[0];}
+ function emitTimer(bytes){const data=w.Uint8Array.from(bytes);chars.nokins.notify.value=new w.DataView(data.buffer);chars.nokins.notify.dispatchEvent(new w.Event('characteristicvaluechanged'));}
  const api={requestDevice:async options=>{assert.equal(options.acceptAllDevices,undefined,'main connections must use family filters');const prefix=options.filters[0].namePrefix.toLowerCase();const id=prefix.startsWith('sp608e')?'sp608e':prefix.startsWith('melk-of21')?'nokins':'trinka';state.requests.push({id,options});return devices[id];}};
  if(config.getDevices!==false)api.getDevices=async()=>config.grants||Object.values(devices);
- const timeout=w.setTimeout.bind(w);w.setTimeout=(fn,delay,...args)=>timeout(fn,delay===100||delay===200?0:delay,...args);
- w.navigator.bluetooth=api;b.run('queryState=async()=>true;spEnsureChipColors=async()=>true;');return {state,devices,chars,api,emitGeometry};
+ const timeout=w.setTimeout.bind(w);w.setTimeout=(fn,delay,...args)=>{state.delays.push(delay);return timeout(fn,[75,100,200,300].includes(delay)?0:delay,...args);};
+ w.navigator.bluetooth=api;b.run('queryState=async()=>true;spEnsureChipColors=async()=>true;');return {state,devices,chars,api,emitGeometry,emitTimer};
 }
 
 test('fresh OF21 cancellation invalidates both late chooser and late GATT without touching UX',async()=>{
@@ -1236,7 +1245,7 @@ test('bounded GATT stages retain exact native error code and never launch hidden
   const b=boot(),m=installThreeDeviceMock(b);b.run('SmartEasePairing.stageTimeoutMs=20');m.state.pause[id]=new Promise(()=>{});
   assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`),false);assert.equal(m.state.requests.length,1);assert.match(b.w.document.getElementById('pairDiagnostics').value,/TimeoutError/);
   m.state.pause[id]=null;m.devices[id].gatt.connect=async()=>{throw Object.assign(Error('error 2'),{name:'NetworkError',code:2});};
-  assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),false);assert.match(b.w.document.getElementById('pairDiagnostics').value,/NetworkError: error 2 \[code=2\]/);assert.match(b.w.document.getElementById('pairBuild').textContent,/cart-connect-20261028-02/);
+  assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),false);assert.match(b.w.document.getElementById('pairDiagnostics').value,/NetworkError: error 2 \[code=2\]/);assert.match(b.w.document.getElementById('pairBuild').textContent,/cart-native-20261029-01/);
   assert.equal(m.state.requests.length,2);b.dom.window.close();
  }
 });
@@ -1322,7 +1331,7 @@ test('OF21 discovered write properties drive source controls, serialized writes 
  b.w.document.getElementById('of21Effects').value='233';assert.equal(await b.run('of21Run("effect")'),true);assert.deepEqual(m.state.writes.nokins.at(-3),[126,7,3,233,6,255,255,0,239]);assert.deepEqual(m.state.writes.nokins.at(-1),[126,4,1,50,0,255,2,1,239]);
  assert.equal(b.w.document.getElementById('of21Effects').options.length,234);assert.equal(b.w.document.getElementById('of21Scenes').options.length,33);assert.equal([...b.w.document.getElementById('of21Scenes').options].some(x=>x.value==='100'),false);
  await Promise.all([b.run('cartDevices[2].ownerCommand("speed",20)'),b.run('cartDevices[2].ownerCommand("brightness",30)')]);assert.equal(m.state.peak,1);
- assert.throws(()=>b.run('cartDevices[2].ownerCommand("point-count",30)'),/not enabled/);assert.throws(()=>b.run('cartDevices[2].write([[126,7,3,1,6,255,255,0,239]])'),/OA10 writes are blocked/);
+ assert.throws(()=>b.run('cartDevices[2].ownerCommand("point-count",9)'),/Unsupported OF21 value/);assert.throws(()=>b.run('cartDevices[2].write([[126,7,3,1,6,255,255,0,239]])'),/OA10 writes are blocked/);
  const before=m.state.writes.nokins.length,pending=b.run('cartDevices[2].ownerCommand("speed",40)');b.run('cartDevices[2].disconnect()');assert.equal(await pending,false);assert.equal(m.state.writes.nokins.length,before);assert.equal(m.state.writes.sp608e.length,0);b.dom.window.close();
 });
 
@@ -1334,4 +1343,105 @@ test('OF21 LED-count read uses discovered notify characteristic, validates marke
 
 test('a genuine GATT connection is reported even when its control characteristic is unavailable',async()=>{
  const b=boot(),m=installThreeDeviceMock(b);m.state.omitWriter.nokins=true;await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;assert.equal(await b.run('of21Run("on")'),false);b.dom.window.close();
+});
+
+test('OF21 native timer editor reads both slots, preserves the other slot and compares requested versus returned state',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b,{read:true});for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);
+ assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;
+ assert.equal(await b.run('of21NativeRun("timer")'),false);assert.equal(m.state.writes.nokins.length,0);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/Read both timer slots/);
+ assert.equal(await b.run('of21NativeRun("read-timers")'),true);assert.deepEqual(m.state.reads,[0,1]);assert.deepEqual(m.state.writes.nokins.map(bytes=>Buffer.from(bytes).toString('hex')),['7e0782ffffff0000ef','7e0782ffffff0100ef']);assert.ok(m.state.delays.filter(ms=>ms===300).length>=4);
+ assert.match(b.w.document.getElementById('of21TimerReturned').textContent,/07:30.*Mon Tue Wed Thu Fri.*22:15.*Sat Sun/);
+ b.w.document.getElementById('of21TimerTime').value='08:45';b.w.document.getElementById('of21TimerEnabled').checked=false;for(const day of b.w.document.querySelectorAll('.of21-day'))day.checked=['0','2'].includes(day.value);
+ const before=m.state.writes.nokins.length;assert.equal(await b.run('of21NativeRun("timer")'),true);
+ assert.deepEqual(m.state.writes.nokins.slice(before,before+2),[[126,7,130,8,45,0,0,5,239],[126,7,130,22,15,0,1,224,239]]);
+ assert.match(b.w.document.getElementById('of21NativeResult').textContent,/Both returned timer slots match/);
+ const requested=JSON.parse(b.w.localStorage.getItem('smartease-of21-native-v1')).requested['nokins-1'].timers;assert.deepEqual(requested,[{kind:0,hour:8,minute:45,days:5,enabled:false},{kind:1,hour:22,minute:15,days:96,enabled:true}]);
+ assert.deepEqual(m.state.writes.sp608e,[]);assert.deepEqual(m.state.writes.trinka,[]);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('OF21 timer readback rejects echoes, missing slot and old connection state without resetting unknown timers',async()=>{
+ for(const variant of ['echo','missing','reconnect']){
+  const b=boot(),m=installThreeDeviceMock(b,{timerNotify:true,timerEcho:variant==='echo'});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+  if(variant==='missing')delete m.state.timers[1];
+  assert.equal(await b.run('of21NativeRun("read-timers")'),variant==='reconnect');
+  if(variant==='reconnect'){b.run('cartDevices[2].disconnect()');await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;}
+  m.emitTimer([126,7,130,22,15,0,1,224,239]);const before=m.state.writes.nokins.length;
+  assert.equal(await b.run('of21NativeRun("timer")'),false);assert.equal(m.state.writes.nokins.length,before);assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('OF21 returned timer mismatch is disclosed without retrying or claiming device acceptance',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b,{read:true,ignoreTimerWrites:true});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ await b.run('of21NativeRun("read-timers")');b.w.document.getElementById('of21TimerTime').value='09:15';
+ const before=m.state.writes.nokins.length;assert.equal(await b.run('of21NativeRun("timer")'),true);assert.equal(m.state.writes.nokins.length-before,4);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/differ/);b.dom.window.close();
+});
+
+test('OF21 setup is explicit, keeps requested count/order separate from returned geometry and never changes other devices',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ b.w.document.getElementById('of21Count').value='300';b.w.document.getElementById('of21Order').value='GRB';
+ assert.equal(await b.run('of21NativeRun("count")'),false);assert.equal(await b.run('of21NativeRun("order")'),false);assert.equal(m.state.writes.nokins.length,0);
+ b.w.document.getElementById('of21Topology').checked=true;m.state.notifyOnQuery=true;
+ assert.equal(await b.run('of21NativeRun("count")'),true);assert.deepEqual(m.state.writes.nokins[0],[126,7,33,44,1,0,255,0,239]);assert.equal(b.run('cartDevices[2].of21.totalNodes'),300);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/matches returned/);
+ assert.equal(await b.run('of21NativeRun("order")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,129,2,1,3,255,0,239]);
+ b.w.document.getElementById('of21Collapse').checked=true;assert.equal(await b.run('of21NativeRun("collapse")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,34,1,255,255,255,0,239]);
+ b.w.document.getElementById('of21Sensitivity').value='100';assert.equal(await b.run('of21NativeRun("sensitivity")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,6,100,255,255,255,0,239]);
+ const count=m.state.writes.nokins.length;b.w.document.getElementById('of21Count').value='1001';assert.equal(await b.run('of21NativeRun("count")'),false);assert.equal(m.state.writes.nokins.length,count);
+ const storage=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));assert.match(b.w.document.getElementById('of21Requested').textContent,/Local last requests \(not readback\)/);assert.equal(b.errors.length,0);b.dom.window.close();
+ const again=boot(storage),n=installThreeDeviceMock(again);await again.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.deepEqual(n.state.writes.nokins,[]);assert.equal(again.run('cartDevices[2].of21.totalNodes??null'),null);assert.equal(again.w.document.getElementById('of21Count').value,'');assert.match(again.w.document.getElementById('of21Requested').textContent,/point-count 300/);assert.equal(again.errors.length,0);again.dom.window.close();
+});
+
+test('OF21 local pattern editor saves, reloads and deletes without commands or restoring configuration',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);assert.equal(await b.run('of21NativeRun("save")'),true);assert.equal(m.state.requests.length,0);assert.equal(b.run('of21Local.scenes.length'),1);assert.equal(b.w.document.getElementById('of21DiyPreview').children.length,10);
+ const stored=b.w.localStorage.getItem('smartease-of21-native-v1');b.dom.window.close();const again=boot({'smartease-of21-native-v1':stored}),n=installThreeDeviceMock(again);
+ again.w.document.getElementById('of21DiyColors').value='#00ff00';assert.equal(await again.run('of21NativeRun("load")'),true);assert.equal(again.w.document.getElementById('of21DiyColors').value.split(' ').length,10);
+ again.w.document.getElementById('of21DiyMode').value='1';assert.equal(await again.run('of21NativeRun("save")'),false);again.w.document.getElementById('of21DiyColors').value='#804000 #0000ff';assert.equal(await again.run('of21NativeRun("save")'),true);
+ assert.equal(await again.run('of21NativeRun("delete")'),true);assert.equal(again.run('of21Local.scenes.length'),1);assert.equal(n.state.requests.length,0);assert.deepEqual(n.state.writes,{sp608e:[],nokins:[],trinka:[]});assert.equal(again.errors.length,0);again.dom.window.close();
+});
+
+test('OF21 DIY upload requires current returned geometry and explicit consent, then serializes all nine-byte packets',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ assert.equal(await b.run('of21NativeRun("upload")'),false);b.w.document.getElementById('of21BulkConsent').checked=true;assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,0);
+ m.state.notifyOnQuery=true;assert.equal(await b.run('of21Run("nodes")'),true);assert.equal(await b.run('of21NativeRun("use-geometry")'),true);assert.equal(b.w.document.getElementById('of21DiyTotal').value,'96');
+ const before=m.state.writes.nokins.length;const expected=JSON.parse(b.run('JSON.stringify(SmartEaseOF21.diy(of21Draft()).packets)'));
+ const bulk=b.run('of21NativeRun("upload")'),ordinary=b.run('cartDevices[2].ownerCommand("speed",50)');assert.equal(await bulk,true);assert.equal(await ordinary,true);
+ assert.deepEqual(m.state.writes.nokins.slice(before,before+expected.length),expected);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,2,50,255,255,255,0,239]);assert.equal(m.state.peak,1);assert.equal(m.state.delays.filter(d=>d===75).length,expected.length);
+ assert.match(b.w.document.getElementById('of21NativeResult').textContent,/No device ACK/);assert.equal(b.w.document.getElementById('of21BulkConsent').checked,false);
+ b.run('cartDevices[2].disconnect()');await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;b.w.document.getElementById('of21BulkConsent').checked=true;
+ assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,before+expected.length+1);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('OF21 cancellation of an in-flight DIY packet returns immediately, blocks unsafe follow-up and keeps other links',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('of21Parked').checked=true;m.state.notifyOnQuery=true;await b.run('of21Run("nodes")');await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
+ const before=m.state.writes.nokins.length;let started;const start=new Promise(resolve=>{started=resolve;});m.chars.nokins.writer.writeValueWithResponse=bytes=>{m.state.writes.nokins.push(Array.from(bytes));started();return new Promise(()=>{});};
+ const pending=b.run('of21NativeRun("upload")');await start;b.w.document.getElementById('of21CancelNative').onclick();assert.equal(await pending,false);assert.equal(m.state.writes.nokins.length,before+1);assert.equal(b.run('of21Busy'),false);assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.throws(()=>b.run('cartDevices[2].ownerCommand("speed",50)'),/writable/);
+ assert.equal(b.run('isLive()&&cartDevices[1].connected'),true);assert.deepEqual(m.state.writes.sp608e,[]);assert.deepEqual(m.state.writes.trinka,[]);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('OF21 failed bulk packet stops once with no automatic retry and leaves acceptance uncertain',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;m.state.notifyOnQuery=true;await b.run('of21Run("nodes")');await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
+ let writes=0;const original=m.chars.nokins.writer.writeValueWithResponse;m.chars.nokins.writer.writeValueWithResponse=async bytes=>{writes++;if(writes===2)throw Error('packet failed');return original(bytes);};
+ assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(writes,2);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/partial pattern.*No retry/);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('OF21 uncertain write timeout requires reconnect and consent is cleared across connection changes',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;b.run('SmartEasePairing.stageTimeoutMs=20');
+ const original=m.chars.nokins.writer.writeValueWithResponse;m.chars.nokins.writer.writeValueWithResponse=()=>new Promise(()=>{});
+ assert.equal(await b.run('of21NativeRun("sensitivity")'),false);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.match(b.w.document.getElementById('of21LiveStatus').textContent,/uncertain.*reconnect/);
+ b.w.document.getElementById('of21Topology').checked=true;b.w.document.getElementById('of21BulkConsent').checked=true;
+ b.run('cartDevices[2].disconnect()');m.chars.nokins.writer.writeValueWithResponse=original;await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
+ assert.equal(b.run('cartDevices[2].controlReady'),true);assert.equal(b.w.document.getElementById('of21Topology').checked,false);assert.equal(b.w.document.getElementById('of21BulkConsent').checked,false);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('OF21 offline library preserves unreadable storage and rolls back failed local saves',async()=>{
+ const invalid='{"version":1,"scenes":[{"name":"broken","project":{}}],"requested":{}}';const b=boot({'smartease-of21-native-v1':invalid}),m=installThreeDeviceMock(b);
+ assert.equal(await b.run('of21NativeRun("save")'),false);assert.equal(b.w.localStorage.getItem('smartease-of21-native-v1'),invalid);assert.equal(b.run('of21Local.scenes.length'),0);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/preserved/);assert.equal(m.state.requests.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
+ const clean=boot();installThreeDeviceMock(clean);clean.run('Storage.prototype.setItem=function(){throw new Error("full");}');assert.equal(await clean.run('of21NativeRun("save")'),false);assert.equal(clean.run('of21Local.scenes.length'),0);assert.match(clean.w.document.getElementById('of21NativeResult').textContent,/could not save/);clean.dom.window.close();
+});
+
+test('OF21 returned geometry outside native bounds is surfaced and cannot enable bulk send',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;m.emitGeometry(2000);await new Promise(resolve=>setTimeout(resolve,0));
+ assert.equal(b.run('cartDevices[2].of21.totalNodes'),2000,b.run('JSON.stringify({profile:cartDevices[2].profile,connected:cartDevices[2].connected,generation:cartDevices[2].ownerLink.generation,geometry:cartDevices[2].of21.geometryGeneration,parse:SmartEaseOF21.parseGeometry([126,7,55,208,7,255,0,136,239])})'));
+ assert.equal(b.run('cartDevices[2].of21.geometryGeneration'),b.run('cartDevices[2].ownerLink.generation'));assert.equal(b.errors.length,0,b.errors.map(e=>e.stack).join('\n'));
+ assert.match(b.w.document.getElementById('of21Nodes').textContent,/2000/);await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
+ assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,0);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/10–1000/);assert.equal(b.errors.length,0);b.dom.window.close();
 });
