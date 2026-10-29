@@ -6,7 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
-function boot(storage = {}) {
+function boot(storage = {}, beforeScripts) {
   const errors = [];
   const vc = new VirtualConsole();
   vc.on("jsdomError", (e) => errors.push(e));
@@ -33,6 +33,7 @@ function boot(storage = {}) {
   w.confirm = () => true;
   for (const [k, v] of Object.entries(storage)) w.localStorage.setItem(k, v);
   const ctx = dom.getInternalVMContext();
+  if(beforeScripts)beforeScripts({w,ctx,run:code=>vm.runInContext(code,ctx)});
   for (const script of w.document.querySelectorAll("script")) {
     const source = script.src
       ? fs.readFileSync(path.join(root, path.basename(script.src)), "utf8")
@@ -1206,6 +1207,80 @@ test('each visible Connect routes to only its own family and establishes three i
  assert.equal(b.run('cartDevices[2].ownerLink.report.writeMethod'),'writeValueWithResponse');assert.deepEqual(m.state.subscriptions,['0000fff9-0000-1000-8000-00805f9b34fb']);
  assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]},'connection alone does not send lighting commands');assert.equal(b.w.document.getElementById('connectionText').textContent,'3 connected');
  assert.equal(b.w.document.getElementById('displayUpload').disabled,true);assert.equal(b.errors.length,0);b.dom.window.close();
+});
+
+test('stale remembered GATT failure is repaired by a fresh same-tap family chooser for every row',async()=>{
+ for(const id of ['sp608e','nokins','trinka']){
+  const b=boot(),m=installThreeDeviceMock(b);await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.run(`cartDevices.find(a=>a.id==='${id}').disconnect()`);
+  m.state.fail[id]=true;assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{knownOnly:true,toggle:false})`),false);
+  const requests=m.state.requests.length;m.state.fail[id]=false;
+  let inGesture=true;const original=m.api.requestDevice;m.api.requestDevice=options=>{assert.equal(inGesture,true,'requestDevice must run before handler yields');return original(options);};
+  const retry=b.w.document.getElementById('deviceConnect-'+id).onclick();assert.equal(m.state.requests.length,requests+1);inGesture=false;
+  assert.equal(await retry,true);assert.equal(m.state.requests.at(-1).id,id);assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('never-settling GATT can be cancelled and retried immediately without releasing the old operation',async()=>{
+ for(const id of ['sp608e','nokins','trinka']){
+  const b=boot(),m=installThreeDeviceMock(b),original=m.devices[id].gatt.connect;
+  m.devices[id].gatt.connect=()=>new Promise(()=>{});
+  const stuck=b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);await new Promise(r=>setTimeout(r,0));
+  b.run(`SmartEaseConnections.cancel('${id}')`);assert.equal(await stuck,false);assert.equal(b.w.document.getElementById('deviceConnect-'+id).disabled,false);
+  m.devices[id].gatt.connect=original;
+  assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),true);assert.equal(m.devices[id].gatt.connected,true);assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('bounded GATT stages retain exact native error code and never launch hidden chooser retries',async()=>{
+ for(const id of ['sp608e','nokins','trinka']){
+  const b=boot(),m=installThreeDeviceMock(b);b.run('SmartEasePairing.stageTimeoutMs=20');m.state.pause[id]=new Promise(()=>{});
+  assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`),false);assert.equal(m.state.requests.length,1);assert.match(b.w.document.getElementById('pairDiagnostics').value,/TimeoutError/);
+  m.state.pause[id]=null;m.devices[id].gatt.connect=async()=>{throw Object.assign(Error('error 2'),{name:'NetworkError',code:2});};
+  assert.equal(await b.w.document.getElementById('deviceConnect-'+id).onclick(),false);assert.match(b.w.document.getElementById('pairDiagnostics').value,/NetworkError: error 2 \[code=2\]/);assert.match(b.w.document.getElementById('pairBuild').textContent,/cart-connect-20261028-02/);
+  assert.equal(m.state.requests.length,2);b.dom.window.close();
+ }
+});
+
+test('late cancelled service completion cannot clear or disconnect a newer connection to the same object',async()=>{
+ for(const id of ['sp608e','nokins','trinka']){
+  const b=boot(),m=installThreeDeviceMock(b);let release;m.state.pause[id]=new Promise(resolve=>{release=resolve;});
+  const old=b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);await new Promise(r=>setTimeout(r,0));b.run(`SmartEaseConnections.cancel('${id}')`);assert.equal(await old,false);
+  m.state.pause[id]=null;assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`),true);release();await new Promise(r=>setTimeout(r,0));
+  assert.equal(m.devices[id].gatt.connected,true);assert.equal(b.run(`cartDevices.find(a=>a.id==='${id}').connected`),true);if(id==='sp608e')assert.equal(b.run('connectionInProgress'),false);
+  assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('a GATT connection arriving after its deadline is closed unless a newer attempt owns it',async()=>{
+ for(const id of ['sp608e','nokins','trinka']){
+  const b=boot(),m=installThreeDeviceMock(b);b.run('SmartEasePairing.stageTimeoutMs=15');let release;
+  const original=m.devices[id].gatt.connect;
+  m.devices[id].gatt.connect=()=>new Promise(resolve=>{release=async()=>resolve(await original());});
+  assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`),false);
+  await release();await new Promise(r=>setTimeout(r,0));assert.equal(m.devices[id].gatt.connected,false);assert.equal(b.run(`cartDevices.find(a=>a.id==='${id}').connected`),false);b.dom.window.close();
+ }
+});
+
+test('preboot grant recovery has one owner, never starts background GATT, and yields to manual tap/cancel',async()=>{
+ const storage={'smartease-device-assignments-v1':JSON.stringify({sp608e:{id:'under-1',name:'SP608E_cart'},trinka:{id:'eyes-1',name:'CoolLEDUX-31B8'},nokins:{id:'nokins-1',name:'MELK-OF21 1D'}})};
+ for(const reject of [false,true]){
+  let release,calls=0;const b=boot(storage,({w})=>{w.navigator.bluetooth={getDevices:()=>{calls++;return new Promise((resolve,fail)=>{release=reject?()=>fail(Error('grant recovery rejected')):resolve;});}};});
+  const m=installThreeDeviceMock(b);assert.equal(calls,1,'legacy SP restore must not own a second getDevices call');
+  const restoration=b.run('SmartEaseConnections.restore({reconnect:false})');assert.equal(calls,1);
+  const manual=b.w.document.getElementById('deviceConnect-sp608e').onclick();assert.equal(m.state.requests.length,1);assert.equal(await manual,true);
+  b.run('SmartEaseConnections.cancel("sp608e")');release(Object.values(m.devices));await restoration;
+  assert.equal(m.devices.sp608e.gatt.connected,false);assert.deepEqual(m.state.connects,{sp608e:1,nokins:0,trinka:0});assert.equal(b.run('connectionInProgress'),false);
+  if(reject)assert.match(b.w.document.getElementById('pairMemory').textContent,/grant recovery rejected/);else assert.equal(b.run('cartDevices[1].device.id'),'eyes-1');
+  assert.equal(b.errors.length,0);b.dom.window.close();
+ }
+});
+
+test('retained SP scan controls use the same fresh filtered chooser and Disconnect All releases pending tasks',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);
+ for(const id of ['connectBtn','scanServiceBtn','scanAllBtn']){assert.equal(await b.w.document.getElementById(id).onclick(),true);b.w.document.getElementById('disconnectBtn').onclick();}
+ assert.deepEqual(m.state.requests.map(x=>x.id),['sp608e','sp608e','sp608e']);
+ m.devices.trinka.gatt.connect=()=>new Promise(()=>{});const pending=b.run('SmartEaseConnections.connectOne("trinka",{toggle:false})');await new Promise(r=>setTimeout(r,0));
+ b.w.document.getElementById('disconnectCart').onclick();assert.equal(await pending,false);assert.equal(b.run('connectionTasks.size'),0);b.dom.window.close();
 });
 
 test('wrong-family selections and partial GATT failure cannot disconnect or reassign another device',async()=>{

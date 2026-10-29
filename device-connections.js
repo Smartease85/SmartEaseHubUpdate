@@ -6,8 +6,25 @@
  const labels={sp608e:"SP608E underglow",nokins:"MELK-OF21 NOKINS",trinka:"CoolLEDUX display"};
  const accepts=(id,name)=>id==="sp608e"?/^SP608E(?:$|[\s_-])/i.test(name||""):id==="nokins"?!!SmartEaseOF21.profile(name):id==="trinka"?SmartEaseCoolLEDUX.family(name)==="coolledux":false;
  const options=id=>({filters:(id==="sp608e"?["SP608E","sp608e"]:id==="nokins"?["MELK-OF21","melk-of21"]:["CoolLEDUX","coolledux"]).map(namePrefix=>({namePrefix})),optionalServices:[id==="sp608e"?"0000ffe0-0000-1000-8000-00805f9b34fb":service]});
- const assignments={};let chooser=null,warning="";
+ const assignments={},diagnostics={};let chooser=null,warning="";
+ const build="cart-connect-20261028-02";
+ function describeError(error){
+  const name=typeof error?.name==="string"?error.name:"BrowserError",message=typeof error?.message==="string"?error.message:String(error??"Unknown error");
+  return name+": "+message.slice(0,600)+(error?.code!==undefined?" [code="+String(error.code).slice(0,80)+"]":"");
+ }
+ function trace(id,phase,detail="",error){
+  const records=diagnostics[id]||(diagnostics[id]=[]);
+  records.push({phase,detail:String(detail).slice(0,800),error:error===undefined?null:describeError(error),activation:navigator.userActivation?.isActive??"unavailable"});
+  if(records.length>12)records.shift();
+  root.dispatchEvent?.(new Event("smartease-pairing-diagnostic"));
+ }
  try{const raw=JSON.parse(localStorage.getItem(key)||"{}");for(const id of Object.keys(labels)){const a=raw?.[id];if(a&&typeof a.id==="string"&&a.id&&accepts(id,a.name))assignments[id]={id:a.id,name:a.name};}}catch{}
+ async function stage(promise,id,phase,lateCleanup){
+  let expired=false,timer;const pending=Promise.resolve(promise);
+  pending.then(value=>{if(expired)lateCleanup?.(value);},()=>{});
+  const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>{expired=true;const error=Object.assign(Error(phase+" timed out. Tap Connect to choose again; no chooser was retried."),{name:"TimeoutError"});trace(id,"transport timeout",phase,error);reject(error);},root.SmartEasePairing?.stageTimeoutMs??12000);});
+  try{return await Promise.race([pending,timeout]);}finally{clearTimeout(timer);}
+ }
  function assignment(id){
   if(assignments[id])return {...assignments[id]};
   try{
@@ -23,10 +40,17 @@
   catch{warning="Connected, but this browser could not save the device assignment. Back up your setup and check storage.";return false;}
  }
  async function choose(id){
-  if(!navigator.bluetooth?.requestDevice)throw Error("Open this HTTPS app in Bluefy and allow Bluetooth access.");
-  if(chooser)throw Error("Finish the "+labels[chooser]+" Bluetooth chooser first.");
+  if(!navigator.bluetooth?.requestDevice){const error=Error("Open this HTTPS app in Bluefy and allow Bluetooth access.");trace(id,"chooser unavailable","requestDevice is missing",error);throw error;}
+  if(chooser){const error=Error("Finish the "+labels[chooser]+" Bluetooth chooser first.");trace(id,"chooser busy","Another device's chooser is pending",error);throw error;}
   chooser=id;
-  try{const picked=await navigator.bluetooth.requestDevice(options(id));if(!accepts(id,picked?.name))throw Error("Choose only "+labels[id]+". The selected device belongs to another family.");return picked;}
+  try{
+   trace(id,"chooser requested","Family name-prefix filters; required GATT service granted. No prior async wait.");
+   // Call in the original tap's synchronous stack. Never await grant recovery here.
+   const pending=navigator.bluetooth.requestDevice(options(id));
+   const picked=await pending;
+   if(!accepts(id,picked?.name))throw Error("Choose only "+labels[id]+". The selected device belongs to another family.");
+   trace(id,"chooser selected","Selected device passed exact-family validation");return picked;
+  }catch(error){trace(id,"chooser rejected","No device assignment changed",error);throw error;}
   finally{chooser=null;}
  }
  function granted(id,devices){
@@ -57,10 +81,13 @@
     const old=this.device;
     if(old&&old!==picked&&old.gatt?.connected)old.gatt.disconnect();
     this.device=picked;this.identity={id:picked.id,name:picked.name};this.owners.set(picked,attempt);
-    const server=await picked.gatt.connect();check();
-    const found=await server.getPrimaryService(service);check();
+    trace(this.id,"GATT connecting","Selected family validated; connecting transport");
+    const lateCleanup=()=>{if(this.owners.get(picked)===attempt&&this.active!==attempt)try{picked.gatt.disconnect();}catch{}};
+    const server=await stage(picked.gatt.connect(),this.id,"GATT connection",lateCleanup);check();
+    trace(this.id,"service discovery","Discovering FFF0 and characteristic permissions");
+    const found=await stage(server.getPrimaryService(service),this.id,"FFF0 discovery");check();
     const expected=this.id==="trinka"?"0000fff1-0000-1000-8000-00805f9b34fb":"0000fff3-0000-1000-8000-00805f9b34fb";
-    const chars=typeof found.getCharacteristics==="function"?await found.getCharacteristics():[await found.getCharacteristic(expected)];check();
+    const chars=typeof found.getCharacteristics==="function"?await stage(found.getCharacteristics(),this.id,"characteristic discovery"):[await stage(found.getCharacteristic(expected),this.id,"characteristic discovery")];check();
     if(chars.length>32)throw Error("Unexpectedly large characteristic list; transport was not accepted.");
     const target=chars.find(ch=>String(ch.uuid||expected).toLowerCase()===expected)||null;
     const notifications=chars.filter(ch=>ch.properties?.notify||ch.properties?.indicate);
@@ -75,7 +102,7 @@
        if(typeof this.onNotification==="function")this.onNotification(Array.from(new Uint8Array(value.buffer,value.byteOffset,value.byteLength)));
       });this.notificationListeners.add(ch);
      }
-     try{await ch.startNotifications();check();subscriptions.push(String(ch.uuid||"unknown"));}catch(error){check();subscriptions.push("Unavailable: "+String(ch.uuid||"unknown"));}
+     try{await stage(ch.startNotifications(),this.id,"notification subscription");check();subscriptions.push(String(ch.uuid||"unknown"));}catch(error){check();subscriptions.push("Unavailable: "+String(ch.uuid||"unknown"));}
     }
     check();this.service=found;this.characteristic=target;
     this.report={name:picked.name,service,expectedCharacteristic:expected,writeMethod:method(target),controlsEnabled:false,
@@ -83,9 +110,10 @@
     if(!this.listeners.has(picked)){
      picked.addEventListener?.("gattserverdisconnected",()=>{if(this.device!==picked)return;this.generation++;this.service=null;this.characteristic=null;this.error="Bluetooth disconnected. Tap Connect to reconnect this device.";this.emit();});this.listeners.add(picked);
     }
-    remember(this.id,picked);this.error=warning;this.emit();return true;
+    remember(this.id,picked);this.error=warning;trace(this.id,"connected",warning||"Transport connected; control/upload readiness is separate");this.emit();return true;
    }catch(error){
-    if(this.active===attempt){this.error=error.name==="NotFoundError"||error.name==="AbortError"?"Connection cancelled. Your other devices are unchanged.":error.message;this.service=null;this.characteristic=null;}
+    if(this.active===attempt)trace(this.id,"connection failed","No automatic chooser retry",error);
+    if(this.active===attempt){this.error=describeError(error);this.service=null;this.characteristic=null;}
     // Never close a newer attempt's connection to the same device object.
     if(picked?.gatt?.connected&&this.owners.get(picked)===attempt)try{picked.gatt.disconnect();}catch{}
     this.emit();throw error;
@@ -93,5 +121,5 @@
   }
   disconnect(){this.generation++;this.active=null;this.task=null;this.connecting=false;this.service=null;this.characteristic=null;this.error="Disconnected. Saved assignment retained.";try{this.device?.gatt?.disconnect();}catch{}this.emit();}
  }
- root.SmartEasePairing={accepts,options,choose,assignment,remember,granted,MetadataTransport,get warning(){return warning;}};
+ root.SmartEasePairing={accepts,options,choose,assignment,remember,granted,MetadataTransport,trace,diagnostics,describeError,build,stage,stageTimeoutMs:12000,get warning(){return warning;}};
 })(globalThis);

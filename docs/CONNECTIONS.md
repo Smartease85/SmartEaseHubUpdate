@@ -1,5 +1,38 @@
 # Three independent connections and remembered assignments
 
+## Bluefy chooser repair checkpoint: cart-connect-20261028-02
+
+The owner reported that only NOKINS opened the chooser and saw “error 2” on
+the prior build. That physical failure is unresolved pending the next owner test;
+the number alone does not identify a browser/native error.
+
+Confirmed source behavior matching the symptom: SP608E and UX retained failed
+GATT handles, so later Connect taps silently retried those handles. Every explicit
+Connect now requests a fresh family-filtered chooser in the original synchronous
+tap stack. “Reconnect remembered (no chooser)” remains a separate action.
+Neither path launches a hidden chooser after an awaited GATT failure. Filters
+and exact-family validation remain in place; no accept-all fallback was added.
+
+There is now one grant-recovery manager. Startup and foreground grant recovery
+only restore exact assigned handles; they do not start background GATT. The
+existing reconnect preference still governs recovery after an established SP link
+drops. A manual failed connection disarms its automatic retry until a new action.
+Each GATT connect/discovery stage is bounded to 12 seconds. Cancel releases the
+manager task immediately, even when the browser never settles a GATT promise;
+late results cannot overwrite or disconnect a newer attempt to the same object.
+JavaScript cannot dismiss the native chooser or recall an in-flight Bluetooth call.
+
+The Devices page shows this build ID, per-device stages and a selectable diagnostic
+report: tap received, chooser requested/selected/rejected, GATT and service discovery,
+error name/message/code, available user-activation state, browser and service-worker
+URL. Share this report if a chooser still fails. The report stays in memory and is
+not sent anywhere automatically. “Chooser requested” means the API was invoked,
+not proof that Bluefy displayed native UI. No meaning is assigned to “error 2”.
+
+The original tap requirement and name-prefix/service options follow
+[the browser vendor's Web Bluetooth guide](https://developer.chrome.com/docs/capabilities/bluetooth).
+These tests use mocks and cannot establish iPhone/Bluefy compatibility.
+
 This checkpoint fixes the SP608E row calling the cart-wide reconnect routine
 and the CoolLED row performing identification without a real GATT connection.
 

@@ -1236,6 +1236,8 @@ function renderDevices() {
     };
     const error=adapter.id==="sp608e"?lastConnectError:adapter.profile==="melk-of21"?adapter.ownerLink.error:adapter.lastError;
     if(error){const message=document.createElement("p");message.className="small-note";message.textContent=error;words.append(message);}
+    const stage=document.createElement("p");stage.className="small-note";stage.dataset.deviceStage=adapter.id;
+    const latest=window.SmartEasePairing?.diagnostics[adapter.id]?.at(-1);stage.textContent=latest?"Connection: "+latest.phase+(latest.error?" — "+latest.error:""):"Connection: ready for a Connect tap";words.append(stage);
     row.append(info, action);
     if(adapter.connecting||(adapter.id==="sp608e"&&connectionInProgress)){
       const cancel=document.createElement("button");cancel.className="text-btn";cancel.type="button";cancel.textContent="Cancel";cancel.dataset.deviceCancel=adapter.id;cancel.onclick=()=>window.SmartEaseConnections?.cancel(adapter.id);row.append(cancel);

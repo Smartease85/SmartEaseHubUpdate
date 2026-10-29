@@ -500,6 +500,7 @@ function readChannelState(bytes){if(bytes.length<11*N){log('Incomplete SP608E st
    Automatic reconnection never invokes the device picker. */
 const AUTO_BLE_KEY='smartease-cart-ble-auto-v1', SAVED_BLE_ID_KEY='smartease-cart-ble-id-v1';
 const observedBleDevices=new WeakSet();
+const spAttemptOwners=new WeakMap();
 let autoReconnectOn=true,autoReconnectArmed=false,reconnectTimer=null,reconnectTry=0,restoringPermission=false;
 try{autoReconnectOn=localStorage.getItem(AUTO_BLE_KEY)!=='off';}catch{}
 function setAutoBleMessage(message){
@@ -522,30 +523,8 @@ function scheduleAutoBle(){
  },ms);
 }
 async function restoreGrantedBle(){
- if(restoringPermission||!autoReconnectOn||isLive()||connectionInProgress)return;
- if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function'){
-  setAutoBleMessage('Connect once using Find SP608E; this Bluefy version cannot restore a previous selection.');
-  return;
- }
- restoringPermission=true;
- try{
-  const available=await navigator.bluetooth.getDevices();
-  let id=null;try{id=localStorage.getItem(SAVED_BLE_ID_KEY);}catch{}
-  let picked=id?available.find(d=>d.id===id):null;
-  if(picked&&!isSP608EName(picked.name))picked=null;
-  if(!picked){
-   setAutoBleMessage('Tap Find SP608E once to select your controller (or resolve multiple paired devices).');
-   return;
-  }
-  if(!autoReconnectOn||isLive()||connectionInProgress)return;
-  rememberedDevice=picked;autoReconnectArmed=true;reconnectTry=0;
-  log('Found previously authorized '+(picked.name||'SP608E')+' using Bluetooth.getDevices().');
-  setAutoBleMessage('Known controller detected. Connecting automatically…');
-  await connect('remembered',true);
- }catch(e){
-  log('Previously granted Bluetooth access not available: '+e.message,'warn');
-  setAutoBleMessage('Automatic device recovery unavailable; tap Find SP608E to pair.');
- }finally{restoringPermission=false;}
+ // One recovery owner; loading recovers handles, never background GATT.
+ return window.SmartEaseConnections?.restore({reconnect:false});
 }
 function installAutoBle(){
  $('autoReconnect').checked=autoReconnectOn;
@@ -596,7 +575,7 @@ async function connect(mode='name',automatic=false){
   }
   if(!picked)throw Error('No Bluetooth device selected');
   check();if(!isSP608EName(picked.name))throw Error('Choose only the SP608E underglow controller.');
-  attemptedDevice=picked;device=picked;
+  attemptedDevice=picked;device=picked;spAttemptOwners.set(picked,attempt);
   ++bleSession;
   if(!observedBleDevices.has(picked)){
    observedBleDevices.add(picked);
@@ -608,12 +587,16 @@ async function connect(mode='name',automatic=false){
    });
   }
   $('deviceName').textContent=picked.name||'Unnamed BLE device';
-  const gatt=await picked.gatt.connect();
+  window.SmartEasePairing?.trace('sp608e','GATT connecting','Selected family validated; connecting transport');
+  const lateCleanup=()=>{if(spAttemptOwners.get(picked)===attempt&&(attempt!==spConnectionAttempt||!connectionInProgress))try{picked.gatt.disconnect();}catch{}};
+  const gatt=await SmartEasePairing.stage(picked.gatt.connect(),'sp608e','GATT connection',lateCleanup);
   check();
-  const service=await gatt.getPrimaryService(BLE_SERVICE);
+  window.SmartEasePairing?.trace('sp608e','service discovery','Discovering FFE0 / FFE1');
+  const service=await SmartEasePairing.stage(gatt.getPrimaryService(BLE_SERVICE),'sp608e','FFE0 discovery');
   check();
-  char=await service.getCharacteristic(BLE_CHARACTERISTIC);
+  const candidate=await SmartEasePairing.stage(service.getCharacteristic(BLE_CHARACTERISTIC),'sp608e','FFE1 discovery');
   check();
+  char=candidate;
   if(!char.properties?.write&&!char.properties?.writeWithoutResponse)throw Error('SP608E FFE1 is not writable in this browser.');
   rememberedDevice=picked;autoReconnectArmed=true;
   try{if(picked.id)localStorage.setItem(SAVED_BLE_ID_KEY,picked.id);window.SmartEasePairing?.remember('sp608e',picked);}catch{}
@@ -629,21 +612,24 @@ async function connect(mode='name',automatic=false){
    const ok=await spEnsureChipColors(czUniqueOutputs());
    if(!ok)log('Saved color-order synchronization postponed until the next scene.','warn');
   }
-  check();return true;
+  check();window.SmartEasePairing?.trace('sp608e','connected','Transport connected; calibrated setup retained');return true;
  }catch(err){
-  lastConnectError=(err.name||'Error')+': '+(err.message||String(err));
+  if(attempt!==spConnectionAttempt){if(attemptedDevice&&spAttemptOwners.get(attemptedDevice)===attempt)try{attemptedDevice.gatt?.disconnect();}catch{}return false;}
+  if(!automatic){autoReconnectArmed=false;cancelAutoBle();}
+  lastConnectError=window.SmartEasePairing?SmartEasePairing.describeError(err):(err.name||'Error')+': '+(err.message||String(err));
+  window.SmartEasePairing?.trace('sp608e','connection failed','No automatic chooser retry',err);
   log('Connection attempt failed ('+mode+(automatic?', auto':'')+'): '+lastConnectError,'error');
   if(!automatic)notify(err.name==='NotFoundError'||err.name==='AbortError'?'SP608E connection cancelled.':lastConnectError);
   if(automatic&&(err.name==='NotAllowedError'||err.name==='SecurityError')){
    autoReconnectArmed=false;
    setAutoBleMessage('Permission needed. Tap Find SP608E to select the device again.');
   }
-  try{attemptedDevice?.gatt?.disconnect();}catch{}
+  if(attemptedDevice&&spAttemptOwners.get(attemptedDevice)===attempt)try{attemptedDevice.gatt?.disconnect();}catch{}
   if(attempt===spConnectionAttempt)handleDisconnect();
   return false;
  }finally{
-  connectionInProgress=false;updateTransport();
-  if(autoReconnectOn&&autoReconnectArmed&&!isLive())scheduleAutoBle();
+  if(attempt===spConnectionAttempt){connectionInProgress=false;updateTransport();
+   if(autoReconnectOn&&autoReconnectArmed&&!isLive())scheduleAutoBle();}
  }
 }
 function handleDisconnect(){
@@ -656,6 +642,7 @@ function handleDisconnect(){
 }
 function disconnect(){
  spConnectionAttempt++;
+ connectionInProgress=false;
  lastDisconnectReason='';lastConnectError='';disconnectRequested=true;
  autoReconnectArmed=false;reconnectTry=0;cancelAutoBle();
  if(device?.gatt?.connected)try{device.gatt.disconnect();}catch(e){log('Disconnect: '+e.message,'warn');}
