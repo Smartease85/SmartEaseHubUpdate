@@ -595,7 +595,7 @@ async function startGradientLive(cycles=Infinity,frameDelayOverride=null){
      if(!guard())break;
      for(let step=1;step<=3&&guard();step++){
       const portion=step/3;
-      const jobs=ids.flatMap(id=>czValidAssigned(id).map(n=>hauntedFadeCommand(n,previous,stage,portion)));
+      const jobs=ids.flatMap(id=>czValidAssigned(id).map(n=>hauntedFadeCommand(n,previous,stage,portion,Math.round(current[id].brightness*255/100))));
       if(jobs.length&&!await enqueuePackets(jobs,"SmartEase front-to-rear gradient",{guard,skipRefresh:true}))
        throw Error("The controller stopped accepting gradient frames");
       for(const id of ids)current[id].color=E.mix(previous,stage,portion);
@@ -812,7 +812,7 @@ async function startHauntedFlow() {
             const col = E.mix(previous, stage, step / 2);
             const ok = await enqueuePackets(
               ports.map((n) =>
-                hauntedFadeCommand(n, previous, stage, step / 2),
+                hauntedFadeCommand(n, previous, stage, step / 2, Math.round(initial[id].brightness * 255 / 100)),
               ),
               "SmartEase live gradient",
               { guard, skipRefresh: true },
@@ -943,7 +943,7 @@ async function designerPaletteTest(){
   const commands=ports.flatMap(n=>{
    const mask=maskFor(n-1);
    return [packet(0x83,[mask,25]),packet(0x85,[mask,153]),
-    packet(0x82,[mask,1]),spCorrectedColorCommand(n,color)];
+    packet(0x82,[mask,1]),spCorrectedColorCommand(n,color,153)];
   });
   const ok=await enqueuePackets(commands,"Test selected SmartEase scene color",{skipRefresh:true,guard});
   ui("scenePaletteStatus").textContent=ok
@@ -1857,7 +1857,7 @@ async function calWrite(bytes,description){
  try{
   cancelPlayback();
   // Establish a known reference order before recording actual color responses.
-  const commands=[packet(0x84,[mask,0]),packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),packet(0x89,[mask,...bytes,255])];
+  const commands=[packet(0x84,[mask,0]),packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),packet(0x89,[mask,...bytes,130])];
   const ok=await enqueuePackets(commands,description,{skipRefresh:true,guard:()=>isLive()&&document.visibilityState==="visible"});
   if(ok){
    delete spChipApplied[n];
@@ -1878,7 +1878,7 @@ async function calSendNormalized(bytes,description){
   if(!await spEnsureChipColors([n],guard))return false;
   return !!await enqueuePackets([
    packet(0x83,[mask,25]),packet(0x85,[mask,130]),packet(0x82,[mask,1]),
-   packet(0x89,[mask,...bytes,255])
+   packet(0x89,[mask,...bytes,130])
   ],description,{skipRefresh:true,guard});
  }catch(error){calTell("calStatus","Color test failed: "+error.message);return false;}
  finally{calBusy=false;calRefreshButtons();}
@@ -1898,7 +1898,7 @@ async function calVerifySaved(primary) {
    packet(0x83,[mask,25]),
    packet(0x85,[mask,153]),
    packet(0x82,[mask,1]),
-   hauntedColorCommand(n,hex)
+   hauntedColorCommand(n,hex,153)
   ];
   const ok=await enqueuePackets(jobs,"Verify calibrated "+primary+" output "+n,{
    skipRefresh:true,guard:()=>isLive()&&document.visibilityState==="visible"
@@ -2072,13 +2072,15 @@ function calSaveMix(){
  if(calTestedSignature!==calSignature()){calTell("calMixStatus","Test this shade on your cart before saving it.");return;}
  const rawMatch=spRawManualMatchFromBalanced(n,calBytes());
  if(!hauntedValidBytes(rawMatch)){
-  calTell("calMixStatus","One channel is set to 0% balance but this shade needs it above zero. Raise that channel's balance or choose a different shade, then test again.");
+  calTell("calMixStatus","This tested shade cannot be reproduced exactly with the current RGB balance. Your draft is unchanged. Adjust the balance or shade, then test again.");
   return;
  }
+ const previous=JSON.stringify(hauntedManualMatches);
  if(!hauntedManualMatches[n])hauntedManualMatches[n]={};
  hauntedManualMatches[n][target]=rawMatch;
  const saved=hauntedManualPersist();
- calTell("calMixStatus",saved?"Saved! Scenes reuse this exact color match with the stored BRG order.":"Couldn't save the match. Check browser storage.");
+ if(!saved)hauntedManualMatches=JSON.parse(previous);
+ calTell("calMixStatus",saved?"Saved! Scenes reuse these tested color bytes with the saved LED order and current balance; scene brightness is controlled separately.":"Couldn't save the match. Check browser storage.");
  if(saved&&isLive())spEnsureChipColors([n],null,{force:true}).catch(()=>{});
 }
 function calInstall(){
@@ -2166,7 +2168,7 @@ async function mapFind(n){
   cancelPlayback();
   const mask=maskFor(n-1);
   // White is permutation-independent and changes only this decorative output.
-  const packets=[packet(0x83,[mask,25]),packet(0x85,[mask,112]),packet(0x82,[mask,1]),packet(0x89,[mask,255,255,255,255])];
+  const packets=[packet(0x83,[mask,25]),packet(0x85,[mask,112]),packet(0x82,[mask,1]),packet(0x89,[mask,255,255,255,112])];
   const ok=await enqueuePackets(packets,"Identify cart light "+n,{skipRefresh:true,guard:()=>isLive()&&document.visibilityState==="visible"});
   mapSay(ok?"Output "+n+" is lit in white. Choose its real location from the list.":"Couldn't light that output. Confirm cart power and the Bluetooth connection.");
  }catch(e){mapSay("Could not identify the strip. "+e.message);}

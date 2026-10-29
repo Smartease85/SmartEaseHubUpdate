@@ -83,7 +83,7 @@ async function studioApplySP(state,rows,guard){
  if(state.mode==="zones")return cartDevices[0].apply(rows,guard);
  const ports=Object.keys(state.channels).map(Number).filter(n=>state.channels[n].include);if(!ports.length)throw Error("Select at least one decorative SP608E output.");
  if(!await spEnsureChipColors(ports,guard))return false;const jobs=[];
- for(const port of ports){const r=state.channels[port],mask=maskFor(port-1),fx=fxById.get(r.effect);if(!r.on){jobs.push(packet(0x82,[mask,0]));continue;}jobs.push(packet(0x83,[mask,fx.id]));if(fx.speed)jobs.push(packet(0x86,[mask,r.speed]));if(fx.length)jobs.push(packet(0x87,[mask,r.length>>8,r.length&255]));if(fx.direction)jobs.push(packet(0x8a,[mask,r.direction]));jobs.push(fx.type==="Music"?packet(0x8b,[mask,r.gain]):packet(0x85,[mask,Math.round(r.brightness*255/100)]));jobs.push(packet(0x82,[mask,1]));if(fx.color)jobs.push(hauntedColorCommand(port,r.color));}
+ for(const port of ports){const r=state.channels[port],mask=maskFor(port-1),fx=fxById.get(r.effect);if(!r.on){jobs.push(packet(0x82,[mask,0]));continue;}jobs.push(packet(0x83,[mask,fx.id]));if(fx.speed)jobs.push(packet(0x86,[mask,r.speed]));if(fx.length)jobs.push(packet(0x87,[mask,r.length>>8,r.length&255]));if(fx.direction)jobs.push(packet(0x8a,[mask,r.direction]));jobs.push(fx.type==="Music"?packet(0x8b,[mask,r.gain]):packet(0x85,[mask,Math.round(r.brightness*255/100)]));jobs.push(packet(0x82,[mask,1]));if(fx.color)jobs.push(hauntedColorCommand(port,r.color,Math.round(r.brightness*255/100)));}
  return enqueuePackets(jobs,"Saved SP608E output draft",{guard});
 }
 async function studioApplyN(state,rows,guard){

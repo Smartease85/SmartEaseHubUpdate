@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="smartease-release" content="2026-10-29-sp-color-domains-v1">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07141a">
 <title>SmartEase Haunted Surge — SP608E Halloween Lab</title>
@@ -58,7 +59,7 @@ function activeChannels(){return [...document.querySelectorAll('#zones input:che
 function orderedChannels(){const active=new Set(activeChannels());const nums=$('order').value.split(/[, ]+/).map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=8);const uniq=[...new Set(nums)];return [...uniq.filter(n=>active.has(n)),...Array.from(active).filter(n=>!uniq.includes(n))];}
 function mask(chs){return chs.reduce((m,n)=>m|(1<<(n-1)),0);}
 function packet(op,args=[]){return [0x88,op,args.length,...args];}
-function pColor(ch,col){return packet(0x89,[mask([ch]),...parseHex(col),0xff]);}
+function pColor(ch,col,brightness){if(!Number.isInteger(brightness)||brightness<0||brightness>255)throw Error('Choose brightness before color');return packet(0x89,[mask([ch]),...parseHex(col),brightness]);}
 function pEffect(ch,effect){return packet(0x83,[mask([ch]),effect]);}
 function showStatus(t){$('liveStatus').textContent=t;}
 function setButtons(){ $('connect').disabled=connInProgress||connected; $('disconnect').disabled=!connected; $('playLive').disabled=!connected||live||!$('verified').checked; $('stopLive').disabled=!live; $('testBtn').disabled=!connected||live; $('query').disabled=!connected||live; $('restoreBtn').disabled=!connected; }
@@ -106,20 +107,20 @@ async function runHalloween(){if(live||!connected)return;const order=orderedChan
   showStatus('Preparing '+order.length+' outputs');
   await safeSend(packet(0x85,[mask(order),brightness]),'Brightness',guard);
   for(const ch of order)await safeSend(pEffect(ch,25),'CH'+ch+' solid mode',guard);
-  await safeSend(packet(0x89,[mask(order),...parseHex(prior),0xff]),'Start orange',guard);
+  await safeSend(packet(0x89,[mask(order),...parseHex(prior),brightness]),'Start orange',guard);
   await safeSend(packet(0x82,[mask(order),1]),'Selected zones on',guard);
   while(guard()){
    for(const stage of COLORS){if(!guard())break;showStatus('Front-to-back fade: '+stage.name);
     for(const ch of order){for(let step=1;step<=steps;step++){
       if(!guard())throw Error('Show stopped');
       const c=blend(prior,stage.hex,step/steps);
-      await safeSend(pColor(ch,c),'CH'+ch+' fade '+stage.name+' '+step+'/'+steps,guard);
+      await safeSend(pColor(ch,c,brightness),'CH'+ch+' fade '+stage.name+' '+step+'/'+steps,guard);
     }}
     prior=stage.hex;
     if(!guard())break;
     showStatus('Starbursts: '+stage.name);
     // Set single-color palette and invoke firmware's colorable Stars Twinkle effect.
-    await safeSend(packet(0x89,[mask(order),...parseHex(stage.hex),0xff]),'Stars color',guard);
+    await safeSend(packet(0x89,[mask(order),...parseHex(stage.hex),brightness]),'Stars color',guard);
     for(const ch of order)await safeSend(pEffect(ch,3),'CH'+ch+' Stars Twinkle',guard);
     await safeSend(packet(0x86,[mask(order),7]),'Twinkle speed',guard);
     for(let t=0;t<twinkleMs&&guard();t+=100)await sleep(Math.min(100,twinkleMs-t));
@@ -131,7 +132,7 @@ async function runHalloween(){if(live||!connected)return;const order=orderedChan
  finally{if(token===runId){stop('Live show stopped. Restore saved scene if desired.');}}
 }
 async function testOne(){if(live||!connected)return;const ch=Number($('testCh').value);$('testBtn').disabled=true;try{
- await send(pEffect(ch,25),'CH'+ch+' static test'); await send(pColor(ch,'#46ef77'),'CH'+ch+' green');await send(packet(0x85,[mask([ch]),100]),'CH'+ch+' dim'); await send(packet(0x82,[mask([ch]),1]),'CH'+ch+' power');log('Identify the illuminated position and update the front-to-back order.');
+ await send(pEffect(ch,25),'CH'+ch+' static test'); await send(pColor(ch,'#46ef77',100),'CH'+ch+' green');await send(packet(0x85,[mask([ch]),100]),'CH'+ch+' dim'); await send(packet(0x82,[mask([ch]),1]),'CH'+ch+' power');log('Identify the illuminated position and update the front-to-back order.');
  }finally{setButtons();}}
 async function restore(){stop('Restoring saved scene');if(!connected)return;const n=Number($('restore').value);await send(packet(0x8e,[n-1]),'Recall onboard scene '+n);showStatus('Scene '+n+' recalled (verify on cart)');}
 function exportRecipe(){const data={format:'SmartEase-SP608E-Live-Sequence-v0.1',name:'Haunted Surge',created:'2026-10-24',controller:'SP608E',type:'phone-driven-test-not-firmware-upload',colors:COLORS,frontToBack:orderedChannels(),brightnessPercent:Number($('brightness').value),fadeSteps:Number($('pace').value),twinkleSeconds:Number($('twinkle').value),firmwareEffectIDs:{solid:25,starsTwinkle:3},ble:{service:UUID_SERVICE,characteristic:UUID_CHAR}};
@@ -168,6 +169,6 @@ function demoFrame(now){if(previewPlaying){const t=Math.max(0,(now-previewStart)
 $('previewBtn').onclick=()=>{previewPlaying=!previewPlaying;$('previewBtn').textContent=previewPlaying?'Pause preview':'Resume preview';if(previewPlaying)previewStart=performance.now()-pausedT;else pausedT=performance.now()-previewStart;};
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&live)stop('Stopped: Bluefy moved to background');});
 window.addEventListener('pagehide',()=>{if(live)stop('Stopped: page closed');});
-setButtons();requestAnimationFrame(demoFrame);log('Scene ready. This is a phone-driven test; existing controller scenes are not modified.');
+setButtons();requestAnimationFrame(demoFrame);log('Build: 2026-10-29-sp-color-domains-v1. Scene ready. This is a phone-driven test; existing controller scenes are not modified.');
 </script>
 </body></html>

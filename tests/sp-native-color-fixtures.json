@@ -1,0 +1,380 @@
+{
+  "kind": "Offline formula reconstruction, not executed APK or device test",
+  "rounding": "positive libc round = floor(x+0.5)",
+  "fixtures": [
+    {
+      "name": "red full",
+      "inputColor": [
+        255,
+        0,
+        0
+      ],
+      "brightnessByte": 255,
+      "normalizedRgb": [
+        255,
+        0,
+        0
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        0,
+        0,
+        255
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "name": "green half level",
+      "inputColor": [
+        0,
+        255,
+        0
+      ],
+      "brightnessByte": 128,
+      "normalizedRgb": [
+        0,
+        255,
+        0
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        0,
+        255,
+        0,
+        128
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        0,
+        255,
+        0,
+        255
+      ]
+    },
+    {
+      "name": "blue zero level",
+      "inputColor": [
+        0,
+        0,
+        255
+      ],
+      "brightnessByte": 0,
+      "normalizedRgb": [
+        0,
+        0,
+        255
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        0,
+        0,
+        255,
+        0
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        0,
+        0,
+        255,
+        255
+      ]
+    },
+    {
+      "name": "dim amber independent level64",
+      "inputColor": [
+        128,
+        64,
+        32
+      ],
+      "brightnessByte": 64,
+      "normalizedRgb": [
+        255,
+        128,
+        64
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        128,
+        64,
+        64
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        128,
+        64,
+        32,
+        255
+      ]
+    },
+    {
+      "name": "dim amber level128",
+      "inputColor": [
+        128,
+        64,
+        32
+      ],
+      "brightnessByte": 128,
+      "normalizedRgb": [
+        255,
+        128,
+        64
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        128,
+        64,
+        128
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        128,
+        64,
+        32,
+        255
+      ]
+    },
+    {
+      "name": "gray independent level64",
+      "inputColor": [
+        128,
+        128,
+        128
+      ],
+      "brightnessByte": 64,
+      "normalizedRgb": [
+        255,
+        255,
+        255
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        255,
+        255,
+        64
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        128,
+        128,
+        128,
+        255
+      ]
+    },
+    {
+      "name": "cyan mid saturation",
+      "inputColor": [
+        64,
+        128,
+        128
+      ],
+      "brightnessByte": 128,
+      "normalizedRgb": [
+        128,
+        255,
+        255
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        128,
+        255,
+        255,
+        128
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        64,
+        128,
+        128,
+        255
+      ]
+    },
+    {
+      "name": "black encoder only",
+      "inputColor": [
+        0,
+        0,
+        0
+      ],
+      "brightnessByte": 64,
+      "normalizedRgb": [
+        255,
+        255,
+        255
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        255,
+        255,
+        64
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        0,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "name": "black V-derived picker",
+      "inputColor": [
+        0,
+        0,
+        0
+      ],
+      "brightnessByte": 0,
+      "normalizedRgb": [
+        255,
+        255,
+        255
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        255,
+        255,
+        0
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        0,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "name": "near black V-derived picker",
+      "inputColor": [
+        1,
+        0,
+        0
+      ],
+      "brightnessByte": 1,
+      "normalizedRgb": [
+        255,
+        0,
+        0
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        0,
+        0,
+        1
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        1,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "name": "mid saturation red",
+      "inputColor": [
+        255,
+        128,
+        128
+      ],
+      "brightnessByte": 128,
+      "normalizedRgb": [
+        255,
+        128,
+        128
+      ],
+      "nativeFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        128,
+        128,
+        128
+      ],
+      "publishedRawFfFrame": [
+        136,
+        137,
+        5,
+        1,
+        255,
+        128,
+        128,
+        255
+      ]
+    }
+  ]
+}

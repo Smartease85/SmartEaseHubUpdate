@@ -144,7 +144,7 @@ test("native SP608E editor sends calibrated packets only to explicitly selected 
  d.getElementById("nativeSpParked").checked=true;d.getElementById("nativeSpColor").value="#a24aec";d.getElementById("nativeSpBrightness").value="30";
  assert.equal(await b.run('nativeSpSend("apply")'),true);
  assert.equal(b.run("JSON.stringify(nativePorts)"),"[2]");
- assert.equal(b.run("JSON.stringify(nativePackets)"),JSON.stringify([[136,131,2,2,25],[136,133,2,2,77],[136,130,2,2,1],[136,137,5,2,162,37,236,255]]));
+ assert.equal(b.run("JSON.stringify(nativePackets)"),JSON.stringify([[136,131,2,2,25],[136,133,2,2,77],[136,130,2,2,1],[136,137,5,2,162,37,236,77]]));
  assert.equal(b.w.localStorage.getItem("smartease-golf-cart-zones-v2"),null);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
@@ -540,8 +540,8 @@ test("scene palette color test writes the saved calibrated shade only to selecte
  assert.equal(await b.run("designerPaletteTest()"),true);
  assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestTargets)")),[2,3,5]);
  assert.equal(b.run("rgbTestWrites.length"),12);
- assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestWrites[3])")),[136,137,5,2,162,37,236,255]);
- assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestWrites[7])")),[136,137,5,4,162,74,236,255]);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestWrites[3])")),[136,137,5,2,162,37,236,153]);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(rgbTestWrites[7])")),[136,137,5,4,162,74,236,153]);
  assert.equal(b.run("czState.scenes.length"),0,"testing a color must not auto-save scenes");
  assert.equal(b.errors.length,0);
  b.dom.window.close();
@@ -1039,7 +1039,7 @@ test("balance sliders really reach 0%, send zero-valued BLE channels and save 0%
  assert.deepEqual(JSON.parse(b.run("JSON.stringify(calBalanceDraft)")),[100,0,0]);
  b.run('isLive=()=>true;spEnsureChipColors=async()=>true;enqueuePackets=async(jobs)=>{globalThis.zeroBalancePackets=jobs;return true;}');
  assert.equal(await b.run("calBalanceTest()"),true);
- assert.deepEqual(JSON.parse(b.run("JSON.stringify(zeroBalancePackets.at(-1))")),[136,137,5,2,255,0,0,255]);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(zeroBalancePackets.at(-1))")),[136,137,5,2,255,0,0,130]);
  assert.equal(b.run("calBalanceSave()"),true);
  assert.deepEqual(JSON.parse(b.w.localStorage.getItem("smartease-sp608e-rgb-balance-v1"))["2"],[100,0,0]);
  const state=Object.fromEntries(Object.keys(b.w.localStorage).map(k=>[k,b.w.localStorage.getItem(k)]));
@@ -1075,7 +1075,7 @@ test("Less yellow quick action can reach 0% and disabled-channel fine tune avoid
  // Exercise the validator directly to verify impossible zero-gain matches
  // cannot be saved even by callers outside the button handler.
  b.run("calSaveMix()");
- assert.match(b.w.document.getElementById("calMixStatus").textContent,/set to 0%/);
+ assert.match(b.w.document.getElementById("calMixStatus").textContent,/cannot be reproduced exactly/);
  assert.equal(b.w.localStorage.getItem("smartease-haunted-manual-rgb-v1"),null);
  b.dom.window.close();
 });
@@ -1094,7 +1094,7 @@ test("fine-tune sends corrected-order RGB and saves matches without double-swapp
  b.w.document.getElementById("calRawB").value="15";
  b.run('isLive=()=>true;spEnsureChipColors=async()=>true;enqueuePackets=async(jobs)=>{globalThis.lastShadeWrites=jobs;return true;};');
  await b.run("calTestMix()");
- assert.deepEqual(JSON.parse(b.run("JSON.stringify(lastShadeWrites.at(-1))")),[136,137,5,2,255,70,15,255]);
+ assert.deepEqual(JSON.parse(b.run("JSON.stringify(lastShadeWrites.at(-1))")),[136,137,5,2,255,70,15,130]);
  b.w.document.getElementById("calMatchSave").click();
  assert.deepEqual(JSON.parse(b.w.localStorage.getItem("smartease-haunted-manual-rgb-v1"))["2"]["#ff751e"],[15,255,70]);
  assert.deepEqual(JSON.parse(b.run('JSON.stringify(spCorrectedColorBytes(2,"#ff751e"))')),[255,70,15]);

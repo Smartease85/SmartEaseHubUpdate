@@ -171,7 +171,7 @@
         jobs.push(p(0x85, [m, Math.round((r.brightness * 255) / 100)]));
         if (r.effect !== 25) jobs.push(p(0x86, [m, r.speed]));
         jobs.push(p(0x82, [m, 1]));
-        if (r.effect !== 1) jobs.push(calibrate(n, r.color));
+        if (r.effect !== 1) jobs.push(calibrate(n, r.color, Math.round((r.brightness * 255) / 100)));
       }
     }
     if (!seen.size)

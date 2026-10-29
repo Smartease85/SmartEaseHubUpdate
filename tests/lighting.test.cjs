@@ -233,7 +233,7 @@ test("simulated BLE serializes power/color/brightness writes byte for byte", asy
     c,
   );
   await vm.runInContext(
-    'Promise.all([sendPower(3,true),sendRgb(4,"#123456"),sendBrightness(16,115)])',
+    'Promise.all([sendPower(3,true),sendRgb(4,"#123456",255),sendBrightness(16,115)])',
     c,
   );
   assert.deepEqual(JSON.parse(JSON.stringify(c.written)), [
@@ -287,7 +287,7 @@ test("saved physical LED order is restored before subsequent solid colors withou
  assert.equal(await vm.runInContext('spEnsureChipColors([2])',c),true);
  assert.deepEqual(JSON.parse(JSON.stringify(c.written)),[[0x88,0x84,0x02,0x02,0x02]]);
  assert.deepEqual(JSON.parse(vm.runInContext('JSON.stringify(hauntedMatchedBytes(2,"#ff0000"))',c)),[255,0,0]);
- await vm.runInContext('sendRgb(2,"#ff0000")',c);
+ await vm.runInContext('sendRgb(2,"#ff0000",255)',c);
  assert.deepEqual(JSON.parse(JSON.stringify(c.written.at(-1))),[0x88,0x89,5,2,255,0,0,255]);
  assert.equal(c.written.length,2,"already-corrected session must not send the chip order again");
 });

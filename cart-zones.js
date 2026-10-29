@@ -245,7 +245,7 @@ function czIdentifyOutput(){
  const mask=maskFor(n-1);
  if(!confirm('Temporarily turn SP608E output '+n+' solid teal at 45% to identify its cart location? This changes its current lighting.'))return;
  czStatus('Identifying CH'+n+'… watch which part of the parked cart illuminates.');
- const jobs=[packet(0x83,[mask,25]),packet(0x85,[mask,115]),packet(0x82,[mask,1]),hauntedColorCommand(n,'#49e3d2')];
+ const jobs=[packet(0x83,[mask,25]),packet(0x85,[mask,115]),packet(0x82,[mask,1]),hauntedColorCommand(n,'#49e3d2',115)];
  enqueuePackets(jobs,'Golf cart identify output '+n).then(ok=>{
   czStatus(ok?'CH'+n+' identification sent. Select the matching cart zone and check Output '+n+'. Restore your saved scene afterward.':'Identification interrupted. Check Bluefy Bluetooth diagnostics.',!ok);
  });
@@ -344,7 +344,7 @@ async function czApplySceneRows(rows,name){
    if(fx.speed)packets.push(packet(0x86,[mask,row.speed]));
    packets.push(packet(0x82,[mask,1]));
    // Final color write matches the guided calibration test's reliable order.
-   if(fx.color)for(const n of assigned)packets.push(hauntedColorCommand(n,row.color));
+   if(fx.color)for(const n of assigned)packets.push(hauntedColorCommand(n,row.color,Math.round(row.brightness*255/100)));
   }
   czStatus('Applying '+name+' to '+outputs.length+' mapped outputs…');
   const ok=await enqueuePackets(packets,'Golf cart zone scene '+name,{guard:()=>canSend()&&document.visibilityState==='visible'});

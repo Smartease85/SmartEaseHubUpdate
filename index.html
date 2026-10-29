@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="smartease-release" content="2026-10-29-sp-color-domains-v1">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071216">
@@ -444,6 +445,7 @@ const observedCharacteristics=new WeakSet();
 const DEFAULT_SETTINGS=()=>({names:[...DEFAULT_NAMES],groups:[],looks:[],designs:[],sceneNames:Array.from({length:9},(_,i)=>`Scene ${i+1}`)});
 function loadSettings(){try{const s=JSON.parse(localStorage.getItem('smartease-cart-lights-v1')||'null');const b=DEFAULT_SETTINGS();if(!s||typeof s!=='object')return b;if(Array.isArray(s.names)&&s.names.length===8)b.names=s.names.map((v,i)=>typeof v==='string'?(v===OLD_DEFAULT_NAMES[i]?DEFAULT_NAMES[i]:v.slice(0,26)):DEFAULT_NAMES[i]);if(Array.isArray(s.groups))b.groups=s.groups.filter(g=>g&&typeof g.name==='string'&&Number.isInteger(g.mask)&&g.mask>0&&g.mask<=255).slice(0,16).map(g=>({name:g.name.slice(0,30),mask:g.mask}));if(Array.isArray(s.looks))b.looks=s.looks.filter(l=>l&&typeof l.name==='string'&&Array.isArray(l.channels)&&l.channels.length===8).slice(0,12);if(Array.isArray(s.sceneNames)&&s.sceneNames.length===9)b.sceneNames=s.sceneNames.map((x,i)=>typeof x==='string'?x.slice(0,28):`Scene ${i+1}`);if(Array.isArray(s.designs))b.designs=s.designs.filter(d=>d&&typeof d.name==='string'&&Number.isInteger(d.mask)&&d.mask>0&&d.mask<=255&&fxById.has(d.effect)&&typeof d.color==='string'&&/^#[0-9a-f]{6}$/i.test(d.color)).slice(0,20).map(d=>({name:d.name.slice(0,30),mask:d.mask,effect:d.effect,color:d.color,speed:Math.min(10,Math.max(1,Math.round(Number(d.speed)||5))),brightness:Math.min(255,Math.max(10,Math.round(Number(d.brightness)||115)))}));return b;}catch{return DEFAULT_SETTINGS();}}
 let settings=loadSettings();
+let spPickerReported=null;
 function saveSettings(){try{localStorage.setItem('smartease-cart-lights-v1',JSON.stringify(settings));}catch(e){log('Local storage is unavailable: '+e.message,'warn');}}
 const newChannel=()=>({known:false,power:false,effect:25,order:0,brightness:115,speed:5,length:32,direction:1,color:'#49e3d2'});
 let channels=Array.from({length:N},newChannel);
@@ -489,7 +491,7 @@ function buildEffects(){const el=$('effectPicker');for(const type of ['Static','
 function renderEffectControls(){const fx=fxById.get(Number($('effectPicker').value));if(!fx)return;const map=[['speed','Speed'],['length','Length'],['direction','Direction'],['color','Color']];const el=$('effectBadges');el.replaceChildren();for(const [k,label] of map){if(fx[k]){const t=document.createElement('span');t.textContent=label;el.append(t);}}$('effectInfo').textContent=fx.type==='Music'?'Controller mic/audio-responsive effect.':'Effect ID 0x'+fx.id.toString(16).padStart(2,'0').toUpperCase()+' / '+fx.type.toLowerCase()+' mode';$('effectSpeed').disabled=!fx.speed;$('effectLength').disabled=!fx.length;$('directionForward').disabled=$('directionReverse').disabled=!fx.direction;}
 function renderPreview(frame=-1){const el=$('sequencePreview');el.replaceChildren();for(let i=0;i<N;i++){const cell=document.createElement('div');cell.className='preview-cell'+(frame&maskFor(i)?' live':'');cell.textContent=String(i+1);el.append(cell);}}
 function renderState(){renderZones();if(channels.some(c=>c.known)){const first=channels.find(c=>c.known);$('gain').value=window.reportedGain??$('gain').value;if(Number.isInteger(window.reportedSceneLoop))$('sceneLoop').checked=!!window.reportedSceneLoop;if(first){$('chipOrder').value=String(first.order);}}updateCounters();syncControlsToSelection();updateTransport();}
-function syncControlsToSelection(){const ix=indexes(selectedMask);if(ix.length!==1||!channels[ix[0]].known)return;const c=channels[ix[0]];$('masterBrightness').value=c.brightness;$('brightnessValue').textContent=Math.round(100*c.brightness/255)+'%';$('mainColor').value=c.color;$('colorHex').value=c.color;if(fxById.has(c.effect)){$('effectPicker').value=String(c.effect);renderEffectControls();}$('effectSpeed').value=cap(c.speed,1,10);$('speedValue').textContent=$('effectSpeed').value+' / 10';$('effectLength').value=cap(c.length,1,240);$('lengthValue').textContent=$('effectLength').value+' pixels';$('chipOrder').value=String(c.order);$('directionForward').classList.toggle('is-selected',!!c.direction);$('directionReverse').classList.toggle('is-selected',!c.direction);}
+function syncControlsToSelection(){const ix=indexes(selectedMask);if(ix.length!==1||!channels[ix[0]].known)return;const c=channels[ix[0]];spPickerReported={domain:'wire-v1',session:bleSession,output:ix[0]+1,order:c.order,color:c.color,mask:selectedMask};$('masterBrightness').value=c.brightness;$('brightnessValue').textContent=Math.round(100*c.brightness/255)+'%';$('mainColor').value=c.color;$('colorHex').value=c.color;if(fxById.has(c.effect)){$('effectPicker').value=String(c.effect);renderEffectControls();}$('effectSpeed').value=cap(c.speed,1,10);$('speedValue').textContent=$('effectSpeed').value+' / 10';$('effectLength').value=cap(c.length,1,240);$('lengthValue').textContent=$('effectLength').value+' pixels';$('chipOrder').value=String(c.order);$('directionForward').classList.toggle('is-selected',!!c.direction);$('directionReverse').classList.toggle('is-selected',!c.direction);}
 function switchTab(tab){if(tab!=='scenes'&&hauntedRunning)hauntedEnd('Halloween stopped when leaving Scenes.');if(tab!=='studio'&&studioRunning)stopStudio('Navigation stopped live playback.');document.querySelectorAll('[data-tab]').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);if(b.getAttribute('role')==='tab')b.setAttribute('aria-selected',String(active));});document.querySelectorAll('.tab').forEach(el=>{const active=el.id==='tab-'+tab;el.classList.toggle('active',active);el.setAttribute('aria-hidden',String(!active));});}
 function toDataView(data){return new Uint8Array(data.buffer,data.byteOffset,data.byteLength);}
 function onNotification(evt){try{const bytes=toDataView(evt.target.value);rxCount++;log('RX  '+hex(bytes));updateCounters();if(bytes.length<5||bytes[0]!==0x36||bytes[1]!==0x38)return;const seq=bytes[2],total=bytes[3],count=bytes[4],payload=bytes.slice(5);if(!seq||count!==payload.length||!total||total>255){log('Dropped invalid status fragment.','warn');frameBuffer=null;return;}if(seq===1){frameBuffer={next:2,total,parts:[...payload]};}else if(!frameBuffer||seq!==frameBuffer.next||frameBuffer.total!==total){log('Dropped out-of-sequence status fragment.','warn');frameBuffer=null;return;}else{frameBuffer.parts.push(...payload);frameBuffer.next++;}if(frameBuffer.parts.length>total){log('Status payload overflow.','warn');frameBuffer=null;return;}if(frameBuffer.parts.length===total){const complete=new Uint8Array(frameBuffer.parts);frameBuffer=null;readChannelState(complete);}}
@@ -699,9 +701,20 @@ function enqueuePackets(packets,label,options={}){
 function packet(op,args=[]){return [0x88,op,args.length,...args];}
 function sendPower(mask,on,opts={}){if(!mask){notify('Select at least one zone.');return Promise.resolve(false);}return enqueuePackets(packet(0x82,[mask,on?1:0]),on?'Power on':'Power off',opts);}
 function sendBrightness(mask,v){if(!mask){notify('Select a zone.');return;}return enqueuePackets(packet(0x85,[mask,cap(v,0,255)]),'Brightness '+v);}
-async function sendRgb(mask,color){
+async function sendRgb(mask,color,brightness,options={}){
  if(!mask){notify('Select a zone.');return false;}
  const ports=indexes(mask).map(i=>i+1),jobs=[],restores=[];
+ if(options.domain!==undefined&&options.domain!==SP_COLOR_DOMAINS.legacy&&options.domain!==SP_COLOR_DOMAINS.wire)return false;
+ if(!isHex(color)){notify('Choose a valid color.');return false;}
+ const levels=ports.map(n=>spColorLevel(n,brightness));
+ if(levels.some(v=>v===null)){notify('Choose brightness or read current channel status before applying color.');return false;}
+ if(options.domain==='wire-v1'){
+  if(ports.length!==1||options.session!==bleSession||options.output!==ports[0]||!Number.isInteger(options.order)||options.order<0||options.order>5)return false;
+  jobs.push(packet(0x84,[mask,options.order]),spWireColorCommand(ports[0],rgbFromHex(color),levels[0]));
+  const session=bleSession,ok=await enqueuePackets(jobs,'Reapply reported RGB');
+  if(ok&&session===bleSession){delete spChipApplied[ports[0]];if(channels[ports[0]-1]?.known)channels[ports[0]-1].order=options.order;}
+  return ok;
+ }
  // Queue chip-order updates and colors as ONE serialized operation: pressing
  // brightness straight after color must never overtake the RGB commands.
  for(const n of ports){
@@ -715,7 +728,7 @@ async function sendRgb(mask,color){
  }
  for(const n of ports){
   const bytes=spChipRecord(n)?spCorrectedColorBytes(n,color):hauntedMatchedBytes(n,color);
-  jobs.push(packet(0x89,[maskFor(n-1),...bytes,0xff]));
+  jobs.push(spWireColorCommand(n,bytes,levels[ports.indexOf(n)]));
  }
  const session=bleSession;
  const ok=await enqueuePackets(jobs,'RGB '+color);
@@ -737,13 +750,34 @@ function setSceneLoop(on){enqueuePackets(packet(0x90,[on?1:0]),'Scene loop '+(on
 async function setChipOrder(mask,order){if(!mask)return false;const ok=await enqueuePackets(packet(0x84,[mask,cap(order,0,5)]),'Chip order '+rgbOrders[order]);if(ok)for(const i of indexes(mask)){delete spChipApplied[i+1];if(channels[i]?.known)channels[i].order=cap(order,0,5);}return ok;}
 function queryState(){if(!canSend())return Promise.resolve(false);return enqueuePackets(packet(0x8f),'Read SP608E status',{skipRefresh:true});}
 function scheduleRead(){clearTimeout(pendingRefresh);if(studioRunning)return;pendingRefresh=setTimeout(()=>{pendingRefresh=null;if(isLive()&&!studioRunning&&document.visibilityState==='visible')queryState();},1200);}
-function applyDemo(command){const [prefix,opcode,,...arg]=command;if(prefix!==0x88)return;if(opcode===0x8e)return;if(opcode===0x90){window.reportedSceneLoop=arg[0];return;}if(opcode===0x8b){window.reportedGain=arg[1];return;}const mask=arg[0]??0;for(const i of indexes(mask)){const c=channels[i];if(opcode===0x82)c.power=!!arg[1];if(opcode===0x83)c.effect=arg[1];if(opcode===0x84)c.order=arg[1];if(opcode===0x85)c.brightness=arg[1];if(opcode===0x86)c.speed=arg[1];if(opcode===0x87)c.length=(arg[1]<<8)|arg[2];if(opcode===0x89)c.color=colorToHex(arg[1],arg[2],arg[3]);if(opcode===0x8a)c.direction=arg[1];}renderState();}
-function captureLook(){if(!channels.every(c=>c.known)){notify('Read controller status first (all 8 channels).');return;}const name=$('lookName').value.trim()||'Look '+(settings.looks.length+1);settings.looks.push({name:name.slice(0,30),channels:channels.map(c=>({...c}))});settings.looks=settings.looks.slice(-12);saveSettings();$('lookName').value='';renderLooks();notify('Saved locally: '+name);}
-function packetsForLook(look){const jobs=[];for(let i=0;i<N;i++){const c=look.channels[i],m=maskFor(i);if(!c||!Number.isInteger(c.effect)||!fxById.has(c.effect))continue;const fx=fxById.get(c.effect);jobs.push(packet(0x83,[m,c.effect]));if(fx.color&&isHex(c.color)){jobs.push(hauntedColorCommand(i+1,c.color));}if(fx.speed)jobs.push(packet(0x86,[m,cap(c.speed,1,10)]));if(fx.length){const n=cap(c.length,1,240);jobs.push(packet(0x87,[m,n>>8,n&255]));}if(fx.direction)jobs.push(packet(0x8a,[m,c.direction?1:0]));if(fx.type!=='Music')jobs.push(packet(0x85,[m,cap(c.brightness,0,255)]));jobs.push(packet(0x82,[m,c.power?1:0]));}return jobs;}
+function applyDemo(command){const [prefix,opcode,,...arg]=command;if(prefix!==0x88)return;if(opcode===0x8e)return;if(opcode===0x90){window.reportedSceneLoop=arg[0];return;}if(opcode===0x8b){window.reportedGain=arg[1];return;}const mask=arg[0]??0;for(const i of indexes(mask)){const c=channels[i];if(opcode===0x82)c.power=!!arg[1];if(opcode===0x83)c.effect=arg[1];if(opcode===0x84)c.order=arg[1];if(opcode===0x85)c.brightness=arg[1];if(opcode===0x86)c.speed=arg[1];if(opcode===0x87)c.length=(arg[1]<<8)|arg[2];if(opcode===0x89){c.color=colorToHex(arg[1],arg[2],arg[3]);c.brightness=arg[4];}if(opcode===0x8a)c.direction=arg[1];}renderState();}
+function captureLook(){if(!channels.every(c=>c.known)){notify('Read controller status first (all 8 channels).');return;}const name=$('lookName').value.trim()||'Look '+(settings.looks.length+1);settings.looks.push({name:name.slice(0,30),colorDomain:'wire-v1',channels:channels.map(c=>({...c}))});settings.looks=settings.looks.slice(-12);saveSettings();$('lookName').value='';renderLooks();notify('Saved locally: '+name);}
+function packetsForLook(look){
+ if(look.colorDomain!==undefined&&look.colorDomain!==SP_COLOR_DOMAINS.wire)throw Error('Unknown look color domain; not applied');
+ const jobs=[];
+ for(let i=0;i<N;i++){
+  const c=look.channels[i],m=maskFor(i);if(!c||!Number.isInteger(c.effect)||!fxById.has(c.effect))continue;
+  if(!Number.isInteger(c.order)||c.order<0||c.order>5||!Number.isInteger(c.brightness)||c.brightness<0||c.brightness>255)throw Error('Snapshot requires its original order and brightness; read and capture again');
+  const fx=fxById.get(c.effect);
+  jobs.push(packet(0x84,[m,c.order]),packet(0x83,[m,c.effect]));
+  if(fx.speed)jobs.push(packet(0x86,[m,cap(c.speed,1,10)]));
+  if(fx.length){const n=cap(c.length,1,240);jobs.push(packet(0x87,[m,n>>8,n&255]));}
+  if(fx.direction)jobs.push(packet(0x8a,[m,c.direction?1:0]));
+  if(fx.type!=='Music')jobs.push(packet(0x85,[m,c.brightness]));
+  jobs.push(packet(0x82,[m,c.power?1:0]));
+  if(fx.color&&isHex(c.color))jobs.push(spWireColorCommand(i+1,rgbFromHex(c.color),c.brightness));
+ }
+ return jobs;
+}
 async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}if(!confirm('Apply "'+look.name+'" to all eight SP608E channels? This sends many BLE commands and will change your current lighting.'))return;stopStudio();
- const ports=look.channels.flatMap((c,i)=>c&&Number.isInteger(c.effect)&&fxById.has(c.effect)?[i+1]:[]);
- if(!await spEnsureChipColors(ports)){notify('Could not restore your saved color settings.');return;}
- const jobs=packetsForLook(look);notify('Applying '+jobs.length+' lighting commands...');log('Applying local look "'+look.name+'" with '+jobs.length+' commands.');const success=await enqueuePackets(jobs,'Restore local look '+look.name);if(success)notify('Look commands sent. Read back to verify.');}
+ let jobs;try{jobs=packetsForLook(look);}catch(error){notify(error.message);return false;}
+ // A captured snapshot restores its own chip order, never current calibration.
+ const session=bleSession;
+ notify('Applying '+jobs.length+' lighting commands...');log('Applying local look "'+look.name+'" with '+jobs.length+' commands.');
+ const success=await enqueuePackets(jobs,'Restore local look '+look.name);
+ if(success&&session===bleSession){for(let i=0;i<N;i++)if(look.channels[i]){delete spChipApplied[i+1];if(channels[i]?.known)channels[i].order=look.channels[i].order;}}
+ if(success)notify('Look commands sent. Read back to verify.');return success;}
+
 
 /* Create presents five real cart areas, not eight hypothetical positions.
    Lights, Effects and diagnostics retain raw SP608E channel-level controls. */
@@ -796,7 +830,7 @@ async function applyBuiltInLook(look,label='Your look'){
  const ports=indexes(look.mask).map(i=>i+1);
  if(!await spEnsureChipColors(ports)){notify('Could not restore calibrated light colors.');return false;}
  const jobs=ports.map(n=>packet(0x83,[maskFor(n-1),fx.id]));
- if(fx.color)jobs.push(...ports.map(n=>hauntedColorCommand(n,look.color)));
+ if(fx.color)jobs.push(...ports.map(n=>hauntedColorCommand(n,look.color,cap(look.brightness,10,255))));
  jobs.push(packet(0x85,[look.mask,cap(look.brightness,10,255)]));
  if(fx.speed)jobs.push(packet(0x86,[look.mask,cap(look.speed,1,10)]));
  jobs.push(packet(0x82,[look.mask,1]));
@@ -847,7 +881,7 @@ async function startStudio(){
  if(!await spEnsureChipColors(list.map(i=>i+1),active,{studio:true})){
   stopStudio('Could not restore color calibration for the live show.');return;
  }
- const setup=[...list.map(i=>packet(0x83,[maskFor(i),25])),...list.map(i=>hauntedColorCommand(i+1,color)),packet(0x85,[studioMask,115]),packet(0x82,[studioMask,0])];
+ const setup=[...list.map(i=>packet(0x83,[maskFor(i),25])),...list.map(i=>hauntedColorCommand(i+1,color,115)),packet(0x85,[studioMask,115]),packet(0x82,[studioMask,0])];
  if(!await enqueuePackets(setup,'Live show setup',{skipRefresh:true,studio:true,guard:active})){
   stopStudio('Could not prepare lights. Check the BLE connection.');return;
  }
@@ -868,14 +902,14 @@ async function startStudio(){
 }
 function indexForStudioStatus(mask){return indexes(mask).map(i=>settings.names[i]).join(' + ')||'No lights';}
 function installUI(){document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$('connectBtn').onclick=()=>connect(rememberedDevice?'remembered':'name');$('scanServiceBtn').onclick=()=>connect('service');$('scanAllBtn').onclick=()=>connect('all');$('disconnectBtn').onclick=disconnect;$('refreshBtn').onclick=queryState;$('refreshControl').onclick=queryState;$('readStatus').onclick=queryState;$('readSceneStatus').onclick=queryState;$('demoBtn').onclick=()=>transport==='demo'?exitDemo():enterDemo();$('allZones').onclick=()=>selectMask(ALL);$('powerOn').onclick=()=>sendPower(selectedMask,true);$('powerOff').onclick=()=>sendPower(selectedMask,false);$('allOn').onclick=()=>sendPower(ALL,true);$('allOff').onclick=()=>{stopStudio();sendPower(ALL,false);};$('renameChannel').onchange=()=>{$('zoneRename').value=settings.names[Number($('renameChannel').value)];};$('saveZoneName').onclick=()=>{const id=Number($('renameChannel').value),value=$('zoneRename').value.trim();if(!value){notify('Enter a zone name.');return;}settings.names[id]=value.slice(0,26);saveSettings();renderZones();renderRenames();updateSelected();notify('Output '+(id+1)+' renamed.');};$('saveGroup').onclick=()=>{const name=$('groupName').value.trim();if(!selectedMask){notify('Select at least one zone.');return;}if(!name){notify('Enter a group name.');return;}settings.groups=settings.groups.filter(g=>g.name.toLowerCase()!==name.toLowerCase());settings.groups.push({name:name.slice(0,30),mask:selectedMask});settings.groups=settings.groups.slice(-16);saveSettings();renderGroups();$('groupName').value='';notify('Group saved locally.');};
-$('mainColor').oninput=()=>$('colorHex').value=$('mainColor').value;$('colorHex').onchange=()=>{if(isHex($('colorHex').value))$('mainColor').value=$('colorHex').value;else{$('colorHex').value=$('mainColor').value;notify('Use a six-digit hex color.');}};$('applyColor').onclick=()=>sendRgb(selectedMask,$('mainColor').value);const sw=$('colorSwatches');COLORS.forEach(c=>{const b=document.createElement('button');b.className='swatch';b.type='button';b.style.setProperty('--swatch',c);b.title='Apply color '+c;b.setAttribute('aria-label','Apply '+c);b.onclick=()=>{$('mainColor').value=c;$('colorHex').value=c;sendRgb(selectedMask,c);};sw.append(b);});$('masterBrightness').oninput=()=>{$('brightnessValue').textContent=Math.round(100*Number($('masterBrightness').value)/255)+'%';};$('masterBrightness').onchange=()=>sendBrightness(selectedMask,Number($('masterBrightness').value));$('effectPicker').onchange=renderEffectControls;$('applyEffect').onclick=()=>sendEffect(selectedMask,Number($('effectPicker').value));$('effectSpeed').oninput=()=>{$('speedValue').textContent=$('effectSpeed').value+' / 10';};$('effectSpeed').onchange=()=>sendSpeed(selectedMask,Number($('effectSpeed').value));$('effectLength').oninput=()=>{$('lengthValue').textContent=$('effectLength').value+' pixels';};$('effectLength').onchange=()=>sendLength(selectedMask,Number($('effectLength').value));const setDir=(f)=>{$('directionForward').classList.toggle('is-selected',f);$('directionReverse').classList.toggle('is-selected',!f);sendDirection(selectedMask,f?1:0);};$('directionForward').onclick=()=>setDir(true);$('directionReverse').onclick=()=>setDir(false);$('gain').oninput=()=>{$('gainValue').textContent=$('gain').value;};$('sendGain').onclick=()=>sendSensitivity(ALL,Number($('gain').value));$('applyChipOrder').onclick=()=>{const o=Number($('chipOrder').value);if(confirm('Change RGB order to '+rgbOrders[o]+' for '+indexes(selectedMask).length+' selected outputs?'))setChipOrder(selectedMask,o);};$('sceneLoop').onchange=()=>{if(!canSend()){$('sceneLoop').checked=!!window.reportedSceneLoop;notify('Connect first.');return;}setSceneLoop($('sceneLoop').checked);};$('captureLook').onclick=captureLook;$('sequenceDelay').oninput=()=>{$('delayValue').textContent=$('sequenceDelay').value+' ms';};$('startSequence').onclick=startStudio;$('stopSequence').onclick=()=>{stopStudio('Live show stopped by user.');if(isLive())scheduleRead();};$('clearSequence').onclick=()=>{stopStudio();sendPower(selectedMask,false);};$('stopSequence').disabled=true;
-$('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>applyBuiltInLook({mask:selectedMask,effect:Number(b.dataset.quickfx),color:$('mainColor').value,speed:5,brightness:Number($('masterBrightness').value)},b.querySelector('strong').textContent));
+$('mainColor').oninput=()=>{spPickerReported=null;$('colorHex').value=$('mainColor').value;};$('colorHex').onchange=()=>{if(isHex($('colorHex').value)){spPickerReported=null;$('mainColor').value=$('colorHex').value;}else{$('colorHex').value=$('mainColor').value;notify('Use a six-digit hex color.');}};$('applyColor').onclick=()=>{const color=$('mainColor').value;if(spPickerReported&&(spPickerReported.mask!==selectedMask||spPickerReported.color!==color)){notify('Reported color belongs to another selection. Explicitly choose a target color before applying to these outputs.');return Promise.resolve(false);}const reported=spPickerReported||{};return sendRgb(selectedMask,color,Number($('masterBrightness').value),reported);};const sw=$('colorSwatches');COLORS.forEach(c=>{const b=document.createElement('button');b.className='swatch';b.type='button';b.style.setProperty('--swatch',c);b.title='Apply color '+c;b.setAttribute('aria-label','Apply '+c);b.onclick=()=>{spPickerReported=null;$('mainColor').value=c;$('colorHex').value=c;sendRgb(selectedMask,c,Number($('masterBrightness').value));};sw.append(b);});$('masterBrightness').oninput=()=>{$('brightnessValue').textContent=Math.round(100*Number($('masterBrightness').value)/255)+'%';};$('masterBrightness').onchange=()=>sendBrightness(selectedMask,Number($('masterBrightness').value));$('effectPicker').onchange=renderEffectControls;$('applyEffect').onclick=()=>sendEffect(selectedMask,Number($('effectPicker').value));$('effectSpeed').oninput=()=>{$('speedValue').textContent=$('effectSpeed').value+' / 10';};$('effectSpeed').onchange=()=>sendSpeed(selectedMask,Number($('effectSpeed').value));$('effectLength').oninput=()=>{$('lengthValue').textContent=$('effectLength').value+' pixels';};$('effectLength').onchange=()=>sendLength(selectedMask,Number($('effectLength').value));const setDir=(f)=>{$('directionForward').classList.toggle('is-selected',f);$('directionReverse').classList.toggle('is-selected',!f);sendDirection(selectedMask,f?1:0);};$('directionForward').onclick=()=>setDir(true);$('directionReverse').onclick=()=>setDir(false);$('gain').oninput=()=>{$('gainValue').textContent=$('gain').value;};$('sendGain').onclick=()=>sendSensitivity(ALL,Number($('gain').value));$('applyChipOrder').onclick=()=>{const o=Number($('chipOrder').value);if(confirm('Change RGB order to '+rgbOrders[o]+' for '+indexes(selectedMask).length+' selected outputs?'))setChipOrder(selectedMask,o);};$('sceneLoop').onchange=()=>{if(!canSend()){$('sceneLoop').checked=!!window.reportedSceneLoop;notify('Connect first.');return;}setSceneLoop($('sceneLoop').checked);};$('captureLook').onclick=captureLook;$('sequenceDelay').oninput=()=>{$('delayValue').textContent=$('sequenceDelay').value+' ms';};$('startSequence').onclick=startStudio;$('stopSequence').onclick=()=>{stopStudio('Live show stopped by user.');if(isLive())scheduleRead();};$('clearSequence').onclick=()=>{stopStudio();sendPower(selectedMask,false);};$('stopSequence').disabled=true;
+$('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>{if(spPickerReported){notify('Choose a target color explicitly before applying a preset to reported RGB.');return false;}return applyBuiltInLook({mask:selectedMask,effect:Number(b.dataset.quickfx),color:$('mainColor').value,speed:5,brightness:Number($('masterBrightness').value)},b.querySelector('strong').textContent);});
  ['studioEffect','studioColor','studioBrightness','studioSpeed'].forEach(id=>{$(id).addEventListener('input',renderLookPreview);$(id).addEventListener('change',renderLookPreview);});
  $('applyCustomLook').onclick=()=>applyBuiltInLook(selectedDesign(),'Your custom look');
  $('saveCustomLook').onclick=saveCustomDesign;
  $('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();renderStudioZones();renderLookPreview();renderDesigns();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
 window.addEventListener('pagehide',()=>{stopStudio();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')stopStudio('Studio stopped when page became hidden.');});
-renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
+renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-29-sp-color-domains-v1. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
 
 /* Haunted Surge uses the main app's serialized BLE queue and existing characteristic.
    All animations are host-driven; no scene-store or firmware-write opcode is used. */
@@ -898,10 +932,9 @@ function hauntedMix(a,b,ratio){
  return colorToHex(...x.map((v,i)=>Math.round(v+(y[i]-v)*ratio)));
 }
 
-/* Per-output Halloween color calibration. The wire payload (0x89) is RGB,
- but physical strips sometimes show a different permutation. Store what each
- raw RED/GREEN/BLUE command physically displayed and invert it for Halloween.
- This never writes the controller's chip-order command (0x84). */
+/* Per-output Halloween calibration. Opcode89 carries RGB plus brightness.
+ Legacy observed RGB mappings are preserved; the calibrated hardware-order path
+ restores opcode84 explicitly, while its software fallback permutes RGB/gains. */
 const H_IDENT=['r','g','b'],H_PURE={r:'#ff0000',g:'#00ff00',b:'#0000ff'};
 let hauntedColorFix={},hauntedObserved={},hauntedManualMatches={};
 
@@ -960,6 +993,35 @@ try{
     spRgbBalance[n]=[...v];
   }
 }catch{}
+/* Explicit color domains, version 1. Existing stored scenes/manual matches remain
+   legacy authored RGB (including magnitude); no migration or normalization.
+   Only an explicit native target normalizes chroma BEFORE calibration.
+   Wire/report RGB is already calibrated and is NEVER normalized or gained. */
+const SP_COLOR_DOMAINS=Object.freeze({legacy:'legacy-rgb-v1',native:'native-chroma-v1',wire:'wire-v1'});
+function spColorLevel(n,level){
+ if(Number.isInteger(level)&&level>=0&&level<=255)return level;
+ if(level!==undefined)return null;
+ const c=channels[n-1];return c?.known&&Number.isInteger(c.brightness)&&c.brightness>=0&&c.brightness<=255?c.brightness:null;
+}
+function spNativeChroma(rgb){
+ if(!hauntedValidBytes(rgb))throw Error('Invalid native RGB');
+ const maximum=Math.max(...rgb);
+ return maximum===0?[255,255,255]:rgb.map(v=>Math.floor(v*255/maximum+0.5));
+}
+function spWireColorCommand(n,rgb,brightness){
+ const level=spColorLevel(n,brightness);
+ if(!Number.isInteger(n)||n<1||n>8||!hauntedValidBytes(rgb)||level===null)throw Error('Color requires explicit or known brightness');
+ return packet(0x89,[maskFor(n-1),...rgb,level]);
+}
+function spNativeTargetCommand(n,color,brightness,options={}){
+ if(!isHex(color))throw Error('Invalid native color');
+ // Explicit contracts: a general picker derives V; hue/saturation callbacks
+ // preserve an explicitly supplied/current brightness, including for black.
+ const mode=options.brightnessMode||'derive-value';
+ if(mode!=='derive-value'&&mode!=='preserve')throw Error('Unknown native brightness mode');
+ const level=mode==='derive-value'?Math.max(...rgbFromHex(color)):brightness;
+ return spWireColorCommand(n,spCorrectedColorBytes(n,color,SP_COLOR_DOMAINS.native),level);
+}
 function spBalanceFor(n){
  const balance=spRgbBalance[n];
  return balance?[...balance]:[100,100,100];
@@ -994,8 +1056,9 @@ function spChipReady(n){
  const r=spChipRecord(n),state=spChipApplied[n];
  return !!r&&!!state&&state.session===bleSession&&state.order===r.target;
 }
-function spCorrectedColorBytes(n,color){
- const desired=rgbFromHex(color),saved=hauntedManualMatches[n]?.[String(color).toLowerCase()];
+function spCorrectedColorBytes(n,color,domain=SP_COLOR_DOMAINS.legacy){
+ if(domain!==SP_COLOR_DOMAINS.legacy&&domain!==SP_COLOR_DOMAINS.native)throw Error('Not an authored color domain');
+ const desired=domain===SP_COLOR_DOMAINS.native?spNativeChroma(rgbFromHex(color)):rgbFromHex(color),saved=domain===SP_COLOR_DOMAINS.legacy?hauntedManualMatches[n]?.[String(color).toLowerCase()]:null;
  let calibrated=desired;
  if(hauntedValidBytes(saved)){
   const observed=spChipRecord(n)?.observed;
@@ -1010,16 +1073,18 @@ function spCorrectedColorBytes(n,color){
 function spRawManualMatchFromBalanced(n,bytes){
  if(!hauntedValidBytes(bytes))return null;
  const gain=spBalanceFor(n);
- // A disabled channel can only reproduce zero: avoid 0/0 and infinity in
- // stored custom shades. Tell callers if the requested color is impossible.
- const unbalanced=bytes.map((v,i)=>gain[i]===0?(v===0?0:null):
-  Math.max(0,Math.min(255,Math.round(v*100/gain[i]))));
+ // Search the finite integer domain: rounding and saturation can make a
+ // tested byte unreachable. Reject, rather than save a silently clipped match.
+ const unbalanced=bytes.map((v,i)=>{
+  for(let input=0;input<=255;input++)if(spBalanceBytes([input,input,input],gain)[i]===v)return input;
+  return null;
+ });
  if(unbalanced.some(v=>v===null))return null;
  const observed=spChipRecord(n)?.observed;
  return observed?observed.map(channel=>unbalanced['rgb'.indexOf(channel)]):unbalanced;
 }
-function spCorrectedColorCommand(n,color){
- return packet(0x89,[maskFor(n-1),...spCorrectedColorBytes(n,color),0xff]);
+function spCorrectedColorCommand(n,color,brightness){
+ return spWireColorCommand(n,spCorrectedColorBytes(n,color),brightness);
 }
 async function spEnsureChipColors(outputs,guard=null,options={}){
  const seen=new Set(),targets=[];
@@ -1065,15 +1130,19 @@ function hauntedMatchedBytes(n,col){
  if(spChipReady(n))return spCorrectedColorBytes(n,col);
  const key=String(col).toLowerCase();
  const saved=hauntedManualMatches[n]&&hauntedManualMatches[n][key];
- return hauntedValidBytes(saved)?[...saved]:hauntedRgbBytes(n,col);
+ const raw=hauntedValidBytes(saved)?[...saved]:hauntedRgbBytes(n,col);
+ // In software-order fallback, gains remain in physical RGB coordinates.
+ const observed=hauntedGoodMap(hauntedColorFix[n])?hauntedColorFix[n]:H_IDENT;
+ const gain=spBalanceFor(n),wireGain=observed.map(c=>gain['rgb'.indexOf(c)]);
+ return spBalanceBytes(raw,wireGain);
 }
-function hauntedColorCommand(n,col){
- return packet(0x89,[maskFor(n-1),...hauntedMatchedBytes(n,col),0xff]);
+function hauntedColorCommand(n,col,brightness){
+ return spWireColorCommand(n,hauntedMatchedBytes(n,col),brightness);
 }
-function hauntedFadeCommand(n,from,to,ratio){
+function hauntedFadeCommand(n,from,to,ratio,brightness){
  const a=hauntedMatchedBytes(n,from),b=hauntedMatchedBytes(n,to);
  const mixed=a.map((v,i)=>Math.max(0,Math.min(255,Math.round(v+(b[i]-v)*ratio))));
- return packet(0x89,[maskFor(n-1),...mixed,0xff]);
+ return spWireColorCommand(n,mixed,brightness);
 }
 function hauntedCalMessage(msg){$('hauntedCalStatus').textContent=msg;}
 function hauntedCalibrationChoices(){
@@ -1133,7 +1202,7 @@ async function hauntedCalibrationTest(primary){
   packet(0x83,[m,25]),
   packet(0x85,[m,155]),
   packet(0x82,[m,1]),
-  packet(0x89,[m,...rgbFromHex(col),0xff])
+  spWireColorCommand(n,rgbFromHex(col),155)
  ];
  const ok=await enqueuePackets(packets,'RGB raw test '+primary.toUpperCase()+' output '+n);
  if(ok){delete spChipApplied[n];if(channels[n-1]?.known)channels[n-1].order=0;}
@@ -1162,7 +1231,7 @@ function hauntedManualRefreshPreview(){
 function hauntedManualSelect(){
  const n=Number($('hauntedManualChannel').value),target=hauntedTargetHex();
  $('hauntedManualCustomWrap').hidden=$('hauntedManualTarget').value!=='custom';
- const correction=hauntedMatchedBytes(n,target);
+ const correction=spCorrectedColorBytes(n,target);
  ['hauntedManualR','hauntedManualG','hauntedManualB'].forEach((id,i)=>$(id).value=String(correction[i]));
  hauntedManualRefreshPreview();
  const saved=hauntedManualMatches[n]&&hauntedManualMatches[n][target];
@@ -1182,11 +1251,17 @@ function hauntedManualSave(all){
   try{outputs=hauntedOrders();}catch(e){hauntedManualMessage(e.message);return;}
   if(!confirm('Copy the raw RGB mix to '+outputs.length+' outputs? Do this only if all strips respond identically.'))return;
  }
- for(const channel of outputs){
-  if(!hauntedManualMatches[channel])hauntedManualMatches[channel]={};
-  hauntedManualMatches[channel][target]=[...values];
+ const matches=outputs.map(channel=>spRawManualMatchFromBalanced(channel,values));
+ if(matches.some(match=>!hauntedValidBytes(match))){
+  hauntedManualMessage('This tested shade cannot be reproduced exactly with the current RGB balance. Your draft is unchanged. Adjust the balance or shade, then test again.');return;
  }
- if(!hauntedManualPersist())return;
+ const previous=JSON.stringify(hauntedManualMatches);
+ for(let i=0;i<outputs.length;i++){
+  const channel=outputs[i];
+  if(!hauntedManualMatches[channel])hauntedManualMatches[channel]={};
+  hauntedManualMatches[channel][target]=matches[i];
+ }
+ if(!hauntedManualPersist()){hauntedManualMatches=JSON.parse(previous);return;}
  hauntedManualMessage('Saved '+target+' raw input '+values.join('/')+' for '+outputs.map(x=>'CH'+x).join(', ')+'. Halloween uses this match automatically for green, purple or orange anchors.');
  log('Haunted manual RGB match '+target+' on '+outputs.join(',')+': '+values.join(','));
 }
@@ -1196,13 +1271,15 @@ async function hauntedManualTest(){
  }
  const n=Number($('hauntedManualChannel').value),m=maskFor(n-1),values=hauntedManualValues();
  const target=hauntedTargetHex();
- hauntedManualMessage('Testing raw '+values.join('/')+' on output '+n+'; compare the actual LEDs to '+target+'.');
+ hauntedManualMessage('Testing wire '+values.join('/')+' on output '+n+'; compare the actual LEDs to '+target+'.');
+ const session=bleSession,guard=()=>canSend()&&bleSession===session&&document.visibilityState==='visible';
+ if(!await spEnsureChipColors([n],guard)||!guard())return;
  const ok=await enqueuePackets([
   packet(0x83,[m,25]),
   packet(0x85,[m,155]),
   packet(0x82,[m,1]),
-  packet(0x89,[m,...values,0xff])
- ],'Manual color test CH'+n);
+  spWireColorCommand(n,values,155)
+ ],'Manual color test CH'+n,{guard});
  if(ok)hauntedManualMessage('Sent raw R/G/B '+values.join('/')+'. Adjust sliders and repeat until the strip matches '+target+'. No scene saved to SP608E.');
  else hauntedManualMessage('Bluetooth command failed. Reconnect and retry.');
 }
@@ -1314,7 +1391,7 @@ async function hauntedStart(){
    packet(0x85,[m,brightness]),
    ...order.map(n=>packet(0x83,[maskFor(n-1),25])),
    packet(0x82,[m,1]),
-   ...order.map(n=>hauntedColorCommand(n,previous))
+   ...order.map(n=>hauntedColorCommand(n,previous,brightness))
   ],'Halloween initialize',guard);
   while(guard()){
    for(const stage of H_COLORS){
@@ -1323,13 +1400,13 @@ async function hauntedStart(){
     for(const n of order){
      for(let j=1;j<=steps;j++){
       if(!guard())break;
-      await hauntedPackets(hauntedFadeCommand(n,previous,stage.hex,j/steps),'Halloween CH'+n+' '+stage.name+' '+j+'/'+steps,guard);
+      await hauntedPackets(hauntedFadeCommand(n,previous,stage.hex,j/steps,brightness),'Halloween CH'+n+' '+stage.name+' '+j+'/'+steps,guard);
      }
     }
     if(!guard())break;
     hauntedInfo('✦ Twinkling starbursts: '+stage.name);
     await hauntedPackets(order.map(n=>packet(0x83,[maskFor(n-1),3])),'Halloween stars effect',guard);
-    await hauntedPackets(order.map(n=>hauntedColorCommand(n,stage.hex)),'Halloween stars mapped color',guard);
+    await hauntedPackets(order.map(n=>hauntedColorCommand(n,stage.hex,brightness)),'Halloween stars mapped color',guard);
     await hauntedPackets(packet(0x86,[m,7]),'Halloween stars speed',guard);
     for(let ms=0;ms<starMs&&guard();ms+=100)await sleep(Math.min(100,starMs-ms));
     if(!guard())break;
@@ -1346,7 +1423,7 @@ async function hauntedIdentify(){
  if(!confirm('Turn SP608E output '+n+' green to identify its position?'))return;
  const ok=await enqueuePackets([
   packet(0x83,[m,25]),
-  hauntedColorCommand(n,'#46ef77'),
+  hauntedColorCommand(n,'#46ef77',100),
   packet(0x85,[m,100]),
   packet(0x82,[m,1])
  ],'Identify Halloween output '+n);

@@ -4,9 +4,13 @@
   "private": true,
   "description": "SmartEase five-zone cart lighting PWA, with optional LotusLamp X color matching",
   "scripts": {
-    "test": "node --test tests/lighting.test.cjs tests/display.test.cjs tests/coolledux.test.cjs tests/of21.test.cjs tests/ui.integration.cjs",
+    "test": "node --test tests/lighting.test.cjs tests/display.test.cjs tests/coolledux.test.cjs tests/of21.test.cjs tests/ui.integration.cjs tests/sp-color-domain.integration.cjs",
     "test:protocol": "node --test tests/lighting.test.cjs"
   },
-  "engines": {"node": ">=24"},
-  "devDependencies": {"jsdom": "30.1.3"}
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "jsdom": "30.1.3"
+  }
 }

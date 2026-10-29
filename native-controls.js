@@ -24,7 +24,7 @@ function nativeSpReady(){return canSend()&&!!nativeSpMask()&&ui("nativeSpParked"
 function nativeSpRender(){
  const fx=fxById.get(Number(ui("nativeSpEffect").value));
  for(const [id,key] of [["Color","color"],["Speed","speed"],["Length","length"],["Direction","direction"]])ui("nativeSp"+id).disabled=!fx?.[key]||nativeSpBusy;
- ui("nativeSpBrightness").disabled=fx?.type==="Music"||nativeSpBusy;ui("nativeSpGain").disabled=fx?.type!=="Music"||nativeSpBusy;
+ ui("nativeSpBrightness").disabled=(fx?.type==="Music"&&!fx.color)||nativeSpBusy;ui("nativeSpGain").disabled=fx?.type!=="Music"||nativeSpBusy;
  for(const id of ["Apply","On","Off","Recall","LoopOn","LoopOff"])ui("nativeSp"+id).disabled=!nativeSpReady();
  ui("nativeSpRead").disabled=!canSend()||nativeSpBusy;
 }
@@ -54,7 +54,7 @@ async function nativeSpSend(action){
    jobs.push(packet(0x82,[mask,1]));
    // Match the proven scene path: power-on can restore an old/default color.
    // Reapply each output's calibrated RGB only AFTER every selected output is on.
-   if(fx.color)for(const n of ports)jobs.push(hauntedColorCommand(n,color));
+   if(fx.color)for(const n of ports)jobs.push(hauntedColorCommand(n,color,Math.round(level*255/100)));
    ok=await enqueuePackets(jobs,"Native SP608E settings",{guard});
   }else if(action==="on"||action==="off")ok=await sendPower(mask,action==="on",{guard});
   else if(action==="recall"){
