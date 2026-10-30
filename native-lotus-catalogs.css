@@ -7,7 +7,13 @@
 #nlcGrid .nlc-item[aria-pressed=true]{border-color:#82d4ae}
 #nlcGrid .nlc-item:focus-visible{outline:3px solid #f7cf75;outline-offset:2px}#nlcCategories button:focus-visible{outline:3px solid #f7cf75;outline-offset:-3px}
 #nlcGrid .nlc-art{display:block;width:100%;aspect-ratio:1;object-fit:fill;border-radius:8px;box-sizing:border-box}
-#nlcGrid .nlc-missing{display:flex;align-items:center;justify-content:center;font-size:11px;padding:8px;background:#222;color:#ddd}
+#nlcPreviewLegend{display:flex;align-items:center;gap:12px;margin:12px 32px 0;min-width:0}
+#nlcPreviewLegend p{margin:0;flex:1;font-size:12px;line-height:1.45;color:#c5d8cd}
+#nlcPreviewLegend button{flex:none;min-height:44px;padding:6px 10px;font-size:12px;white-space:nowrap}
+#nlcGrid .nlc-illustration{position:relative;overflow:hidden;background:#101a19}
+#nlcGrid .nlc-illustration svg{display:block;width:100%;height:100%}
+#nlcGrid .nlc-preview-status{position:absolute;bottom:8px;left:6px;right:6px;z-index:1;text-align:center;white-space:nowrap;font-size:10px;line-height:20px;color:#e2efe8;background:#101a19e8;border-radius:4px;pointer-events:none}
+@media(max-width:400px){#nlcPreviewLegend{margin-left:16px;margin-right:16px;gap:8px}#nlcPreviewLegend p{font-size:11px}}
 #nlcGrid .nlc-name{display:block;box-sizing:border-box;height:36px;margin:0 5px 5px;border-radius:8px;text-align:center;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;font-size:12px;line-height:36px}
 #nlcAdjust{margin:16px 32px;display:grid;gap:16px}#nlcAdjust input{width:100%;box-sizing:border-box}
 #nlcSafety{margin:16px;display:grid;gap:8px}#nlcSafety .nlc-actions{display:flex;flex-wrap:wrap;gap:8px}
