@@ -4,7 +4,7 @@
 const leases=new WeakMap();
 function binding(adapter){
  const link=adapter?.link;if(!link)throw Error('UX transport unavailable');
- function current(){const device=link.device;return {deviceId:device?.id||link.identity?.id,deviceName:device?.name||link.identity?.name||'Unnamed display',geometrySource:'explicit-owner-target-profile',generation:link.generation,connected:adapter.link===link&&link.connected===true,characteristic:link.characteristic,model:adapter.profile==='coolledux'?'CoolLEDUX':'unknown',width:96,height:16};}
+ function current(){const device=link.device;return {deviceId:device?.id||link.identity?.id,deviceName:device?.name||link.identity?.name||'Unnamed display',geometrySource:'explicit-owner-target-profile',generation:link.generation,connected:adapter.link===link&&link.connected===true,characteristic:link.characteristic,discovery:typeof link.discoveryProof==='function'?link.discoveryProof():null,model:adapter.profile==='coolledux'?'CoolLEDUX':'unknown',width:96,height:16};}
  function acquireExclusive(){const prior=leases.get(link);if(prior)throw Error('Previous display write has not settled. Wait before another test.');const s=current(),token={};leases.set(link,token);let released=false;return {valid(){const now=current();return !released&&leases.get(link)===token&&now.connected&&s.deviceId===now.deviceId&&s.generation===now.generation&&s.characteristic===now.characteristic;},release(){if(released)return;released=true;if(leases.get(link)===token)leases.delete(link);}};}
  return Object.freeze({current,acquireExclusive,busy:()=>leases.has(link)});
 }

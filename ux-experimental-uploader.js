@@ -1,4 +1,4 @@
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./ux-source-transaction.js'));else root.SmartEaseUXExperimentalUploader=factory(root.SmartEaseUXSourceTransaction);})(globalThis,function(Transaction){
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./ux-source-transaction.js'),require('./device-connections.js'));else root.SmartEaseUXExperimentalUploader=factory(root.SmartEaseUXSourceTransaction,root.SmartEasePairing);})(globalThis,function(Transaction,Pairing){
 /* Explicit owner-test transport; no discovery, connection, storage or automatic start. */
 'use strict';
 const {createTransaction}=Transaction;
@@ -6,7 +6,12 @@ const SERVICE='0000fff0-0000-1000-8000-00805f9b34fb',CHARACTERISTIC='0000fff1-00
 function capability(s){
  if(!s||s.connected!==true||typeof s.deviceId!=='string'||!s.deviceId||!Number.isSafeInteger(s.generation)||s.generation<0||s.model!=='CoolLEDUX'||s.width!==96||s.height!==16)throw Error('Connected, exact UX16×96 identity/session required');
  const c=s.characteristic,p=c?.properties;
- if(c?.uuid?.toLowerCase()!==CHARACTERISTIC||c.service?.uuid?.toLowerCase()!==SERVICE||!(p?.notify||p?.indicate)||typeof c.startNotifications!=='function'||typeof c.addEventListener!=='function'||typeof c.removeEventListener!=='function')throw Error('Verified FFF0/FFF1 notification capability required');
+ const uuid=Pairing?.canonicalUUID||((v)=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)?v.toLowerCase():null);
+ if(uuid(c?.uuid)!==CHARACTERISTIC)throw Error('Selected FFF1 characteristic is missing or its UUID is invalid; inspect connection metadata.');
+ if(c.service!=null){if(uuid(c.service.uuid)!==SERVICE)throw Error('FFF1 service backlink is not valid FFF0; reconnect the exact display.');}
+ else if(!Pairing?.verifyDiscovery(s.discovery,c,s.deviceId,s.generation))throw Error('FFF1 service backlink is missing and current FFF0 discovery is unverified; reconnect the exact display.');
+ if(!(p?.notify||p?.indicate))throw Error(p&&('notify' in p||'indicate' in p)?'FFF1 reports no notification (notify/indicate) capability; sending remains disabled.':'FFF1 notification properties are missing in this browser; sending remains disabled.');
+ if(typeof c.startNotifications!=='function'||typeof c.addEventListener!=='function'||typeof c.removeEventListener!=='function')throw Error('FFF1 notification subscription/event methods are unavailable in this browser.');
  if(p.write===true&&typeof c.writeValueWithResponse==='function')return 'with-response';
  if(p.writeWithoutResponse===true&&typeof c.writeValueWithoutResponse==='function')return 'without-response';
  throw Error('Explicit supported write method/property required; no guessed legacy write mode');
