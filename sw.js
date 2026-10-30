@@ -1,5 +1,5 @@
 /* Complete releases cache atomically. An update never interrupts a live BLE session. */
-const CACHE_NAME = "smartease-cart-lights-native-test-candidate-02";
+const CACHE_NAME = "smartease-cart-lights-native-test-candidate-03";
 const ASSETS = [
   './native-coolled-text/assets/authored-frame-color-provenance.json',
   "./native-coolled-template-bundle.js",
@@ -107,6 +107,13 @@ const ASSETS = [
   "./native-coolled-animation-store-adapter.js",
   "./native-coolled-animation-editor.js",
   "./native-coolled-animation-gif-decoder.js",
+  "./native-coolled-material-codec.js",
+  "./native-coolled-material-import.js",
+  "./material-package.js",
+  "./native-material-catalog-store.js",
+  "./native-material-catalog-service.js",
+  "./native-coolled-material-program.js",
+  "./native-coolled-material-wire.js",
   "./native-coolled-animation-gif-encoder.js",
   "./native-coolled-animation-media-core.js",
   "./native-coolled-animation-media-session.js",
@@ -879,6 +886,8 @@ const ASSETS = [
 
   "./native-coolled-store.js",
   "./native-coolled.js",
+  "./native-coolled-material-gallery.js",
+  "./native-coolled-material-gallery.css",
   "./ux-source-codec.js",
   "./ux-source-program.js",
   "./ux-source-transaction.js",

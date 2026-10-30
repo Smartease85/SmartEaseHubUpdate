@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="smartease-release" content="2026-10-30-native-test-candidate-02">
+<meta name="smartease-release" content="2026-10-30-native-test-candidate-03">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07141a">
 <title>SmartEase Haunted Surge — SP608E Halloween Lab</title>
@@ -169,6 +169,6 @@ function demoFrame(now){if(previewPlaying){const t=Math.max(0,(now-previewStart)
 $('previewBtn').onclick=()=>{previewPlaying=!previewPlaying;$('previewBtn').textContent=previewPlaying?'Pause preview':'Resume preview';if(previewPlaying)previewStart=performance.now()-pausedT;else pausedT=performance.now()-previewStart;};
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&live)stop('Stopped: Bluefy moved to background');});
 window.addEventListener('pagehide',()=>{if(live)stop('Stopped: page closed');});
-setButtons();requestAnimationFrame(demoFrame);log('Build: 2026-10-30-native-test-candidate-02. Scene ready. This is a phone-driven test; existing controller scenes are not modified.');
+setButtons();requestAnimationFrame(demoFrame);log('Build: 2026-10-30-native-test-candidate-03. Scene ready. This is a phone-driven test; existing controller scenes are not modified.');
 </script>
 </body></html>

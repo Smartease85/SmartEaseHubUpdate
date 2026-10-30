@@ -1,6 +1,6 @@
 /* One-off draft admission only. Transport, ACK handling and exclusive lease remain owned by reviewed shared modules. */
 (function(r,f){if(typeof module==='object'&&module.exports)module.exports=f(require('./ux-program-send-host'),require('./ux-program-send-controller'),require('./ux-owner-send'));else r.SmartEaseUXEditorSendBridge=f(r.SmartEaseUXSelectedProgramHost,r.SmartEaseUXSelectedProgramController,r.SmartEaseUXOwnerSend);})(globalThis,(Host,Controller,Owner)=>{'use strict';
-const kinds=new Set(['text','graffiti','animation','clock','dynamicText','template']);
+const kinds=new Set(['text','graffiti','animation','clock','dynamicText','template','material']);
 function freeze(v){if(v&&typeof v==='object'){Object.values(v).forEach(freeze);Object.freeze(v);}return v;}
 function transient(record,serial){const r=JSON.parse(Controller.canonical(record));if(!r||!kinds.has(r.kind))throw Error('Unsupported editor draft kind');r.id='editor-draft-'+serial;r.repeat=1;if(typeof r.name!=='string'||!r.name.trim())r.name='Unsaved '+r.kind+' draft';return freeze({family:'coolledux',rows:16,columns:96,records:[r],selection:[r.id]});}
 function create(parent,options){

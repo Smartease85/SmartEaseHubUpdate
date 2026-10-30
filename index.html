@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="smartease-release" content="2026-10-30-native-test-candidate-02">
+<meta name="smartease-release" content="2026-10-30-native-test-candidate-03">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071216">
@@ -78,6 +78,7 @@
 <link rel="stylesheet" href="native-lotus-rhythm.css">
 <link rel="stylesheet" href="native-coolled-template.css">
 <link rel="stylesheet" href="native-coolled.css">
+<link rel="stylesheet" href="native-coolled-material-gallery.css">
 <link rel="stylesheet" href="ux-program-send-host.css">
 <link rel="stylesheet" href="ux-owner-send.css">
 <link rel="stylesheet" href="native-coolled-text/text-editor.css">
@@ -942,7 +943,7 @@ $('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>{i
  $('saveCustomLook').onclick=saveCustomDesign;
  $('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();renderStudioZones();renderLookPreview();renderDesigns();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
 window.addEventListener('pagehide',()=>{stopStudio();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')stopStudio('Studio stopped when page became hidden.');});
-renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-30-native-test-candidate-02. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
+renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-30-native-test-candidate-03. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
 
 /* Haunted Surge uses the main app's serialized BLE queue and existing characteristic.
    All animations are host-driven; no scene-store or firmware-write opcode is used. */
@@ -1614,6 +1615,10 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="native-coolled-clock-model.js"></script>
 <script src="native-coolled-dynamic-model.js"></script>
 <script src="native-coolled-template-bundle.js"></script>
+<script src="native-coolled-animation-gif-decoder.js"></script>
+<script src="native-coolled-material-codec.js"></script>
+<script src="native-coolled-material-import.js"></script>
+<script src="native-coolled-material-program.js"></script>
 <script src="native-coolled-store.js"></script>
 <script src="native-coolled-text-store-adapter.js"></script>
 <script src="native-coolled-text-renderer.js"></script>
@@ -1632,7 +1637,9 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="ux-owner-send.js"></script>
 <script src="native-coolled-animation-draw-core.js"></script>
 <script src="native-coolled-animation-store-adapter.js"></script>
-<script src="native-coolled-animation-gif-decoder.js"></script>
+<script src="material-package.js"></script>
+<script src="native-material-catalog-store.js"></script>
+<script src="native-material-catalog-service.js"></script>
 <script src="native-coolled-animation-gif-encoder.js"></script>
 <script src="native-coolled-animation-media-core.js"></script>
 <script src="native-coolled-animation-media-session.js"></script>
@@ -1657,6 +1664,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="native-coolled-dynamic-editor.js"></script>
 <script src="native-coolled-dynamic-wire.js"></script>
 <script src="ux-dynamic14-wire.js"></script>
+<script src="native-coolled-material-wire.js"></script>
 <script src="ux-program-send-plan.js"></script>
 <script src="ux-program-send-controller.js"></script>
 <script src="ux-program-send-host.js"></script>
@@ -1667,6 +1675,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="ux-settings-controller.js"></script>
 <script src="native-coolled-settings-ui.js"></script>
 <script src="native-coolled-template-host.js"></script>
+<script src="native-coolled-material-gallery.js"></script>
 <script src="native-coolled.js"></script>
 <script>if(page==='native')SmartEaseNative.refresh();</script>
 <script src="native-lotus-groups.js"></script>

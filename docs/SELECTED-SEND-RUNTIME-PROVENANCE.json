@@ -59,9 +59,7 @@
     "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
   },
   "ux-program-send-plan.js": {
-    "sha256": "f3d6d069ffb430415393c5592f85ea7f983da085f469781f17817a1ba9e763d6",
-    "note": "Template2/3/4 typed compiler extension; prior reviewed bytes preserved by base commit85d30af6. Existing ordinary codec dependencies unchanged.",
-    "previousSha256": "421cd20834eca89796bc3749d39c62441ceb2012d3e671e46ed4c236f3aba9ac",
-    "priorSha256": "f961990212331429e7bbcb628c54f113854a726c73b010e1ba1d9f212d6c9ddc"
+    "sha256": "a8990cc0370279088689c225e3b4bbdd218271a135d8f4b6be3c2d0e05fd4849",
+    "note": "Authored bounded Material admission added through existing selected planner; this isolated candidate requires independent integration review. Prior six kinds and transport modules unchanged."
   }
 }
