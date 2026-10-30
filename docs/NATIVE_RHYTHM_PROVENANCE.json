@@ -1,0 +1,262 @@
+{
+  "kind": "Independent source-backed Rhythm reimplementation; not exact recovery of lost work",
+  "sourceRoot": "native-recovery/next-rhythm",
+  "apkSha256": "54a23e832b2ac8c4946bdd5f0ccf14de87104d866a46e43e85c03b2fbf79c3b0",
+  "sources": [
+    {
+      "path": "native-recovery/next-rhythm/BaseMicService.java",
+      "bytes": 10985,
+      "sha256": "6cea2f6d99092f073447fb37babc3815fd815dfba053d19471a78aa7cc794884"
+    },
+    {
+      "path": "native-recovery/next-rhythm/RhythmComponentKt.java",
+      "bytes": 958153,
+      "sha256": "d637bef1268c2b7a664d7540d989a11b6965e6aede3d4a1a9646aac3617fc441"
+    },
+    {
+      "path": "native-recovery/next-rhythm/Recorder.java",
+      "bytes": 8663,
+      "sha256": "bc89ee313d6e569b5ab8830cbec4e3ed50898d91240dc320cae394a275c65e60"
+    },
+    {
+      "path": "native-recovery/next-rhythm/RhythmTabItem.java",
+      "bytes": 10440,
+      "sha256": "4cc26a5d063de981fa2b196b735da282800f772024fe7dc3830bb3b86c8083f7"
+    },
+    {
+      "path": "native-recovery/next-rhythm/BaseMicFragment.java",
+      "bytes": 8385,
+      "sha256": "de1936632e75ee62c9fbb19c48855177455ebf135357d7d6b6363da7c4c5a589"
+    },
+    {
+      "path": "native-recovery/next-rhythm/AudioToRGB.java",
+      "bytes": 6898,
+      "sha256": "85fb1bf8c4ef9ef29b31d5828aa5225c7317c0acb41d7b9f790d161b7026e5f3"
+    },
+    {
+      "path": "native-recovery/next-rhythm/BaseMicFragment$statusListener$1.java",
+      "bytes": 5061,
+      "sha256": "c3b8aed9bd463a75f8e4ee6b4310e013ec52256ca250fc1ee970c2724f24a012"
+    },
+    {
+      "path": "native-recovery/next-rhythm/WaveComponentKt.java",
+      "bytes": 26752,
+      "sha256": "03fdd81f60e6dde5006c46064bd62561ce6c10157a4555ee13ca18d0ea3a1dde"
+    },
+    {
+      "path": "native-recovery/next-rhythm/IdealRecorder.java",
+      "bytes": 13470,
+      "sha256": "44f8a9142f40b3dd2c23915cd817790fe6e747b78abae33de8a1d155c4776d88"
+    },
+    {
+      "path": "native-recovery/next-rhythm/PlayService.java",
+      "bytes": 55544,
+      "sha256": "63a0770316539a90d40a58c8e8b7243ddfe38c1202c767ef5b507fa15ea62d17"
+    },
+    {
+      "path": "native-recovery/next-rhythm/MusicFragment.java",
+      "bytes": 107967,
+      "sha256": "9e3c4e0c804f89174ac7b55b3df429c00d928957467eca69e190974c046d6588"
+    },
+    {
+      "path": "native-recovery/next-rhythm/MusicComponentKt.java",
+      "bytes": 227075,
+      "sha256": "3e279eec2fe28e26721f036d4d2e630595244577146b112454182953e6d51ab9"
+    },
+    {
+      "path": "native-recovery/next-rhythm/LayoutKt.java",
+      "bytes": 28265,
+      "sha256": "e4db4f5db294356ba836be825c2576e344c7f879b9da7285322b16e521d5481b"
+    },
+    {
+      "path": "lotusx-protocol-research/SYMicFragment.java",
+      "bytes": 75221,
+      "sha256": "b36117bb4dbc7d41f3a08624d3d0d1abd1b16cc1e631efbd685e4f64af203a09"
+    },
+    {
+      "path": "lotusx-protocol-research/SYPhoneMicFragment.java",
+      "bytes": 68826,
+      "sha256": "f5e7bd548cb28060f35c95f0f2b387c1a3e2a5fb4505bb4a90f1696d61600278"
+    },
+    {
+      "path": "lotusx-protocol-research/SYRhythmFragment.java",
+      "bytes": 18614,
+      "sha256": "abef06dbc7c5ca1d73f959fbbe14c523c31f186f2f9b01d7c1b6025ce86bc4a3"
+    },
+    {
+      "path": "lotusx-protocol-research/LPHelper.java",
+      "bytes": 119225,
+      "sha256": "a7cfef7ea1ede3bfe966bd095397439ddec6839e10bf2cb91872756e7f0ea080"
+    },
+    {
+      "path": "lotusx-protocol-research/LPBleHelper.java",
+      "bytes": 17578,
+      "sha256": "275dbeb0e867e562c685e58c1c4c9c8cfd3bb0571269a4925985f77ced9b184c"
+    },
+    {
+      "path": "lotusx-protocol-research/BlePackagingDevice.java",
+      "bytes": 534867,
+      "sha256": "454e8f4e92db9a959b6827f79d35ae3510d26697363d50967aa93a6a53f441f3"
+    },
+    {
+      "path": "lotusx-protocol-research/AppConstant.java",
+      "bytes": 124905,
+      "sha256": "8705ca452ad395bc2bb85715b6b2afc7440a1e15b34604c7e1722a2510685c3f"
+    },
+    {
+      "path": "native-recovery/next-rhythm/WaveLineView.java",
+      "bytes": 12125,
+      "sha256": "701b3d8f7af2c99c54723af1faecfcb87bf01617dda11fbff733c57d93b1056a"
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/native-lotus/rhythm/asset-provenance.json",
+      "sha256": "8ef5df1198cd378bc3ab6f8e23ee461796bfaddd9cc5f7d10556da0971fa30f5"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_energy_one.gif",
+      "sha256": "72676eee745dc6010d3577db633ecf2ca518c8470869533a801bab3b75ef8faa"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_energy_two.gif",
+      "sha256": "7570537680ec51cbe963525f47e2d9c96dedf45610421fd27928296c7e722e5b"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_rhythm_one.gif",
+      "sha256": "01126709faa1920fd3fe737bc788b643faa79ff2cf48f4b20db5a0905c414674"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_rhythm_two.gif",
+      "sha256": "5238ba2cd0beb2945bb1f7dba655fe59d2edc95f63a93f9d7c62f71aca43552e"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_scroll_one.gif",
+      "sha256": "015b4d454e83b8d45237c87715ee99688dd9a45b3dd9c8a872b146059227fb66"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_scroll_two.gif",
+      "sha256": "a169dcf329f525870060490cefbed4affe767406652318fa1a6f01dd0542e75c"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_spectrum_one.gif",
+      "sha256": "e548ee9da075356726525ce8708fbcfa0e0156cdf353b9c53bf8a5b3fbfd4e4c"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/d_gif_music_spectrum_two.gif",
+      "sha256": "52219fe9c15b2644028f785fe3e21e9a923e83541cc0b88b62572edd973ae1d5"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_energy_one.gif",
+      "sha256": "fb6ea86c390de2812b3bf6dea3eafbe0336c953d37cde8cbd593a42d73b1c9c7"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_energy_two.gif",
+      "sha256": "a8eca2af33320cbe562cb4b0f2c36f8ad30a7ea93e67677efa160120030c0575"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_rhythm_one.gif",
+      "sha256": "c94298ac2f16aafd5bb4332ed0d531a14005dc9e7be0897c97e419621225b42d"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_rhythm_two.gif",
+      "sha256": "6b926d1c0a7bdd5d2b4f83ecb21f37f9d27373f0c2cc1d29c266c3336faf7fee"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_scroll_one.gif",
+      "sha256": "0b6b974d701b607390392c1be1a5dfb552cce69363fba4b77167e0b3ab7bbff9"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_scroll_two.gif",
+      "sha256": "c8b1b0867966fea4c20f55ffef182da6f6d1da3f1086ebc4a36cd0987a285809"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_spectrum_one.gif",
+      "sha256": "7798b2dbe5b5a9342e073b22e06fde5894ff47548273cc2a833fd85bb583b00d"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/gif_music_spectrum_two.gif",
+      "sha256": "f36c4404e21e1f3cdf5b5f693cc8dd8127c34acac7a8ae91c265de5a71f569ee"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_fill.png",
+      "sha256": "a3672569505b2acdbf3318b3ef821e66507cacc71dc523e14ba1fa1e0237ca98"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_loop.png",
+      "sha256": "5a92d2e177abb557b11b6abcbe6d209c02f18c631c82a4adbc8a56ec731c99fa"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_next.png",
+      "sha256": "79e144e1bb4ea27249da60b9b4b86916c5e1cfb54c69a41ed04e4676e79c5ac5"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_one.png",
+      "sha256": "e964682046deffd21d460e77bc283608ddff21d51441ba3625c736a9ae3f7b54"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_prev.png",
+      "sha256": "ae16b2122d5ef0672892126efa023866bf533ea56aeee3723234efb4d9b286cf"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_shuffle.png",
+      "sha256": "4c61aa8952a8a0b08dc1b5195546f5400f22b84a283b4069ab8d9c3b88f12647"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_music_stop.png",
+      "sha256": "ff8e538311e8cd0885e405ee2bc9b8b90e921909085dd11f6c5d032b42c7300b"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_rhythm_tab_mic_off.png",
+      "sha256": "ffc0086dc102651d4e09c7a7e1f530cfd76d206cd9361bbdfdae8c8bd1b6218c"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_rhythm_tab_mic_on.png",
+      "sha256": "2493850ed2555278977a08af8f275107fc8d01115ae17628c5fe2a5cc4718058"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_rhythm_tab_music_off.png",
+      "sha256": "8ce5b8ebef2a046ea1fc0cab54d81e2dcd69e45b75eab90f3df5c50986d944f9"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_rhythm_tab_music_on.png",
+      "sha256": "fffe98c80d658efc821ff41e64bbed8620520704418803592a290ba0d2e7582c"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_rhythm_tab_phone_off.png",
+      "sha256": "1dadf701bfdb2bc0f68fde1279486b1d6892cb45ae88b7cf1db324ad12574294"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/ic_rhythm_tab_phone_on.png",
+      "sha256": "02853cc145fbcaf3334e8b419485534dcdd9a5764796e48b7bfd82c5154d8dda"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/music-assets.json",
+      "sha256": "d16e5bfa94c182b145434ccd2a5f81495e3bd87b44ba96cc40b894d71243884c"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/music_list.png",
+      "sha256": "76acc4ed985397a8cf5a090ba5d4ee8216070859bc3eb0d5ae16904774422781"
+    },
+    {
+      "path": "assets/native-lotus/rhythm/tab-assets.json",
+      "sha256": "91c754e7590790667da17c5560feb59523e4bb840a7a939a902ae757e1f4c9b6"
+    },
+    {
+      "path": "native-lotus-rhythm-data.js",
+      "sha256": "7a69287304321ec009a9d46b6192b9973ce76a11b7a28cd1cd658f6e2266f3cb"
+    },
+    {
+      "path": "native-lotus-rhythm-dsp.js",
+      "sha256": "2b81c3f357ef508a5043b792ceda02fd700b8b399fa89e6595c8f4f1c9db4764"
+    },
+    {
+      "path": "native-lotus-rhythm.css",
+      "sha256": "a93c4739847ffac6856a553edf519c3744f29ca50e907d0cc2242b89acc317e0"
+    },
+    {
+      "path": "native-lotus-rhythm.js",
+      "sha256": "715d801eabc58b4060d30115efa7a885809e8bd5aa9bcbd38c0b593560d3f3dc"
+    }
+  ]
+}

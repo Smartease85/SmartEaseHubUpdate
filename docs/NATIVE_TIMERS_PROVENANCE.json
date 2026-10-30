@@ -1,0 +1,111 @@
+{
+  "status": "reimplementation from original Android sources, not recovery of lost source and not iOS pixel parity",
+  "sources": [
+    {
+      "path": "lotusx-protocol-research/LotusLampX_V5.21.01.apk",
+      "sha256": "54a23e832b2ac8c4946bdd5f0ccf14de87104d866a46e43e85c03b2fbf79c3b0"
+    },
+    {
+      "path": "lotusx-protocol-research/TimingFragment.java",
+      "sha256": "935aaf001e2e1cef649a204d5f89de4e1d9e1acd29cea5aa53e146790a0e9573"
+    },
+    {
+      "path": "lotusx-protocol-research/LEDTiming.java",
+      "sha256": "f7abb482e644a3009f5f7037412f1e495c4c916772f827909210bd9b22e0698d"
+    },
+    {
+      "path": "native-recovery/next-timers/evidence/CqA.xml.txt",
+      "sha256": "0f54172707ae2e6521f6652f46ebcdb001989c62f61208f81906272afb33a190"
+    },
+    {
+      "path": "native-recovery/next-timers/evidence/DialogComponentKt.java",
+      "sha256": "3c4506c507ce966259ce5423eb1dd5868f0f5ed25cfa9e68638569de8a7e6533"
+    }
+  ],
+  "strings": [
+    {
+      "id": "0x7f1300d8",
+      "name": "common_timing_every_day",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6017,
+          "string": "Every Day"
+        }
+      ]
+    },
+    {
+      "id": "0x7f1300ed",
+      "name": "common_timing_single",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6713,
+          "string": "Single Time"
+        }
+      ]
+    },
+    {
+      "id": "0x7f1307b8",
+      "name": "warm_timing_light_l",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6634,
+          "string": "Schedule On"
+        }
+      ]
+    },
+    {
+      "id": "0x7f1307b9",
+      "name": "warm_timing_light_n",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6633,
+          "string": "Schedule Off"
+        }
+      ]
+    },
+    {
+      "id": "0x7f1307ba",
+      "name": "warm_timing_repeat",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6583,
+          "string": "Repeat"
+        }
+      ]
+    },
+    {
+      "id": "0x7f1307bb",
+      "name": "warm_timing_time",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6894,
+          "string": "Time"
+        }
+      ]
+    }
+  ]
+}

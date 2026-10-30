@@ -1,0 +1,11 @@
+/* Source title/text20, lower spacing20, field radius4/border0.5. Outer dialog geometry is a browser adaptation. */
+.bxc-name-dialog{max-width:calc(100vw - 32px);width:320px;box-sizing:border-box;padding:20px;border:0;border-radius:12px;background:#fff;color:#222}
+.bxc-name-dialog h2{font-size:20px;font-weight:500;margin:0 0 20px}
+.bxc-name-dialog input{box-sizing:border-box;width:100%;font-size:20px;border:0.5px solid #777;border-radius:4px;padding:8px}
+.bxc-name-dialog button{font-size:20px;min-height:44px;margin:4px;padding:6px 12px}
+.bxc-name-dialog button:focus-visible,.bxc-name-dialog input:focus-visible{outline:2px solid #1976d2;outline-offset:2px}
+.bxc-name-dialog p{min-height:1em;font-size:14px}
+.bxc-name-dialog::backdrop{background:rgba(0,0,0,.45)}
+
+/* Disabled title still routes pointer hit-testing to its rename-capable card. Power controls stay excluded. */
+.bx-channel .bx-channel-open[data-channel-name-gesture]:disabled{pointer-events:none}

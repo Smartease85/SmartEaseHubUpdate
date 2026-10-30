@@ -1,0 +1,1929 @@
+{
+  "sourceApk": "LotusLampX_V5.21.01.apk",
+  "apkSha256": "54a23e832b2ac8c4946bdd5f0ccf14de87104d866a46e43e85c03b2fbf79c3b0",
+  "locale": "default resource strings (English)",
+  "scope": "ordinary OF21; excludes curtain, OC23, OA21H, LampAS, two-in-one, FL/CL specialized branches",
+  "effects": [
+    {
+      "key": "basic",
+      "name": "Basic",
+      "titleResource": "string_common_symphony_tab_basic",
+      "commandArray": "sy_mode_cmd_basic_array",
+      "nameArray": "sy_mode_name_basic_array",
+      "items": [
+        {
+          "command": 0,
+          "name": "Auto Play",
+          "nameResource": "string_mode_automatic_cycle",
+          "nameResourceId": "0x7f1305cd"
+        },
+        {
+          "command": 1,
+          "name": "Magic Forward",
+          "nameResource": "string_mode_forward_magic_color",
+          "nameResourceId": "0x7f1305fd"
+        },
+        {
+          "command": 2,
+          "name": "Magic Back",
+          "nameResource": "string_mode_reverse_magic_color",
+          "nameResourceId": "0x7f130657"
+        },
+        {
+          "command": 212,
+          "name": "7-Color Energy",
+          "nameResource": "string_mode_colorful_energy",
+          "nameResourceId": "0x7f1305da"
+        },
+        {
+          "command": 193,
+          "name": "7-Color Jump",
+          "nameResource": "string_mode_seven_color_jump",
+          "nameResourceId": "0x7f1306b7"
+        },
+        {
+          "command": 194,
+          "name": "R-G-B Jump",
+          "nameResource": "string_mode_red_green_blue_jump",
+          "nameResourceId": "0x7f130638"
+        },
+        {
+          "command": 195,
+          "name": "Y-C-P Jump",
+          "nameResource": "string_mode_yellow_cyan_jump",
+          "nameResourceId": "0x7f1306e0"
+        },
+        {
+          "command": 196,
+          "name": "7-Color Strobe",
+          "nameResource": "string_mode_seven_color_stroboscopic",
+          "nameResourceId": "0x7f1306bc"
+        },
+        {
+          "command": 197,
+          "name": "R-G-B Strobe",
+          "nameResource": "string_mode_red_green_blue_stroboscopic",
+          "nameResourceId": "0x7f130639"
+        },
+        {
+          "command": 198,
+          "name": "Y-C-P Strobe",
+          "nameResource": "string_mode_yellow_cyan_stroboscopic",
+          "nameResourceId": "0x7f1306e1"
+        },
+        {
+          "command": 199,
+          "name": "7-Color Gradual",
+          "nameResource": "string_mode_seven_color_gradient",
+          "nameResourceId": "0x7f1306b6"
+        },
+        {
+          "command": 200,
+          "name": "R-Y Gradual",
+          "nameResource": "string_mode_alternating_red_and_yellow_gradient",
+          "nameResourceId": "0x7f1305cc"
+        },
+        {
+          "command": 201,
+          "name": "R-P Gradual",
+          "nameResource": "string_mode_red_purple_alternating_gradient",
+          "nameResourceId": "0x7f13063a"
+        },
+        {
+          "command": 202,
+          "name": "G-C Gradual",
+          "nameResource": "string_mode_green_green_alternating_gradient",
+          "nameResourceId": "0x7f13060b"
+        },
+        {
+          "command": 203,
+          "name": "G-Y Gradual",
+          "nameResource": "string_mode_green_yellow_alternating_gradient",
+          "nameResourceId": "0x7f13060f"
+        },
+        {
+          "command": 204,
+          "name": "B-P Gradual",
+          "nameResource": "string_mode_blue_purple_alternating_gradient",
+          "nameResourceId": "0x7f1305d1"
+        },
+        {
+          "command": 205,
+          "name": "Red Marquee",
+          "nameResource": "string_mode_red_running_horse",
+          "nameResourceId": "0x7f13063c"
+        },
+        {
+          "command": 206,
+          "name": "Green Marquee",
+          "nameResource": "string_mode_green_running_horse",
+          "nameResourceId": "0x7f13060d"
+        },
+        {
+          "command": 207,
+          "name": "Blue Marquee",
+          "nameResource": "string_mode_blue_running_horse",
+          "nameResourceId": "0x7f1305d2"
+        },
+        {
+          "command": 208,
+          "name": "Yellow Marquee",
+          "nameResource": "string_mode_yellow_running_horse",
+          "nameResourceId": "0x7f1306e6"
+        },
+        {
+          "command": 209,
+          "name": "Cyan Marquee",
+          "nameResource": "string_mode_cyan_running_horse",
+          "nameResourceId": "0x7f1305e1"
+        },
+        {
+          "command": 210,
+          "name": "Purple Marquee",
+          "nameResource": "string_mode_purple_running_horse",
+          "nameResourceId": "0x7f13062f"
+        },
+        {
+          "command": 211,
+          "name": "White Marquee",
+          "nameResource": "string_mode_white_running_horse",
+          "nameResourceId": "0x7f1306cf"
+        },
+        {
+          "command": 77,
+          "name": "7-Color Race",
+          "nameResource": "string_mode_positive_colorful_pursuit",
+          "nameResourceId": "0x7f130616"
+        },
+        {
+          "command": 78,
+          "name": "7-Color Race Back",
+          "nameResource": "string_mode_reverse_colorful_chasing",
+          "nameResourceId": "0x7f13064a"
+        },
+        {
+          "command": 79,
+          "name": "R-G-B Race",
+          "nameResource": "string_mode_chasing_light_towards_red_green_and_blue",
+          "nameResourceId": "0x7f1305d5"
+        },
+        {
+          "command": 80,
+          "name": "R-G-B Race Back",
+          "nameResource": "string_mode_reverse_red_green_blue_pursuit",
+          "nameResourceId": "0x7f130663"
+        },
+        {
+          "command": 81,
+          "name": "Y-C-P Race",
+          "nameResource": "string_mode_chasing_yellow_blue_and_purple",
+          "nameResourceId": "0x7f1305d6"
+        },
+        {
+          "command": 82,
+          "name": "Y-C-P Race Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_pursuit",
+          "nameResourceId": "0x7f130687"
+        },
+        {
+          "command": 83,
+          "name": "7-Color Wave",
+          "nameResource": "string_mode_fluttering_in_colors",
+          "nameResourceId": "0x7f1305f4"
+        },
+        {
+          "command": 84,
+          "name": "7-Color Wave Back",
+          "nameResource": "string_mode_reverse_colorful_flutter",
+          "nameResourceId": "0x7f13064b"
+        },
+        {
+          "command": 85,
+          "name": "R-G-B Wave",
+          "nameResource": "string_mode_moving_towards_red_green_and_blue",
+          "nameResourceId": "0x7f130612"
+        },
+        {
+          "command": 86,
+          "name": "R-G-B Wave Back",
+          "nameResource": "string_mode_reverse_red_green_blue_flutter",
+          "nameResourceId": "0x7f130661"
+        },
+        {
+          "command": 87,
+          "name": "Y-C-P Wave",
+          "nameResource": "string_mode_fluttering_yellow_blue_and_purple",
+          "nameResourceId": "0x7f1305f5"
+        },
+        {
+          "command": 88,
+          "name": "Y-C-P Wave Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_flutter",
+          "nameResourceId": "0x7f130684"
+        },
+        {
+          "command": 181,
+          "name": "7-Color Flush",
+          "nameResource": "string_mode_positive_colorful_brush",
+          "nameResourceId": "0x7f130615"
+        },
+        {
+          "command": 182,
+          "name": "7-Color Flush Back",
+          "nameResource": "string_mode_reverse_colorful_brush",
+          "nameResourceId": "0x7f130649"
+        },
+        {
+          "command": 183,
+          "name": "R-G-B Flush",
+          "nameResource": "string_mode_positive_red_green_and_blue_brushing",
+          "nameResourceId": "0x7f13061f"
+        },
+        {
+          "command": 184,
+          "name": "R-G-B Flush Back",
+          "nameResource": "string_mode_reverse_red_green_blue_brush",
+          "nameResourceId": "0x7f130660"
+        },
+        {
+          "command": 185,
+          "name": "Y-C-P Flush",
+          "nameResource": "string_mode_brush_yellow_cyan_and_purple",
+          "nameResourceId": "0x7f1305d4"
+        },
+        {
+          "command": 186,
+          "name": "Y-C-P Flush Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_brush",
+          "nameResourceId": "0x7f130683"
+        },
+        {
+          "command": 187,
+          "name": "7-Color Flush Close",
+          "nameResource": "string_mode_colorful_painting_closing",
+          "nameResourceId": "0x7f1305dc"
+        },
+        {
+          "command": 188,
+          "name": "7-Color Flush Open",
+          "nameResource": "string_mode_colorful_brush_salad_screen",
+          "nameResourceId": "0x7f1305d7"
+        },
+        {
+          "command": 189,
+          "name": "R-G-B Flush Close",
+          "nameResource": "string_mode_red_green_and_blue_painting_closing",
+          "nameResourceId": "0x7f130636"
+        },
+        {
+          "command": 190,
+          "name": "R-G-B Flush Open",
+          "nameResource": "string_mode_red_green_and_blue_salad_screen",
+          "nameResourceId": "0x7f130637"
+        },
+        {
+          "command": 191,
+          "name": "Y-C-P Flush Close",
+          "nameResource": "string_mode_yellow_cyan_and_purple_painting_closing",
+          "nameResourceId": "0x7f1306df"
+        },
+        {
+          "command": 192,
+          "name": "Y-C-P Flush Open",
+          "nameResource": "string_mode_yellow_blue_purple_brush_salad_screen",
+          "nameResourceId": "0x7f1306dc"
+        }
+      ]
+    },
+    {
+      "key": "opening_and_closing",
+      "name": "Curtain",
+      "titleResource": "string_common_symphony_tab_opening_and_closing",
+      "commandArray": "sy_mode_cmd_opening_and_closing_array",
+      "nameArray": "sy_mode_name_opening_and_closing_array",
+      "items": [
+        {
+          "command": 57,
+          "name": "7-Color Close",
+          "nameResource": "string_mode_colorful_closing",
+          "nameResourceId": "0x7f1305d8"
+        },
+        {
+          "command": 58,
+          "name": "7-Color Open",
+          "nameResource": "string_mode_colorful_curtain",
+          "nameResourceId": "0x7f1305d9"
+        },
+        {
+          "command": 59,
+          "name": "R-G-B Close",
+          "nameResource": "string_mode_red_green_and_blue_closing",
+          "nameResourceId": "0x7f130634"
+        },
+        {
+          "command": 60,
+          "name": "R-G-B Open",
+          "nameResource": "string_mode_red_green_and_blue_curtain",
+          "nameResourceId": "0x7f130635"
+        },
+        {
+          "command": 61,
+          "name": "Y-C-P Close",
+          "nameResource": "string_mode_huang_qingzi_closes",
+          "nameResourceId": "0x7f130610"
+        },
+        {
+          "command": 62,
+          "name": "Y-C-P Open",
+          "nameResource": "string_mode_huang_qingzi_pull_screen",
+          "nameResourceId": "0x7f130611"
+        },
+        {
+          "command": 63,
+          "name": "Red Close",
+          "nameResource": "string_mode_red_closing",
+          "nameResourceId": "0x7f130631"
+        },
+        {
+          "command": 64,
+          "name": "Red Open",
+          "nameResource": "string_mode_red_curtain",
+          "nameResourceId": "0x7f130632"
+        },
+        {
+          "command": 65,
+          "name": "Green Close",
+          "nameResource": "string_mode_green_closing",
+          "nameResourceId": "0x7f130609"
+        },
+        {
+          "command": 66,
+          "name": "Green Open",
+          "nameResource": "string_mode_green_pull_screen",
+          "nameResourceId": "0x7f13060c"
+        },
+        {
+          "command": 67,
+          "name": "Blue Close",
+          "nameResource": "string_mode_blue_closing",
+          "nameResourceId": "0x7f1305ce"
+        },
+        {
+          "command": 68,
+          "name": "Blue Open",
+          "nameResource": "string_mode_blue_pull_screen",
+          "nameResourceId": "0x7f1305d0"
+        },
+        {
+          "command": 69,
+          "name": "Yellow Close",
+          "nameResource": "string_mode_yellow_closing",
+          "nameResourceId": "0x7f1306dd"
+        },
+        {
+          "command": 70,
+          "name": "Yellow Open",
+          "nameResource": "string_mode_yellow_curtain",
+          "nameResourceId": "0x7f1306de"
+        },
+        {
+          "command": 71,
+          "name": "Cyan Close",
+          "nameResource": "string_mode_cyan_closing",
+          "nameResourceId": "0x7f1305df"
+        },
+        {
+          "command": 72,
+          "name": "Cyan Open",
+          "nameResource": "string_mode_cyan_curtain",
+          "nameResourceId": "0x7f1305e0"
+        },
+        {
+          "command": 73,
+          "name": "Purple Close",
+          "nameResource": "string_mode_purple_closing",
+          "nameResourceId": "0x7f13062c"
+        },
+        {
+          "command": 74,
+          "name": "Purple Open",
+          "nameResource": "string_mode_purple_curtain",
+          "nameResourceId": "0x7f13062d"
+        },
+        {
+          "command": 75,
+          "name": "White Close",
+          "nameResource": "string_mode_white_closing",
+          "nameResourceId": "0x7f1306cd"
+        },
+        {
+          "command": 76,
+          "name": "White Open",
+          "nameResource": "string_mode_white_curtain",
+          "nameResourceId": "0x7f1306ce"
+        }
+      ]
+    },
+    {
+      "key": "transition",
+      "name": "Trans",
+      "titleResource": "string_common_symphony_tab_transition",
+      "commandArray": "sy_mode_cmd_transition_array",
+      "nameArray": "sy_mode_name_transition_array",
+      "items": [
+        {
+          "command": 3,
+          "name": "7-Color Trans",
+          "nameResource": "string_mode_positive_seven_color_light_and_dark_transition",
+          "nameResourceId": "0x7f130622"
+        },
+        {
+          "command": 4,
+          "name": "7-Color Trans Back",
+          "nameResource": "string_mode_reverse_seven_color_light_dark_transition",
+          "nameResourceId": "0x7f13066a"
+        },
+        {
+          "command": 5,
+          "name": "R-G-B Trans",
+          "nameResource": "string_mode_transition_to_red_blue_and_green_light_and_shade",
+          "nameResourceId": "0x7f1306ca"
+        },
+        {
+          "command": 6,
+          "name": "R-G-B Trans Back",
+          "nameResource": "string_mode_reverse_red_green_blue_light_dark_transition",
+          "nameResourceId": "0x7f130662"
+        },
+        {
+          "command": 7,
+          "name": "Y-C-P Trans",
+          "nameResource": "string_mode_transition_to_yellow_purple_and_cyan_light_and_shade",
+          "nameResourceId": "0x7f1306cb"
+        },
+        {
+          "command": 8,
+          "name": "Y-C-P Trans Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_light_dark_transition",
+          "nameResourceId": "0x7f130685"
+        },
+        {
+          "command": 9,
+          "name": "6-Color to Red",
+          "nameResource": "string_mode_positive_six_color_light_dark_transition_red",
+          "nameResourceId": "0x7f130624"
+        },
+        {
+          "command": 10,
+          "name": "6-Color to Red Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_red",
+          "nameResourceId": "0x7f130670"
+        },
+        {
+          "command": 11,
+          "name": "6-Color to Green",
+          "nameResource": "string_mode_forward_six_color_light_dark_transition_green",
+          "nameResourceId": "0x7f130600"
+        },
+        {
+          "command": 12,
+          "name": "6-Color to Green Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_green",
+          "nameResourceId": "0x7f13066e"
+        },
+        {
+          "command": 13,
+          "name": "6-Color to Blue",
+          "nameResource": "string_mode_forward_six_color_light_dark_transition_blue",
+          "nameResourceId": "0x7f1305fe"
+        },
+        {
+          "command": 14,
+          "name": "6-Color to Blue Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_blue",
+          "nameResourceId": "0x7f13066c"
+        },
+        {
+          "command": 15,
+          "name": "6-Color to Cyan",
+          "nameResource": "string_mode_forward_six_color_light_dark_transition_cyan",
+          "nameResourceId": "0x7f1305ff"
+        },
+        {
+          "command": 16,
+          "name": "6-Color to Cyan Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_cyan",
+          "nameResourceId": "0x7f13066d"
+        },
+        {
+          "command": 17,
+          "name": "6-Color to Yellow",
+          "nameResource": "string_mode_positive_six_color_light_dark_transition_yellow",
+          "nameResourceId": "0x7f130625"
+        },
+        {
+          "command": 18,
+          "name": "6-Color to Yellow Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_yellow",
+          "nameResourceId": "0x7f130672"
+        },
+        {
+          "command": 19,
+          "name": "6-Color to Purple",
+          "nameResource": "string_mode_positive_six_color_light_dark_transition_purple",
+          "nameResourceId": "0x7f130623"
+        },
+        {
+          "command": 20,
+          "name": "6-Color to Purple Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_purple",
+          "nameResourceId": "0x7f13066f"
+        },
+        {
+          "command": 21,
+          "name": "6-Color to White",
+          "nameResource": "string_mode_forward_six_color_light_dark_transition_white",
+          "nameResourceId": "0x7f130601"
+        },
+        {
+          "command": 22,
+          "name": "6-Color to White Back",
+          "nameResource": "string_mode_reverse_six_color_light_dark_transition_white",
+          "nameResourceId": "0x7f130671"
+        }
+      ]
+    },
+    {
+      "key": "running_water",
+      "name": "Water",
+      "titleResource": "string_common_symphony_tab_running_water",
+      "commandArray": "sy_mode_cmd_running_water_array",
+      "nameArray": "sy_mode_name_running_water_array",
+      "items": [
+        {
+          "command": 39,
+          "name": "7-Color Water",
+          "nameResource": "string_mode_positive_colorful_water",
+          "nameResourceId": "0x7f130618"
+        },
+        {
+          "command": 40,
+          "name": "7-Color Water Back",
+          "nameResource": "string_mode_reverse_colorful_water",
+          "nameResourceId": "0x7f13064d"
+        },
+        {
+          "command": 41,
+          "name": "R-G-B Water",
+          "nameResource": "string_mode_positive_red_blue_and_green_water",
+          "nameResourceId": "0x7f13061e"
+        },
+        {
+          "command": 42,
+          "name": "R-G-B Water Back",
+          "nameResource": "string_mode_reverse_red_green_blue_water",
+          "nameResourceId": "0x7f130665"
+        },
+        {
+          "command": 43,
+          "name": "Y-C-P Water",
+          "nameResource": "string_mode_yellow_purple_and_cyan_water",
+          "nameResourceId": "0x7f1306e5"
+        },
+        {
+          "command": 44,
+          "name": "Y-C-P Water Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_water",
+          "nameResourceId": "0x7f130689"
+        },
+        {
+          "command": 45,
+          "name": "R-G Water",
+          "nameResource": "string_mode_positive_red_and_green_water",
+          "nameResourceId": "0x7f13061d"
+        },
+        {
+          "command": 46,
+          "name": "R-G Water Back",
+          "nameResource": "string_mode_reverse_red_green_running_water",
+          "nameResourceId": "0x7f130666"
+        },
+        {
+          "command": 47,
+          "name": "G-B Water",
+          "nameResource": "string_mode_forward_green_and_blue_water",
+          "nameResourceId": "0x7f1305fb"
+        },
+        {
+          "command": 48,
+          "name": "G-B Water Back",
+          "nameResource": "string_mode_reverse_green_blue_water",
+          "nameResourceId": "0x7f130653"
+        },
+        {
+          "command": 49,
+          "name": "Y-B Water",
+          "nameResource": "string_mode_forward_yellow_and_blue_water",
+          "nameResourceId": "0x7f130605"
+        },
+        {
+          "command": 50,
+          "name": "Y-B Water Back",
+          "nameResource": "string_mode_reverse_yellow_blue_water",
+          "nameResourceId": "0x7f130682"
+        },
+        {
+          "command": 51,
+          "name": "Y-C Water",
+          "nameResource": "string_mode_positive_yellow_and_green_water",
+          "nameResourceId": "0x7f13062a"
+        },
+        {
+          "command": 52,
+          "name": "Y-C Water Back",
+          "nameResource": "string_mode_reverse_yellow_green_water",
+          "nameResourceId": "0x7f13068a"
+        },
+        {
+          "command": 53,
+          "name": "C-P Water",
+          "nameResource": "string_mode_forward_blue_and_purple_water",
+          "nameResourceId": "0x7f1305f7"
+        },
+        {
+          "command": 54,
+          "name": "C-P Water Back",
+          "nameResource": "string_mode_reverse_cyan_water",
+          "nameResourceId": "0x7f130650"
+        },
+        {
+          "command": 55,
+          "name": "White Water",
+          "nameResource": "string_mode_forward_black_white_water",
+          "nameResourceId": "0x7f1305f6"
+        },
+        {
+          "command": 56,
+          "name": "White Water Back",
+          "nameResource": "string_mode_reverse_black_white_flow",
+          "nameResourceId": "0x7f13063e"
+        }
+      ]
+    },
+    {
+      "key": "flow",
+      "name": "Flow",
+      "titleResource": "string_common_symphony_tab_flow",
+      "commandArray": "sy_mode_cmd_flow_array",
+      "nameArray": "sy_mode_name_flow_array",
+      "items": [
+        {
+          "command": 143,
+          "name": "W-R-W Flow",
+          "nameResource": "string_mode_positive_white_red_white_flow",
+          "nameResourceId": "0x7f130628"
+        },
+        {
+          "command": 144,
+          "name": "W-R-W Flow Back",
+          "nameResource": "string_mode_reverse_white_red_white_flow",
+          "nameResourceId": "0x7f13067a"
+        },
+        {
+          "command": 145,
+          "name": "W-G-W Flow",
+          "nameResource": "string_mode_positive_white_green_white_flow",
+          "nameResourceId": "0x7f130627"
+        },
+        {
+          "command": 146,
+          "name": "W-G-W Flow Back",
+          "nameResource": "string_mode_reverse_white_green_white_flow",
+          "nameResourceId": "0x7f130678"
+        },
+        {
+          "command": 147,
+          "name": "W-B-W Flow",
+          "nameResource": "string_mode_forward_white_blue_white_flow",
+          "nameResourceId": "0x7f130602"
+        },
+        {
+          "command": 148,
+          "name": "W-B-W Flow Back",
+          "nameResource": "string_mode_reverse_white_blue_white_flow",
+          "nameResourceId": "0x7f130675"
+        },
+        {
+          "command": 149,
+          "name": "W-Y-W Flow",
+          "nameResource": "string_mode_positive_white_yellow_white_flow",
+          "nameResourceId": "0x7f130629"
+        },
+        {
+          "command": 150,
+          "name": "W-Y-W Flow Back",
+          "nameResource": "string_mode_reverse_white_yellow_white_flow",
+          "nameResourceId": "0x7f13067d"
+        },
+        {
+          "command": 151,
+          "name": "W-C-W Flow",
+          "nameResource": "string_mode_positive_white_cyan_white_flow",
+          "nameResourceId": "0x7f130626"
+        },
+        {
+          "command": 152,
+          "name": "W-C-W Flow Back",
+          "nameResource": "string_mode_reverse_white_cyan_white_flow",
+          "nameResourceId": "0x7f130676"
+        },
+        {
+          "command": 153,
+          "name": "W-P-W Flow",
+          "nameResource": "string_mode_forward_white_purple_white_flow",
+          "nameResourceId": "0x7f130603"
+        },
+        {
+          "command": 154,
+          "name": "W-P-W Flow Back",
+          "nameResource": "string_mode_reverse_white_purple_white_flow",
+          "nameResourceId": "0x7f130679"
+        },
+        {
+          "command": 155,
+          "name": "R-W-R Flow",
+          "nameResource": "string_mode_positive_red_white_red_flow",
+          "nameResourceId": "0x7f130621"
+        },
+        {
+          "command": 156,
+          "name": "R-W-R Flow Back",
+          "nameResource": "string_mode_reverse_red_white_red_flow",
+          "nameResourceId": "0x7f130669"
+        },
+        {
+          "command": 157,
+          "name": "G-W-G Flow",
+          "nameResource": "string_mode_positive_green_white_green_flow",
+          "nameResourceId": "0x7f13061a"
+        },
+        {
+          "command": 158,
+          "name": "G-W-G Flow Back",
+          "nameResource": "string_mode_reverse_green_white_green_flow",
+          "nameResourceId": "0x7f130656"
+        },
+        {
+          "command": 159,
+          "name": "B-W-B Flow",
+          "nameResource": "string_mode_forward_blue_white_blue_flow",
+          "nameResourceId": "0x7f1305f9"
+        },
+        {
+          "command": 160,
+          "name": "B-W-B Flow Back",
+          "nameResource": "string_mode_reverse_blue_white_blue_flow",
+          "nameResourceId": "0x7f130646"
+        },
+        {
+          "command": 161,
+          "name": "Y-W-Y Flow",
+          "nameResource": "string_mode_positive_yellow_white_yellow_flow",
+          "nameResourceId": "0x7f13062b"
+        },
+        {
+          "command": 162,
+          "name": "Y-W-Y Flow Back",
+          "nameResource": "string_mode_reverse_yellow_white_yellow_flow",
+          "nameResourceId": "0x7f13068d"
+        },
+        {
+          "command": 163,
+          "name": "C-W-C Flow",
+          "nameResource": "string_mode_positive_cyan_white_cyan_flow",
+          "nameResourceId": "0x7f130619"
+        },
+        {
+          "command": 164,
+          "name": "C-W-C Flow Back",
+          "nameResource": "string_mode_reverse_blue_white_green_flow",
+          "nameResourceId": "0x7f130647"
+        },
+        {
+          "command": 165,
+          "name": "P-W-P Flow",
+          "nameResource": "string_mode_positive_purple_white_purple_flow",
+          "nameResourceId": "0x7f13061c"
+        },
+        {
+          "command": 166,
+          "name": "P-W-P Flow Back",
+          "nameResource": "string_mode_reverse_purple_white_purple_flow",
+          "nameResourceId": "0x7f13065c"
+        }
+      ]
+    },
+    {
+      "key": "tailing",
+      "name": "Tail",
+      "titleResource": "string_common_symphony_tab_tailing",
+      "commandArray": "sy_mode_cmd_tailing_array",
+      "nameArray": "sy_mode_name_tailing_array",
+      "items": [
+        {
+          "command": 23,
+          "name": "7-Color Tail",
+          "nameResource": "string_mode_positive_colorful_tail",
+          "nameResourceId": "0x7f130617"
+        },
+        {
+          "command": 24,
+          "name": "7-Color Tail Back",
+          "nameResource": "string_mode_reverse_colorful_tail",
+          "nameResourceId": "0x7f13064c"
+        },
+        {
+          "command": 25,
+          "name": "Red Tail",
+          "nameResource": "string_mode_positive_red_tail",
+          "nameResourceId": "0x7f130620"
+        },
+        {
+          "command": 26,
+          "name": "Red Tail Back",
+          "nameResource": "string_mode_reverse_red_tail",
+          "nameResourceId": "0x7f130668"
+        },
+        {
+          "command": 27,
+          "name": "Green Tail",
+          "nameResource": "string_mode_forward_green_tail",
+          "nameResourceId": "0x7f1305fc"
+        },
+        {
+          "command": 28,
+          "name": "Green Tail Back",
+          "nameResource": "string_mode_reverse_green_tail",
+          "nameResourceId": "0x7f130655"
+        },
+        {
+          "command": 29,
+          "name": "Blue Tail",
+          "nameResource": "string_mode_forward_blue_tail",
+          "nameResourceId": "0x7f1305f8"
+        },
+        {
+          "command": 30,
+          "name": "Blue Tail Back",
+          "nameResource": "string_mode_reverse_blue_tail",
+          "nameResourceId": "0x7f130645"
+        },
+        {
+          "command": 31,
+          "name": "Yellow Tail",
+          "nameResource": "string_mode_forward_yellow_tail",
+          "nameResourceId": "0x7f130606"
+        },
+        {
+          "command": 32,
+          "name": "Yellow Tail Back",
+          "nameResource": "string_mode_reverse_yellow_tail",
+          "nameResourceId": "0x7f13068c"
+        },
+        {
+          "command": 33,
+          "name": "Cyan Tail",
+          "nameResource": "string_mode_forward_cyan_tail",
+          "nameResourceId": "0x7f1305fa"
+        },
+        {
+          "command": 34,
+          "name": "Cyan Tail Back",
+          "nameResource": "string_mode_reverse_cyan_tail",
+          "nameResourceId": "0x7f13064f"
+        },
+        {
+          "command": 35,
+          "name": "Purple Tail",
+          "nameResource": "string_mode_positive_purple_tail",
+          "nameResourceId": "0x7f13061b"
+        },
+        {
+          "command": 36,
+          "name": "Purple Tail Back",
+          "nameResource": "string_mode_reverse_purple_tail",
+          "nameResourceId": "0x7f13065a"
+        },
+        {
+          "command": 37,
+          "name": "White Tail",
+          "nameResource": "string_mode_forward_white_tail",
+          "nameResourceId": "0x7f130604"
+        },
+        {
+          "command": 38,
+          "name": "White Tail Back",
+          "nameResource": "string_mode_reverse_white_tail",
+          "nameResourceId": "0x7f13067c"
+        }
+      ]
+    },
+    {
+      "key": "running",
+      "name": "Run",
+      "titleResource": "string_common_symphony_tab_running",
+      "commandArray": "sy_mode_cmd_running_array",
+      "nameArray": "sy_mode_name_running_array",
+      "items": [
+        {
+          "command": 89,
+          "name": "Red Running",
+          "nameResource": "string_mode_running_towards_red",
+          "nameResourceId": "0x7f130698"
+        },
+        {
+          "command": 91,
+          "name": "Green Running",
+          "nameResource": "string_mode_running_towards_green",
+          "nameResourceId": "0x7f130696"
+        },
+        {
+          "command": 93,
+          "name": "Blue Running",
+          "nameResource": "string_mode_running_towards_blue",
+          "nameResourceId": "0x7f130692"
+        },
+        {
+          "command": 95,
+          "name": "Yellow Running",
+          "nameResource": "string_mode_running_towards_yellow",
+          "nameResourceId": "0x7f1306b1"
+        },
+        {
+          "command": 97,
+          "name": "Cyan Running",
+          "nameResource": "string_mode_running_towards_cyan",
+          "nameResourceId": "0x7f130695"
+        },
+        {
+          "command": 99,
+          "name": "Purple Running",
+          "nameResource": "string_mode_running_towards_purple",
+          "nameResourceId": "0x7f130697"
+        },
+        {
+          "command": 101,
+          "name": "White Running",
+          "nameResource": "string_mode_running_towards_white",
+          "nameResourceId": "0x7f1306b0"
+        },
+        {
+          "command": 103,
+          "name": "7-Color Running",
+          "nameResource": "string_mode_running_in_seven_colors",
+          "nameResourceId": "0x7f130691"
+        },
+        {
+          "command": 105,
+          "name": "R-G-B Running",
+          "nameResource": "string_mode_running_towards_red_blue_and_green",
+          "nameResourceId": "0x7f130699"
+        },
+        {
+          "command": 107,
+          "name": "Y-C-P Running",
+          "nameResource": "string_mode_running_towards_yellow_purple_and_cyan",
+          "nameResourceId": "0x7f1306b2"
+        },
+        {
+          "command": 109,
+          "name": "B-P-C-Y Running",
+          "nameResource": "string_mode_running_towards_blue_purple_cyan_and_yellow",
+          "nameResourceId": "0x7f130694"
+        },
+        {
+          "command": 111,
+          "name": "B-G-C-Y Running",
+          "nameResource": "string_mode_running_towards_blue_green_cyan_and_yellow",
+          "nameResourceId": "0x7f130693"
+        },
+        {
+          "command": 113,
+          "name": "Red-Dot in White Running",
+          "nameResource": "string_mode_running_towards_the_red_dot_on_white_background",
+          "nameResourceId": "0x7f1306a9"
+        },
+        {
+          "command": 115,
+          "name": "Green-Dot in Red Running",
+          "nameResource": "string_mode_running_towards_the_green_dot_on_red_background",
+          "nameResourceId": "0x7f1306a3"
+        },
+        {
+          "command": 117,
+          "name": "Blue-Dot in Green Running",
+          "nameResource": "string_mode_running_towards_the_blue_dot_on_green_background",
+          "nameResourceId": "0x7f1306a1"
+        },
+        {
+          "command": 119,
+          "name": "Yellow-Dot in Blue Running",
+          "nameResource": "string_mode_running_towards_the_yellow_dot_on_blue_background",
+          "nameResourceId": "0x7f1306ad"
+        },
+        {
+          "command": 121,
+          "name": "Cyan-Dot in Yellow Running",
+          "nameResource": "string_mode_running_towards_the_green_dot_on_yellow_background",
+          "nameResourceId": "0x7f1306a5"
+        },
+        {
+          "command": 123,
+          "name": "Purple-Dot in Cyan Running",
+          "nameResource": "string_mode_running_towards_the_purple_dot_on_green_background",
+          "nameResourceId": "0x7f1306a7"
+        },
+        {
+          "command": 125,
+          "name": "White-Dot in Purple Running",
+          "nameResource": "string_mode_running_towards_the_white_spot_on_purple_background",
+          "nameResourceId": "0x7f1306ac"
+        },
+        {
+          "command": 127,
+          "name": "White-Dot in Red Running",
+          "nameResource": "string_mode_running_towards_the_white_dot_on_red_background",
+          "nameResourceId": "0x7f1306aa"
+        },
+        {
+          "command": 129,
+          "name": "7-Color in Red Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_red_background",
+          "nameResourceId": "0x7f13069e"
+        },
+        {
+          "command": 131,
+          "name": "7-Color in Green Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_green_background",
+          "nameResourceId": "0x7f13069c"
+        },
+        {
+          "command": 133,
+          "name": "7-Color in Blue Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_blue_background",
+          "nameResourceId": "0x7f13069a"
+        },
+        {
+          "command": 135,
+          "name": "7-Color in Yellow Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_yellow_background",
+          "nameResourceId": "0x7f1306a0"
+        },
+        {
+          "command": 137,
+          "name": "7-Color in Cyan Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_cyan_background",
+          "nameResourceId": "0x7f13069b"
+        },
+        {
+          "command": 139,
+          "name": "7-Color in Purple Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_purple_background",
+          "nameResourceId": "0x7f13069d"
+        },
+        {
+          "command": 141,
+          "name": "7-Color in White Running",
+          "nameResource": "string_mode_running_towards_seven_colors_on_white_background",
+          "nameResourceId": "0x7f13069f"
+        },
+        {
+          "command": 167,
+          "name": "Green-Dot in Blue Running",
+          "nameResource": "string_mode_running_towards_the_green_dot_on_blue_background",
+          "nameResourceId": "0x7f1306a2"
+        },
+        {
+          "command": 169,
+          "name": "Green-Dot in Red Running",
+          "nameResource": "string_mode_running_towards_the_green_dot_on_red_bb_background",
+          "nameResourceId": "0x7f1306a4"
+        },
+        {
+          "command": 171,
+          "name": "Red-Dot in Blue Running",
+          "nameResource": "string_mode_running_towards_the_red_dot_on_blue_background",
+          "nameResourceId": "0x7f1306a8"
+        },
+        {
+          "command": 173,
+          "name": "Cyan-Dot in Yellow Running",
+          "nameResource": "string_mode_running_towards_the_green_dot_on_yellow_bb_background",
+          "nameResourceId": "0x7f1306a6"
+        },
+        {
+          "command": 175,
+          "name": "Yellow-Dot in Purple Running",
+          "nameResource": "string_mode_running_towards_the_yellow_dot_on_purple_background",
+          "nameResourceId": "0x7f1306ae"
+        },
+        {
+          "command": 177,
+          "name": "White-Dot in Yellow Running",
+          "nameResource": "string_mode_running_towards_the_white_dot_on_yellow_background",
+          "nameResourceId": "0x7f1306ab"
+        },
+        {
+          "command": 179,
+          "name": "Yellow-Dot in White Running",
+          "nameResource": "string_mode_running_towards_the_yellow_dot_on_white_background",
+          "nameResourceId": "0x7f1306af"
+        }
+      ]
+    },
+    {
+      "key": "running_back",
+      "name": "RunBack",
+      "titleResource": "string_common_symphony_tab_running_back",
+      "commandArray": "sy_mode_cmd_running_back_array",
+      "nameArray": "sy_mode_name_running_back_array",
+      "items": [
+        {
+          "command": 90,
+          "name": "Red Run Back",
+          "nameResource": "string_mode_reverse_red_run",
+          "nameResourceId": "0x7f130667"
+        },
+        {
+          "command": 92,
+          "name": "Green Run Back",
+          "nameResource": "string_mode_reverse_green_run",
+          "nameResourceId": "0x7f130654"
+        },
+        {
+          "command": 94,
+          "name": "Blue Run Back",
+          "nameResource": "string_mode_reverse_blue_run",
+          "nameResourceId": "0x7f130644"
+        },
+        {
+          "command": 96,
+          "name": "Yellow Run Back",
+          "nameResource": "string_mode_reverse_yellow_run",
+          "nameResourceId": "0x7f13068b"
+        },
+        {
+          "command": 98,
+          "name": "Cyan Run Back",
+          "nameResource": "string_mode_reverse_cyan_run",
+          "nameResourceId": "0x7f13064e"
+        },
+        {
+          "command": 100,
+          "name": "Purple Run Back",
+          "nameResource": "string_mode_reverse_purple_run",
+          "nameResourceId": "0x7f130659"
+        },
+        {
+          "command": 102,
+          "name": "White Run Back",
+          "nameResource": "string_mode_reverse_white_run",
+          "nameResourceId": "0x7f13067b"
+        },
+        {
+          "command": 104,
+          "name": "7-Color Run Back",
+          "nameResource": "string_mode_reverse_seven_color_running",
+          "nameResourceId": "0x7f13066b"
+        },
+        {
+          "command": 106,
+          "name": "R-G-B Run Back",
+          "nameResource": "string_mode_reverse_red_green_blue_run",
+          "nameResourceId": "0x7f130664"
+        },
+        {
+          "command": 108,
+          "name": "Y-C-P Run Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_run",
+          "nameResourceId": "0x7f130688"
+        },
+        {
+          "command": 110,
+          "name": "B-P-C-Y Run Back",
+          "nameResource": "string_mode_reverse_yellow_cyan_purple_blue_run",
+          "nameResourceId": "0x7f130686"
+        },
+        {
+          "command": 112,
+          "name": "B-G-C-Y Run Back",
+          "nameResource": "string_mode_reverse_blue_yellow_cyan_green_run",
+          "nameResourceId": "0x7f130648"
+        },
+        {
+          "command": 114,
+          "name": "Red-Dot in White Run Back",
+          "nameResource": "string_mode_reverse_white_background_red_dot_running",
+          "nameResourceId": "0x7f130673"
+        },
+        {
+          "command": 116,
+          "name": "Green-Dot in Red Run Back",
+          "nameResource": "string_mode_reverse_red_background_green_dot_running",
+          "nameResourceId": "0x7f13065f"
+        },
+        {
+          "command": 118,
+          "name": "Blue-Dot in Green Run Back",
+          "nameResource": "string_mode_reverse_green_background_blue_dot_running",
+          "nameResourceId": "0x7f130651"
+        },
+        {
+          "command": 120,
+          "name": "Yellow-Dot in Blue Run Back",
+          "nameResource": "string_mode_reverse_blue_background_yellow_dot_running",
+          "nameResourceId": "0x7f130643"
+        },
+        {
+          "command": 122,
+          "name": "Cyan-Dot in Yellow Run Back",
+          "nameResource": "string_mode_reverse_yellow_background_blue_dot_running",
+          "nameResourceId": "0x7f13067f"
+        },
+        {
+          "command": 124,
+          "name": "Purple-Dot in Cyan Run Back",
+          "nameResource": "string_mode_reverse_blue_background_purple_dot_running",
+          "nameResourceId": "0x7f130640"
+        },
+        {
+          "command": 126,
+          "name": "White-Dot in Purple Run Back",
+          "nameResource": "string_mode_reverse_purple_white_dot_running",
+          "nameResourceId": "0x7f13065b"
+        },
+        {
+          "command": 128,
+          "name": "White-Dot in Red Run Back",
+          "nameResource": "string_mode_reverse_white_dot_running_on_red_background",
+          "nameResourceId": "0x7f130677"
+        },
+        {
+          "command": 130,
+          "name": "7-Color in Red Run Back",
+          "nameResource": "string_mode_seven_color_running_on_reverse_red_background",
+          "nameResourceId": "0x7f1306b9"
+        },
+        {
+          "command": 132,
+          "name": "7-Color in Green Run Back",
+          "nameResource": "string_mode_seven_color_running_on_reverse_green_background",
+          "nameResourceId": "0x7f1306b8"
+        },
+        {
+          "command": 134,
+          "name": "7-Color in Blue Run Back",
+          "nameResource": "string_mode_reverse_blue_background_seven_color_running",
+          "nameResourceId": "0x7f130642"
+        },
+        {
+          "command": 136,
+          "name": "7-Color in Yellow Run Back",
+          "nameResource": "string_mode_reverse_yellow_background_seven_color_running",
+          "nameResourceId": "0x7f130680"
+        },
+        {
+          "command": 138,
+          "name": "7-Color in Cyan Run Back",
+          "nameResource": "string_mode_reverse_green_background_seven_color_running",
+          "nameResourceId": "0x7f130652"
+        },
+        {
+          "command": 140,
+          "name": "7-Color in Purple Run Back",
+          "nameResource": "string_mode_reverse_purple_background_seven_color_running",
+          "nameResourceId": "0x7f130658"
+        },
+        {
+          "command": 142,
+          "name": "7-Color in White Run Back",
+          "nameResource": "string_mode_seven_color_running_on_reverse_white_background",
+          "nameResourceId": "0x7f1306ba"
+        },
+        {
+          "command": 168,
+          "name": "Green-Dot in Blue Run Back",
+          "nameResource": "string_mode_reverse_blue_background_green_dot_running",
+          "nameResourceId": "0x7f13063f"
+        },
+        {
+          "command": 170,
+          "name": "Green-Dot in Red Run Back",
+          "nameResource": "string_mode_reverse_red_background_green_dot_aa_running",
+          "nameResourceId": "0x7f13065e"
+        },
+        {
+          "command": 172,
+          "name": "Red-Dot in Blue Run Back",
+          "nameResource": "string_mode_reverse_blue_background_red_dot_running",
+          "nameResourceId": "0x7f130641"
+        },
+        {
+          "command": 174,
+          "name": "Cyan-Dot in Yellow Run Back",
+          "nameResource": "string_mode_reverse_yellow_background_blue_dot_aa_running",
+          "nameResourceId": "0x7f13067e"
+        },
+        {
+          "command": 176,
+          "name": "Yellow-Dot in Purple Run Back",
+          "nameResource": "string_mode_reverse_purple_yellow_dot_running",
+          "nameResourceId": "0x7f13065d"
+        },
+        {
+          "command": 178,
+          "name": "Yellow-Dot in Purple Run Back",
+          "nameResource": "string_mode_reverse_yellow_background_white_dot_running",
+          "nameResourceId": "0x7f130681"
+        },
+        {
+          "command": 180,
+          "name": "White-Dot in Yellow Run Back",
+          "nameResource": "string_mode_reverse_white_background_yellow_dot_running",
+          "nameResourceId": "0x7f130674"
+        }
+      ]
+    },
+    {
+      "key": "other",
+      "name": "Other",
+      "titleResource": "string_common_symphony_tab_other",
+      "commandArray": "sy_mode_cmd_other_array",
+      "nameArray": "sy_mode_name_other_array",
+      "items": [
+        {
+          "command": 213,
+          "name": "Special seven-color opening at 25 point",
+          "nameResource": "string_mode_special_seven_color_opening",
+          "nameResourceId": "0x7f1306be"
+        },
+        {
+          "command": 214,
+          "name": "Orange red dark bright dark filtered running water",
+          "nameResource": "string_mode_orange_red_dark_bright_dark_filtered_running_water",
+          "nameResourceId": "0x7f130613"
+        },
+        {
+          "command": 215,
+          "name": "Yellow green dark bright dark filtered running water",
+          "nameResource": "string_mode_yellow_green_dark_bright_dark_filtered_running_water",
+          "nameResourceId": "0x7f1306e2"
+        },
+        {
+          "command": 216,
+          "name": "Green dark bright dark filtered running water",
+          "nameResource": "string_mode_green_dark_bright_dark_filtered_running_water",
+          "nameResourceId": "0x7f13060a"
+        },
+        {
+          "command": 217,
+          "name": "Green blue dark bright dark filtered running water",
+          "nameResource": "string_mode_green_blue_dark_bright_dark_filtered_running_water",
+          "nameResourceId": "0x7f130608"
+        },
+        {
+          "command": 218,
+          "name": "Blue dark bright dark filtered running water",
+          "nameResource": "string_mode_blue_dark_bright_dark_filtered_running_water",
+          "nameResourceId": "0x7f1305cf"
+        },
+        {
+          "command": 219,
+          "name": "Purple dark light dark filtered running water",
+          "nameResource": "string_mode_purple_dark_light_dark_filtered_running_water",
+          "nameResourceId": "0x7f13062e"
+        },
+        {
+          "command": 220,
+          "name": "Red dark bright dark filtered running water",
+          "nameResource": "string_mode_red_dark_bright_dark_filtered_running_water",
+          "nameResourceId": "0x7f130633"
+        },
+        {
+          "command": 221,
+          "name": "Seven-color stacking",
+          "nameResource": "string_mode_seven_color_stack",
+          "nameResourceId": "0x7f1306bb"
+        },
+        {
+          "command": 222,
+          "name": "Orange stacking",
+          "nameResource": "string_mode_orange_stack",
+          "nameResourceId": "0x7f130614"
+        },
+        {
+          "command": 223,
+          "name": "Yellow-green stacking",
+          "nameResource": "string_mode_yellow_green_stack",
+          "nameResourceId": "0x7f1306e3"
+        },
+        {
+          "command": 224,
+          "name": "Green stacking",
+          "nameResource": "string_mode_green_stack",
+          "nameResourceId": "0x7f13060e"
+        },
+        {
+          "command": 225,
+          "name": "Cyan-blue stacking",
+          "nameResource": "string_mode_cyan_blue_stack",
+          "nameResourceId": "0x7f1305de"
+        },
+        {
+          "command": 226,
+          "name": "Blue stacking",
+          "nameResource": "string_mode_blue_stack",
+          "nameResourceId": "0x7f1305d3"
+        },
+        {
+          "command": 227,
+          "name": "Purple stacking",
+          "nameResource": "string_mode_purple_stack",
+          "nameResourceId": "0x7f130630"
+        },
+        {
+          "command": 228,
+          "name": "Red stacking",
+          "nameResource": "string_mode_red_stack",
+          "nameResourceId": "0x7f13063d"
+        },
+        {
+          "command": 229,
+          "name": "Colorful gradient",
+          "nameResource": "string_mode_colorful_gradient",
+          "nameResourceId": "0x7f1305db"
+        },
+        {
+          "command": 230,
+          "name": "Colorful transition",
+          "nameResource": "string_mode_colorful_transition",
+          "nameResourceId": "0x7f1305dd"
+        },
+        {
+          "command": 231,
+          "name": "Red-purple transition",
+          "nameResource": "string_mode_red_purple_transition",
+          "nameResourceId": "0x7f13063b"
+        },
+        {
+          "command": 232,
+          "name": "Yellow-white transition",
+          "nameResource": "string_mode_yellow_white_transition",
+          "nameResourceId": "0x7f1306e7"
+        },
+        {
+          "command": 233,
+          "name": "Yellow-orange transition",
+          "nameResource": "string_mode_yellow_orange_transition",
+          "nameResourceId": "0x7f1306e4"
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "index": 0,
+      "command": 1,
+      "enum": "SUNRISE",
+      "name": "Sunrise",
+      "nameResource": "string_common_internal_scenes_name_sunrise",
+      "imageResource": "ic_s_sunrise",
+      "imageResourceId": "0x7f0806be",
+      "asset": "assets/native-lotus/scenes/ic_s_sunrise.png",
+      "sha256": "8e063aff344ab64b7d09dae3f3dee2ebcf331a18fd00254f7030c1a7afa6aab0",
+      "bytes": 9981,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 1,
+      "command": 2,
+      "enum": "SUNSET",
+      "name": "Sunset",
+      "nameResource": "string_common_internal_scenes_name_sunset",
+      "imageResource": "ic_s_sunset",
+      "imageResourceId": "0x7f0806bf",
+      "asset": "assets/native-lotus/scenes/ic_s_sunset.png",
+      "sha256": "c11b4c60ad4a5439bbb5d84fddc6ac241ca08f1f9b3c44db27a1eec4d75f3576",
+      "bytes": 11458,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 2,
+      "command": 3,
+      "enum": "BIRTHHAY",
+      "name": "Birthday",
+      "nameResource": "string_common_internal_scenes_name_birthday",
+      "imageResource": "ic_s_birthday",
+      "imageResourceId": "0x7f0806a4",
+      "asset": "assets/native-lotus/scenes/ic_s_birthday.png",
+      "sha256": "a05f39d135926ff3f26d5731e8c45e2c00bf3985b03a2088e8a271a7e8d8ded9",
+      "bytes": 20751,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 3,
+      "command": 4,
+      "enum": "CANDLELIGHT",
+      "name": "Candlelight",
+      "nameResource": "string_common_internal_scenes_name_candlelight",
+      "imageResource": "ic_s_candlelight",
+      "imageResourceId": "0x7f0806a6",
+      "asset": "assets/native-lotus/scenes/ic_s_candlelight.png",
+      "sha256": "eb671473eed461742e435598fa44ee880678bc0c8b76bdcb8e542c5bfb110395",
+      "bytes": 11361,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 4,
+      "command": 5,
+      "enum": "FIREWORKS",
+      "name": "Fireworks",
+      "nameResource": "string_common_internal_scenes_name_fireworks",
+      "imageResource": "ic_s_fireworks",
+      "imageResourceId": "0x7f0806ab",
+      "asset": "assets/native-lotus/scenes/ic_s_fireworks.png",
+      "sha256": "6770a3b7b77d4d98b18c3b8e861b4202e33256f5b61e225c62aae0fcd07741a9",
+      "bytes": 31288,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 5,
+      "command": 6,
+      "enum": "PATY",
+      "name": "Party",
+      "nameResource": "string_common_internal_scenes_name_reunion",
+      "imageResource": "ic_s_reunion",
+      "imageResourceId": "0x7f0806b7",
+      "asset": "assets/native-lotus/scenes/ic_s_reunion.png",
+      "sha256": "9f36fc23dcbdd731e98ca91cef0876c76dd8c0496c9a5f71f5485bed382302de",
+      "bytes": 23329,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 6,
+      "command": 7,
+      "enum": "DATING",
+      "name": "Dating",
+      "nameResource": "string_common_internal_scenes_name_dating",
+      "imageResource": "ic_s_dating",
+      "imageResourceId": "0x7f0806a9",
+      "asset": "assets/native-lotus/scenes/ic_s_dating.png",
+      "sha256": "31f43d5e5c2da57878120369db5760e7818d7bf918df6e69650db258bf13c18c",
+      "bytes": 14822,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 7,
+      "command": 8,
+      "enum": "STARRY_SKY",
+      "name": "Starry Sky",
+      "nameResource": "string_common_internal_scenes_name_starry_sky",
+      "imageResource": "ic_s_starry_sky",
+      "imageResourceId": "0x7f0806bd",
+      "asset": "assets/native-lotus/scenes/ic_s_starry_sky.png",
+      "sha256": "37447b45879f8081029b1a2944b02681d5cd5f554de89b39f99f26efd6f7ac19",
+      "bytes": 24397,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 8,
+      "command": 9,
+      "enum": "ROMANTIC",
+      "name": "Romantic",
+      "nameResource": "string_common_internal_scenes_name_romantic",
+      "imageResource": "ic_s_romantic",
+      "imageResourceId": "0x7f0806b8",
+      "asset": "assets/native-lotus/scenes/ic_s_romantic.png",
+      "sha256": "b9211fd5f6c6c2b46c9794202971ed45bc16e0a448282f11115a357f848c2688",
+      "bytes": 22682,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 9,
+      "command": 10,
+      "enum": "DISCO",
+      "name": "Disco",
+      "nameResource": "string_common_internal_scenes_name_disco",
+      "imageResource": "ic_s_disco",
+      "imageResourceId": "0x7f0806aa",
+      "asset": "assets/native-lotus/scenes/ic_s_disco.png",
+      "sha256": "66b18e6ba464745f3819e9985a67055bca6efa69d212d6578768027bf3f829c0",
+      "bytes": 26760,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 10,
+      "command": 11,
+      "enum": "RAINBOW",
+      "name": "Rainbow",
+      "nameResource": "string_common_internal_scenes_name_rainbow",
+      "imageResource": "ic_s_rainbow",
+      "imageResourceId": "0x7f0806b5",
+      "asset": "assets/native-lotus/scenes/ic_s_rainbow.png",
+      "sha256": "3bc68e2baec0df33384de0db621ad454a8d154e457cfd942d4459ce54f3073da",
+      "bytes": 28479,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 11,
+      "command": 12,
+      "enum": "MOVIE",
+      "name": "Movie",
+      "nameResource": "string_common_internal_scenes_name_movie",
+      "imageResource": "ic_s_movie",
+      "imageResourceId": "0x7f0806b3",
+      "asset": "assets/native-lotus/scenes/ic_s_movie.png",
+      "sha256": "72c85e4209c89be8a5531b7813948439b50c5d68b25478da09c66975a55b45e1",
+      "bytes": 6907,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 12,
+      "command": 13,
+      "enum": "CHRISMAS",
+      "name": "Christmas",
+      "nameResource": "string_common_internal_scenes_name_christmas_eve",
+      "imageResource": "ic_s_christmas_eve",
+      "imageResourceId": "0x7f0806a7",
+      "asset": "assets/native-lotus/scenes/ic_s_christmas_eve.png",
+      "sha256": "3ad5938678f83be9b10823d4829f0c81f5ab26bc6700de0436f048871deed8fb",
+      "bytes": 16388,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 13,
+      "command": 14,
+      "enum": "FLOWING",
+      "name": "Flowing",
+      "nameResource": "string_common_internal_scenes_name_running_water",
+      "imageResource": "ic_s_running_water",
+      "imageResourceId": "0x7f0806b9",
+      "asset": "assets/native-lotus/scenes/ic_s_running_water.png",
+      "sha256": "9d63fb9b9209cfb6ebbdf11c06f5c140713132597ad18270a08ee21fa2bb5eda",
+      "bytes": 17481,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 14,
+      "command": 15,
+      "enum": "SLEEPING",
+      "name": "Sleeping",
+      "nameResource": "string_common_internal_scenes_name_sleep",
+      "imageResource": "ic_s_sleep",
+      "imageResourceId": "0x7f0806ba",
+      "asset": "assets/native-lotus/scenes/ic_s_sleep.png",
+      "sha256": "e331329be02553f4ce488b41a96d37c13ddc6cafca7d038e4ffd489c4802f5fd",
+      "bytes": 12376,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 15,
+      "command": 16,
+      "enum": "OCEAN",
+      "name": "Ocean",
+      "nameResource": "string_common_internal_scenes_name_ocean",
+      "imageResource": "ic_s_ocean",
+      "imageResourceId": "0x7f0806b4",
+      "asset": "assets/native-lotus/scenes/ic_s_ocean.png",
+      "sha256": "32a7015bacb808a90eff1e2379a5e62a6d5b7ee3bd72bb782d48d0f4dceb14a3",
+      "bytes": 13492,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 16,
+      "command": 17,
+      "enum": "FOREST",
+      "name": "Forest",
+      "nameResource": "string_common_internal_scenes_name_forest",
+      "imageResource": "ic_s_forest",
+      "imageResourceId": "0x7f0806ae",
+      "asset": "assets/native-lotus/scenes/ic_s_forest.png",
+      "sha256": "4896802cb941fee08108e951b3b763467de4e46847945e5159ac14e30c6184a3",
+      "bytes": 23076,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 17,
+      "command": 18,
+      "enum": "READING",
+      "name": "Reading",
+      "nameResource": "string_common_internal_scenes_name_read",
+      "imageResource": "ic_s_read",
+      "imageResourceId": "0x7f0806b6",
+      "asset": "assets/native-lotus/scenes/ic_s_read.png",
+      "sha256": "7e34ec4b554c20a90a54c606620ee299626fb6caa720b5e9f6d5d5d5efd6da2d",
+      "bytes": 12129,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 18,
+      "command": 19,
+      "enum": "WORKING",
+      "name": "Working",
+      "nameResource": "string_common_internal_scenes_name_work",
+      "imageResource": "ic_s_work",
+      "imageResourceId": "0x7f0806c4",
+      "asset": "assets/native-lotus/scenes/ic_s_work.png",
+      "sha256": "b7beb217f94ce085d73bded5a06ff44c07f28299bf82602e981c8a7ef37205fa",
+      "bytes": 9546,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 19,
+      "command": 20,
+      "enum": "DAZZLE",
+      "name": "Dazzle",
+      "nameResource": "string_common_internal_scenes_name_colorful",
+      "imageResource": "ic_s_colorful",
+      "imageResourceId": "0x7f0806a8",
+      "asset": "assets/native-lotus/scenes/ic_s_colorful.png",
+      "sha256": "d365b76183922d3bd82c296d727fce5f267b269d06a6c2d52b40c05f9bdb4eef",
+      "bytes": 30964,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 20,
+      "command": 21,
+      "enum": "GENTLE",
+      "name": "Soft",
+      "nameResource": "string_common_internal_scenes_name_soft",
+      "imageResource": "ic_s_soft",
+      "imageResourceId": "0x7f0806bc",
+      "asset": "assets/native-lotus/scenes/ic_s_soft.png",
+      "sha256": "357fa40fdf59b3a7e79ffefddcfb20ac96224f162232d8728f42627378eccb1e",
+      "bytes": 17782,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 21,
+      "command": 22,
+      "enum": "WEDDING",
+      "name": "Wedding",
+      "nameResource": "string_common_internal_scenes_name_wedding_anniversary",
+      "imageResource": "ic_s_wedding_anniversary",
+      "imageResourceId": "0x7f0806c3",
+      "asset": "assets/native-lotus/scenes/ic_s_wedding_anniversary.png",
+      "sha256": "8e9f69ed2cb76b47af056f713a6751303d7fd29d43889b60d0408930d1985a35",
+      "bytes": 24313,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 22,
+      "command": 23,
+      "enum": "SNOW",
+      "name": "Snow",
+      "nameResource": "string_common_internal_scenes_name_snowflake",
+      "imageResource": "ic_s_snowflake",
+      "imageResourceId": "0x7f0806bb",
+      "asset": "assets/native-lotus/scenes/ic_s_snowflake.png",
+      "sha256": "1fa7b6deed5dfe8d50db163806430b4b48e1ecb7732645dd4a957cc9a7f0f08f",
+      "bytes": 19467,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 23,
+      "command": 24,
+      "enum": "FIRE",
+      "name": "Fire",
+      "nameResource": "string_common_internal_scenes_name_flame",
+      "imageResource": "ic_s_flame",
+      "imageResourceId": "0x7f0806ad",
+      "asset": "assets/native-lotus/scenes/ic_s_flame.png",
+      "sha256": "2d1e0574e18b143b0bb565fae8666904e307c8c6b5392ae87b06d0b8ab78001e",
+      "bytes": 16018,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 24,
+      "command": 25,
+      "enum": "LIGHTNING",
+      "name": "Lightning",
+      "nameResource": "string_common_internal_scenes_name_lightning",
+      "imageResource": "ic_s_lightning",
+      "imageResourceId": "0x7f0806b0",
+      "asset": "assets/native-lotus/scenes/ic_s_lightning.png",
+      "sha256": "55685d7ecf7f20510f360f8666fab0d0c796c2d279702e8ddc07d1fa804acc5d",
+      "bytes": 17711,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 25,
+      "command": 26,
+      "enum": "VALENTINEDAY",
+      "name": "Valentine's Day",
+      "nameResource": "string_common_internal_scenes_name_valentine_day",
+      "imageResource": "ic_s_valentine_day",
+      "imageResourceId": "0x7f0806c2",
+      "asset": "assets/native-lotus/scenes/ic_s_valentine_day.png",
+      "sha256": "038e238aeb29294f174656a5a66d67ce56ef1ff37786386ff0fb77a70bc2f9ce",
+      "bytes": 12452,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 26,
+      "command": 27,
+      "enum": "HALLOWMAS",
+      "name": "Hallowmas",
+      "nameResource": "string_common_internal_scenes_name_halloween",
+      "imageResource": "ic_s_halloween",
+      "imageResourceId": "0x7f0806af",
+      "asset": "assets/native-lotus/scenes/ic_s_halloween.png",
+      "sha256": "8a0721bdfde82bfc5d5810623c671ec61ff90480da4339b9b9e9d580030c6f15",
+      "bytes": 14382,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 27,
+      "command": 28,
+      "enum": "WARNNING",
+      "name": "Warning",
+      "nameResource": "string_common_internal_scenes_name_alarm",
+      "imageResource": "ic_s_alarm",
+      "imageResourceId": "0x7f0806a3",
+      "asset": "assets/native-lotus/scenes/ic_s_alarm.png",
+      "sha256": "854d2158b0017c63f2842f7fe54de59e9302fc677b703c21399275027b31175a",
+      "bytes": 12956,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 28,
+      "command": 150,
+      "enum": "TIME_MACHINE",
+      "name": "Time Machine",
+      "nameResource": "string_common_internal_scenes_name_time_machine",
+      "imageResource": "ic_s_time_machine",
+      "imageResourceId": "0x7f0806c0",
+      "asset": "assets/native-lotus/scenes/ic_s_time_machine.png",
+      "sha256": "bc6829c4de39c80f172033c13ea5efd7290245006d75a0b064548f842cfc8597",
+      "bytes": 22247,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 29,
+      "command": 152,
+      "enum": "TIME_MACHINE2",
+      "name": "Time Machine 2",
+      "nameResource": "string_common_internal_scenes_name_time_machine_two",
+      "imageResource": "ic_s_time_machine2",
+      "imageResourceId": "0x7f0806c1",
+      "asset": "assets/native-lotus/scenes/ic_s_time_machine2.png",
+      "sha256": "9450199013dedc7252112bb6184c8e5ea0c776fd201d765bff8d0fb87a8998d5",
+      "bytes": 17736,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 30,
+      "command": 154,
+      "enum": "METEOR",
+      "name": "Meteor",
+      "nameResource": "string_common_internal_scenes_name_meteor",
+      "imageResource": "ic_s_meteor",
+      "imageResourceId": "0x7f0806b1",
+      "asset": "assets/native-lotus/scenes/ic_s_meteor.png",
+      "sha256": "deb22bd2ddf2b7a438876a999fcba9db64f78db51d127dc2c9aa8a2fa9e4fbb0",
+      "bytes": 20192,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 31,
+      "command": 155,
+      "enum": "METEOR2",
+      "name": "Meteor 2",
+      "nameResource": "string_common_internal_scenes_name_meteor_two",
+      "imageResource": "ic_s_meteor2",
+      "imageResourceId": "0x7f0806b2",
+      "asset": "assets/native-lotus/scenes/ic_s_meteor2.png",
+      "sha256": "1c3dd2788012d89f208be32b61e467e285b3d912477fc67d4f93b41851160524",
+      "bytes": 21805,
+      "artworkOrigin": "independently authored geometry"
+    },
+    {
+      "index": 32,
+      "command": 156,
+      "enum": "FIREWORKS_SHOW",
+      "name": "Fireworks Show",
+      "nameResource": "string_common_internal_scenes_name_fireworks_show",
+      "imageResource": "ic_s_fireworks_show",
+      "imageResourceId": "0x7f0806ac",
+      "asset": "assets/native-lotus/scenes/ic_s_fireworks_show.png",
+      "sha256": "8869d603d7ac3c21bbb205ddfee087bc21d660f795efee9c2d516d2b26c74e8a",
+      "bytes": 57747,
+      "artworkOrigin": "independently authored geometry"
+    }
+  ],
+  "artwork": {
+    "origin": "independently authored geometric illustrations",
+    "generator": "tools/generate-lotus-scenes.py",
+    "visualDifference": "Photographic scenes replaced by semantic flat illustrations; no original pixels used."
+  }
+}

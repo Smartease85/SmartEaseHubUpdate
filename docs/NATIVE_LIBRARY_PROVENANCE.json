@@ -1,0 +1,63 @@
+{
+  "status": "Source-backed Android reconstruction; no iOS rendering or hardware acceptance",
+  "source_files": [
+    {
+      "path": "lotusx-protocol-research/SYDIYFragment.java",
+      "sha256": "c54919baecf3b888b81ddb026867dad0d53f8b0b83a3cf309147ba1c258c1cd8"
+    },
+    {
+      "path": "native-recovery/next-diy/SymphonyScenesActivity.java",
+      "sha256": "7efde36994b91600c1cf5379538b7adb85fb520a495ed2a33ef2410d994d0815"
+    },
+    {
+      "path": "native-recovery/next-diy/KiO.xml.txt",
+      "sha256": "6a98b89416716a358db547c5f5027fea2ecd97df90ca9b4440d4c5ffb1fd4b7d"
+    },
+    {
+      "path": "native-recovery/next-diy/i44.xml.txt",
+      "sha256": "a4be9d89a002d0bd08f7e8db510bd2b2ca5a9ded2354ffb6fa4d958bd73e3f60"
+    },
+    {
+      "path": "native-recovery/next-diy/library-implementation/evidence/GradientBorderBuilder.java",
+      "sha256": "3707c0d379f04a21e6dd3dd8a6e98c1cb18882f5ae5d3e6264ffa061a706b496"
+    },
+    {
+      "path": "native-recovery/next-diy/library-implementation/evidence/GradientBorderDrawable.java",
+      "sha256": "75e3bf8714d64e612d3886a43310844c8924a4806d623d7733847f0613f5858d"
+    },
+    {
+      "path": "native-recovery/next-diy/library-implementation/evidence/hpr.xml.txt",
+      "sha256": "1df61499929a9a2439bd3976feaa48f633a09b8e51449be6c44fbdbb0fb48c8a"
+    },
+    {
+      "path": "native-recovery/next-diy/library-implementation/evidence/Sx5.xml.txt",
+      "sha256": "e8ebd22070d68e4981b03d2fee3b6d600702e9c6e2167576013522d4e0e7abac"
+    },
+    {
+      "path": "native-recovery/next-diy/library-implementation/evidence/sHY.xml.txt",
+      "sha256": "8a8ec2da9432a186fcaf502e474d87f6e52e0e80d3b8379e6bf04a1b26940284"
+    },
+    {
+      "path": "native-recovery/next-diy/library-implementation/evidence/selected-theme-resources.json",
+      "sha256": "914b7582dbbc9b01d448487755a6c098c94ae37f7de664ff73e99849639c0b2a"
+    },
+    {
+      "path": "native-recovery/next-diy/library-evidence/ElkDeviceGroupExtKt.java",
+      "sha256": "663cca28884f5acb11c4c4ba8fafb404aae93717fbf8bd0e9b107e4d946d8e20"
+    },
+    {
+      "path": "native-recovery/next-diy/library-evidence/ELKSceneDIYExtKt.java",
+      "sha256": "c22ba854d99fcd9c1e3965ae176e7a8c65946a9b429b75f59f26a2a196995c93"
+    },
+    {
+      "path": "native-recovery/next-diy/library-evidence/ElkDeviceExtKt.java",
+      "sha256": "0ab57892951ada3c908c47a4fdf4475f74edb743d8f0e206a6dbd4fe0d07c383"
+    }
+  ],
+  "asset_files": [
+    {
+      "path": "assets/native-lotus/library/add.png",
+      "sha256": "57e9768d5d8e6757ac4270a2866e9663125b9961d3675902ab6b25a994cd9d47"
+    }
+  ]
+}

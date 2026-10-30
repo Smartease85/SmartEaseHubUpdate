@@ -1,0 +1,566 @@
+{
+  "generator": "tools/generate-lotus-scenes.py",
+  "assets": [
+    {
+      "path": "assets/native-lotus/scenes/ic_s_sunrise.png",
+      "sha256": "8e063aff344ab64b7d09dae3f3dee2ebcf331a18fd00254f7030c1a7afa6aab0",
+      "bytes": 9981,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "warm dawn sun lifting over quiet water and distant hills",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_sunset.png",
+      "sha256": "c11b4c60ad4a5439bbb5d84fddc6ac241ca08f1f9b3c44db27a1eec4d75f3576",
+      "bytes": 11458,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "low evening sun and warm sea reflections",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_birthday.png",
+      "sha256": "a05f39d135926ff3f26d5731e8c45e2c00bf3985b03a2088e8a271a7e8d8ded9",
+      "bytes": 20751,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "celebration cake with candle and bright birthday flowers",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_candlelight.png",
+      "sha256": "eb671473eed461742e435598fa44ee880678bc0c8b76bdcb8e542c5bfb110395",
+      "bytes": 11361,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "single candle with warm flame on brass holder",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_fireworks.png",
+      "sha256": "6770a3b7b77d4d98b18c3b8e861b4202e33256f5b61e225c62aae0fcd07741a9",
+      "bytes": 31288,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "close sparkler with radiating golden sparks",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_reunion.png",
+      "sha256": "9f36fc23dcbdd731e98ca91cef0876c76dd8c0496c9a5f71f5485bed382302de",
+      "bytes": 23329,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "party gathering around a table under string lights",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_dating.png",
+      "sha256": "31f43d5e5c2da57878120369db5760e7818d7bf918df6e69650db258bf13c18c",
+      "bytes": 14822,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "two people at a candlelit table with heart",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_starry_sky.png",
+      "sha256": "37447b45879f8081029b1a2944b02681d5cd5f554de89b39f99f26efd6f7ac19",
+      "bytes": 24397,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "dense star field above quiet dark hills",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_romantic.png",
+      "sha256": "b9211fd5f6c6c2b46c9794202971ed45bc16e0a448282f11115a357f848c2688",
+      "bytes": 22682,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "pink romantic flower garden with small heart",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_disco.png",
+      "sha256": "66b18e6ba464745f3819e9985a67055bca6efa69d212d6578768027bf3f829c0",
+      "bytes": 26760,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "mirrored disco ball, beams and twin turntables",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_rainbow.png",
+      "sha256": "3bc68e2baec0df33384de0db621ad454a8d154e457cfd942d4459ce54f3073da",
+      "bytes": 28479,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "six-band rainbow spanning soft clouds",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_movie.png",
+      "sha256": "72c85e4209c89be8a5531b7813948439b50c5d68b25478da09c66975a55b45e1",
+      "bytes": 6907,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "warm movie screen viewed over theater seats",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_christmas_eve.png",
+      "sha256": "3ad5938678f83be9b10823d4829f0c81f5ab26bc6700de0436f048871deed8fb",
+      "bytes": 16388,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "evergreen with ornaments, star and wrapped gifts",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_running_water.png",
+      "sha256": "9d63fb9b9209cfb6ebbdf11c06f5c140713132597ad18270a08ee21fa2bb5eda",
+      "bytes": 17481,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "winding flowing stream through green banks and wildflowers",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_sleep.png",
+      "sha256": "e331329be02553f4ce488b41a96d37c13ddc6cafca7d038e4ffd489c4802f5fd",
+      "bytes": 12376,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "bed and pillows facing a moonlit curtained window",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_ocean.png",
+      "sha256": "32a7015bacb808a90eff1e2379a5e62a6d5b7ee3bd72bb782d48d0f4dceb14a3",
+      "bytes": 13492,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "moonlit ocean with rhythmic waves and rocky shore",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_forest.png",
+      "sha256": "4896802cb941fee08108e951b3b763467de4e46847945e5159ac14e30c6184a3",
+      "bytes": 23076,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "sunlit forest trail between layered evergreens",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_read.png",
+      "sha256": "7e34ec4b554c20a90a54c606620ee299626fb6caa720b5e9f6d5d5d5efd6da2d",
+      "bytes": 12129,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "open book and coffee on a warm reading table",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_work.png",
+      "sha256": "b7beb217f94ce085d73bded5a06ff44c07f28299bf82602e981c8a7ef37205fa",
+      "bytes": 9546,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "open laptop with simple work lines and coffee on desk",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_colorful.png",
+      "sha256": "d365b76183922d3bd82c296d727fce5f267b269d06a6c2d52b40c05f9bdb4eef",
+      "bytes": 30964,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "angular interwoven colorful light ribbons",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_soft.png",
+      "sha256": "357fa40fdf59b3a7e79ffefddcfb20ac96224f162232d8728f42627378eccb1e",
+      "bytes": 17782,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "soft cream daisies against pale blue sky",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_wedding_anniversary.png",
+      "sha256": "8e9f69ed2cb76b47af056f713a6751303d7fd29d43889b60d0408930d1985a35",
+      "bytes": 24313,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "two interlocking gold wedding bands and cream flowers",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_snowflake.png",
+      "sha256": "1fa7b6deed5dfe8d50db163806430b4b48e1ecb7732645dd4a957cc9a7f0f08f",
+      "bytes": 19467,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "snow-covered cabin, evergreens and falling snow",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_flame.png",
+      "sha256": "2d1e0574e18b143b0bb565fae8666904e307c8c6b5392ae87b06d0b8ab78001e",
+      "bytes": 16018,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "layered orange flame rising above crossed logs",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_lightning.png",
+      "sha256": "55685d7ecf7f20510f360f8666fab0d0c796c2d279702e8ddc07d1fa804acc5d",
+      "bytes": 17711,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "forked lightning bolt from storm clouds over water",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_valentine_day.png",
+      "sha256": "038e238aeb29294f174656a5a66d67ce56ef1ff37786386ff0fb77a70bc2f9ce",
+      "bytes": 12452,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "large nested Valentine hearts and a pair of rose-colored candles",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_halloween.png",
+      "sha256": "8a0721bdfde82bfc5d5810623c671ec61ff90480da4339b9b9e9d580030c6f15",
+      "bytes": 14382,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "haunted house with glowing windows, moon and bare tree",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_alarm.png",
+      "sha256": "854d2158b0017c63f2842f7fe54de59e9302fc677b703c21399275027b31175a",
+      "bytes": 12956,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "prominent warning triangle with exclamation mark in dusk palette",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_time_machine.png",
+      "sha256": "bc6829c4de39c80f172033c13ea5efd7290245006d75a0b064548f842cfc8597",
+      "bytes": 22247,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "large analog clock above a rain-streaked city",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_time_machine2.png",
+      "sha256": "9450199013dedc7252112bb6184c8e5ea0c776fd201d765bff8d0fb87a8998d5",
+      "bytes": 17736,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "amber-lit urban passage with a distinct hovering time dial",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_meteor.png",
+      "sha256": "deb22bd2ddf2b7a438876a999fcba9db64f78db51d127dc2c9aa8a2fa9e4fbb0",
+      "bytes": 20192,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "single bright diagonal meteor across blue-pink dusk",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_meteor2.png",
+      "sha256": "1c3dd2788012d89f208be32b61e467e285b3d912477fc67d4f93b41851160524",
+      "bytes": 21805,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "multiple descending meteor trails above a dark mountain horizon",
+      "origin": "independently authored geometric illustration"
+    },
+    {
+      "path": "assets/native-lotus/scenes/ic_s_fireworks_show.png",
+      "sha256": "8869d603d7ac3c21bbb205ddfee087bc21d660f795efee9c2d516d2b26c74e8a",
+      "bytes": 57747,
+      "dimensions": [
+        456,
+        588
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        456,
+        588
+      ],
+      "meaning": "several colorful firework bursts over city silhouettes",
+      "origin": "independently authored geometric illustration"
+    }
+  ]
+}

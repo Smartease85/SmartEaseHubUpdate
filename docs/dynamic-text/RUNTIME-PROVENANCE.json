@@ -1,0 +1,61 @@
+{
+  "native-coolled-dynamic/assets/ic_dynamic_text_bg.png": {
+    "sha256": "3ca3019f581cf45bb79faa13c95a38428337c1c8d96a7528bcb11be903b89cc7",
+    "basis": "Independently authored geometric UI symbol, unchanged consumer/meaning. See docs/authored-dynamic-icons/README.md."
+  },
+  "native-coolled-dynamic/assets/ic_dynamic_text_mode.png": {
+    "sha256": "f9a9c184efc89bc32b485c93e8f64d7784229f2505473ab6c76f2a9b4defd731",
+    "basis": "Independently authored geometric UI symbol, unchanged consumer/meaning. See docs/authored-dynamic-icons/README.md."
+  },
+  "native-coolled-dynamic/assets/masks.json": {
+    "sha256": "7c6066b17b2ef3222d24e1ea294c626d820ed242e67767453e076db9ee8feff8",
+    "basis": "Independently authored geometric Dynamic reveal masks. Existing nine modes, stage order, sampling, source-over and timing preserved. Loader bounds retained; runtime disclosure distinguishes authored mask pixels from source math. See docs/authored-dynamic-masks/README.md."
+  },
+  "native-coolled-dynamic-editor.js": {
+    "sha256": "a42835acb186ff838fb37a356ff5666dd10d5cbbce5a06b3366715c99ec6a285",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host. Main editor requires injected shared post-GIF renderer; per-editor Send remains disabled with Program Send guidance. One-off editor Send stage adds explicit draft capture/revision/cancellation callbacks; no generation or wire algorithm changed. Previous per-editor disabled state is superseded. Review fix: explicit Save/Back/lifecycle cancellation is separate from draft mutation preparation.",
+    "previousSha256": "08251c118ae0773c362c3e6131d0b233301456757c302090dcf8808e07649dc0",
+    "reviewFixPreviousSha256": "f302135a7a673fcedabd96046498c5b8f2cbc5b8bd9b68ec079f67894efaa874",
+    "resourceCandidateNote": "Current runtime includes approved authored/licensed resource integration and truthful preview wording; preserved protocol domains and guards are covered by final aggregate."
+  },
+  "native-coolled-dynamic-effects.js": {
+    "sha256": "362af15eeed3f203642b00de8be896b080eac33a7a3247745e380f26ff96a6aa",
+    "basis": "Independently authored geometric Dynamic reveal masks. Existing nine modes, stage order, sampling, source-over and timing preserved. Loader bounds retained; runtime disclosure distinguishes authored mask pixels from source math. See docs/authored-dynamic-masks/README.md."
+  },
+  "native-coolled-dynamic-generation.js": {
+    "sha256": "cecbb37a39dc64779f4706957cb6aab5bb92efe75d8efc02ad77acc01888fac3",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  },
+  "native-coolled-dynamic-gif-decoder.js": {
+    "sha256": "7e133b79c9ed2ae0a9dcfbb4054217895f3fe3725054c81ab9cc33eddba99795",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  },
+  "native-coolled-dynamic-gif-encoder.js": {
+    "sha256": "88dcb02f57b85ada606a0321e96c9daa316c028f2a6c25fde12df1530c86b6f4",
+    "basis": "Licensed public-source rebase from pinned gif.js and Glide NeuQuant, independently authored API adapter. See docs/GIF-ENCODER-LICENSED-REBASE.md and tools/licensed-gif-encoder/. Replaces historical APK-derived algorithm bodies; preserves bounded API and frame timing."
+  },
+  "native-coolled-dynamic-model.js": {
+    "sha256": "f81d574a4ac1ddffe6de067cb9047e55e2049564cc4f8d4630dfca5f9fba06f1",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  },
+  "native-coolled-dynamic-preparation.js": {
+    "sha256": "bbb323dbfb306bf0b4e76ea2195e1b03fefec12dc87ba52ec937e561318b9b99",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  },
+  "native-coolled-dynamic-resources.js": {
+    "sha256": "93c556e61dbcf063d155dad5e1fbbc866e120f99f129f6db1d67014142506717",
+    "basis": "Independently authored geometric Dynamic reveal masks. Existing nine modes, stage order, sampling, source-over and timing preserved. Loader bounds retained; runtime disclosure distinguishes authored mask pixels from source math. See docs/authored-dynamic-masks/README.md."
+  },
+  "native-coolled-dynamic-store-adapter.js": {
+    "sha256": "6a10ef765c261a10907b9b86b3b177bda5c47a719dd5771cdf8f612a790af73f",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  },
+  "native-coolled-dynamic-wire.js": {
+    "sha256": "9d1031c806d804cf3a2c0d5b6d95bc6491a1fea5e9a1b3a00420fe1274497140",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  },
+  "ux-dynamic14-wire.js": {
+    "sha256": "ed28994a4f9b0998d42cde577ac838b55080b8f10dddf1340f3a1d8fbdcad38d",
+    "basis": "Corrected shared-GIF freeze c52833a0a5fedbc775792f5926beb8f8865da9917519507501c02ec1dadc36a1; authoring model/editor from Dynamic32 943dbede. CommonJS module paths adapted, no pre-GIF renderer; resources/store/registry added for main host."
+  }
+}

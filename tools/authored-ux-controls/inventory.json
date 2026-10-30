@@ -1,0 +1,2330 @@
+[
+  {
+    "path": "assets/native-coolled/ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2"
+  },
+  {
+    "path": "assets/native-coolled/ic_add_clock_program.jpg",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "original_sha256": "ff24f3521c5af55d4323840dba65fa2c173d6059a316d3af02e78579f7779ce6"
+  },
+  {
+    "path": "assets/native-coolled/ic_animations_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "028ff37027fc6db18f5843837a3f0da58b2865832b735d38b03d9a025bd24b51"
+  },
+  {
+    "path": "assets/native-coolled/ic_copy_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da11d43369628d75ed377f90a923b8885c213cdbe8c8e726c49c45f3ee5b6b79"
+  },
+  {
+    "path": "assets/native-coolled/ic_decrease_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0de3edb6a4602d817babea816b7acc7eb5d12fabba7586f77b8317fa7d0a2ab3"
+  },
+  {
+    "path": "assets/native-coolled/ic_delete_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dc9b7ffb7c27de1e3fdc42796aa8c3fb53a2e5cac3209a9bf75ced9960c6d0ea"
+  },
+  {
+    "path": "assets/native-coolled/ic_device.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "361315d08f42539c84c6e67b5fd12a1b0e0d167d35e762e1fed7092c927854b4"
+  },
+  {
+    "path": "assets/native-coolled/ic_dialog_cancel.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3b528887d2ce9358f4e43c1bd9ea9c8ac9ed60dab72a912d58bfacd79f40f267"
+  },
+  {
+    "path": "assets/native-coolled/ic_dialog_confirm.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d381d0c19784aae527e3e5ed70947bb49c5507cc77d2a804f461a825c30423a"
+  },
+  {
+    "path": "assets/native-coolled/ic_discover_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6cea19c78905611761dc6bc324b68e487f63800ea7dd86501b61683216e9b88c"
+  },
+  {
+    "path": "assets/native-coolled/ic_discover_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c1aa2a878ea16cd5e6c884d040d9b2e5cad8c630b440cf79356752058a5b640c"
+  },
+  {
+    "path": "assets/native-coolled/ic_dynamic_text.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c70864b331612e84ad9845ce1cf4a97cab39c97d7ef743a1ecf86e4c65c63fc7"
+  },
+  {
+    "path": "assets/native-coolled/ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86"
+  },
+  {
+    "path": "assets/native-coolled/ic_edit_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "32cb46b33f9ec6d76447a20e4cc9a1a99fdbd6bb1687cf996dc3045520ed0665"
+  },
+  {
+    "path": "assets/native-coolled/ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751"
+  },
+  {
+    "path": "assets/native-coolled/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "assets/native-coolled/ic_graffiti_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e6f20925bca8460872a414e26e46671b51f5e2b92cac6a4cff5e69d39c944466"
+  },
+  {
+    "path": "assets/native-coolled/ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953"
+  },
+  {
+    "path": "assets/native-coolled/ic_material_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b455552b9edf0d169faa625238e60c195fb2005b2b04731a2b165e00d54c2e49"
+  },
+  {
+    "path": "assets/native-coolled/ic_material_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "21256d4540f3721082a838e5936191602575b9c7ff22be719b5cfa2fe54b5530"
+  },
+  {
+    "path": "assets/native-coolled/ic_material_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3c4642ded0587ba1e9ef19970a1abd50a54bcda6ba3a0561286cdc3202722316"
+  },
+  {
+    "path": "assets/native-coolled/ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636"
+  },
+  {
+    "path": "assets/native-coolled/ic_no_content.png",
+    "size": [
+      1035,
+      933
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "38f08bd549c3712cd790ccd66add278b7a5ce341c0e745428cc573bc1b378a8d"
+  },
+  {
+    "path": "assets/native-coolled/ic_power_off.png",
+    "size": [
+      132,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "411c0d9662604b095de28c5d7f27e4b5ef64bed6fcfec58d23bdccb3f5c4fd83"
+  },
+  {
+    "path": "assets/native-coolled/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b"
+  },
+  {
+    "path": "assets/native-coolled/ic_settings_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "92c77b89a44fc251aafa8fc38e827a8565cc3ee82f69c8510e57a7623a08513f"
+  },
+  {
+    "path": "assets/native-coolled/ic_settings_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c6e99ebaed7cc76cc9d7fd3e7978f0f90424f0a169a4c70ea676c6f3128749da"
+  },
+  {
+    "path": "assets/native-coolled/ic_share.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba462335b59e5c949041b8809191963d9e2d24d407cb313f8c30455c1c047ecd"
+  },
+  {
+    "path": "assets/native-coolled/ic_sort_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d006dfa7afd55bd64c01a025d7bdf4cdcc808f332df4a43235dc8e8a6730d329"
+  },
+  {
+    "path": "assets/native-coolled/ic_template.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "48e440a60e8ac4b1ff2bea5bfbbe9c7071421a890a170796208ccb27078c6eec"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "97c422232d9a1a3de9942b52e25c0af5a2a46aabb71746dc01f7209cb1a113c2"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_item_default.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8392ea371d82906194ce3786876b54e3df649b64c8049f6628369b26f9866f51"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_item_selected.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "eaef2d38c324cfca94dcf6253c05ae06e1ffea1a1eb198c9300aa1d4e12e60f0"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "066434c85479597627f31e5d1c708cdea7ba11ce8120f1c5dae1ba9dea97ae7c"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c0949fbb0bb33e0b2325e642c3f368c696eee5317be72fd3a01b21ca7848a97"
+  },
+  {
+    "path": "assets/native-coolled/ic_to_bottom_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1c3b4acddb0cf18ace04aae367a104cfc3d6a87a65fb7d60fcf979002d35ea63"
+  },
+  {
+    "path": "assets/native-coolled/ic_to_top_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "100fb3ef4ae153802aa782a3a6b8cdb811480a3829c21e8112bc48f709c31474"
+  },
+  {
+    "path": "assets/native-coolled/increase_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1586b98d1d0e509e40fc81bf05eb9daa2425d1ccbad5ae2bc2d8d0c0153dd25a"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_arrow_dialog.png",
+    "size": [
+      75,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "284f5eef0734eb8b996f22a2de788f8872de8a7be38d79184a558af3fb11cf81"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_choose_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "88b5bfcd2bfb77d26867bfc4ddc8304ffb62937ad7cc0a6e659be2c68ae2a673"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_choose_area_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "fc243a7bd99815de8e10f8bbbbc4f9ab5765783ca2b6a4aa7b0559ba7fa3fdc8"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_item_selected.png",
+    "size": [
+      18,
+      18
+    ],
+    "alpha_extrema": [
+      0,
+      127
+    ],
+    "original_sha256": "aa7e5d535759b3281c76ae83b5a7fc32b8d4a5c3de6d83369bf56f2747e77961"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_picker.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "02e1806d25c5c35898f694c61470fe7aa385fb7443c12a412fba6aac3b1ba18b"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_picker_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f877a4255e4030d41ceeb4df57ec1ae2ffd34c1cd5ad6723ecb5dbf43a1bee87"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_thump.png",
+    "size": [
+      48,
+      48
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6a4c52509c6d223df2c95d7aedabfd32ede6a9cd28ecbcfe358ccd6f3f2ab513"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_copy_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da11d43369628d75ed377f90a923b8885c213cdbe8c8e726c49c45f3ee5b6b79"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_copy_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "31ab6740624e396f979ae78b4ea2abd09e284a7edfb1b1d7900f4102f21bbf18"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_decrease_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0de3edb6a4602d817babea816b7acc7eb5d12fabba7586f77b8317fa7d0a2ab3"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_delete_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dc9b7ffb7c27de1e3fdc42796aa8c3fb53a2e5cac3209a9bf75ced9960c6d0ea"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_delete_all_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "631583181c3645e36dc9fb832027d3ad3520d39e34415f35d1f3b8c2295792c9"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_delete_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dbbc71f806089a1a5dfa33f7c70ad2edd5efe69451605ec4d3305a28c40cfeb6"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_device.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "361315d08f42539c84c6e67b5fd12a1b0e0d167d35e762e1fed7092c927854b4"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_dialog_cancel.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3b528887d2ce9358f4e43c1bd9ea9c8ac9ed60dab72a912d58bfacd79f40f267"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_dialog_confirm.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d381d0c19784aae527e3e5ed70947bb49c5507cc77d2a804f461a825c30423a"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_discover_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6cea19c78905611761dc6bc324b68e487f63800ea7dd86501b61683216e9b88c"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_discover_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c1aa2a878ea16cd5e6c884d040d9b2e5cad8c630b440cf79356752058a5b640c"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_dragging.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e43bad8a42d496400bb7a7800ec50e0236055aacc20002635a6d01dec7a005e4"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_edit_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "32cb46b33f9ec6d76447a20e4cc9a1a99fdbd6bb1687cf996dc3045520ed0665"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_eraser_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5ca84b1e95f05821d95787a69dc2a2a5626e915622d86135cd3af31d1da751fd"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_eraser_unselected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8a79c7ac65ff70de9054d1a5a855bf1c7b32b4ee9c936e97f991afddeb36cd36"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_fill_area_one.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1afce60ad45d9ab70d39bb6d74e5e9c9c0344899204ab4871b23786ab030ae1e"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_fill_area_two.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "724aa677428ab8efa7404006a76d471cd40af0572babcaff3e56e3dbd8601c3c"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_input_area_text.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "43355aee4bb790f9fb369ee07c290e84a4bc940eb7c73f55f23fa62a35bb1ce1"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_input_text_show_color.png",
+    "size": [
+      90,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "fa3c4b6e50a1c6fb5cd9fdf191f8c98470ad24cc6ba696ffb55b1cb5c6025873"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_material_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b455552b9edf0d169faa625238e60c195fb2005b2b04731a2b165e00d54c2e49"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_material_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3c4642ded0587ba1e9ef19970a1abd50a54bcda6ba3a0561286cdc3202722316"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_mirror_one.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "682990ecf62319af683160974e2a3d1ae803d8b159e45f8d06709e925120476f"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_mirror_two.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "521367f310b46c49da5f8fb55d234303d98ea77c7ba4549d2927f03099866242"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_no_content.png",
+    "size": [
+      1035,
+      933
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "38f08bd549c3712cd790ccd66add278b7a5ce341c0e745428cc573bc1b378a8d"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_painting_ing.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "322a152f8c89b6721c3695fbdabc0dfb51ce32cb5c6c0805652929cce103c2cd"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_painting_un.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "46037b3db4714c9af31b5a6641fbf1a097181a831b4c0b81a3ce090a84dfd76e"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_paste_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "a5df4b230c5863f9ea59bb9c4dcf62c63f6ee580ef7907dd8c4eec7a92a26626"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_power_off.png",
+    "size": [
+      132,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "411c0d9662604b095de28c5d7f27e4b5ef64bed6fcfec58d23bdccb3f5c4fd83"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_power_on.png",
+    "size": [
+      132,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b6036cfa0076c7acc99886cb61f71e0a86a4f53a41b743bb1a45e1431ffdc3ca"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_redo.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1b5d6f6ad60ea567dab6ddae4a1053f49fb8a957442b0a6128b8b902dcf80617"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_rotate_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e2bc50cc623f1bf82a45b7cc8a7f3714de1e2e619f06d0c17310e67f2afb5ed1"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_save_draw.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ed212e858f8cd858d5bc8168c8517f4380baf502bd14bcabbaee31e73ea9d6de"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_settings_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "92c77b89a44fc251aafa8fc38e827a8565cc3ee82f69c8510e57a7623a08513f"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_settings_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c6e99ebaed7cc76cc9d7fd3e7978f0f90424f0a169a4c70ea676c6f3128749da"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_share.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba462335b59e5c949041b8809191963d9e2d24d407cb313f8c30455c1c047ecd"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_show_all_color.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8668bdb6fc41833436e2c0eefca1135d5a22807ea6f2f5f4da314418bfcd4112"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_sort_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d006dfa7afd55bd64c01a025d7bdf4cdcc808f332df4a43235dc8e8a6730d329"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_bold_default.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6cebeaac751a7d7102a52ab96b93ed759a63fe2b6a54f4a1b0511d5613c9eb8b"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_bold_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dc57c16269684f4d9be755287785053a2c9ff5f43543652630fdf45c578b35f4"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "97c422232d9a1a3de9942b52e25c0af5a2a46aabb71746dc01f7209cb1a113c2"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c0949fbb0bb33e0b2325e642c3f368c696eee5317be72fd3a01b21ca7848a97"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_thump_32.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4a1cfbe8511d8ae1d7b634f9d2a2c30600101227c24b506ba2c1dbe28e087e8e"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_to_bottom_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1c3b4acddb0cf18ace04aae367a104cfc3d6a87a65fb7d60fcf979002d35ea63"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_to_top_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "100fb3ef4ae153802aa782a3a6b8cdb811480a3829c21e8112bc48f709c31474"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_tool_area_arrow.png",
+    "size": [
+      54,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f9c4f6354e0c08bf74793cc29a1bce54f9005177f3a5e4e8033e69e969b3a670"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_tools_bg.png",
+    "size": [
+      1125,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba243592183510e030c7e8ee634efc01d51ab1afc53fd109aa25139855d24cdb"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_undo.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "36b6032a9940f6577cf0576f49ecb804a4eaecf8650978304387a401c3d44362"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_undragging.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "68863a8b4a76be5063f86eb2e3ee09b07c466d42f7ae684744f0b4e07b684425"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_zoomin.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "126dd2dd5d3ca9dbe1cca800b2334933f240852da1ab3851cccafa30cacf2368"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_zoomout.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "efb28208aac850ce4c6c6b75c17e1ae5357286599c57cd24e066c08588225f36"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/increase_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1586b98d1d0e509e40fc81bf05eb9daa2425d1ccbad5ae2bc2d8d0c0153dd25a"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_about_us_32__410b8bad.png",
+    "size": [
+      72,
+      75
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "88ee90b55e53569c371b6a5690ec4e6ceeba8106dd7f2cad8dbe55f45fc6686e"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_app_info__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2790a47fb26d93821fda9c72306d2af5a83ea3122cdf98fc2a7edd866e8b3302"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_banner_default__410b8bad.png",
+    "size": [
+      1125,
+      462
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "original_sha256": "aa4f9011bdd1db68d634944dda1723816473a84fb38e910108ff52f02320d1fd"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_box_default__410b8bad.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "08e11b951585990748e9fafaab057d0ba7db2d5d9ad3b8e9f34e17b4d6cc5b29"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_box_selected__410b8bad.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ddd9aac921b6689bc7dd553ee2f688c85e121e9190e4099eb068eac7c3625ae4"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_email_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0487860ca755c29862040454f80fb2945010f8150131cfc25bcf971a612a98b7"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_enter_32__410b8bad.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_exit__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_hard_update_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4c45c3ae405d1960c46b17b5df9d61334e6e88b869901b9c19ebafbf60365136"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_help_32__410b8bad.png",
+    "size": [
+      72,
+      75
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "be7b489514366bc3983474650dbf30b98aeb295f1177f07e010561d2dabcebb6"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_language_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "60fa54367819f33c52cefae56c6af2d8669cef2e2215d6a3bc6149df05ba7e2c"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_language_selected__410b8bad.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6411aa1f1b1e89c22f4f567f6fdbb210170fb1f482298c76ffd7cfa5401f6daf"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_remote__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "46eff6c605926cd5ab810a102bbd12b37fdecc100fc9867d4763490e7814df79"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_rotate_show__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d5d7b5e564bb649a67fa02135f3763682bdfa7531028ebf4008f558e55d2b45a"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_settings_page_bg__410b8bad.png",
+    "size": [
+      1125,
+      2436
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "original_sha256": "4508f8babe8be42ff069033326f0ae7e56174e893e124a1c67bef6d4999f6f7e"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_show_device_id__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "998933e16985ce2083caa362b8f7fbe8f58c5affc0a806b0938e6e56db9b148b"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_version_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8452c6d8dc4c9ffd364654c11becabe73b8b9e37cd573072ea914acfba42d78b"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_animation_edit_empty.png",
+    "size": [
+      360,
+      288
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e6938af14711104ebdcbba256646d7a60e0bd01e2970403cf348123dbadd4478"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_bold_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9bf7a6413e5e76d48b6ece25b9e397a0cb73623ea9686e73f28a4c9553cb29b6"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_clear_all_animation.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f1dff8bd000fe0a42097ff31ccf5f8aa4e046c745c35668f40b178380f7b36e7"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_click_to_add_animation.png",
+    "size": [
+      213,
+      213
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5d61d8378960f1f8bfeb15d484dc40eddb04d703c0f0b2a1c5018b4578aa9be7"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_color_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "367cc4903dc33eceb4854709b7eca22a8945149f9bcd90dd554d47b3e79e7ba2"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_confirm.png",
+    "size": [
+      82,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "916d57fa1851537eccad85a57652af177450a66d9da1c3f11829e805b0bc7bfd"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_emoji.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b3ed0037d6d96c922e512ff3323a596dd1300c90e5b446cdea5f4730b0ee8f1b"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_font_type.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5e7917fa06e91c88803993ba09216ec9d23fc02673fa8319c75787a2d376c729"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_frame_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e61c116da055e26f97b785efebf26e851d253faabc1382848cd52411ac3bfd02"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_graffiti_edit_empty.png",
+    "size": [
+      360,
+      288
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9559c56235d42427d112418da2c3ccae8d7aaa3b89f0895d1d6c2028f8e5aab6"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_keyboard.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "546890eab597dfc928408882884ca18dd82b042637dd250f1216f7e5e2fa2025"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_moving_internal.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da223a64ffb931955db0381cf8f4e1b8171bec52a1f11509af4646c354fcb0ed"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_rotate_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8fffdec5b54ae77dacd257e93c52cdd6dec072a0200b74646c3e9e0c506a256d"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_save_choose_pattern.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "37e64e7098176570d8f4a897367bf5aca36aa1bfb7d4fa5d2194d1ec91730651"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_switch_off.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "67fb87f3883c641e59cdbaf61c5b57bd55be2baf45b05d4c2b86edb974793c64"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_switch_on.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "593de8bd1e3ef1a2fe9c9c06c31d8ee912898f0db8a34a867eaacbf89e377205"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_template_image.png",
+    "size": [
+      216,
+      192
+    ],
+    "alpha_extrema": [
+      0,
+      209
+    ],
+    "original_sha256": "f5d8aec7dd1ecf7ef6113381effe52578b14403837278aa20338ef00b25155ff"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_text_font_size.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c86ea1ee00b94a60917fe6083d712f158fbf71f8a9c65385a39c924c8de29ec"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_text_spacing.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2db65121b296c69a70185932266381e7a50267919cfe6133a456577021e5e12e"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_thump_32.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4a1cfbe8511d8ae1d7b634f9d2a2c30600101227c24b506ba2c1dbe28e087e8e"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_auto_color.png",
+    "size": [
+      198,
+      153
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "a865387352a37a667a38ef36ad8227362daf9224fdaeace62a6bdb55645bee31"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_bold_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9bf7a6413e5e76d48b6ece25b9e397a0cb73623ea9686e73f28a4c9553cb29b6"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_color_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "367cc4903dc33eceb4854709b7eca22a8945149f9bcd90dd554d47b3e79e7ba2"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_color_thumb.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ad13c3db49b91c7b983747347d423b52485e73934e84b99587d6584a19557828"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_confirm.png",
+    "size": [
+      82,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "916d57fa1851537eccad85a57652af177450a66d9da1c3f11829e805b0bc7bfd"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_coolledu_frame_0.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "814109c5599a17eebfbf3e551f3790a9e5dc74053f361f84902ee9c4f44c9035"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_dialog_cancel.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3b528887d2ce9358f4e43c1bd9ea9c8ac9ed60dab72a912d58bfacd79f40f267"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_dialog_confirm.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d381d0c19784aae527e3e5ed70947bb49c5507cc77d2a804f461a825c30423a"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_emoji.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b3ed0037d6d96c922e512ff3323a596dd1300c90e5b446cdea5f4730b0ee8f1b"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_font_type.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5e7917fa06e91c88803993ba09216ec9d23fc02673fa8319c75787a2d376c729"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_frame_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e61c116da055e26f97b785efebf26e851d253faabc1382848cd52411ac3bfd02"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_keyboard.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "546890eab597dfc928408882884ca18dd82b042637dd250f1216f7e5e2fa2025"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_left.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "89d02953c7f31884bc86ee3ae691d90eb66cda843b782c79c613b1a198b64d36"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_moving_internal.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da223a64ffb931955db0381cf8f4e1b8171bec52a1f11509af4646c354fcb0ed"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_no_frame.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0432d42dae3fda76422c7ba1345b7ffbad1891aaee5eb53bf1cc4c046887af35"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_right.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "93755c119e6a1096d4ad67042d7e5d81bc1eb16f6c944442e25b8cf57491b5c1"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_rotate_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8fffdec5b54ae77dacd257e93c52cdd6dec072a0200b74646c3e9e0c506a256d"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_select_all.png",
+    "size": [
+      120,
+      84
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "37896bc4fb3b4abfbb8ed8ce04cfb0c596502a53717433e20f1fa9a814769c2e"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_switch_off.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "67fb87f3883c641e59cdbaf61c5b57bd55be2baf45b05d4c2b86edb974793c64"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_switch_on.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "593de8bd1e3ef1a2fe9c9c06c31d8ee912898f0db8a34a867eaacbf89e377205"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_text_font_size.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c86ea1ee00b94a60917fe6083d712f158fbf71f8a9c65385a39c924c8de29ec"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_text_spacing.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2db65121b296c69a70185932266381e7a50267919cfe6133a456577021e5e12e"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_thump_32.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4a1cfbe8511d8ae1d7b634f9d2a2c30600101227c24b506ba2c1dbe28e087e8e"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_un_select_all.png",
+    "size": [
+      120,
+      84
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f1561be42b83d0a4ad6e3fdf39ce7df9a759d4ae6f4ec5425b104f249f8c81da"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_add_draw.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d719644dcd18e3ec4533653565912545592071c01ff34ecab62ad9136ee2a52"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_animation_edit_empty.png",
+    "size": [
+      360,
+      288
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e6938af14711104ebdcbba256646d7a60e0bd01e2970403cf348123dbadd4478"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_animation_list_bg.png",
+    "size": [
+      1848,
+      126
+    ],
+    "alpha_extrema": [
+      96,
+      255
+    ],
+    "original_sha256": "0c98d4e6a1e90695238c6a57544278e1b39ccbd8a51b883cb198d51e3f81792f"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_animation_number_bg.png",
+    "size": [
+      78,
+      60
+    ],
+    "alpha_extrema": [
+      16,
+      255
+    ],
+    "original_sha256": "a62db7f90bdf7d046c15aece24d5f2ac2f2c2f3c28a9b383bba6d1a00f7a71dc"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_clear_all_animation.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f1dff8bd000fe0a42097ff31ccf5f8aa4e046c745c35668f40b178380f7b36e7"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_drag.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d006dfa7afd55bd64c01a025d7bdf4cdcc808f332df4a43235dc8e8a6730d329"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit_copy.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c7da60f40851579603d903a592137bb6d4400fac799e962e424fea94fa3b1874"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit_delete.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ced4ae043a49f1006de8398626f82f742dc241d1057e5118bf8a215b0a89c437"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "32cb46b33f9ec6d76447a20e4cc9a1a99fdbd6bb1687cf996dc3045520ed0665"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_share.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba462335b59e5c949041b8809191963d9e2d24d407cb313f8c30455c1c047ecd"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_to_bottom.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ab1456c5a27eabeac710ab17a8684f70dd8284ed6b860dfc460540cb5937d042"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_to_top.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ee0fb77f3a168906d37d119a8dfe397921370b7860e6ee176e410ebee0196da1"
+  },
+  {
+    "path": "native-ux-animation-media-assets/drawable__ic_back.png",
+    "size": [
+      90,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "baf40e3962a4f2638dbb196bc534b0ec463613e074198ad2a6f4c0f95ef72c4d"
+  },
+  {
+    "path": "native-ux-animation-media-assets/drawable__ic_crop_confirm.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ed5618e717d5bbbea7d8890ad8141b484f4f1ca4bebb84beb8f53d700e141c86"
+  }
+]

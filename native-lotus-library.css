@@ -1,0 +1,8 @@
+#nativeLotusLibrary[hidden],#ndlEditorBar[hidden],#ndlDialog [hidden]{display:none!important}
+.ndl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px}
+.ndl-tile,.ndl-add{position:relative;aspect-ratio:1;min-width:0;width:100%;padding:12px;border-radius:8px}
+.ndl-tile{background:linear-gradient(#4c4c4c1a,#4c4c4c1a),#7f8c9d80;border:2px solid transparent}
+.ndl-tile[aria-pressed=true]{border-radius:8.5px}
+.ndl-tile[aria-pressed=true]::after{content:"";position:absolute;inset:-2px;border-radius:8.5px;padding:2px;background:linear-gradient(to bottom right,#742324,#354c7b);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}.ndl-tile span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;text-align:center;font-size:12px}
+.ndl-add img{width:60px;height:60px;max-width:100%;object-fit:contain;border-radius:50%;background:#7f8c9d}
+#ndlDialog{max-width:calc(100vw - 32px)}#ndlName{max-width:100%}#ndlEditorBar .row-actions{flex-wrap:wrap}

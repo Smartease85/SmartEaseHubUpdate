@@ -57,6 +57,7 @@ const displayCurrent=()=>displayProject.programs[displayProgram].frames[displayF
 const displaySay=message=>du("Status").textContent=message;
 function displayStop(){clearTimeout(displayTimer);displayTimer=null;displayPlaying=false;du("Stop").disabled=true;du("Play").disabled=false;}
 function displayCommit(change){
+ window.SmartEaseStudio?.draftChanged();
  displayImportGeneration++;
  displayStop();const old=displayModel.clone(displayProject),p=displayProgram,f=displayFrame;
  try{
@@ -67,7 +68,7 @@ function displayCommit(change){
 }
 function displaySave(){if(window.SmartEaseStudio?.ownsDisplay){scheduleSceneDraft();displaySay("Display project updated in this scene draft. Save changes to keep the complete build. The standalone project is unchanged.");return;}try{localStorage.setItem(displayKey,JSON.stringify(displayProject));displaySay("Project saved in this browser. Export a copy to keep it elsewhere.");}catch{displaySay("Browser storage is full. Export your project now; current edits are only in memory.");}}
 function displayHistory(from,to){
- if(!from.length)return;displayImportGeneration++;displayStop();to.push({project:displayModel.clone(displayProject),program:displayProgram,frame:displayFrame});
+ if(!from.length)return;window.SmartEaseStudio?.draftChanged();displayImportGeneration++;displayStop();to.push({project:displayModel.clone(displayProject),program:displayProgram,frame:displayFrame});
  const state=from.pop();displayProject=state.project;displayProgram=state.program;displayFrame=state.frame;displaySave();displayRender();
 }
 function displayDraw(p=displayProgram,f=displayFrame){
@@ -113,7 +114,7 @@ function displayText(scroll){
 }
 du("Pixel").onclick=()=>displayCommit(()=>displayPaintPixel(Number(du("X").value)-1,Number(du("Y").value)-1));
 du("Canvas").onpointerdown=e=>{
- if(e.button!==0)return;e.preventDefault();displayImportGeneration++;displayStop();displayDrawing=true;
+ if(e.button!==0)return;e.preventDefault();window.SmartEaseStudio?.draftChanged();displayImportGeneration++;displayStop();displayDrawing=true;
  displayUndo.push({project:displayModel.clone(displayProject),program:displayProgram,frame:displayFrame});displayUndo=displayUndo.slice(-12);displayRedo=[];
  du("Canvas").setPointerCapture?.(e.pointerId);displayPointer(e);
 };
@@ -151,6 +152,7 @@ du("TextStill").onclick=()=>displayText(false);du("TextScroll").onclick=()=>disp
 let displayImportGeneration=0;
 du("Image").onchange=async()=>{
  const file=du("Image").files[0];if(!file)return;
+ window.SmartEaseStudio?.draftChanged?.();
  if(!["image/png","image/jpeg","image/webp"].includes(file.type)||file.size>5_000_000){displaySay("Choose a PNG, JPEG or WebP smaller than 5 MB. GIF import is not supported.");du("Image").value="";return;}
  const generation=++displayImportGeneration,program=displayProgram,frame=displayFrame,project=displayProject;
  const url=URL.createObjectURL(file),image=new Image();
@@ -174,7 +176,7 @@ du("Export").onclick=()=>{
 };
 du("ImportButton").onclick=()=>du("Import").click();
 du("Import").onchange=async()=>{
- const file=du("Import").files[0];if(!file)return;
+ const file=du("Import").files[0];if(!file)return;window.SmartEaseStudio?.draftChanged();
  const generation=++displayImportGeneration;
  try{
   if(file.size>2_000_000)throw Error("Project files must be smaller than 2 MB.");

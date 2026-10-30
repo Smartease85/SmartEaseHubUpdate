@@ -1,0 +1,172 @@
+[
+  {
+    "name": "ic_exit",
+    "file": "ic_exit__410b8bad.png",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_language_selected",
+    "file": "ic_language_selected__410b8bad.png",
+    "sha256": "6a64a5ffcb5060ddcbf7c1c0036c80dc95161dce845b2048aa043ac7790352f0",
+    "pixels": [
+      60,
+      60
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_about_us_32",
+    "file": "ic_about_us_32__410b8bad.png",
+    "sha256": "5a46e776ed817b1977a4994931fb51f00ba085d8f53f0aa2bb2a42630821e6f4",
+    "pixels": [
+      72,
+      75
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_app_info",
+    "file": "ic_app_info__410b8bad.png",
+    "sha256": "d8eec804452f50625f1ee49689837ea8bc950a72662467cc4db0df468c4635fa",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_banner_default",
+    "file": "ic_banner_default__410b8bad.png",
+    "sha256": "e2bd83978c186a79e11296b2f33e8b2a3067bd03c31f3f58bb41e9c9ca1eb640",
+    "pixels": [
+      1957,
+      804
+    ],
+    "basis": "Built-in imagegen original banner; see docs/AUTHORED-SETTINGS-BANNER.json"
+  },
+  {
+    "name": "ic_email_32",
+    "file": "ic_email_32__410b8bad.png",
+    "sha256": "048589ef0ce95dfc450b4e7a9a2ed2f74e2ed2209bae2c9112b82108f3ac58dd",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_enter_32",
+    "file": "ic_enter_32__410b8bad.png",
+    "sha256": "51fbd9e672684ce721f747c31c59ff4b8bd80461b1a5bb7b2c3b45ace5ba0c35",
+    "pixels": [
+      60,
+      60
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_hard_update_32",
+    "file": "ic_hard_update_32__410b8bad.png",
+    "sha256": "2292138c2c775ea95a21d3352f10a41d991ff1c2245ebd5481960bca5d995d78",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_help_32",
+    "file": "ic_help_32__410b8bad.png",
+    "sha256": "64345a8d7fc3f13f6d5c706514b9ec1cd74a5d657bb1cd1082711736466021d7",
+    "pixels": [
+      72,
+      75
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_language_32",
+    "file": "ic_language_32__410b8bad.png",
+    "sha256": "036c8263486ee457f6041a87a9361ecee945b4d71a22b278ddf6d1ec3f557960",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_remote",
+    "file": "ic_remote__410b8bad.png",
+    "sha256": "873db73585df3eea9c5fd76f56837f5db1f0096606f9f786bef25b4085d66a93",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_settings_page_bg",
+    "file": "ic_settings_page_bg__410b8bad.png",
+    "sha256": "81f47c0047d1169ee5aa539a8c6850e8b0d97e1842b6406c5b0558f5ab7a18d0",
+    "pixels": [
+      1125,
+      2436
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_show_device_id",
+    "file": "ic_show_device_id__410b8bad.png",
+    "sha256": "03e5b0c691d425567036948f8d5d3ed34e444b35a0f3fe4c372b4eeb6508c2b4",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_version_32",
+    "file": "ic_version_32__410b8bad.png",
+    "sha256": "cae6f6040a5860ce95fd385ee66f5324dcfcb28df9a42dee16824d9034308d08",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_rotate_show",
+    "file": "ic_rotate_show__410b8bad.png",
+    "sha256": "af7c11e368bbe16888d2f3485d5a6882ccb24da1a4200dddb007dd0bd19dd64d",
+    "pixels": [
+      72,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_box_default",
+    "file": "ic_box_default__410b8bad.png",
+    "sha256": "1d6fb53ba3224b370e828c05e1b6a1c5bc63c62b111c559706bf98e630867408",
+    "pixels": [
+      120,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  },
+  {
+    "name": "ic_box_selected",
+    "file": "ic_box_selected__410b8bad.png",
+    "sha256": "1d433caa04f2de1fbf38281cc2ff69d58a683eb9c061dd49db25c48bf96b30ec",
+    "pixels": [
+      120,
+      72
+    ],
+    "basis": "Independently authored procedural geometry; see tools/authored-ux-controls/"
+  }
+]

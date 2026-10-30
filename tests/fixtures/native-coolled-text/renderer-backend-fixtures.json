@@ -1,0 +1,75 @@
+{
+  "provenance": "Independent source-formula reconstruction; NOT executed APK or pixel fixtures. Size8 is internal boundary, not offered target UI size.",
+  "fixtures": [
+    {
+      "language": "en",
+      "text": "A",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "binary"
+    },
+    {
+      "language": "en",
+      "text": "é",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "en",
+      "text": "ا",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "en",
+      "text": "א",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "en",
+      "text": "अ",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "en",
+      "text": "ก",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "vi",
+      "text": "A",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "zh-CN",
+      "text": "中",
+      "textSize": 16,
+      "fontType": 0,
+      "expectedBackend": "android"
+    },
+    {
+      "language": "zh-CN",
+      "text": "中",
+      "textSize": 16,
+      "fontType": 1,
+      "expectedBackend": "binary"
+    },
+    {
+      "language": "en",
+      "text": "é",
+      "textSize": 8,
+      "fontType": 0,
+      "expectedBackend": "binary"
+    }
+  ]
+}

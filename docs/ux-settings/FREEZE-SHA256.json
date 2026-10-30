@@ -1,0 +1,114 @@
+[
+  {
+    "path": "DEPENDENCIES.json",
+    "sha256": "1b31abdf6f2637769f3d3a07e18719e61e0c5c7b85f893832fdbde3d5fc73dc7"
+  },
+  {
+    "path": "README.md",
+    "sha256": "6ef57f05de6e47774843d62f7c6aa07ea2763d7d52afa478e420b1a65c58df4e"
+  },
+  {
+    "path": "TEST-RESULTS.log",
+    "sha256": "793ba54c607f9cf7cf2eaadd289c857ca05d5648d2e5ba2457b8b6f786ac913b"
+  },
+  {
+    "path": "UI-TEST-RESULTS.log",
+    "sha256": "8d699191726c0d7ea9d706ae59d4990a90eda593ec47ede9643d8dd66bca3df0"
+  },
+  {
+    "path": "assets/MANIFEST.json",
+    "sha256": "4503df12c3edf716513f13d25e109dc3fe94be8f12616d3f9005b0cc73d7a522"
+  },
+  {
+    "path": "assets/ic_about_us_32__410b8bad.png",
+    "sha256": "88ee90b55e53569c371b6a5690ec4e6ceeba8106dd7f2cad8dbe55f45fc6686e"
+  },
+  {
+    "path": "assets/ic_app_info__410b8bad.png",
+    "sha256": "2790a47fb26d93821fda9c72306d2af5a83ea3122cdf98fc2a7edd866e8b3302"
+  },
+  {
+    "path": "assets/ic_banner_default__410b8bad.png",
+    "sha256": "aa4f9011bdd1db68d634944dda1723816473a84fb38e910108ff52f02320d1fd"
+  },
+  {
+    "path": "assets/ic_box_default__410b8bad.png",
+    "sha256": "08e11b951585990748e9fafaab057d0ba7db2d5d9ad3b8e9f34e17b4d6cc5b29"
+  },
+  {
+    "path": "assets/ic_box_selected__410b8bad.png",
+    "sha256": "ddd9aac921b6689bc7dd553ee2f688c85e121e9190e4099eb068eac7c3625ae4"
+  },
+  {
+    "path": "assets/ic_email_32__410b8bad.png",
+    "sha256": "0487860ca755c29862040454f80fb2945010f8150131cfc25bcf971a612a98b7"
+  },
+  {
+    "path": "assets/ic_enter_32__410b8bad.png",
+    "sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751"
+  },
+  {
+    "path": "assets/ic_exit__410b8bad.png",
+    "sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1"
+  },
+  {
+    "path": "assets/ic_hard_update_32__410b8bad.png",
+    "sha256": "4c45c3ae405d1960c46b17b5df9d61334e6e88b869901b9c19ebafbf60365136"
+  },
+  {
+    "path": "assets/ic_help_32__410b8bad.png",
+    "sha256": "be7b489514366bc3983474650dbf30b98aeb295f1177f07e010561d2dabcebb6"
+  },
+  {
+    "path": "assets/ic_language_32__410b8bad.png",
+    "sha256": "60fa54367819f33c52cefae56c6af2d8669cef2e2215d6a3bc6149df05ba7e2c"
+  },
+  {
+    "path": "assets/ic_language_selected__410b8bad.png",
+    "sha256": "6411aa1f1b1e89c22f4f567f6fdbb210170fb1f482298c76ffd7cfa5401f6daf"
+  },
+  {
+    "path": "assets/ic_remote__410b8bad.png",
+    "sha256": "46eff6c605926cd5ab810a102bbd12b37fdecc100fc9867d4763490e7814df79"
+  },
+  {
+    "path": "assets/ic_rotate_show__410b8bad.png",
+    "sha256": "d5d7b5e564bb649a67fa02135f3763682bdfa7531028ebf4008f558e55d2b45a"
+  },
+  {
+    "path": "assets/ic_settings_page_bg__410b8bad.png",
+    "sha256": "4508f8babe8be42ff069033326f0ae7e56174e893e124a1c67bef6d4999f6f7e"
+  },
+  {
+    "path": "assets/ic_show_device_id__410b8bad.png",
+    "sha256": "998933e16985ce2083caa362b8f7fbe8f58c5affc0a806b0938e6e56db9b148b"
+  },
+  {
+    "path": "assets/ic_version_32__410b8bad.png",
+    "sha256": "8452c6d8dc4c9ffd364654c11becabe73b8b9e37cd573072ea914acfba42d78b"
+  },
+  {
+    "path": "e2e-tests.cjs",
+    "sha256": "bd8bc71e3f7fade480fdc422ac54434b96e9487422a8129af76497aa16a0eced"
+  },
+  {
+    "path": "settings-controller.js",
+    "sha256": "75b49f78aada25c7deba25b94278fc7cf300eb6e722218a6a068861f4bcf8230"
+  },
+  {
+    "path": "settings-ui.css",
+    "sha256": "6414c746c7ae964e762694b468877ffdd9b477e71a6c8c97fc28075fdb099ef8"
+  },
+  {
+    "path": "settings-ui.js",
+    "sha256": "bbfba4da4ace1869223c0747ab9822d52d01e2a21369ae9fd00dfc7a3ba66a21"
+  },
+  {
+    "path": "tests.cjs",
+    "sha256": "1eb1baf1ba35e68468dd86d4120c6b439ffc6a45774deb8a74fd2efb3fea2fda"
+  },
+  {
+    "path": "ui-tests.cjs",
+    "sha256": "4729d95e25ffdf3991735e07d3691632475594f9836a5688537c86d32e5d68f7"
+  }
+]

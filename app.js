@@ -129,8 +129,8 @@ app.innerHTML = `
    </section>
    <section class="native-control-panel">
     <h4>Devil Eyes · CoolLED1248</h4>
-    <p class="small-note" id="nativeEyesInfo">Build text, pictures, frame animations and program playlists in the studio below. Bluetooth transfer awaits exact controller identification.</p>
-    <p class="small-note">Use Identify and read-only Bluetooth inspection above to establish its BLE family. The studio works locally; hardware upload remains unavailable until the matching protocol is confirmed.</p>
+    <p class="small-note" id="nativeEyesInfo">Build text, pictures, frame animations and program playlists below. Exact96×16 CoolLEDUX projects have a separately confirmed experimental Send path.</p>
+    <p class="small-note">The studio works locally. Experimental Send requires the exact CoolLEDUX target, a96×16 project and fresh parked, restore, overwrite and risk confirmations. Physical capacity, orientation and retention remain unverified; other profiles and sizes stay local-only.</p>
    </section>
   </div>
 </article></section>
@@ -220,7 +220,17 @@ notify = function (message) {
   ];
   toast(known.find(([pattern]) => pattern.test(message))?.[1] || message);
 };
-function go(next) {
+function go(next, mode = "auto") {
+  if(String(next||"home").replace(/^#/,"")!==page)window.SmartEaseStudio?.stop();
+  next = String(next || "home").replace(/^#/, "");
+  if (next === "native" || next.startsWith("native/")) {
+    if (window.SmartEaseNative) return window.SmartEaseNative.enter(next, mode === "auto" ? "push" : mode);
+    page = "native";
+    document.querySelectorAll("#app [data-page]").forEach(el => el.hidden = true);
+    if (mode !== "pop") history.replaceState(history.state, "", "#" + next);
+    return;
+  }
+  window.SmartEaseNative?.leave();
   if (next !== "calibrate" && next !== "map" && !Object.hasOwn(icons, next)) next = "home";
   page = next;
   document
@@ -232,7 +242,7 @@ function go(next) {
     else el.removeAttribute("aria-current");
   });
   document.body.classList.remove("advanced-open");
-  history.replaceState(null, "", "#" + next);
+  if (mode !== "pop" || location.hash !== "#" + next) history.replaceState(null, "", "#" + next);
   if (next === "home") renderScenesUI();
   if (next === "create") renderDesigner();
   if (next === "create") window.SmartEaseStudio?.enter();
@@ -1082,8 +1092,8 @@ function renderNativeLibrary(){
     ?"Detected "+adapter.identity.name+". Reconnect a verified MELK-OA10 to try native effects."
     :"Connect your NOKINS decorative controller above. Unknown LotusLamp variants receive no effect packets.";
  ui("nativeEyesInfo").textContent=cartDevices[1].identity
-  ?"Detected "+cartDevices[1].identity.name+". Create text, art and animations in the local studio below. Upload remains disabled until its exact BLE protocol is verified."
-  :"Create text, pictures, animations and playlists below. Identify Devil Eyes above to establish its BLE family; hardware upload is not enabled.";
+  ?"Detected "+cartDevices[1].identity.name+". Create text, art and animations below. Only exact96×16 CoolLEDUX projects can open experimental owner-confirmed Send; capacity, orientation and retention remain physically unverified."
+  :"Create text, pictures, animations and playlists below. Connect the exact CoolLEDUX target for experimental96×16 Send with fresh confirmations; other profiles and sizes remain local-only.";
 }
 async function applyNativeLotusMode(){
  const adapter=cartDevices[2],status=ui("nativeLotusStatus");
@@ -1472,7 +1482,7 @@ function backup() {
   const values = {};
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key.startsWith("smartease-")) values[key] = localStorage.getItem(key);
+    if (key.startsWith("smartease-") || key==="smartease.native.lotus.groups.v1"||SmartEaseUXTemplate.keys.includes(key)) values[key] = localStorage.getItem(key);
   }
   const blob = new Blob(
     [
@@ -1497,14 +1507,25 @@ function backup() {
   setTimeout(() => URL.revokeObjectURL(href), 2000);
   toast("Your SmartEase backup is ready.");
 }
+let backupRestoreEpoch = 0;
+// A pending full-backup file read never owns a later Native/device session.
+window.SmartEaseBackupRestore = Object.freeze({invalidate(){backupRestoreEpoch++;}});
 async function restoreBackup(file) {
   if (!file) return;
+  // Cancel radio admissions synchronously, without blanking unrelated Native editors.
+  // Capture our epoch AFTER that hook so its own cancellation cannot stale this restore.
+  window.SmartEaseStudio?.stop();
+  window.SmartEaseNativeUX?.cancelForBackupRestore();
+  const restoreEpoch = ++backupRestoreEpoch;
+  const restoreCurrent = () => restoreEpoch === backupRestoreEpoch;
   if (file.size > 32_000_000) {
     toast("Choose a SmartEase backup smaller than 32 MB.");
     return;
   }
   try {
-    const data = JSON.parse(await file.text());
+    const raw = await file.text();
+    if (!restoreCurrent()) return;
+    const data = JSON.parse(raw);
     if (
       data.format !== "smartease-cart-backup" ||
       data.version !== 1 ||
@@ -1529,31 +1550,53 @@ async function restoreBackup(file) {
       "smartease-sp608e-chip-orders-v1",
       "smartease-sp608e-rgb-balance-v1",
       "smartease-display-project-v1",
+      "smartease-native-coolledux-v1",
+      "smartease.native.coolledux.square.graffiti.v1",
+      "smartease.native.coolledux.square.animation.v1",
+      "smartease-native-banlanx-diy-v1",
+      "smartease-native-banlanx-scene-names-v1",
+      "smartease-native-banlanx-groups-v1",
+      "smartease-native-banlanx-channel-names-v1",
+      "smartease-native-banlanx-trigger-names-v1",
       "smartease-device-assignments-v1",
       "smartease-of21-native-v1",
+      "smartease.native.lotus.groups.v1",
       "smartease-scene-draft-v1",
     ]);
     const entries = Object.entries(data.values).filter(([k]) => allowed.has(k));
     if (!entries.length) throw Error("This backup has no restorable settings.");
     for (const [key, value] of entries) {
-      const limit=key==="smartease-golf-cart-zones-v2"||key==="smartease-golf-cart-zones-v1"?24_000_000:key==="smartease-scene-draft-v1"?4_000_000:key==="smartease-of21-native-v1"?131072:key === "smartease-display-project-v1"?1_000_000:500000;
-      if (typeof value !== "string" || value.length > limit)
+      const limit=SmartEaseUXTemplate.keys.includes(key)?SmartEaseUXTemplate.Square.LIMIT:key==="smartease.native.lotus.groups.v1"?1_000_000:key==="smartease-native-banlanx-trigger-names-v1"?SmartEaseBanlanXTriggerNames.LIMIT:key==="smartease-native-banlanx-channel-names-v1"?SmartEaseBanlanXChannelNameStore.LIMIT:key==="smartease-native-banlanx-groups-v1"?SmartEaseBanlanXGroupsStore.LIMIT:key==="smartease-native-banlanx-scene-names-v1"?SmartEaseBanlanXSceneNames.LIMIT:key==="smartease-native-banlanx-diy-v1"?SmartEaseBanlanXDIYStore.LIMIT:key==="smartease-native-coolledux-v1"?4*1024*1024:key==="smartease-golf-cart-zones-v2"||key==="smartease-golf-cart-zones-v1"?24_000_000:key==="smartease-scene-draft-v1"?4_000_000:key==="smartease-of21-native-v1"?131072:key === "smartease-display-project-v1"?1_000_000:500000;
+      if (typeof value !== "string" || (["smartease-native-coolledux-v1","smartease-native-banlanx-diy-v1","smartease-native-banlanx-scene-names-v1","smartease-native-banlanx-groups-v1","smartease-native-banlanx-channel-names-v1","smartease-native-banlanx-trigger-names-v1"].includes(key) ? new Blob([value]).size : value.length) > limit)
         throw Error("This backup has an invalid setting.");
       if (!/ble-auto|ble-id|nokins-device/.test(key)) JSON.parse(value);
       if (key === "smartease-golf-cart-zones-v2") czSanitize(JSON.parse(value));
       if (key === "smartease-golf-cart-zones-v2" || key === "smartease-golf-cart-zones-v1") {const parsed=JSON.parse(value);if(parsed.scenes!==undefined&&(!Array.isArray(parsed.scenes)||parsed.scenes.length>24))throw Error("A scene library supports at most 24 scenes.");for(const scene of parsed.scenes||[])if(scene.composition?.version===1)SmartEaseStudio.validate(scene.composition);}
-      if(key==="smartease-of21-native-v1"){const parsed=JSON.parse(value);if(parsed.version!==1||!Array.isArray(parsed.scenes)||parsed.scenes.length>32||!parsed.requested||typeof parsed.requested!=="object"||Array.isArray(parsed.requested))throw Error("Invalid OF21 pattern library.");for(const scene of parsed.scenes){if(typeof scene.name!=="string"||!scene.name.trim()||scene.name.length>70)throw Error("Invalid OF21 pattern name.");SmartEaseOF21.diy(scene.project);}}
+      if(key==="smartease.native.lotus.groups.v1")LotusGroups.validate(JSON.parse(value));
+      if(key==="smartease-of21-native-v1"){const parsed=JSON.parse(value);if(parsed.version!==1||!Array.isArray(parsed.scenes)||parsed.scenes.length>32||!parsed.requested||typeof parsed.requested!=="object"||Array.isArray(parsed.requested))throw Error("Invalid OF21 pattern library.");for(const scene of parsed.scenes){if(typeof scene.name!=="string"||!scene.name.trim()||scene.name.length>70)throw Error("Invalid OF21 pattern name.");SmartEaseOF21.diy(scene.project);}of21ValidateNativeMetadata(parsed);}
       if (key === "smartease-display-project-v1") SmartEaseDisplay.validate(JSON.parse(value));
+      if (key === "smartease-native-coolledux-v1") SmartEaseNativeUXStore.validate(JSON.parse(value));
+      if(SmartEaseUXTemplate.keys.includes(key))SmartEaseUXTemplate.Square.validate(JSON.parse(value),key.includes(".graffiti.")?"graffiti":"animation");
+      if (key === "smartease-native-banlanx-diy-v1") SmartEaseBanlanXDIYStore.validate(value);
+      if (key === "smartease-native-banlanx-trigger-names-v1") SmartEaseBanlanXTriggerNames.validate(value);
+      if (key === "smartease-native-banlanx-channel-names-v1") SmartEaseBanlanXChannelNameStore.validate(value);
+      if (key === "smartease-native-banlanx-groups-v1") SmartEaseBanlanXGroupsStore.validate(value);
+      if (key === "smartease-native-banlanx-scene-names-v1") SmartEaseBanlanXSceneNames.validate(value);
     }
+    if (!restoreCurrent()) return;
     if (
       !confirm(
         "Restore this backup? Your current saved setup will be replaced.",
       )
     )
       return;
+    if (!restoreCurrent()) return;
     const before = entries.map(([k]) => [k, localStorage.getItem(k)]);
     try {
-      for (const [key, value] of entries) localStorage.setItem(key, value);
+      for (const [key, value] of entries) {
+        if (!restoreCurrent()) throw Error("Backup restore was superseded; saved setup retained.");
+        localStorage.setItem(key, value);
+      }
     } catch (e) {
       for (const [key, value] of before) {
         if (value === null) localStorage.removeItem(key);
@@ -1565,9 +1608,9 @@ async function restoreBackup(file) {
     disconnect();
     location.reload();
   } catch (e) {
-    toast(e.message || "That backup could not be restored.");
+    if (restoreCurrent()) toast(e.message || "That backup could not be restored.");
   } finally {
-    ui("backupFile").value = "";
+    if (restoreCurrent()) ui("backupFile").value = "";
   }
 }
 app
@@ -2244,7 +2287,13 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 window.addEventListener("pagehide", cancelPlayback);
-window.addEventListener("hashchange", () => go(location.hash.slice(1)));
+window.addEventListener("popstate", () => go(location.hash.slice(1), "pop"));
+window.addEventListener("hashchange", () => {
+  const next = location.hash.slice(1) || "home";
+  if (page === "native" && window.SmartEaseNative?.state.path === next) return;
+  if (page !== "native" && page === next) return;
+  go(next, "pop");
+});
 ui("welcomeDialog").addEventListener("close", () => {
   preferences.onboarded = true;
   persist();
@@ -2262,6 +2311,8 @@ if (!preferences.onboarded)
 
 window.updateCartDeviceUI = () => {
   updateHeader();
+  window.SmartEaseNativeUX?.refresh();
+  window.SmartEaseStudio?.refresh();
   if (page === "devices") renderDevices();
 };
 // Per-device granted assignments are restored by connection-workspace.js.
@@ -2324,7 +2375,7 @@ function sceneDraftSnapshot(){return {format:"smartease-scene-draft",version:1,e
 function exportCurrentSceneDraft(){const url=URL.createObjectURL(new Blob([JSON.stringify(sceneDraftSnapshot(),null,2)],{type:"application/json"})),link=document.createElement("a");link.href=url;link.download="smartease-scene-draft.json";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 ui("saveDesignCopy").onclick=()=>saveDesignerScene(true);ui("exportSceneDraft").onclick=exportCurrentSceneDraft;
 function rememberSceneDraft(){clearTimeout(sceneDraftTimer);sceneDraftDirty=true;try{localStorage.setItem("smartease-scene-draft-v1",JSON.stringify(sceneDraftSnapshot()));sceneSaveMessage("Unsaved edits. Save changes to keep this revision, or export your draft.");}catch{sceneSaveMessage("Unsaved edits remain open, but browser storage failed. Export the draft before closing.",true);}}
-function scheduleSceneDraft(){sceneDraftEpoch++;clearTimeout(sceneDraftTimer);sceneDraftDirty=true;sceneSaveMessage("Unsaved edits. Save changes to keep this revision.");sceneDraftTimer=setTimeout(rememberSceneDraft,120);}
+function scheduleSceneDraft(){window.SmartEaseStudio?.draftChanged();sceneDraftEpoch++;clearTimeout(sceneDraftTimer);sceneDraftDirty=true;sceneSaveMessage("Unsaved edits. Save changes to keep this revision.");sceneDraftTimer=setTimeout(rememberSceneDraft,120);}
 ui("recoverSceneDraft").onclick=()=>{sceneDraftEpoch++;try{const saved=JSON.parse(localStorage.getItem("smartease-scene-draft-v1")||"null");if(saved?.format!=="smartease-scene-draft"||saved.version!==1)throw Error("No recoverable draft was found.");draft=E.validateRows(saved.rows);draftAccessories=E.accessories(saved.accessories,draft["front-bumper"]);draftComposition=saved.composition||null;editingSceneId=typeof saved.editingSceneId==="string"?saved.editingSceneId:null;ui("sceneName").value=saved.name||"Recovered scene";window.SmartEaseStudio?.load(saved.composition);go("create");sceneSaveMessage("Draft recovered. Save changes or Save a copy to keep it.");}catch(error){sceneSaveMessage(error.message,true);}};
 document.querySelector('[data-page="create"]').addEventListener("input",event=>{if(event.target.type!=="file")scheduleSceneDraft();});
 document.querySelector('[data-page="create"]').addEventListener("change",event=>{if(event.target.type!=="file")scheduleSceneDraft();});

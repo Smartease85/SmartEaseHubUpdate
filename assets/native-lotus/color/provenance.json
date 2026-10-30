@@ -1,0 +1,86 @@
+{
+  "source": "Independently authored geometric UI artwork",
+  "generator": "tools/generate-lotus-controls.py",
+  "records": [
+    {
+      "path": "assets/native-lotus/color/ic_big_solorwheel.png",
+      "size": [
+        406,
+        406
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        406,
+        406
+      ],
+      "sha256": "59cee4d61468c80af4760f05dec32b5a6d442e0e6207ac8e403c8c4c7735061d",
+      "meaning": "mathematical ic_big_solorwheel; documented source-compatible orientation",
+      "origin": "independently authored geometry",
+      "name": "ic_big_solorwheel",
+      "src": "assets/native-lotus/color/ic_big_solorwheel.png",
+      "asset": "assets/native-lotus/color/ic_big_solorwheel.png",
+      "bytes": 50969
+    },
+    {
+      "path": "assets/native-lotus/color/ic_palette_bg.png",
+      "size": [
+        800,
+        800
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        800,
+        800
+      ],
+      "sha256": "a0baa00b7a44ab58fd56d6b6cf1c460687aea7ee19c449ee6c401396fce1a706",
+      "meaning": "mathematical ic_palette_bg; documented source-compatible orientation",
+      "origin": "independently authored geometry",
+      "name": "ic_palette_bg",
+      "src": "assets/native-lotus/color/ic_palette_bg.png",
+      "asset": "assets/native-lotus/color/ic_palette_bg.png",
+      "bytes": 144635
+    },
+    {
+      "path": "assets/native-lotus/color/ic_rgb.png",
+      "size": [
+        532,
+        532
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        532,
+        532
+      ],
+      "sha256": "55aa64a04260b55ef08c08bc8512da7943d5c8f47e1add3ac1c51642da4d5edb",
+      "meaning": "mathematical ic_rgb; documented source-compatible orientation",
+      "origin": "independently authored geometry",
+      "name": "ic_rgb",
+      "src": "assets/native-lotus/color/ic_rgb.png",
+      "asset": "assets/native-lotus/color/ic_rgb.png",
+      "bytes": 98148
+    },
+    {
+      "path": "assets/native-lotus/color/ic_ring.png",
+      "size": [
+        64,
+        64
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "sha256": "c078891415f65c82a3d93c505386c258d074e44a6722553d7c749f6b35edf561",
+      "meaning": "mathematical ic_ring; documented source-compatible orientation",
+      "origin": "independently authored geometry",
+      "name": "ic_ring",
+      "src": "assets/native-lotus/color/ic_ring.png",
+      "asset": "assets/native-lotus/color/ic_ring.png",
+      "bytes": 4158
+    }
+  ]
+}

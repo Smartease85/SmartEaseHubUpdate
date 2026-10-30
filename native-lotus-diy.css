@@ -1,0 +1,9 @@
+#nativeLotusDIY[hidden],#nativeLotusDIY [hidden]{display:none!important}
+#ndNameRow{display:flex;align-items:center;gap:15px;margin:8px 15px;font-size:14px}#ndName{height:35px;min-width:0;flex:1;padding:0 10px}
+#ndModes{display:flex;overflow-x:auto;margin:10px 24px 0;gap:8px}#ndModes button{white-space:nowrap}#ndModes [aria-current=true]{border-color:#80f4bc}
+#ndCircleCard{margin:16px 24px;border-radius:16px;background:#14372e;overflow:hidden}#ndStaticViewport.static{height:210px;overflow:auto}#ndCircles{width:100%;display:block}#ndCircles [role=button]:focus-visible{outline:2px solid #80f4bc}
+#ndAddRemove{display:flex;justify-content:space-between;padding:10px 50px}#ndAddRemove button{height:32px;font-size:14px;padding:0 12px}
+#ndPalette{position:relative;width:400px;max-width:100%;aspect-ratio:1;margin:auto;touch-action:none}#ndPaletteImage{display:block;width:100%;height:100%}#ndColorMark{position:absolute;width:16px;height:16px;border:2px solid white;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+#ndFixed{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:5px 24px}#ndFixed button{min-height:32px}#nativeLotusDIY>label:not(#ndNameRow){display:block;margin:12px 24px}#nativeLotusDIY input[type=range]{max-width:100%}
+
+#ndSaveDialog{max-width:calc(100vw - 32px)}

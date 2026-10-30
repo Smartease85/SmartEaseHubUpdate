@@ -1,0 +1,43 @@
+{
+  "source_field": "uDp.::.Cdl",
+  "owner_cid": 1051553,
+  "static_offset": "0x19e4",
+  "initializer_entry": "0xa03904",
+  "values": [
+    {
+      "id": 0,
+      "name": "red",
+      "rgb": "ff0000"
+    },
+    {
+      "id": 1,
+      "name": "green",
+      "rgb": "00ff00"
+    },
+    {
+      "id": 2,
+      "name": "blue",
+      "rgb": "0000ff"
+    },
+    {
+      "id": 3,
+      "name": "yellow",
+      "rgb": "ffff00"
+    },
+    {
+      "id": 4,
+      "name": "magenta",
+      "rgb": "ff00ff"
+    },
+    {
+      "id": 5,
+      "name": "cyan",
+      "rgb": "00ffff"
+    },
+    {
+      "id": 6,
+      "name": "white",
+      "rgb": "ffffff"
+    }
+  ]
+}

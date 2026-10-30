@@ -1,0 +1,291 @@
+{
+  "generator": "tools/generate-banlanx-art.py",
+  "scope": "17 raster replacements and six-glyph font only; timer-empty.png remains unreplaced",
+  "assets": [
+    {
+      "path": "assets/native-banlanx/circular_gradient-2x.png",
+      "sha256": "88e6bca372efb6e9ca704a1d9dd973206570af87122eeafa39e8a34542d1a0b9",
+      "size": [
+        400,
+        400
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        400,
+        400
+      ],
+      "meaning": "hue/saturation disk; white center, clockwise reverse RGB hue",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/circular_gradient-3x.png",
+      "sha256": "88e6bca372efb6e9ca704a1d9dd973206570af87122eeafa39e8a34542d1a0b9",
+      "size": [
+        400,
+        400
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        400,
+        400
+      ],
+      "meaning": "hue/saturation disk; white center, clockwise reverse RGB hue",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/wave_1.png",
+      "sha256": "f7d7ea13fc9aeaeabc4267b62818f8d8d5b423faea143f964b78f26e85dd355d",
+      "size": [
+        637,
+        637
+      ],
+      "alphaBounds": [
+        0,
+        254,
+        637,
+        637
+      ],
+      "meaning": "translucent overlapping decorative waves",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/wave_2.png",
+      "sha256": "e32b04a2fc2b4d433028d780d6e3e34ee481addf5596438a3e76ef2312ab38fe",
+      "size": [
+        1077,
+        637
+      ],
+      "alphaBounds": [
+        0,
+        373,
+        1077,
+        637
+      ],
+      "meaning": "translucent overlapping decorative waves",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/wave_3.png",
+      "sha256": "3f3af1af3ff7d8bd89cf1c35a2d64ff38ba2b3c9c747b9640f61de295184ce2a",
+      "size": [
+        1077,
+        637
+      ],
+      "alphaBounds": [
+        0,
+        306,
+        1077,
+        637
+      ],
+      "meaning": "translucent overlapping decorative waves",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/wave_bg.png",
+      "sha256": "626c8a8f781a44595d8fb2b176b1e8f1d64d90815b88a943b4b0b014f8f8be02",
+      "size": [
+        1440,
+        2560
+      ],
+      "alphaBounds": [
+        0,
+        936,
+        1440,
+        2560
+      ],
+      "meaning": "translucent overlapping decorative waves",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/3x-ic_arrow_up.png",
+      "sha256": "bd1fca4fd24ec432d46b7b4bc2ff27899e316201d0d75f2e7b2a5aec0febcdfb",
+      "size": [
+        108,
+        108
+      ],
+      "alphaBounds": [
+        11,
+        28,
+        97,
+        77
+      ],
+      "meaning": "effect selector up chevron",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/3x-ic_arrow_down.png",
+      "sha256": "a7f877a57ccf789d653ab6f21280c615f25864751d4cb48479bf6161288a31b7",
+      "size": [
+        108,
+        108
+      ],
+      "alphaBounds": [
+        11,
+        31,
+        97,
+        80
+      ],
+      "meaning": "effect selector down chevron",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/ic_effect_unselected.png",
+      "sha256": "fef5013244844cd583916e6ad2caa6f2c274b7bb55bd95f4954d76af34fbc1b1",
+      "size": [
+        72,
+        72
+      ],
+      "alphaBounds": [
+        1,
+        1,
+        71,
+        71
+      ],
+      "meaning": "four-point effects sparkle, unselected",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/ic_solid_color_unselected.png",
+      "sha256": "629818e60964f28fb55e67a72bb9a97f67412387c79488d7465d31beefcc42d8",
+      "size": [
+        72,
+        72
+      ],
+      "alphaBounds": [
+        2,
+        2,
+        70,
+        70
+      ],
+      "meaning": "artist palette, unselected",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/ic_effect_selected.png",
+      "sha256": "f3164ea63b20d1d22a7a1737a6fa57f1bd30b615e07dcb42c1e8637b6fa9ba57",
+      "size": [
+        72,
+        72
+      ],
+      "alphaBounds": [
+        1,
+        1,
+        71,
+        71
+      ],
+      "meaning": "four-point effects sparkle, selected",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/ic_solid_color_selected.png",
+      "sha256": "f3ed1ce5f25d45933addf48853e8922f93d71bfacfc7120df6275c96fb3e8b2a",
+      "size": [
+        72,
+        72
+      ],
+      "alphaBounds": [
+        2,
+        2,
+        70,
+        70
+      ],
+      "meaning": "artist palette, selected",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/music_note_1.png",
+      "sha256": "594c66e439d64c007ecb326661afc7e68a1dd3ba8578406f0ff2e1fb0a22dee2",
+      "size": [
+        510,
+        510
+      ],
+      "alphaBounds": [
+        51,
+        22,
+        459,
+        492
+      ],
+      "meaning": "music note alpha mask 1; existing layout/tint/fade retained",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/music_note_2.png",
+      "sha256": "d7e6be7553535e63dd1ce729d150003c6befec224f54fca3dc371c232c7881de",
+      "size": [
+        510,
+        510
+      ],
+      "alphaBounds": [
+        119,
+        24,
+        392,
+        485
+      ],
+      "meaning": "music note alpha mask 2; existing layout/tint/fade retained",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/music_note_3.png",
+      "sha256": "d13f388ef19016dea7307da80e0190aff3f79cfd3db14a8c1faadbd18cd3c89a",
+      "size": [
+        510,
+        510
+      ],
+      "alphaBounds": [
+        119,
+        25,
+        390,
+        485
+      ],
+      "meaning": "music note alpha mask 3; existing layout/tint/fade retained",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/music_note_4.png",
+      "sha256": "5bceaefb0144b3ab76eb7d0ca0fe187c9c3b7a0292c390eef3525ec6f918f2aa",
+      "size": [
+        510,
+        510
+      ],
+      "alphaBounds": [
+        124,
+        20,
+        391,
+        495
+      ],
+      "meaning": "music note alpha mask 4; existing layout/tint/fade retained",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/music_note_5.png",
+      "sha256": "a2b6d1c6bb3a01ab40bdb954d8e0c16de10551f1dfeba5957493abbf14f83612",
+      "size": [
+        510,
+        510
+      ],
+      "alphaBounds": [
+        53,
+        21,
+        457,
+        489
+      ],
+      "meaning": "music note alpha mask 5; existing layout/tint/fade retained",
+      "origin": "independently authored geometry"
+    },
+    {
+      "path": "assets/native-banlanx/MaterialIcons-Regular.otf",
+      "sha256": "a1178710d3db2982a639c06d7e5db98bcbf8175bb197ffd70a14168a8d2bb2c6",
+      "origin": "independently authored six-glyph font; compatibility filename only",
+      "codepoints": {
+        "0xe516": "minus",
+        "0xe047": "plus",
+        "0xe09b": "right",
+        "0xe404": "more",
+        "0xe190": "copy",
+        "0xe0c1": "loop"
+      }
+    }
+  ]
+}

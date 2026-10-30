@@ -1,0 +1,621 @@
+{
+  "note": "Generated from current licensed fonts, authored masks and licensed GIF encoder. Independent Pillow decoding and Python protocol composition must follow; not an APK capture.",
+  "cases": [
+    {
+      "gif": "m0-f0-s0.gif",
+      "mode": 0,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m0-f0-s2.gif",
+      "mode": 0,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m0-f2-s0.gif",
+      "mode": 0,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m0-f2-s2.gif",
+      "mode": 0,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m1-f0-s0.gif",
+      "mode": 1,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m1-f0-s2.gif",
+      "mode": 1,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m1-f2-s0.gif",
+      "mode": 1,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m1-f2-s2.gif",
+      "mode": 1,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m2-f0-s0.gif",
+      "mode": 2,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m2-f0-s2.gif",
+      "mode": 2,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m2-f2-s0.gif",
+      "mode": 2,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m2-f2-s2.gif",
+      "mode": 2,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m3-f0-s0.gif",
+      "mode": 3,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m3-f0-s2.gif",
+      "mode": 3,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m3-f2-s0.gif",
+      "mode": 3,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m3-f2-s2.gif",
+      "mode": 3,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m4-f0-s0.gif",
+      "mode": 4,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m4-f0-s2.gif",
+      "mode": 4,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m4-f2-s0.gif",
+      "mode": 4,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m4-f2-s2.gif",
+      "mode": 4,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m5-f0-s0.gif",
+      "mode": 5,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m5-f0-s2.gif",
+      "mode": 5,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m5-f2-s0.gif",
+      "mode": 5,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m5-f2-s2.gif",
+      "mode": 5,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m6-f0-s0.gif",
+      "mode": 6,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m6-f0-s2.gif",
+      "mode": 6,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m6-f2-s0.gif",
+      "mode": 6,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m6-f2-s2.gif",
+      "mode": 6,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m7-f0-s0.gif",
+      "mode": 7,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m7-f0-s2.gif",
+      "mode": 7,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m7-f2-s0.gif",
+      "mode": 7,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m7-f2-s2.gif",
+      "mode": 7,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m8-f0-s0.gif",
+      "mode": 8,
+      "frame": 0,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m8-f0-s2.gif",
+      "mode": 8,
+      "frame": 0,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    },
+    {
+      "gif": "m8-f2-s0.gif",
+      "mode": 8,
+      "frame": 2,
+      "stay": 0,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        203
+      ]
+    },
+    {
+      "gif": "m8-f2-s2.gif",
+      "mode": 8,
+      "frame": 2,
+      "stay": 2,
+      "frameSpeed": 230,
+      "frameShowType": 1,
+      "requestedDelays": [
+        203,
+        203,
+        203,
+        203,
+        203,
+        203,
+        2000
+      ]
+    }
+  ]
+}

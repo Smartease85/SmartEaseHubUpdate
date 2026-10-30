@@ -1,0 +1,26 @@
+{
+  "source": "Independently authored geometric UI artwork",
+  "generator": "tools/generate-lotus-controls.py",
+  "assets": [
+    {
+      "path": "assets/native-lotus/functions/ic_danger.png",
+      "size": [
+        72,
+        72
+      ],
+      "alphaBounds": [
+        3,
+        7,
+        69,
+        65
+      ],
+      "sha256": "a33b5f1c195c6d0b10a71878682fda0778529f53f5324742e3db2ac502e413e5",
+      "meaning": "danger amber",
+      "origin": "independently authored geometry",
+      "name": "ic_danger",
+      "src": "assets/native-lotus/functions/ic_danger.png",
+      "asset": "assets/native-lotus/functions/ic_danger.png",
+      "bytes": 2849
+    }
+  ]
+}

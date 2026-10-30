@@ -1,0 +1,5 @@
+/* Registry adapter; only fresh source-GIF generation, never imported prepared pixels. */
+(function(r,f){if(typeof module==='object'&&module.exports)module.exports=f(require('./native-coolled-dynamic-model'),require('./native-coolled-dynamic-effects'),require('./native-coolled-dynamic-wire'));else r.SmartEaseUXDynamic14Wire=f(r.SmartEaseUXDynamicModel,r.SmartEaseUXDynamicEffects,r.SmartEaseUXDynamicWire);})(globalThis,function(M,E,W){'use strict';
+function validate(record){const d=M.decode(record);if(d.background)throw Error('Dynamic background wire conversion is unsupported; firmware and resampling remain separate gates');return d;}
+async function compile(record,{loaders,isCurrent}={}){const snapshot=M.clone(record);validate(snapshot);const check=()=>{if(typeof isCurrent!=='function'||isCurrent()!==true)throw Error('Dynamic compilation cancelled or library/session changed');};check();if(typeof loaders?.loadDynamicMasks!=='function')throw Error('Original Dynamic masks loader required');const masks=await loaders.loadDynamicMasks();check();return W.create({effects:E,masks,loaders}).compile(snapshot,{isCurrent});}
+return{validate,compile};});

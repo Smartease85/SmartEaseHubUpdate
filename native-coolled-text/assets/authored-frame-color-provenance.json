@@ -1,0 +1,1175 @@
+{
+  "generator": "tools/generate-frame-color-previews.py",
+  "scope": "Preview illustrations only. Original runtime models, palettes, control bytes and wire encoder are unchanged.",
+  "assets": [
+    {
+      "path": "native-coolled-text/assets/ic_auto_color.png",
+      "size": [
+        198,
+        153
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "sha256": "b009e13188aa8fcddd5294070e82cf0ccecf2649a3c6d80553f1e563d553809b",
+      "meaning": "static Colorful control illustration with authored AB geometry"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color1.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "4193264aca0099b129075e370c21353bb7b68692c08adeb08fc7de468d73c019",
+      "choiceId": 1,
+      "controlFamily": 1,
+      "variant": 0,
+      "frames": 13,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color10.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "982e8c7562fb78eaae322eb6a53f46ae0715761194f9beef2a3b393870b2dd5b",
+      "choiceId": 10,
+      "controlFamily": 6,
+      "variant": 1,
+      "frames": 28,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color11.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "8096ffe99d6175713e8b5e60f27fe331953d12e5d9d7c0b269a6ec42b0a1a43c",
+      "choiceId": 11,
+      "controlFamily": 7,
+      "variant": 0,
+      "frames": 11,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color12.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "b12d682a83573a455aa8236e970263bae8b715df95d97ae070c2bf58364c7bd6",
+      "choiceId": 12,
+      "controlFamily": 7,
+      "variant": 1,
+      "frames": 16,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color13.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "d57e0c2e64a375112a33b0fab6d809e67f6b919ef8935c7878b8c8c1d2aa12e1",
+      "choiceId": 13,
+      "controlFamily": 8,
+      "variant": 0,
+      "frames": 12,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color14.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "1e954bfde562ff3eccefa9c94d5b5bf74758fd8e4c7e93e6092ab324340f67cd",
+      "choiceId": 14,
+      "controlFamily": 8,
+      "variant": 1,
+      "frames": 12,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color15.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "a7795a31ceb6243a139d210b4d3bafa88ca223689a4b0d4b3c0e6f632f13421d",
+      "choiceId": 15,
+      "controlFamily": 1,
+      "variant": 0,
+      "frames": 15,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color16.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "bd7415266435e00683eaaf9e2aef00992eaed2a161736621bba8840c1abf7e5b",
+      "choiceId": 16,
+      "controlFamily": 1,
+      "variant": 1,
+      "frames": 15,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color17.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "fa8a47aa3b14476310b5d8a0eb7292d634d56abeb53c4373fd2e43613bf2eaa4",
+      "choiceId": 17,
+      "controlFamily": 2,
+      "variant": 0,
+      "frames": 1,
+      "durations": [
+        0
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color18.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "1548870829da21dac86b1ea250a68371f5a5211349bb3677f68b421b13b97fed",
+      "choiceId": 18,
+      "controlFamily": 3,
+      "variant": 2,
+      "frames": 24,
+      "durations": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color19.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "0e05d3a1b91b318a90a73d9fc31ff83861ae082db7a391c9b7874d66ffd4a06a",
+      "choiceId": 19,
+      "controlFamily": 3,
+      "variant": 3,
+      "frames": 25,
+      "durations": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color2.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "f428bb25e25bc7f2911f8d16c822c1b556c495b89bbb57ee13e2afe166a5c7ee",
+      "choiceId": 2,
+      "controlFamily": 1,
+      "variant": 1,
+      "frames": 14,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color20.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "24b76c829e5cb515f48b0d0ed48fe4ffb3a988cb93ddb233805bc18e6e484e73",
+      "choiceId": 20,
+      "controlFamily": 4,
+      "variant": 4,
+      "frames": 11,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color21.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "a1e74f8b8c0bf94a6c4c3f255050c4f9956163f8b94a728334580afd5c8bc993",
+      "choiceId": 21,
+      "controlFamily": 4,
+      "variant": 5,
+      "frames": 12,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color22.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "e592d8970b6c6fdf0779fa5fcefc36a873b95a389f22ffcd6fc4cf9b6427ea02",
+      "choiceId": 22,
+      "controlFamily": 5,
+      "variant": 0,
+      "frames": 3,
+      "durations": [
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color23.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "be27b3250be3d554efaa445c9eec760541da21fd6391cca829d67f2a9071bcee",
+      "choiceId": 23,
+      "controlFamily": 6,
+      "variant": 0,
+      "frames": 21,
+      "durations": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color24.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "f531c86ad0f2dcc984a75301d6669f0e49f50f1504c8ceef9bcc23d6c5d06e7a",
+      "choiceId": 24,
+      "controlFamily": 6,
+      "variant": 1,
+      "frames": 20,
+      "durations": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color25.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "9d31a393c0163b32c45059f0a446bc8e47d1d3a7ccc46af608c718f431b3b535",
+      "choiceId": 25,
+      "controlFamily": 7,
+      "variant": 0,
+      "frames": 10,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color26.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "f94deba72f9b3b55c817e2b01c4f9a717d7bcac1a889cb54de21e8c8022513fa",
+      "choiceId": 26,
+      "controlFamily": 7,
+      "variant": 1,
+      "frames": 10,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color27.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "81f439c38c9cd65f26f6c5070ac543eadc6ea89c2af13193f347a8e4e530d5cb",
+      "choiceId": 27,
+      "controlFamily": 8,
+      "variant": 0,
+      "frames": 12,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color28.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "498884b0e0cba5e3376bd8b76d1f235fad913d59f5ebcea28ffef7a42eb9a63d",
+      "choiceId": 28,
+      "controlFamily": 8,
+      "variant": 1,
+      "frames": 12,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color3.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "4ba0036727aefd00f95010c9f4f058ea6fd86e0ea2803e50c788794c23903835",
+      "choiceId": 3,
+      "controlFamily": 2,
+      "variant": 0,
+      "frames": 1,
+      "durations": [
+        2800
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color4.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "68b198a7faf343f8ceb38776867d3d49ff78d09b35a50c4868bbc04047acb845",
+      "choiceId": 4,
+      "controlFamily": 3,
+      "variant": 2,
+      "frames": 11,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color5.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "01afb970fe3fccb3ca96be0ae6b3a197c6a201cccbcfceb5aa2d763ab12ec5f0",
+      "choiceId": 5,
+      "controlFamily": 3,
+      "variant": 3,
+      "frames": 11,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color6.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "f63bd96adedb26c849cd059e74064abee544938ed15ec612c20b926452cd22df",
+      "choiceId": 6,
+      "controlFamily": 4,
+      "variant": 4,
+      "frames": 11,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color7.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "82fc9bd161a22e58f16234de9f79889287c6bdc74c58b35c746b10c576482ae2",
+      "choiceId": 7,
+      "controlFamily": 4,
+      "variant": 5,
+      "frames": 11,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color8.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "ef5db6124ed4bd1ab06c6324447e2e87090f028e33c4fe7d0d6c72ac60a98e9d",
+      "choiceId": 8,
+      "controlFamily": 5,
+      "variant": 0,
+      "frames": 6,
+      "durations": [
+        600,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color9.gif",
+      "size": [
+        198,
+        153
+      ],
+      "sha256": "832b3e938ef3b7bc7bbab80c06d77c31bfc50d360da3e9c8cde0e686812b7bd8",
+      "choiceId": 9,
+      "controlFamily": 6,
+      "variant": 0,
+      "frames": 28,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": 0,
+      "meaning": "Authored illustrative color math using existing autoContent palette; not hardware animation parity"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_coolledu_frame_0.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "a37cf1cfa0dcf07ddf2ba3af64901a1b299762b02ea3d94ebdac6d22cde5d98c",
+      "meaning": "Frame 1: Colorful1; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_1.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "76f9a46da7d62ffa8a678f0f313b5df4974b0d8f145f522e739849742deab266",
+      "meaning": "Frame 2: Colorful2; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_10.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "296342262e665e7ba738ccae167ae4436c944f694b65d21f699c332149a39f75",
+      "meaning": "Frame 11: FourColor1; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_11.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "fcc61efffe64a342e13b6db2e1eb0c9ef2ef79db573857217bdf5e322e5751a2",
+      "meaning": "Frame 12: FourColor2; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_12.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "2dfe9aed0bb6131851fb36f3f4d97ef26a0dae399384452dfdc677fd9a7275ed",
+      "meaning": "Frame 13: FourColor3; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_13.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "5c5bd76d6dac6997334c6ac857d300c63bdef4d9de47e4b08478d98c6e60b3cd",
+      "meaning": "Frame 14: FourColor4; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_14.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "5ccce2f971c3ef7379f73e1aefdc7e63724546229e06cbfc8fe7f7defe336c5c",
+      "meaning": "Frame 15: Green1; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_15.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "e39117d1d0fc7dae14a29756c96310cd46cc31b3208392b1169d8a584095ac88",
+      "meaning": "Frame 16: Green2; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_16.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "abc4ae6c029402a487c37014a8cb2227401c07dec4c302b67ea9967f5a2773e9",
+      "meaning": "Frame 17: Green3; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_17.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "e9b352324bde04eea6fb1857e7af2b343e1cfed3cd63859058ede7bb42ace4ae",
+      "meaning": "Frame 18: Yellow1; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_18.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "285c927da4a81cc776741704b35d4f69ba5ca673f1ea484dac54df59114f9605",
+      "meaning": "Frame 19: Yellow2; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_19.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "e782e4c18195766f92c053e1e30a09538b546e2154297086b4c5c2574a39d698",
+      "meaning": "Frame 20: Yellow3; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_2.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "135b0bebac4656532a8b8264ec64fb6b5ef9d9df5cc949a7fd952a002f390514",
+      "meaning": "Frame 3: Colorful3; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_3.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "da40b104ceabb4ec9f466522cfd417f7c88415a852a77644372edf1862836376",
+      "meaning": "Frame 4: Colorful4; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_32.png",
+      "size": [
+        72,
+        72
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        72,
+        72
+      ],
+      "sha256": "484a7106af687d4ace5b6914a49b3ed9eeff09bf1ad45753f351fbfefa43e2bc",
+      "meaning": "Frame settings: grid with edit pencil"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_4.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "c697818357138396e245c564f1b33e0e9b2bcce81770e46e2cef2bac4ef2b9d6",
+      "meaning": "Frame 5: Tricolor1; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_5.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "a0e2a2de4b9ba05833f12ca6eef31f14ab9596f3e6a841e612fb83e853bb629d",
+      "meaning": "Frame 6: Tricolor2; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_6.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "d65fabc440ec37e70cf9ceb326309f2c6a5c585f01c6eca55699f77e178cc23d",
+      "meaning": "Frame 7: Tricolor3; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_7.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "b951841ae65fce56b88b7ecfcea82e2d70b5c9fda3520f130a1238f31b19996a",
+      "meaning": "Frame 8: Red1; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_8.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "606bc0136cd531ba71717c83ac4c440910dc2f569ae1622abfe544512af32cd6",
+      "meaning": "Frame 9: Red2; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_9.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "49b5bc3a9058da830652f5fe13e7b984340517ac3cbbf0657caaacde067a2b49",
+      "meaning": "Frame 10: Red3; square presentation of runtime edge pattern"
+    },
+    {
+      "path": "native-coolled-text/assets/ic_no_frame.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        96,
+        96
+      ],
+      "sha256": "f30d55c1db06ed366d48cf66f96adec4fe854edb344391c7d48806cac1250f65",
+      "meaning": "No frame grid"
+    }
+  ]
+}

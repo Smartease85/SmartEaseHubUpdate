@@ -1,0 +1,7 @@
+/* Intentional experimental safety admission, not claimed original app screen. */
+#app dialog.nux-owner-send{box-sizing:border-box;width:min(30rem,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;background:#fff;color:#222;padding:16px;}
+#app dialog.nux-owner-send p,#app dialog.nux-owner-send label{color:#222;overflow-wrap:anywhere;}
+#app dialog.nux-owner-send label{display:flex;align-items:flex-start;gap:10px;margin:12px 0;}
+#app dialog.nux-owner-send input[type=checkbox]{flex:0 0 22px;width:22px;height:22px;}
+#app dialog.nux-owner-send button{min-height:44px;white-space:normal;margin:4px;}
+#app dialog.nux-owner-send button:focus-visible{outline:3px solid #005fcc;outline-offset:2px;}

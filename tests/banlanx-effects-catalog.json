@@ -1,0 +1,282 @@
+[
+  {
+    "index": 0,
+    "displayNumber": 1,
+    "id": 1,
+    "label": "Rainbow",
+    "sourceObject": "ad5f61"
+  },
+  {
+    "index": 1,
+    "displayNumber": 2,
+    "id": 2,
+    "label": "Full Color Twinkle Stars",
+    "sourceObject": "ad5f41"
+  },
+  {
+    "index": 2,
+    "displayNumber": 3,
+    "id": 3,
+    "label": "Twinkle Stars",
+    "sourceObject": "ad5f21"
+  },
+  {
+    "index": 3,
+    "displayNumber": 4,
+    "id": 4,
+    "label": "Fire",
+    "sourceObject": "ad5f01"
+  },
+  {
+    "index": 4,
+    "displayNumber": 5,
+    "id": 5,
+    "label": "Stacking",
+    "sourceObject": "ad5ee1"
+  },
+  {
+    "index": 5,
+    "displayNumber": 6,
+    "id": 6,
+    "label": "Comet",
+    "sourceObject": "ad5ec1"
+  },
+  {
+    "index": 6,
+    "displayNumber": 7,
+    "id": 7,
+    "label": "Wave",
+    "sourceObject": "ad5ea1"
+  },
+  {
+    "index": 7,
+    "displayNumber": 8,
+    "id": 8,
+    "label": "Chasing",
+    "sourceObject": "ad5e81"
+  },
+  {
+    "index": 8,
+    "displayNumber": 9,
+    "id": 9,
+    "label": "Red Blue White",
+    "sourceObject": "ad5e61"
+  },
+  {
+    "index": 9,
+    "displayNumber": 10,
+    "id": 10,
+    "label": "Green Yellow White",
+    "sourceObject": "ad5e41"
+  },
+  {
+    "index": 10,
+    "displayNumber": 11,
+    "id": 11,
+    "label": "Red Green White",
+    "sourceObject": "ad5e21"
+  },
+  {
+    "index": 11,
+    "displayNumber": 12,
+    "id": 12,
+    "label": "Red Yellow",
+    "sourceObject": "ad5e01"
+  },
+  {
+    "index": 12,
+    "displayNumber": 13,
+    "id": 13,
+    "label": "Red White",
+    "sourceObject": "ad5de1"
+  },
+  {
+    "index": 13,
+    "displayNumber": 14,
+    "id": 14,
+    "label": "Green White",
+    "sourceObject": "ad5dc1"
+  },
+  {
+    "index": 14,
+    "displayNumber": 15,
+    "id": 15,
+    "label": "Gradient",
+    "sourceObject": "ad5da1"
+  },
+  {
+    "index": 15,
+    "displayNumber": 16,
+    "id": 16,
+    "label": "Wiping",
+    "sourceObject": "ad5d81"
+  },
+  {
+    "index": 16,
+    "displayNumber": 17,
+    "id": 17,
+    "label": "Breath",
+    "sourceObject": "ad5d61"
+  },
+  {
+    "index": 17,
+    "displayNumber": 18,
+    "id": 18,
+    "label": "Full Color Comet Wiping",
+    "sourceObject": "ad5d41"
+  },
+  {
+    "index": 18,
+    "displayNumber": 19,
+    "id": 19,
+    "label": "Comet Wiping",
+    "sourceObject": "ad5d21"
+  },
+  {
+    "index": 19,
+    "displayNumber": 20,
+    "id": 20,
+    "label": "Pixel Dot Wiping",
+    "sourceObject": "ad5d01"
+  },
+  {
+    "index": 20,
+    "displayNumber": 21,
+    "id": 21,
+    "label": "Full Color Meteor Rain",
+    "sourceObject": "ad5ce1"
+  },
+  {
+    "index": 21,
+    "displayNumber": 22,
+    "id": 22,
+    "label": "Meteor Rain",
+    "sourceObject": "ad5cc1"
+  },
+  {
+    "index": 22,
+    "displayNumber": 23,
+    "id": 23,
+    "label": "Color Dots",
+    "sourceObject": "ad5ca1"
+  },
+  {
+    "index": 23,
+    "displayNumber": 24,
+    "id": 24,
+    "label": "Color Block",
+    "sourceObject": "ad5c81"
+  },
+  {
+    "index": 24,
+    "displayNumber": 25,
+    "id": 101,
+    "label": "Full Color Rhythm Spectrum",
+    "sourceObject": "ad5c61"
+  },
+  {
+    "index": 25,
+    "displayNumber": 26,
+    "id": 102,
+    "label": "Rhythm Spectrum",
+    "sourceObject": "ad5c41"
+  },
+  {
+    "index": 26,
+    "displayNumber": 27,
+    "id": 103,
+    "label": "Full Color Rhythm of Stars",
+    "sourceObject": "ad5c21"
+  },
+  {
+    "index": 27,
+    "displayNumber": 28,
+    "id": 104,
+    "label": "Rhythm of Stars",
+    "sourceObject": "ad5c01"
+  },
+  {
+    "index": 28,
+    "displayNumber": 29,
+    "id": 105,
+    "label": "Full Color Beat Ejection",
+    "sourceObject": "ad5be1"
+  },
+  {
+    "index": 29,
+    "displayNumber": 30,
+    "id": 106,
+    "label": "Beat Ejection",
+    "sourceObject": "ad5bc1"
+  },
+  {
+    "index": 30,
+    "displayNumber": 31,
+    "id": 107,
+    "label": "Gradient Energy",
+    "sourceObject": "ad5ba1"
+  },
+  {
+    "index": 31,
+    "displayNumber": 32,
+    "id": 108,
+    "label": "Energy",
+    "sourceObject": "ad5b81"
+  },
+  {
+    "index": 32,
+    "displayNumber": 33,
+    "id": 109,
+    "label": "Gradient Pulse",
+    "sourceObject": "ad5b61"
+  },
+  {
+    "index": 33,
+    "displayNumber": 34,
+    "id": 110,
+    "label": "Pulse",
+    "sourceObject": "ad5b41"
+  },
+  {
+    "index": 34,
+    "displayNumber": 35,
+    "id": 111,
+    "label": "Full Color Ripple",
+    "sourceObject": "ad5b21"
+  },
+  {
+    "index": 35,
+    "displayNumber": 36,
+    "id": 112,
+    "label": "Ripple",
+    "sourceObject": "ad5b01"
+  },
+  {
+    "index": 36,
+    "displayNumber": 37,
+    "id": 113,
+    "label": "Love&Peace",
+    "sourceObject": "ad5ae1"
+  },
+  {
+    "index": 37,
+    "displayNumber": 38,
+    "id": 114,
+    "label": "Christmas",
+    "sourceObject": "ad5ac1"
+  },
+  {
+    "index": 38,
+    "displayNumber": 39,
+    "id": 115,
+    "label": "HeatBeat",
+    "sourceObject": "ad5aa1"
+  },
+  {
+    "index": 39,
+    "displayNumber": 40,
+    "id": 116,
+    "label": "Party",
+    "sourceObject": "ad5a81"
+  }
+]

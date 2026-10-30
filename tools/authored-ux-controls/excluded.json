@@ -1,0 +1,54 @@
+[
+  {
+    "path": "native-coolled-settings/assets/ic_banner_default__410b8bad.png",
+    "size": [
+      1125,
+      462
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "original_sha256": "aa4f9011bdd1db68d634944dda1723816473a84fb38e910108ff52f02320d1fd",
+    "reason": "Complex photo banner: imagegen required, not replaced"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_auto_color.png",
+    "size": [
+      198,
+      153
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "a865387352a37a667a38ef36ad8227362daf9224fdaeace62a6bdb55645bee31",
+    "reason": "Outside slice: emoji/output-category asset"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_coolledu_frame_0.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "814109c5599a17eebfbf3e551f3790a9e5dc74053f361f84902ee9c4f44c9035",
+    "reason": "Outside slice: emoji/output-category asset"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_no_frame.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0432d42dae3fda76422c7ba1345b7ffbad1891aaee5eb53bf1cc4c046887af35",
+    "reason": "Outside slice: emoji/output-category asset"
+  }
+]

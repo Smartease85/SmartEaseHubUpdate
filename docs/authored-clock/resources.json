@@ -1,0 +1,112 @@
+[
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style10_1696.gif",
+    "sha256": "3c4685671d5ee7aa7d860fc7a33cae34dfea1fe52b87467c72c342c0fd465c08",
+    "bytes": 4247
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style11_1696.gif",
+    "sha256": "2f00d9cd3465f400d6cf7e059ca5539bad2c779603c88e6da74e5cd4c4510cbf",
+    "bytes": 5205
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style12_1696.gif",
+    "sha256": "1e754fc6f6afc40ad8247cebdd9d536e9a16d08c68c6cc98bb5b55d807da8432",
+    "bytes": 4983
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style13_1696.gif",
+    "sha256": "684b889098c01d9240c178fec12c68eb3092e3cb5dec2174994ea487d492a756",
+    "bytes": 3522
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style14_1696.gif",
+    "sha256": "da6eb8a2fe49098f5189e7962a81813a6e45d6f03377024c95a68be421cf5586",
+    "bytes": 3808
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style15_1696.gif",
+    "sha256": "c83d95979b0ebb794087006f37d179bbc03bb31441a30cb3ecef3658488fbc7f",
+    "bytes": 4176
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style16_1696.gif",
+    "sha256": "6dae15f67e48a4f5411a23bbf632508a6389eebefb89694a7b32adfa0b2c2d08",
+    "bytes": 3720
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style17_1696.gif",
+    "sha256": "f80e3ea9fd74599015a856326ea0adf0a7794abb5ae3a7dd3d6aff3be339705e",
+    "bytes": 2778
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style18_1696.gif",
+    "sha256": "6fe1b1b55106f253e2cac87e7c28e0c735201baa189bb81158c492aee3dc1203",
+    "bytes": 4664
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style1_1696.gif",
+    "sha256": "353a1009fff91f4e8f3ddb182aea425be795f24621e7f66bee73d20196123d94",
+    "bytes": 3893
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style2_1696.gif",
+    "sha256": "9a02b920eb04d22e6b9bef338c4875ce8a3377831edc270ef5ade4389f56d722",
+    "bytes": 4001
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style3_1696.gif",
+    "sha256": "0af56a9a411f3fb2e87c10fa86824baf34ecac6c99926ac65ea855b6fb16d6ff",
+    "bytes": 3841
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style4_1696.gif",
+    "sha256": "e416aa18f95f5414d1e1bd5ad6c9d8271010d955c0712aefbdf1fe258574aa15",
+    "bytes": 4708
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style5_1696.gif",
+    "sha256": "382c79f810b0b7d19e240ec05332a690281b0ea69c95b17a275b8816a26e5985",
+    "bytes": 3328
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style6_1696.gif",
+    "sha256": "a88c7bb722c7edaf5e08023474dc3544c40150f67c4407224e289f58754f3f50",
+    "bytes": 4446
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style7_1696.gif",
+    "sha256": "c35d424fdd5c9a1c23d7f59e1f87c7cb0bc8df00698e81ac3b1225744f37cbe6",
+    "bytes": 6279
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style8_1696.gif",
+    "sha256": "8b0970f36e9612d6d6f2a9b2514090626e4c1c579de43a3dd0dbc736ba578e19",
+    "bytes": 4163
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_clock_style9_1696.gif",
+    "sha256": "ea28036c4a78a8ba5d1647206f3eb159655fde3840e62d4ea71de12acbb0dd86",
+    "bytes": 3754
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_exit.png",
+    "sha256": "996f995149c6013e17c2400fdaf29a4dea78b093f30541b2a9d6d2bf28060fda",
+    "bytes": 360
+  },
+  {
+    "path": "native-coolled-clock/assets/ic_save.png",
+    "sha256": "56d8a38fcd9c046af91975334208f20a6179c915aaacbd5bda59077b5c2c8530",
+    "bytes": 286
+  },
+  {
+    "path": "native-coolled-clock/assets/clock-backgrounds-v1.json",
+    "sha256": "5f5fafd2049b4d0da95adb730762306caa4bb20bb68b3d4d3c6a3867224fd1a0",
+    "bytes": 740760
+  },
+  {
+    "path": "ux-clock-wire-tables.js",
+    "sha256": "4cd965fc756ba169d462d80374abf1494a5e094af0b36f9612ac0a0fd4c2c6bc",
+    "bytes": 750475
+  }
+]

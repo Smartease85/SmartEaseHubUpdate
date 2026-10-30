@@ -1,0 +1,48 @@
+{
+  "source": "Independently authored geometric UI artwork",
+  "generator": "tools/generate-lotus-controls.py",
+  "records": [
+    {
+      "path": "assets/native-lotus/theme/getCloseMenu.png",
+      "size": [
+        60,
+        60
+      ],
+      "alphaBounds": [
+        4,
+        13,
+        56,
+        47
+      ],
+      "sha256": "ead1af985783c9e829d77059b35491f3f0d6fa24c26efceeded858007b695b66",
+      "meaning": "closed gray",
+      "origin": "independently authored geometry",
+      "name": "getCloseMenu",
+      "src": "assets/native-lotus/theme/getCloseMenu.png",
+      "asset": "assets/native-lotus/theme/getCloseMenu.png",
+      "bytes": 2022,
+      "getter": "getCloseMenu"
+    },
+    {
+      "path": "assets/native-lotus/theme/getOpenMenu.png",
+      "size": [
+        60,
+        60
+      ],
+      "alphaBounds": [
+        4,
+        13,
+        56,
+        47
+      ],
+      "sha256": "c5800756727f1d65a84681f053f4cf1e3a57882c23b56c647b34956433021577",
+      "meaning": "open white",
+      "origin": "independently authored geometry",
+      "name": "getOpenMenu",
+      "src": "assets/native-lotus/theme/getOpenMenu.png",
+      "asset": "assets/native-lotus/theme/getOpenMenu.png",
+      "bytes": 975,
+      "getter": "getOpenMenu"
+    }
+  ]
+}

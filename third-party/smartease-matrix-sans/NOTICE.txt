@@ -1,0 +1,33 @@
+SmartEase Matrix Sans — modified bitmap font family, 2026-10-30
+
+Derived solely from GNU Unifont 16.0.04 font/precompiled/unifont-16.0.04.hex.
+Copyright (C) 1998-2025 Roman Czyborra, Paul Hardy, Qianqian Fang,
+Andrew Miller, Johnnie Weaver, David Corbett, Nils Moskopp,
+Rebecca Bettencourt, Minseo Lee, Ho-Seok Ee, et al.
+
+We select the SIL Open Font License version 1.1 option for these fonts.
+The eight generated binary font files, their font source, and independent
+font-generation script are distributed under OFL-1.1; see OFL-1.1.txt.
+The original release's dual-license statement is retained verbatim in
+UPSTREAM-COPYING.txt; UPSTREAM-BDF-HEADER.txt retains its copyright metadata.
+The upstream name describes provenance only, not this modified family or
+an endorsement. Existing opaque asset filenames are compatibility keys,
+not family names. These fonts must not be sold by themselves.
+
+Changes: conversion from row-major HEX to fixed UTF-16-indexed column-major
+MSB-first tables; deterministic area scaling to 8/12/14 pixels; rightward
+one-pixel bold dilation that preserves single-pixel horizontal counters.
+Eight-column glyphs retain horizontal detail; wide glyphs fit the square cell. 16px normal retains original source glyph geometry
+inside a fixed 16x16 cell. No original application font data is incorporated.
+All 65,536 BMP offsets remain available in each large table; 8px tables keep
+128 slots. Missing upstream slots are blank. This is not a shaping engine:
+no supplementary-plane support, surrogate pairing, bidi, or contextual
+Arabic/Indic shaping is added. Existing application restrictions remain.
+Scaling can merge fine strokes, particularly in dense CJK at 12/14 pixels
+and 8px compatibility. Pixel equivalence to the old app is not claimed.
+
+Source: https://unifoundry.com/pub/unifont/unifont-16.0.04/unifont-16.0.04.tar.gz
+Only font data and licensing/documentation extracted. No upstream program
+source, executable, installer, or utility was executed or used in conversion.
+Rebuild: python3 tools/generate-matrix-fonts.py
+The generated manifest pins input/converter/output SHA-256 hashes.

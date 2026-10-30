@@ -3,12 +3,33 @@
 "use strict";
 const of21Native=document.createElement("div"),of21LocalKey="smartease-of21-native-v1";
 let of21Local={version:1,scenes:[],requested:{}},of21NativeSelection=null,of21LocalLoadError="";
+/* Reconstructed bounded Native metadata validators after workspace loss.
+ * Optional fields are validated without migration, trimming or metadata rewriting. */
+function of21ValidateDeviceMetadata(value,label,accept){
+ if(value===undefined)return;
+ const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+ if(!object(value)||value.version!==1||!object(value.devices))throw Error('Invalid '+label+' metadata.');
+ const entries=Object.entries(value.devices);
+ if(entries.length>32)throw Error(label+' supports at most 32 granted devices.');
+ for(const [id,entry]of entries){
+  if(!id.length||id.length>256||['__proto__','constructor','prototype'].includes(id)||!accept(entry))throw Error('Invalid '+label+' device entry.');
+ }
+}
+function of21ValidateDeviceAliases(value){of21ValidateDeviceMetadata(value,'device aliases',entry=>typeof entry==='string'&&entry.length<=256);}
+function of21ValidateMenuStyles(value){of21ValidateDeviceMetadata(value,'menu styles',entry=>Number.isInteger(entry)&&entry>=0&&entry<=2);}
+function of21ValidateModeStyles(value){of21ValidateDeviceMetadata(value,'mode styles',entry=>Number.isInteger(entry)&&entry>=0&&entry<=2);}
+function of21ValidateDeviceIcons(value){
+ const keys=new Set((window.SmartEaseNativeIconData||[]).map(record=>record.key));
+ of21ValidateDeviceMetadata(value,'device icons',entry=>typeof entry==='string'&&keys.has(entry));
+}
+function of21ValidateColorPalettes(value){of21ValidateDeviceMetadata(value,'color palettes',entry=>Array.isArray(entry)&&entry.length===4&&Array.from(entry).every(color=>color===null||(typeof color==='string'&&/^#[0-9a-f]{6}$/i.test(color))));}
+function of21ValidateNativeMetadata(value){of21ValidateSceneScopes(value);of21ValidateDeviceAliases(value.deviceAliases);of21ValidateMenuStyles(value.menuStyles);of21ValidateModeStyles(value.modeStyles);of21ValidateDeviceIcons(value.deviceIcons);of21ValidateColorPalettes(value.colorPalettes);}
 try{
  const raw=localStorage.getItem(of21LocalKey);if(raw){
   if(raw.length>131072)throw Error("Local pattern storage is too large.");const saved=JSON.parse(raw);
   if(saved?.version!==1||!Array.isArray(saved.scenes)||saved.scenes.length>32||!saved.requested||typeof saved.requested!=="object"||Array.isArray(saved.requested))throw Error("Invalid local pattern library.");
   for(const s of saved.scenes){if(!s||typeof s.name!=="string"||!s.name.trim()||s.name.length>70)throw Error("Invalid saved pattern name.");SmartEaseOF21.diy(s.project);}
-  of21Local=saved;
+  of21ValidateNativeMetadata(saved);of21Local=saved;
  }
 }catch{of21LocalLoadError="Saved pattern data could not be loaded. The original storage was preserved; export a full backup before saving new patterns.";}
 of21Native.innerHTML=`<hr><h4>Timers & controller setup</h4>
@@ -30,7 +51,7 @@ of21Native.innerHTML=`<hr><h4>Timers & controller setup</h4>
  <div class="display-settings"><label>Pattern name<input class="input" id="of21DiyName" maxlength="70" value="My cart pattern"></label><label>Pattern length (10–30)<input class="input" id="of21DiyNodes" type="number" min="10" max="30" value="10"></label>
  <label>Mode<select class="input" id="of21DiyMode">${["Static","Breathing","Strobe","Forward flow","Reverse flow","Inward flow","Outward flow"].map((s,i)=>`<option value="${i}">${s}</option>`).join("")}</select></label>
  <label>Gradient<select class="input" id="of21DiyGradient"><option value="0">0</option><option value="1">1</option><option value="2">2 (direction unverified)</option></select></label>
- <label>Speed (%)<input class="input" id="of21DiySpeed" type="number" min="0" max="100" value="50"></label><label>Brightness (%)<input class="input" id="of21DiyBrightness" type="number" min="1" max="100" value="100"></label>
+ <label>Speed (%)<input class="input" id="of21DiySpeed" type="number" min="0" max="100" value="50"></label><label>Brightness (%; blank preserves node RGB)<input class="input" id="of21DiyBrightness" type="number" min="1" max="100" value="100" placeholder="Preserve per-node RGB"></label>
  <label>Total nodes for offline preview<input class="input" id="of21DiyTotal" type="number" min="10" max="1000" value="10"></label></div>
  <button class="secondary" data-native-of="use-geometry">Use returned LED count</button>
  <label class="field-label" for="of21DiyColors">Colors (#RRGGBB, spaces or new lines). Static: one per pattern node. Dynamic: 2–8 palette colors.</label>
@@ -38,7 +59,7 @@ of21Native.innerHTML=`<hr><h4>Timers & controller setup</h4>
  <button class="secondary" data-native-of="repeat-colors">Repeat colors to static pattern length</button>
  <label>Preview phase<input id="of21DiyPhase" type="range" min="0" max="100" value="0"></label>
  <div id="of21DiyPreview" role="img" aria-label="Offline pattern color preview" style="display:flex;min-height:28px;margin:12px 0"></div><p id="of21DiyPlan" class="small-note"></p>
- <p class="small-note">Dynamic preview illustrates motion and color; native visual equivalence and gradient direction need a physical check. Brightness replaces HSV value while preserving hue and saturation; black becomes gray when value is raised.</p>
+ <p class="small-note">Dynamic preview illustrates motion and color; native visual equivalence and gradient direction need a physical check. A blank brightness preserves raw per-node RGB. Numeric brightness replaces HSV value while preserving hue and saturation; black becomes gray when value is raised.</p>
  <div class="row-actions"><button class="secondary" data-native-of="save">Save local pattern</button><button class="secondary" data-native-of="export">Export local patterns</button><button class="secondary" data-native-of="compile">Export offline packets</button></div>
  <label>Saved pattern<select class="input" id="of21DiySaved"></select></label><div class="row-actions"><button class="secondary" data-native-of="load">Load local pattern</button><button class="secondary" data-native-of="delete">Delete local pattern</button></div>
  <label class="switchline"><input id="of21BulkConsent" type="checkbox">Send this pattern now. No device ACK or automatic retry; cancellation can leave a partial pattern.</label>
@@ -48,13 +69,13 @@ of21Workspace.append(of21Native);
 function of21NativeSave(){if(of21LocalLoadError){ui("of21NativeResult").textContent="Unreadable local pattern storage was preserved. Export a full Settings backup and repair that library before saving.";return false;}try{localStorage.setItem(of21LocalKey,JSON.stringify(of21Local));return true;}catch{ui("of21NativeResult").textContent="This browser could not save local changes. Export a backup before closing.";return false;}}
 function of21Draft(){
  const number=id=>{const text=ui(id).value;if(!text.trim())throw Error("Fill every numeric pattern field.");return Number(text);};
- return {nodeCount:number("of21DiyNodes"),totalNodes:number("of21DiyTotal"),mode:number("of21DiyMode"),gradient:number("of21DiyGradient"),speed:number("of21DiySpeed"),brightness:number("of21DiyBrightness"),colors:ui("of21DiyColors").value.trim().split(/[\s,]+/)};
+ return {nodeCount:number("of21DiyNodes"),totalNodes:number("of21DiyTotal"),mode:number("of21DiyMode"),gradient:number("of21DiyGradient"),speed:number("of21DiySpeed"),...(ui("of21DiyBrightness").value.trim()?{brightness:number("of21DiyBrightness")}:{}),colors:ui("of21DiyColors").value.trim().split(/[\s,]+/)};
 }
 function of21NativePreview(){
  const preview=ui("of21DiyPreview");preview.replaceChildren();
  try{
   const draft=of21Draft(),plan=SmartEaseOF21.diy(draft),phase=Number(ui("of21DiyPhase").value)/100;
-  const colors=draft.colors.map(c=>SmartEaseOF21.hsvValue(c,draft.brightness)),step=Math.floor(phase*draft.nodeCount);
+  const colors=draft.colors.map(c=>draft.brightness===undefined?c:SmartEaseOF21.hsvValue(c,draft.brightness)),step=Math.floor(phase*draft.nodeCount);
   for(let i=0;i<Math.min(draft.totalNodes,90);i++){
    let offset=i;if(draft.mode===3)offset=i+step;if(draft.mode===4)offset=i-step;if(draft.mode===5||draft.mode===6)offset=Math.abs(i%draft.nodeCount-draft.nodeCount/2)+(draft.mode===5?step:-step);
    const cell=document.createElement("span");cell.style.flex="1";cell.style.background=colors[((Math.floor(offset)%colors.length)+colors.length)%colors.length];
@@ -92,7 +113,7 @@ async function of21NativeRun(kind){
    of21Local.scenes.push({name,project});if(!of21NativeSave()){of21Local.scenes.pop();return false;}of21LibraryRender();result.textContent="Pattern saved locally. No device command sent.";
   }else if(kind==="load"){
    const saved=of21Local.scenes[Number(ui("of21DiySaved").value)];if(!saved)throw Error("Select a saved pattern.");SmartEaseOF21.diy(saved.project);
-   for(const [key,id] of Object.entries({nodeCount:"Nodes",totalNodes:"Total",mode:"Mode",gradient:"Gradient",speed:"Speed",brightness:"Brightness"}))ui("of21Diy"+id).value=saved.project[key]??100;
+   for(const [key,id] of Object.entries({nodeCount:"Nodes",totalNodes:"Total",mode:"Mode",gradient:"Gradient",speed:"Speed",brightness:"Brightness"}))ui("of21Diy"+id).value=key==="brightness"?(saved.project.brightness===undefined?"":saved.project.brightness):(saved.project[key]??100);
    ui("of21DiyColors").value=saved.project.colors.join(" ");ui("of21DiyName").value=saved.name;result.textContent="Local pattern loaded; nothing sent.";
   }else if(kind==="delete"){
    const index=Number(ui("of21DiySaved").value);if(!of21Local.scenes[index])throw Error("Select a saved pattern.");const old=of21Local.scenes.slice();of21Local.scenes.splice(index,1);if(!of21NativeSave()){of21Local.scenes=old;return false;}of21LibraryRender();result.textContent="Local pattern deleted. Controller unchanged.";

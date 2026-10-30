@@ -1,0 +1,34 @@
+/* Source geometry, parameterized unresolved responsive scale/inset. Theme is a
+   browser adaptation, not a verified original platform palette or font. */
+.bx-channels { --bx-scale:1; --bx-inset:16px; color:var(--bx-foreground,#fff); background:var(--bx-background,#20242d); max-width:100%; overflow-wrap:anywhere; }
+.bx-channels [hidden] { display:none!important; }
+.bx-channels button { font:inherit; color:inherit; cursor:pointer; }
+.bx-channels button:disabled { cursor:default; opacity:.55; }
+.bx-channels button:focus-visible, .bx-channels input:focus-visible { outline:3px solid #72b7ff; outline-offset:3px; }
+.bx-header { position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px; overflow:hidden; }
+.bx-header h2 { position:relative; margin:0; }
+.bx-wave { position:absolute; bottom:0; left:0; width:100%; height:100%; object-fit:fill; pointer-events:none; }
+.bx-timer { position:relative; background:transparent; border:1px solid currentColor; border-radius:8px; padding:8px; }
+.bx-tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
+.bx-tab { min-width:0; padding:12px 2px; background:transparent; border:0; border-bottom:2px solid transparent; }
+.bx-tab[aria-current=page] { border-bottom-color:currentColor; }
+.bx-body { padding:calc(20px * var(--bx-scale)) calc(var(--bx-inset) * var(--bx-scale)) 0; }
+.bx-all,.bx-channel { position:relative; overflow:hidden; border-radius:calc(15px * var(--bx-scale)); background:var(--bx-card,#355476); }
+.bx-all { height:calc(106px * var(--bx-scale)); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.bx-open { position:relative; align-self:stretch; text-align:left; background:transparent; border:0; padding:16px; min-width:0; }
+.bx-all-open { flex:1; }
+.bx-all-actions { position:relative; display:flex; gap:4px; padding-right:8px; }
+.bx-power { width:calc(60px * var(--bx-scale)); max-width:100%; padding:8px 0; background:transparent; border:1px solid currentColor; border-radius:999px; }
+.bx-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:calc(20px * var(--bx-scale)); padding:calc(20px * var(--bx-scale)) 0; }
+.bx-channel { aspect-ratio:1; display:flex; flex-direction:column; }
+.bx-channel[data-power=off],.bx-channel[data-power=unknown] { background:var(--bx-inactive-card,#39404a); }
+.bx-channel-open { flex:1; width:100%; }
+.bx-toggle { position:relative; align-self:flex-end; margin:0 12px 12px; border:1px solid currentColor; border-radius:999px; padding:6px 12px; background:transparent; }
+.bx-safety { margin:0 16px; border:1px solid #9aa5b5; font-size:.85em; }
+.bx-safety p { margin:8px 0; }
+.bx-status { padding:12px 16px; margin:0; }
+/* Main header has one owner across all original top-level tabs. */
+.bx-main-chrome{color:var(--bx-foreground,#fff);background:var(--bx-background,#20242d);max-width:100%}
+.bx-main-chrome button{font:inherit;color:inherit;cursor:pointer}
+.bx-main-chrome button:focus-visible{outline:3px solid #72b7ff;outline-offset:3px}
+.bx-main-chrome .bxs-menu.material{font-family:BanlanXScenesIcons;font-size:24px}

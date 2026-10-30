@@ -1,0 +1,13 @@
+{
+  "asset": "native-coolled-settings/assets/ic_banner_default__410b8bad.png",
+  "sha256": "e2bd83978c186a79e11296b2f33e8b2a3067bd03c31f3f58bb41e9c9ca1eb640",
+  "bytes": 2019730,
+  "dimensions": [
+    1957,
+    804
+  ],
+  "basis": "New image generated with built-in image_gen on 2026-10-30; no original reference supplied to generation. Original banner inspected only to establish car/LED-display subject and wide geometry. Original-resource v47 unchanged.",
+  "prompt": "Original wide photographic LED display Settings banner, generic unbranded dark red SUV parked at dusk, rainbow dot-matrix Hello panel in rear window; crimson curved graphic on left with LED DISPLAY text; no logos, model claims, plate characters or watermark. Aspect1125:462 requested.",
+  "differences": "New photo-style artwork and neutral LED DISPLAY text replace original1696Plus promotional advertisement. Generated1957x804 natural size retained; existing width100% fixed154px/landscape100px object-fit:contain preserves layout. No image editing/resizing or original pixel reuse.",
+  "validation": "Generated pixels inspected: text legible, car/LED subject present, no recognizable logo, opaque; existing CSS geometry unchanged. Actual browser assembly not yet tested."
+}

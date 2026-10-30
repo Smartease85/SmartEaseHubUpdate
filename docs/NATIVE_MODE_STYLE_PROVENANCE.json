@@ -1,0 +1,77 @@
+{
+  "status": "Source-backed Android reconstruction; browser font/raster/gesture adaptations, no iOS or hardware equivalence claim",
+  "source_files": [
+    {
+      "path": "native-recovery/next-mode-style/ModeStyleDialog.java",
+      "sha256": "f52851362e4cbb65b02876666623f1db2742610807ecbcd779ca5b8cb19d9ba2"
+    },
+    {
+      "path": "native-recovery/next-mode-style/PickerScrollView.java",
+      "sha256": "1f59733cce051db8cb5df1120538fa9136aa560bbecd8a542bb569866e733f36"
+    },
+    {
+      "path": "native-recovery/next-mode-style/TextModeComponentKt.java",
+      "sha256": "26f0946a339f1a26eafb0f86541fdd020a8baae08fdaaa9cf459b332f500aa95"
+    },
+    {
+      "path": "native-recovery/next-mode-style/ViewPage2TextAdapter.java",
+      "sha256": "74fbf11035446159d8cd3f7489258fea0ab04220a48ab79a3d5ea109d17126b5"
+    },
+    {
+      "path": "native-recovery/next-mode-style/LampWithDetailScreenKt.java",
+      "sha256": "e09d1d400a73e975a2690cfedc58ac13eed65e092d71e6d15f34d6862b255a6c"
+    },
+    {
+      "path": "native-recovery/next-mode-style/ListTokens.java",
+      "sha256": "f37ab100f1f5deeba889b073b36fe6d3fe2e2a31d9731828f009a2682099c0f9"
+    },
+    {
+      "path": "lotusx-protocol-research/SYModeFragment.java",
+      "sha256": "4f4b07c9c87e30646e26ed3ae163ca87d980ff8eb7125699dd80e5d92dfe98f0"
+    },
+    {
+      "path": "native-recovery/evidence/line-settings/ThemeKt.java",
+      "sha256": "d108994fcd5d0f17bfaac0259a0f6aa412ee70ca125369f2a72965874ed78871"
+    },
+    {
+      "path": "native-recovery/evidence/line-settings/ProDrawables.java",
+      "sha256": "7847c68fd117d404bcb1663bf85dcac7d9f761b824829e2d7b5cdd7b0c829680"
+    },
+    {
+      "path": "native-recovery/next-mode-style/default-locale-strings.json",
+      "sha256": "409912f25586f57dbc6915624827de3a7c05d36e78c06e06fb35891672140c9f"
+    },
+    {
+      "path": "native-recovery/next-mode-style/il5.xml.txt",
+      "sha256": "b646a12ba6a220f7e13264fbea94a776cd9df85e34939e0a3f574adadd6fdd7d"
+    },
+    {
+      "path": "native-recovery/next-mode-style/wheel-color-resources.json",
+      "sha256": "1d96bf7b335753eabcafd1845ba3bb6d948aae695dbc534e596ae3e38405a1d7"
+    },
+    {
+      "path": "lotusx-protocol-research/LPBleHelper.java",
+      "sha256": "275dbeb0e867e562c685e58c1c4c9c8cfd3bb0571269a4925985f77ced9b184c"
+    }
+  ],
+  "assets": [
+    {
+      "name": "ic_mode_style_default",
+      "entry": "res/oea.png",
+      "sha256": "8989b5a0f96f06ea308777c8341dd663ca885a28075aec9030e4de29f495b0f9",
+      "path": "assets/native-lotus/mode-style/ic_mode_style_default.png"
+    },
+    {
+      "name": "ic_mode_style_gif",
+      "entry": "res/u0j.png",
+      "sha256": "bdade0636f35756bdc8056bc32bbcc4e333c71fd4d28ce770a2b296129c882b6",
+      "path": "assets/native-lotus/mode-style/ic_mode_style_gif.png"
+    },
+    {
+      "name": "ic_mode_style_text",
+      "entry": "res/III.png",
+      "sha256": "d9c230b6d0a7af5bbfea8e9b2bfcf3520f2b9f74c458f7986f43222f68132dfb",
+      "path": "assets/native-lotus/mode-style/ic_mode_style_text.png"
+    }
+  ]
+}

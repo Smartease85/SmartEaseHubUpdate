@@ -1,0 +1,2 @@
+.bx-music-notes{position:absolute;inset:0;pointer-events:none;opacity:0;overflow:hidden}.bx-music-notes[hidden]{display:none}.bx-music-notes>span{position:absolute;display:block;pointer-events:none;mask-size:contain;mask-repeat:no-repeat;mask-position:center;-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center}
+@media(prefers-reduced-motion:reduce){.bx-music-notes{transition:none!important}}

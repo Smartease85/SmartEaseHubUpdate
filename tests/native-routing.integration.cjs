@@ -1,0 +1,62 @@
+/* Development-only dependency: npm install jsdom; run with NODE_PATH configured. */
+const { JSDOM, VirtualConsole } = require("jsdom");
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const root = path.resolve(__dirname, "..");
+function boot(storage = {}, beforeScripts) {
+  const errors = [];
+  const vc = new VirtualConsole();
+  vc.on("jsdomError", (e) => errors.push(e));
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const dom = new JSDOM(html, {
+    url: "https://smartease.test/",
+    runScripts: "outside-only",
+    pretendToBeVisual: true,
+    virtualConsole: vc,
+  });
+  const w = dom.window;
+  w.structuredClone = structuredClone;
+  w.scrollTo = () => {};
+  // Pixel rendering is browser-owned; these tests exercise authoring state and transport guards.
+  w.HTMLCanvasElement.prototype.getContext = () => null;
+  w.HTMLElement.prototype.scrollIntoView = () => {};
+  w.HTMLDialogElement.prototype.showModal = function () {
+    this.open = true;
+  };
+  w.HTMLDialogElement.prototype.close = function () {
+    this.open = false;
+    this.dispatchEvent(new w.Event("close"));
+  };
+  w.confirm = () => true;
+  for (const [k, v] of Object.entries(storage)) w.localStorage.setItem(k, v);
+  const ctx = dom.getInternalVMContext();
+  if(beforeScripts)beforeScripts({w,ctx,run:code=>vm.runInContext(code,ctx)});
+  for (const script of w.document.querySelectorAll("script")) {
+    const source = script.src
+      ? fs.readFileSync(path.join(root, path.basename(script.src)), "utf8")
+      : script.textContent;
+    vm.runInContext(source, ctx, { filename: script.src || "index.inline.js" });
+  }
+  if(!w.SmartEaseNativeName)vm.runInContext(fs.readFileSync(path.join(root,"native-lotus-name.js"),"utf8"),ctx);
+  return { dom, w, ctx, errors, run: (code) => vm.runInContext(code, ctx) };
+}
+
+function identify(b,id='device-a'){b.run(`cartDevices[2].identity={id:${JSON.stringify(id)},name:'MELK-OF21'};cartDevices[2].ownerLink.generation=2;window.routeWrites=0;for(const a of cartDevices){a.ownerCommand=()=>{routeWrites++;throw Error('Unexpected native navigation write')};a.ownerUploadDIY=()=>{routeWrites++;throw Error('Unexpected upload')};}`);}
+const key='smartease-of21-native-v1';
+const beeStorage=()=>({[key]:JSON.stringify({version:1,scenes:[],requested:{},menuStyles:{version:1,devices:{'device-a':2}}})});
+const traversed=b=>new Promise(resolve=>b.w.addEventListener('popstate',()=>b.w.setTimeout(resolve,0),{once:true}));
+test('Native is a separate sixth main section with device chooser and no controls or data mutation on navigation',()=>{const b=boot(),d=b.w.document;identify(b);const old=b.w.localStorage.getItem(key);assert.equal(d.querySelectorAll('#app .bottom-nav button').length,6);d.querySelector('#app .bottom-nav [data-go="native"]').click();assert.equal(b.run('page'),'native');assert.equal(d.getElementById('nativeAppChooser').hidden,false);assert.deepEqual([...d.querySelectorAll('[data-native-device]')].map(x=>x.dataset.nativeDevice),['sp608e','nokins','coolled']);d.querySelector('[data-native-device="nokins"]').click();assert.equal(b.w.location.hash,'#native/nokins/color');assert.deepEqual([...d.querySelectorAll('#nativeAppNav button')].map(x=>x.getAttribute('aria-label')||x.textContent),['Color','Rhythm','Effects','Scenes','Timing']);assert.equal(d.getElementById('nativeLotusColorScreen').hidden,false);assert.equal(d.getElementById('nativeAppScreen').hidden,true);assert.equal(b.run('routeWrites'),0);assert.equal(b.w.localStorage.getItem(key),old);assert.equal(b.errors.length,0);b.dom.window.close();});
+test('Nested chooser/device/tab transitions push history and Back/Forward never create extra steps',async()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native")');const n=b.w.history.length;b.run('nativeAppEnter("nokins")');b.run('nativeAppEnter("nokins/rhythm")');assert.equal(b.w.history.length,n+2);let done=traversed(b);b.w.history.back();await done;assert.equal(b.w.location.hash,'#native/nokins/color');assert.equal(b.w.history.length,n+2);done=traversed(b);b.w.history.back();await done;assert.equal(d.getElementById('nativeAppChooser').hidden,false);done=traversed(b);b.w.history.forward();await done;assert.equal(b.w.location.hash,'#native/nokins/color');assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Legacy DIY and built-in links migrate deterministically; invalid route identifiers are never inserted as HTML',()=>{const b=boot();identify(b);for(const [input,hash]of [['native/nokins/diy','#native/nokins/scenes/diy'],['native/nokins/scenes','#native/nokins/scenes/built-in'],['native/nokins/settings/unknown','#native/nokins/settings'],['native/invalid/<img>','#native']]){b.run(`go(${JSON.stringify(input)})`);assert.equal(b.w.location.hash,hash);}assert.equal(b.w.document.querySelector('#nativeAppTitle img'),null);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Initial deep link survives baseline boot before late Native modules initialize',()=>{const b=boot({},({w})=>w.history.replaceState(null,'','#native/nokins/settings/name'));assert.equal(b.w.location.hash,'#native/nokins/settings/name');assert.equal(b.run('nativeAppState.detail'),'name');assert.equal(b.w.document.getElementById('nnDialog').open,true);assert.equal(b.w.document.getElementById('nativeAppPage').hidden,false);assert.equal(b.errors.length,0);b.dom.window.close();});
+test('Settings detail Cancel returns exact parent; Forward can reopen without writing and duplicate hashchange does not reopen dismissed dialog',async()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native/nokins/settings")');d.querySelector('[data-setup-key="name"]').click();assert.equal(d.getElementById('nnDialog').open,true);d.getElementById('nnValue').value='Unsent';let done=traversed(b);d.getElementById('nnCancel').click();assert.equal(d.getElementById('nnDialog').open,false);await done;assert.equal(b.w.location.hash,'#native/nokins/settings');done=traversed(b);b.w.history.forward();await done;assert.equal(d.getElementById('nnDialog').open,true);assert.notEqual(d.getElementById('nnValue').value,'Unsent');assert.equal(b.w.localStorage.getItem(key),null);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Pending Back invalidates immediately and suppresses stale identity/settings refresh until traversal',()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native/nokins/settings")');b.run('nativeAppEnter("nokins/settings/functions")');let backs=0;b.w.history.back=()=>backs++;d.getElementById('nfExit').click();assert.equal(b.w.SmartEaseNative.pendingBack,true);b.run('cartDevices[2].identity.id="other"');b.w.dispatchEvent(new b.w.Event('smartease-of21-state'));assert.equal(d.getElementById('nfDialog').open,false);assert.equal(b.w.SmartEaseNativeFunctions.requestOpen(),false);assert.equal(b.run('nativeAppEnter("nokins/settings/functions")'),false);assert.equal(backs,1);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Routine state events preserve Name draft; identity changes close modal without automatic reopening',()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native/nokins/settings/name")');d.getElementById('nnValue').value='Draft';b.w.dispatchEvent(new b.w.Event('smartease-of21-state'));assert.equal(d.getElementById('nnValue').value,'Draft');assert.equal(d.getElementById('nnDialog').open,true);b.run('cartDevices[2].identity.id="other"');b.w.dispatchEvent(new b.w.Event('smartease-of21-state'));assert.equal(d.getElementById('nnDialog').open,false);assert.equal(b.w.localStorage.getItem(key),null);b.dom.window.close();});
+test('Beehive root and nested child ancestry return to original root without phantom entries',async()=>{const b=boot(beeStorage()),d=b.w.document;identify(b);b.run('go("native")');b.run('nativeAppEnter("nokins")');assert.equal(b.w.location.hash,'#native/nokins/menu');assert.equal(d.getElementById('nmRoot').hidden,false);d.querySelector('[data-menu-route="settings"]').click();assert.equal(b.w.history.state.nativeBeeDepth,1);d.querySelector('[data-setup-key="icon"]').click();assert.equal(b.w.history.state.nativeBeeDepth,2);assert.equal(d.getElementById('nativeAppNav').hidden,true);assert.equal(d.getElementById('nativeAppBack').textContent,'← Settings');const done=traversed(b);d.getElementById('nativeAppBack').click();await done;assert.equal(b.w.location.hash,'#native/nokins/settings');assert.equal(b.w.history.state.nativeBeeDepth,1);const rootDone=traversed(b);d.getElementById('nativeAppBack').click();await rootDone;assert.equal(b.w.location.hash,'#native/nokins/menu');assert.equal(d.getElementById('nmRoot').hidden,false);assert.equal(d.getElementById('nativeLotusIcon').hidden,true);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Direct Beehive child Back replaces safely; generation refresh restores root but never opens Settings details',()=>{const b=boot(beeStorage()),d=b.w.document;identify(b);b.run('go("native/nokins/effects")');d.getElementById('nativeAppBack').click();assert.equal(b.w.location.hash,'#native/nokins/menu');b.w.dispatchEvent(new b.w.Event('smartease-of21-state'));b.run('cartDevices[2].ownerLink.generation++');b.w.dispatchEvent(new b.w.Event('smartease-of21-state'));assert.equal(d.getElementById('nmRoot').hidden,false);b.run('go("native/nokins/settings/name")');b.run('cartDevices[2].ownerLink.generation++');b.w.dispatchEvent(new b.w.Event('smartease-of21-state'));assert.equal(d.getElementById('nnDialog').open,false);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Whole-cart destinations retain original replace behavior; leaving Native closes all dialogs',()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native/nokins/settings/menu-style")');assert.equal(d.getElementById('nmStyleDialog').open,true);const n=b.w.history.length;for(const page of ['home','scenes','create','devices','settings']){b.run(`go(${JSON.stringify(page)})`);assert.equal(b.run('page'),page);assert.equal(b.w.location.hash,'#'+page);assert.equal(b.w.history.length,n);assert.equal(d.getElementById('nmStyleDialog').open,false);}assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Recovered Mode Style opens original chooser while other device gaps stay explicit',()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native/nokins/settings")');assert.equal(d.querySelector('[data-setup-key="mode-style"]').disabled,false);assert.match(d.querySelector('[data-setup-key="mode-style"] small').textContent,/Default/);b.run('nativeAppEnter("nokins/settings/mode-style")');assert.equal(d.getElementById('nmsDialog').open,true);b.run('nativeAppEnter("coolled")');assert.equal(d.getElementById('nmsDialog').open,false);assert.equal(d.getElementById('nativeCoolled').hidden,false);assert.equal(d.getElementById('nuxProgram').hidden,false);assert.equal(d.getElementById('nuxSend').disabled,false);assert.equal(d.getElementById('nuxSend').textContent,'Send');assert.equal(b.w.SmartEaseNativeUX.send(),false);assert.match(d.getElementById('nativeCoolled').textContent,/16×96/);b.run('nativeAppEnter("coolled/settings")');assert.equal(d.getElementById('nuxPending').hidden,true);assert.match(d.getElementById('nuxSettingsHost').textContent,/Read device/);b.run('nativeAppEnter("sp608e")');assert.equal(d.getElementById('nativeBanlanX').hidden,false);assert.match(d.getElementById('nativeBanlanX').textContent,/State unknown/);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});
+test('Same-route router repaint preserves unsent Name draft and never reopens dismissed Functions',()=>{const b=boot(),d=b.w.document;identify(b);b.run('go("native/nokins/settings/name")');d.getElementById('nnValue').value='unsent draft';b.w.SmartEaseNative.refresh();b.run('nativeAppEnter("nokins/settings/name")');assert.equal(d.getElementById('nnValue').value,'unsent draft');b.run('nativeAppEnter("nokins/settings/functions")');assert.equal(d.getElementById('nfDialog').open,true);Object.defineProperty(d,'visibilityState',{value:'hidden',configurable:true});d.dispatchEvent(new b.w.Event('visibilitychange'));Object.defineProperty(d,'visibilityState',{value:'visible',configurable:true});b.w.SmartEaseNative.refresh();assert.equal(d.getElementById('nfDialog').open,false);assert.equal(b.run('routeWrites'),0);b.dom.window.close();});

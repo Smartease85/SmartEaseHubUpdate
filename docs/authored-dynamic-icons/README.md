@@ -1,0 +1,5 @@
+# Authored Dynamic settings icons
+
+Two independently drawn geometric control symbols replace original-app PNGs. The Background row uses a framed landscape with sun and mountain/landform strokes; Mode uses a text T surrounded by a rotation/motion arrow. Circular warm-red and purple gradients retain visual grouping. Paths,72×72 RGBA dimensions, labels, actions and consumers are unchanged. Geometry, strokes, gradients and antialiasing are new and intentionally not pixel-identical.
+
+`tools/authored-dynamic-icons/generate.py` reads no original image, font, APK or external asset. It uses Pillow drawing primitives to create new images, not modify existing artwork. A reference image was privately viewed only to establish control meaning and broad styling. No original bytes are in this payload. Generated images and source are authored for the SmartEase project. Actual output pixels were inspected at72px and magnified; both meanings remain recognizable. Browser and hardware behavior are unchanged by this decorative slice; those are separate acceptance scopes.

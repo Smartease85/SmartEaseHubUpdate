@@ -1,0 +1,7 @@
+/* Adapter for existing atomic Native UX Store. Does not create a competing storage key. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory;else root.SmartEaseUXTextStoreAdapter=factory;})(globalThis,function(store,model){'use strict';
+const copy=x=>JSON.parse(JSON.stringify(x));
+function validateRecord(record){if(record?.kind!=='text'||record.text?.programType!==3||!Array.isArray(record.text.combinePrograms)||record.text.combinePrograms.length!==1)throw Error('Unsupported Native text record.');if(!Number.isInteger(record.repeat)||record.repeat<1||record.repeat>10)throw Error('Invalid text repeat.');model.decode(record);return record;}
+function session(id){const original=id?store.library().records.find(r=>r.id===id):null;if(id&&!original)throw Error('Text program no longer exists.');if(original)validateRecord(original);const originalCanonical=original?store.canonical(original):null;let baseline=originalCanonical;
+return{record:original?copy(original):null,save(record,guard){validateRecord(record);let saved;store.transaction((lib,next)=>{const index=id?lib.records.findIndex(r=>r.id===id):-1;if(id&&(index<0||store.canonical(lib.records[index])!==baseline))throw Error('Text program changed elsewhere. Reopen it before saving.');saved=copy(record);if(id){saved.id=id;lib.records[index]=saved;}else{saved.id=store.allocate(lib,next);lib.records.push(saved);}},guard);id=saved.id;baseline=store.canonical(saved);return copy(saved);}};}
+return{validateRecord,session};});

@@ -1,0 +1,45 @@
+{
+  "labels": {
+    "common_rhythm_tab_mic": "Device MIC",
+    "common_rhythm_tab_music": "Music",
+    "common_rhythm_tab_phone_mic": "Phone MIC"
+  },
+  "icons": [
+    {
+      "name": "ic_rhythm_tab_mic_on",
+      "asset": "assets/native-lotus/rhythm/ic_rhythm_tab_mic_on.png",
+      "sha256": "168c791f6e8ecae710698f50ce5abf5eacd76ceb68ba5552e35f80312820465d",
+      "origin": "independently authored geometry"
+    },
+    {
+      "name": "ic_rhythm_tab_mic_off",
+      "asset": "assets/native-lotus/rhythm/ic_rhythm_tab_mic_off.png",
+      "sha256": "55dd144c59851e005608a9b87fb975082df77357550f1e72c04d6e5773bdea7a",
+      "origin": "independently authored geometry"
+    },
+    {
+      "name": "ic_rhythm_tab_phone_on",
+      "asset": "assets/native-lotus/rhythm/ic_rhythm_tab_phone_on.png",
+      "sha256": "b4be60748c735415ccfe24eab06226713540c723d4b07ae466302b065c5f0503",
+      "origin": "independently authored geometry"
+    },
+    {
+      "name": "ic_rhythm_tab_phone_off",
+      "asset": "assets/native-lotus/rhythm/ic_rhythm_tab_phone_off.png",
+      "sha256": "06821ecf1f33cb1f0ce418e543342c5e5e18c090748bebbe20bb69a7a17e5ad3",
+      "origin": "independently authored geometry"
+    },
+    {
+      "name": "ic_rhythm_tab_music_on",
+      "asset": "assets/native-lotus/rhythm/ic_rhythm_tab_music_on.png",
+      "sha256": "4cc7f63ab8c3269f1abf7c835667814c949f6d158139a175b09412cf1263ed54",
+      "origin": "independently authored geometry"
+    },
+    {
+      "name": "ic_rhythm_tab_music_off",
+      "asset": "assets/native-lotus/rhythm/ic_rhythm_tab_music_off.png",
+      "sha256": "90328e27a5dbf92b808a03c4fbe6e186d46dc45185529e27f2c2c9880a0ba868",
+      "origin": "independently authored geometry"
+    }
+  ]
+}

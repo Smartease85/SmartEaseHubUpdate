@@ -1,0 +1,23 @@
+/* Source-shaped Custom Functions; physical Fn meanings are unverified.
+ * Deliberately no encoder, adapter command, press recognizer or unlock exists. */
+'use strict';
+(()=>{
+ const host=document.createElement('section');host.id='nativeLotusFunctions';host.hidden=true;
+ host.innerHTML=`<style>#nativeLotusFunctions[hidden]{display:none!important}#nfDialog{box-sizing:border-box;width:360px;max-width:calc(100vw - 30px);padding:24px 24px 0;border-radius:15px;border:1px solid #527568;background:#14372e;color:inherit}#nfDialog::backdrop{background:#0008}#nfWarning{display:block;width:24px;height:24px;object-fit:contain;margin:0 0 8px}#nfDescription{font-size:12px;margin:0 0 24px;line-height:normal}#nfButtons .nf-row{display:flex;gap:18px}#nfButtons .nf-row+.nf-row{margin-top:24px}#nfButtons button{flex:1;min-width:0;height:28px;min-height:28px;max-height:28px;border-radius:999px;padding:0;border:0;background:#24463c;color:inherit;font-size:12px;cursor:not-allowed;opacity:.65}#nfGate{font-size:12px;margin:24px 0 0}#nfFooter{margin-top:32px;border-top:1px solid #527568;height:46px;display:flex;align-items:center;justify-content:center}#nfExit{min-height:46px;height:46px;font-size:14px;color:#889bad;border:0;background:transparent}</style><dialog id="nfDialog" aria-label="Custom Functions" aria-describedby="nfDescription nfGate"><img id="nfWarning" src="assets/native-lotus/functions/ic_danger.png" alt="Warning"><p id="nfDescription">Each defined function, which varies from product to product, or no function. Each function is set at the factory, please refer to the product instruction manual for specific definitions.</p><div id="nfButtons" role="group" aria-label="Unavailable factory-defined functions"><div class="nf-row"></div><div class="nf-row"></div></div><p id="nfGate" role="status">All six functions are disabled. This controller's product-specific function meanings and safe acceptance are not verified. No function commands are available, even when connected or consented. The original app distinguishes tap and long press; this browser screen does not activate either gesture. Source-backed Android layout, not verified iOS pixel parity.</p><div id="nfFooter"><button id="nfExit" type="button" aria-label="Exit Custom Functions">退出</button></div></dialog>`;
+ ui('nativeAppScreen').after(host);
+ let bound=null,dismissed=false,closing=false,ignoredCloseEvents=0;
+ const stamp=()=>JSON.stringify([cartDevices[2].identity?.id||null,cartDevices[2].ownerLink.generation,page,nativeAppState.device,nativeAppState.screen,nativeAppState.detail]);
+ const route=()=>page==='native'&&nativeAppState.device==='nokins'&&nativeAppState.screen==='settings'&&nativeAppState.detail==='functions';
+ function close(){if(ui('nfDialog').open){ignoredCloseEvents++;ui('nfDialog').close();}}
+ function hide(){bound=null;host.hidden=true;close();}
+ function leave(){dismissed=false;closing=false;hide();}
+ function requestOpen(){if(closing)return false;dismissed=false;return true;}
+ function disable(){for(const button of ui('nfButtons').querySelectorAll('button')){button.disabled=true;button.setAttribute('aria-disabled','true');}}
+ function blocked(){disable();return false;}
+ function paint(){disable();if(host.hidden)return;if(bound!==stamp()||!route()||document.visibilityState!=='visible'){dismissed=true;hide();}}
+ function back(){if(host.hidden)return;closing=true;dismissed=true;hide();window.SmartEaseNative.settingsBack();}
+ function enter(){const next=stamp();if(dismissed)return;if(!route()||document.visibilityState!=='visible'){hide();return;}if(!host.hidden&&bound===next&&ui('nfDialog').open){paint();return;}hide();dismissed=false;host.hidden=false;bound=next;ui('nfDialog').showModal();paint();ui('nfExit').focus();}
+ for(let i=1;i<=6;i++){const button=document.createElement('button');button.type='button';button.textContent='F'+i;button.dataset.customFunction=String(i);button.disabled=true;button.setAttribute('aria-disabled','true');button.setAttribute('aria-describedby','nfGate');button.onclick=blocked;ui('nfButtons').children[Math.floor((i-1)/3)].append(button);}
+ ui('nfExit').onclick=back;ui('nfDialog').addEventListener('cancel',event=>{event.preventDefault();back();});ui('nfDialog').addEventListener('close',()=>{if(ignoredCloseEvents){ignoredCloseEvents--;return;}if(!host.hidden)back();});window.addEventListener('smartease-of21-state',paint);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){dismissed=true;hide();}});window.addEventListener('pagehide',()=>{dismissed=true;hide();});
+ window.SmartEaseNativeFunctions={enter,leave,paint,blocked,requestOpen};if(route())enter();
+})();

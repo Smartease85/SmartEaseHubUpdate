@@ -1,0 +1,67 @@
+{
+  "ux-source-codec.js": {
+    "sha256": "71461a450c5c5a58550cc57a49ab319302958ecec71264aea44b02122e0e7b5b",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "ux-source-program.js": {
+    "sha256": "158138d6d0236b81b1dd109e1dd038a100388edbf66ea21644daaac3c9a771fc",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "ux-source-transaction.js": {
+    "sha256": "c02517c223805392e85540fe288779b5134dbef553cbd47bb93f372630d2f3f6",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "ux-experimental-uploader.js": {
+    "sha256": "26ccbd338c9550860fdcc90124bb990221d32be3bcff29bf511d693061cbf570",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "ux-owner-send.js": {
+    "sha256": "31cd03a611f0b18b6893f2e35e107a02b465221f07a1c8d23c0ae2cc5c09fa55",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "native-coolled-text-model.js": {
+    "sha256": "ea7c8308de0e736409caf5f9c62dadca92530edd014ee1bf00095d7627572c14",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "native-coolled-text-renderer.js": {
+    "sha256": "2a4c52f6aa0dda9349849d9541d958a0da1e54ffed7a04abd6bf6f158db0679c",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "native-coolled-text-wire.js": {
+    "sha256": "15006bbfbe4723c7fffce77625c70293d8615f9cee54654a8b7c7626b94874c2",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "native-coolled-clock-source-data.js": {
+    "sha256": "5d67b406fd49596f32e77a0d74bb3fce03ecc3e687790ce14856ae3f27a2133a",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "native-coolled-clock-model.js": {
+    "sha256": "7aba5d4371d6aad9380478f54e049767bd090e3e1213774afb7c00e0c31ec8ad",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive.",
+    "basis": "Independently authored Clock artwork version1 and explicit legacy-copy compatibility; see docs/authored-clock/README.md. Existing route/device guards retained."
+  },
+  "ux-clock-wire-tables.js": {
+    "sha256": "4cd965fc756ba169d462d80374abf1494a5e094af0b36f9612ac0a0fd4c2c6bc",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive.",
+    "basis": "Independently authored Clock artwork version1 and explicit legacy-copy compatibility; see docs/authored-clock/README.md. Existing route/device guards retained."
+  },
+  "ux-clock-wire.js": {
+    "sha256": "56fbe234080ce97d0c11fbab5cba16867816717f18ea9569880222acb0abdc9e",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive.",
+    "basis": "Independently authored Clock artwork version1 and explicit legacy-copy compatibility; see docs/authored-clock/README.md. Existing route/device guards retained."
+  },
+  "native-coolled-animation-model.js": {
+    "sha256": "c02ee15b7bf6f0533abad64ca87b8ad55bdd756136d6cb3936be772fb6079f72",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "ux-animation03-wire.js": {
+    "sha256": "10073aea0a8805e1e7c23f82476546443d72f0f5b32898da9e030e09114bfcf5",
+    "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
+  },
+  "ux-program-send-plan.js": {
+    "sha256": "f3d6d069ffb430415393c5592f85ea7f983da085f469781f17817a1ba9e763d6",
+    "note": "Template2/3/4 typed compiler extension; prior reviewed bytes preserved by base commit85d30af6. Existing ordinary codec dependencies unchanged.",
+    "previousSha256": "421cd20834eca89796bc3749d39c62441ceb2012d3e671e46ed4c236f3aba9ac",
+    "priorSha256": "f961990212331429e7bbcb628c54f113854a726c73b010e1ba1d9f212d6c9ddc"
+  }
+}

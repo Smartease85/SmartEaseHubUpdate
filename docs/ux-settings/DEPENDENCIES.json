@@ -1,0 +1,70 @@
+[
+  {
+    "path": "native-rebuild-worktree/ux-owner-send.js",
+    "sha256": "31cd03a611f0b18b6893f2e35e107a02b465221f07a1c8d23c0ae2cc5c09fa55"
+  },
+  {
+    "path": "native-rebuild-worktree/ux-experimental-uploader.js",
+    "sha256": "26ccbd338c9550860fdcc90124bb990221d32be3bcff29bf511d693061cbf570"
+  },
+  {
+    "path": "native-rebuild-worktree/ux-source-transaction.js",
+    "sha256": "c02517c223805392e85540fe288779b5134dbef553cbd47bb93f372630d2f3f6"
+  },
+  {
+    "path": "native-rebuild-worktree/ux-source-codec.js",
+    "sha256": "71461a450c5c5a58550cc57a49ab319302958ecec71264aea44b02122e0e7b5b"
+  },
+  {
+    "path": "native-rebuild-worktree/owner-test-plan.js",
+    "sha256": "44597f3f0d9aa1af5617a856a5591894c8ed07d28d993bcc91a2da115df53d81"
+  },
+  {
+    "path": "native-rebuild-worktree/app.css",
+    "sha256": "a3dc23eb16b01e74e4063e732514eabb1fd6713f553c5d6e26088daa56157093"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/tests.cjs",
+    "sha256": "7144ce4cea649859e909e7ab4727c494b7078f28eb67c9c27a405cf01e1e21c1"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/TEST-RESULTS.log",
+    "sha256": "f6fd131c24e2b9d3c2b51e3f00734e85e953833e07671132989db779227e84af"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/reference.py",
+    "sha256": "6594b32361dfa5ba4004f4b656ff340f42b56c3cfe397b3b2418365407426f6b"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/device-info.js",
+    "sha256": "b51c7e4dc7d6269493707943da47198a2abfa307259a0bf54de7a7684cb90469"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/PROVENANCE.json",
+    "sha256": "ac6aef0f18dadeeafdd1b10f0ff3fc8cdbac513483d1ba7d2d81fd615b12a1f4"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/FREEZE-SHA256.json",
+    "sha256": "1e049489d452396ed86085196824720b1df624ed6edf48469f2958ec1eac6046"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/README.md",
+    "sha256": "92c4cc73d8aecf9bfd3d7d642b1aaa9a46c51f8a1decc8fcb8ebfef75a41a97c"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/vectors.json",
+    "sha256": "1be39e0343723b256bb409b9bafa8311a05f03f0eafeef75fe391dbaceace6e4"
+  },
+  {
+    "path": "native-recovery/next-coolled/device-info-implementation/ux-source-codec.js",
+    "sha256": "71461a450c5c5a58550cc57a49ab319302958ecec71264aea44b02122e0e7b5b"
+  },
+  {
+    "path": "native-recovery/next-coolled/settings-contract/CONTRACT.md",
+    "sha256": "a9c8500bc876aa9c8fa7854b50b31b0ed3db47c67aa397e757aa425dd0ab3e33"
+  },
+  {
+    "path": "native-recovery/next-coolled/settings-contract/COMMAND-VECTORS.json",
+    "sha256": "6eae7d9a375f33fe9e3c205d15638bef2f5c6a18d466a6da783f127c204d74c9"
+  }
+]

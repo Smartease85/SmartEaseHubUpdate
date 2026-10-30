@@ -1,0 +1,363 @@
+{
+  "source": "Independently authored geometric UI artwork",
+  "generator": "tools/generate-lotus-controls.py",
+  "assets": [
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_inner_edit.png",
+      "size": [
+        156,
+        156
+      ],
+      "alphaBounds": [
+        19,
+        20,
+        148,
+        148
+      ],
+      "sha256": "99245c2596f5901b8130cd64d475201d1245442e86e6522a3d00b52ec361d739",
+      "meaning": "edit white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_inner_edit",
+      "src": "assets/native-lotus/beehive/ic_hc_inner_edit.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_inner_edit.png",
+      "bytes": 4290,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_inner_mode.png",
+      "size": [
+        161,
+        161
+      ],
+      "alphaBounds": [
+        9,
+        9,
+        158,
+        159
+      ],
+      "sha256": "016364b52951932da4e838ac0dead0d607e5edced814ea87ab371a6272209a8d",
+      "meaning": "sliders white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_inner_mode",
+      "src": "assets/native-lotus/beehive/ic_hc_inner_mode.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_inner_mode.png",
+      "bytes": 5663,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_inner_palette.png",
+      "size": [
+        156,
+        156
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        156,
+        156
+      ],
+      "sha256": "36c047db35661f2ba42a7fde1fbcb5b531105ebdd5c182b0dd8b463864d3773a",
+      "meaning": "palette white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_inner_palette",
+      "src": "assets/native-lotus/beehive/ic_hc_inner_palette.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_inner_palette.png",
+      "bytes": 7282,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_inner_rhythm.png",
+      "size": [
+        161,
+        167
+      ],
+      "alphaBounds": [
+        9,
+        4,
+        158,
+        165
+      ],
+      "sha256": "5a43b302f4c121c6b63ae67c5360a3db29ce878a7b76c22e60e1cf4574b07eb8",
+      "meaning": "rhythm white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_inner_rhythm",
+      "src": "assets/native-lotus/beehive/ic_hc_inner_rhythm.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_inner_rhythm.png",
+      "bytes": 7307,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_inner_scene.png",
+      "size": [
+        160,
+        160
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        159,
+        158
+      ],
+      "sha256": "838873aa8d03359b1f3952e748834fa6383b1dfd3ee09323c831c831cd98876b",
+      "meaning": "clapper white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_inner_scene",
+      "src": "assets/native-lotus/beehive/ic_hc_inner_scene.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_inner_scene.png",
+      "bytes": 4247,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_inner_timing.png",
+      "size": [
+        157,
+        156
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        156,
+        156
+      ],
+      "sha256": "eae41c73894e8e9121fed35342214a66e7a79b942755677bc3084efe593ffaec",
+      "meaning": "alarm white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_inner_timing",
+      "src": "assets/native-lotus/beehive/ic_hc_inner_timing.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_inner_timing.png",
+      "bytes": 6356,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_mode.png",
+      "size": [
+        312,
+        360
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        312,
+        360
+      ],
+      "sha256": "fcf04ee994bc8ad85d26f831a7709078ca23a16d289c698319b92814f502705a",
+      "meaning": "hexagonal menu background mode",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_mode",
+      "src": "assets/native-lotus/beehive/ic_hc_mode.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_mode.png",
+      "bytes": 47473,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_on.png",
+      "size": [
+        312,
+        360
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        312,
+        360
+      ],
+      "sha256": "b8f7b7934c5af465c4671440919d8712c4004419436bb25a0f7a7cd5e5f7e038",
+      "meaning": "hexagonal menu background on",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_on",
+      "src": "assets/native-lotus/beehive/ic_hc_on.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_on.png",
+      "bytes": 40083,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_on_l.png",
+      "size": [
+        282,
+        282
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        274,
+        274
+      ],
+      "sha256": "d093c461aebfade45ae44d589f4a09530af189257b2ed75d9fca9f0bf3c0a795",
+      "meaning": "power gray",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_on_l",
+      "src": "assets/native-lotus/beehive/ic_hc_on_l.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_on_l.png",
+      "bytes": 18211,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_on_s.png",
+      "size": [
+        282,
+        282
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        274,
+        274
+      ],
+      "sha256": "176265d85f211fff5cea45c67316bb5734f2f6594bb5d1eb7c966df93354a11e",
+      "meaning": "power white",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_on_s",
+      "src": "assets/native-lotus/beehive/ic_hc_on_s.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_on_s.png",
+      "bytes": 10831,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_palette.png",
+      "size": [
+        312,
+        360
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        312,
+        360
+      ],
+      "sha256": "cd8d8d7db59154ed1554e1689c2af230721d8fb94a2a201dbbf1657168dd413d",
+      "meaning": "hexagonal menu background palette",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_palette",
+      "src": "assets/native-lotus/beehive/ic_hc_palette.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_palette.png",
+      "bytes": 47294,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_rhythm.png",
+      "size": [
+        312,
+        360
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        312,
+        360
+      ],
+      "sha256": "ed2338e92f11eaefd185005434c4cd63a0b7fe78ff5942e963ecb5fe0c1aa0f6",
+      "meaning": "hexagonal menu background rhythm",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_rhythm",
+      "src": "assets/native-lotus/beehive/ic_hc_rhythm.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_rhythm.png",
+      "bytes": 37631,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_scene.png",
+      "size": [
+        312,
+        360
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        312,
+        360
+      ],
+      "sha256": "0c814586e9112cb52a0a7152ee6a4260e27981829f3c92aa7bb5004b40809e90",
+      "meaning": "hexagonal menu background scene",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_scene",
+      "src": "assets/native-lotus/beehive/ic_hc_scene.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_scene.png",
+      "bytes": 42695,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_hc_timing.png",
+      "size": [
+        312,
+        360
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        312,
+        360
+      ],
+      "sha256": "447cab725a978d1c1878f00fabb4622a516eca500849e4acee3c5209d4dbd1dc",
+      "meaning": "hexagonal menu background timing",
+      "origin": "independently authored geometry",
+      "name": "ic_hc_timing",
+      "src": "assets/native-lotus/beehive/ic_hc_timing.png",
+      "asset": "assets/native-lotus/beehive/ic_hc_timing.png",
+      "bytes": 45111,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_menu_beehive.png",
+      "size": [
+        60,
+        60
+      ],
+      "alphaBounds": [
+        8,
+        8,
+        52,
+        52
+      ],
+      "sha256": "ffe29d4f3afae44028000da3dc383aa42df28b777cefbada508f8f40cfe420cd",
+      "meaning": "beehive white",
+      "origin": "independently authored geometry",
+      "name": "ic_menu_beehive",
+      "src": "assets/native-lotus/beehive/ic_menu_beehive.png",
+      "asset": "assets/native-lotus/beehive/ic_menu_beehive.png",
+      "bytes": 1021,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_menu_tab_bar.png",
+      "size": [
+        60,
+        60
+      ],
+      "alphaBounds": [
+        4,
+        19,
+        56,
+        41
+      ],
+      "sha256": "c455223cf397281b790cb096e13c27a1aafde05cd4a35116128469e4d44f1f7f",
+      "meaning": "tabs white",
+      "origin": "independently authored geometry",
+      "name": "ic_menu_tab_bar",
+      "src": "assets/native-lotus/beehive/ic_menu_tab_bar.png",
+      "asset": "assets/native-lotus/beehive/ic_menu_tab_bar.png",
+      "bytes": 787,
+      "density": 480
+    },
+    {
+      "path": "assets/native-lotus/beehive/ic_mode_style_default.png",
+      "size": [
+        60,
+        60
+      ],
+      "alphaBounds": [
+        9,
+        9,
+        52,
+        51
+      ],
+      "sha256": "8e80c0b15c44e8162e0d037bf916bb076bebb44f66152171ea9850df58305be2",
+      "meaning": "default white",
+      "origin": "independently authored geometry",
+      "name": "ic_mode_style_default",
+      "src": "assets/native-lotus/beehive/ic_mode_style_default.png",
+      "asset": "assets/native-lotus/beehive/ic_mode_style_default.png",
+      "bytes": 981,
+      "density": 480
+    }
+  ]
+}

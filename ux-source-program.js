@@ -1,0 +1,14 @@
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./ux-source-codec.js'));else root.SmartEaseUXSourceProgram=factory(root.SmartEaseUXSourceCodec);})(globalThis,function(C){
+/* Explicit source rectangle serialization only; no migration of old projects. */
+'use strict';
+function transfer(v){if(!Number.isInteger(v)||v<0||v>255)throw Error('Invalid color component');return v>=238?15:v<=47?0:Math.floor((v-47)/14)+1;}
+function pixel(rgb){if(!Number.isInteger(rgb)||rgb<0||rgb>0xffffff)throw Error('Invalid RGB');return [transfer(rgb>>>16),transfer((rgb>>>8)&255)*16+transfer(rgb&255)];}
+function dimensions(o){for(const key of ['width','height','x','y','layer'])if(!Number.isInteger(o[key]))throw Error('Explicit rectangle fields required');if(o.width<1||o.width>96||o.height<1||o.height>16||o.x<0||o.y<0||o.x+o.width>96||o.y+o.height>16)throw Error('Rectangle outside established16x96 target');return [o.layer,...C.uint(o.x,2),...C.uint(o.y,2),...C.uint(o.width,2),...C.uint(o.height,2)];}
+function raster(pixels,width,height){if(!Number.isInteger(width)||width<1||width>96||!Number.isInteger(height)||height<1||height>16)throw Error('Invalid raster dimensions');if(!Array.isArray(pixels)||pixels.length!==width*height)throw Error('Exact row-major pixel count required');const out=[];for(let x=0;x<width;x++)for(let y=0;y<height;y++)out.push(...pixel(pixels[y*width+x]));return out;}
+function wrap(body){if(body.length+4>C.MAX_RAW)throw Error('Content exceeds bound');return [...C.uint(body.length+4,4),...body];}
+function graffiti(o){const rect=dimensions(o);C.uint(o.layer,1);const fields=[o.mode,o.speed,o.stayTime].flatMap(x=>C.uint(x,1)),data=raster(o.pixels,o.width,o.height);return wrap([2,...Array(7).fill(0),...rect,...fields,...C.uint(data.length,4),...data]);}
+function animation(o){const rect=dimensions(o);C.uint(o.layer,1);if(!Array.isArray(o.frames)||!o.frames.length||o.frames.length>512||!Array.isArray(o.delays)||o.delays.length!==o.frames.length)throw Error('Explicit per-frame delays required');if(o.width*o.height*o.frames.length*2>C.MAX_RAW)throw Error('Animation exceeds bound');const delays=o.delays.flatMap(x=>C.uint(x,2)),data=o.frames.flatMap(f=>raster(f,o.width,o.height));return wrap([3,1,...Array(6).fill(0),...rect,0,...C.uint(o.frames.length,2),...delays,...data]);}
+function program(contents){if(!Array.isArray(contents)||!contents.length||contents.length>255)throw Error('Explicit bounded contents required');const out=[...Array(8).fill(0),contents.length,0];for(const c of contents){if(!Array.isArray(c)||c.length<4||!c.every(x=>Number.isInteger(x)&&x>=0&&x<=255)||c[0]*2**24+c[1]*65536+c[2]*256+c[3]!==c.length)throw Error('Invalid length-prefixed content');if(out.length+c.length>C.MAX_RAW)throw Error('Program exceeds bound');for(const byte of c)out.push(byte);}return out;}
+return {transfer,pixel,raster,graffiti,animation,program};
+
+});

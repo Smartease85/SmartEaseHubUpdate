@@ -1,0 +1,6 @@
+/* Isolated component staging only; parent Solid page placement is not claimed. */
+.bxs[hidden]{display:none}
+.bxs{max-width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.bxs canvas{display:block;max-width:100%;height:auto;touch-action:none;user-select:none}
+.bxs canvas:focus-visible{outline:2px solid #2072ba;outline-offset:4px}
+.bxs-help,.bxs-status{font:12px/1.4 sans-serif;max-width:32em}

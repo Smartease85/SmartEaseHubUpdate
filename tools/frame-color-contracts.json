@@ -1,0 +1,1154 @@
+{
+  "assets": [
+    {
+      "path": "native-coolled-text/assets/ic_auto_color.png",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color1.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color10.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color11.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color12.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color13.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color14.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color15.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color16.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color17.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        0
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color18.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color19.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color2.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color20.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color21.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color22.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color23.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color24.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color25.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color26.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color27.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color28.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color3.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color4.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color5.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color6.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color7.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color8.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_auto_color9.gif",
+      "size": [
+        198,
+        153
+      ],
+      "bounds": [
+        0,
+        0,
+        198,
+        153
+      ],
+      "loop": 0,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_coolledu_frame_0.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_1.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_10.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_11.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_12.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_13.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_14.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_15.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_16.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_17.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_18.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_19.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_2.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_3.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_32.png",
+      "size": [
+        72,
+        72
+      ],
+      "bounds": [
+        0,
+        0,
+        72,
+        72
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_4.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_5.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_6.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_7.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_8.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_frame_9.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    },
+    {
+      "path": "native-coolled-text/assets/ic_no_frame.png",
+      "size": [
+        96,
+        96
+      ],
+      "bounds": [
+        0,
+        0,
+        96,
+        96
+      ]
+    }
+  ],
+  "unchangedRuntime": {
+    "native-coolled-text-wire.js": "15006bbfbe4723c7fffce77625c70293d8615f9cee54654a8b7c7626b94874c2",
+    "native-coolled-text-frame.js": "67297d43021b4e6ba2750463a9425e5ee2c1de0eeee0c0be900da3540cb496c4",
+    "native-coolled-text-model.js": "ea7c8308de0e736409caf5f9c62dadca92530edd014ee1bf00095d7627572c14",
+    "native-coolled-text-renderer.js": "2a4c52f6aa0dda9349849d9541d958a0da1e54ffed7a04abd6bf6f158db0679c"
+  },
+  "wordingOnlyRuntime": {
+    "native-coolled-text-editor.js": {
+      "beforeSha256": "aeb054930fc38d1e177fa8b4cab93a8b20910f7823e5f1f59642081ab9fd44db",
+      "sha256": "85d5ec8e92e913094ff36ec69e5a07243197e0adf7cd2e88f5c4ad8ce672fc12",
+      "change": "Preview label now says local bitmap-font preview rather than original-font preview; no control logic change."
+    }
+  }
+}

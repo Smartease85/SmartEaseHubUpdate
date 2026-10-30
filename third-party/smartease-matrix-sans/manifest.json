@@ -1,0 +1,86 @@
+{
+  "family": "SmartEase Matrix Sans",
+  "modified": "2026-10-30",
+  "license": "OFL-1.1",
+  "upstream_version": "16.0.04",
+  "source_archive_sha256": "2bd4e4679757126f48e1bf2c1be40b09aa92162bfedda4683ce5fbc70a2a5972",
+  "source_url": "https://unifoundry.com/pub/unifont/unifont-16.0.04/unifont-16.0.04.tar.gz",
+  "source_hex_sha256": "27256eb99d29545aa461e3b318d9fa9eec4b74f2ca8ede53d35e12bf5809fad7",
+  "converter_sha256": "7c1570f4c23de5d2981cc76caa3a74682a77f3a020b4eac8fedb9ee51304c690",
+  "source_BMP_entries": 57086,
+  "algorithm": "Integer area sampling, ink coverage >= 1/3; strongest pixel fallback only if nonempty source would become blank. Eight-column glyphs retain their horizontal detail; full-width glyphs scale to cell. Bold: rightward one-pixel dilation clipped to cell, preserving single-pixel horizontal counters. Missing slots blank. Column-major MSB-first.",
+  "assets": [
+    {
+      "name": "8_small",
+      "size": 8,
+      "bold": false,
+      "entries": 128,
+      "bytes": 1024,
+      "sha256": "88f3764d338db0dcb915f966279782d0f0023f7d4c890571e16b09bc94654ca8",
+      "nonblank": 127
+    },
+    {
+      "name": "8_large",
+      "size": 8,
+      "bold": true,
+      "entries": 128,
+      "bytes": 1024,
+      "sha256": "9874b1b5d2c223b4344cab0945c05699df2c32919d469b1696fa4fddbbf6e4ec",
+      "nonblank": 127
+    },
+    {
+      "name": "UNICODE12",
+      "size": 12,
+      "bold": false,
+      "entries": 65536,
+      "bytes": 1572864,
+      "sha256": "2da30aaa974c4e1fdb753cd016d9d76cd3101dc89b5d6f5c075396c88f1cda9e",
+      "nonblank": 57069
+    },
+    {
+      "name": "UNICODE12_BOLD",
+      "size": 12,
+      "bold": true,
+      "entries": 65536,
+      "bytes": 1572864,
+      "sha256": "ab7c301a625f797d36d4751b4675f561bd381cd1010ec22b1ad3898eb5f25645",
+      "nonblank": 57069
+    },
+    {
+      "name": "32_14_small",
+      "size": 14,
+      "bold": false,
+      "entries": 65536,
+      "bytes": 1835008,
+      "sha256": "612ca7360328f5fde9f3def0957cb5f1f1d6027edf70bbb2ad90fd7b95a3a1de",
+      "nonblank": 57069
+    },
+    {
+      "name": "32_14_large",
+      "size": 14,
+      "bold": true,
+      "entries": 65536,
+      "bytes": 1835008,
+      "sha256": "6e704813a4fbeefc3b01595aa4b205d25d625ec9163edfe687fbf7a7ca62b4e5",
+      "nonblank": 57069
+    },
+    {
+      "name": "32_16_small",
+      "size": 16,
+      "bold": false,
+      "entries": 65536,
+      "bytes": 2097152,
+      "sha256": "c0ccba37a574347e5ebba10bf08fd02d4af4c3c516b529c46b09c94270c15be8",
+      "nonblank": 57069
+    },
+    {
+      "name": "32_16_large",
+      "size": 16,
+      "bold": true,
+      "entries": 65536,
+      "bytes": 2097152,
+      "sha256": "7fa8b81b469e29facb4c0db2894875223955fb5b57b71ca4484b8a213564720f",
+      "nonblank": 57069
+    }
+  ]
+}

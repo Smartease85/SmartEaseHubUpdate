@@ -1,0 +1,8 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),Status=require('../banlanx-timer-status');
+function frame(records=[]){const bytes=Array(143+records.length*7).fill(0);bytes[89]=records.length;records.forEach((r,i)=>r.forEach((v,j)=>bytes[90+7*i+j]=v));return bytes;}
+test('model5 count89 and records90+7i exact source mapping; IDs not slots',()=>{const b=frame([[5,11,64,0,102,30,1],[0,9,128,0,0,0,0]]);assert.deepEqual(Status.parse(b),[{id:5,action:11,repeatDays:[6],seconds:26142,enabled:true},{id:0,action:9,repeatDays:[],seconds:0,enabled:false}]);});
+test('zero-record inventory is known only with conservative complete143byte body',()=>{assert.deepEqual(Status.parse(frame()),[]);for(const length of [0,88,89,90,142])assert.equal(Status.parse(frame().slice(0,length)),null);});
+test('fiveTOTAL independent ofdisabled and strict full178bound',()=>{const b=frame(Array.from({length:5},(_,id)=>[id,0,0,0,0,0,0]));assert.equal(b.length,178);assert.equal(Status.parse(b).length,5);assert.equal(Status.parse(b.slice(0,177)),null);b[89]=6;assert.equal(Status.parse(b),null);});
+test('malformed records fail wholeinventory no partial remap',()=>{for(const record of [[6,0,128,0,0,0,1],[0,12,128,0,0,0,1],[0,0,129,0,0,0,1],[0,0,128,255,255,255,1],[0,0,128,0,0,0,2]])assert.equal(Status.parse(frame([record])),null);assert.equal(Status.parse(frame([[2,0,128,0,0,0,1],[2,0,128,0,0,0,0]])),null);});
+test('densebyte requirement and no mutation; extra boundedtail not blindly treatedasrecords',()=>{const b=frame([[0,0,128,0,0,0,1]]),copy=b.slice();Status.parse(b);assert.deepEqual(b,copy);delete b[92];assert.equal(Status.parse(b),null);b[92]=128;b[0]=NaN;assert.equal(Status.parse(b),null);assert.equal(Status.parse('bytes'),null);});

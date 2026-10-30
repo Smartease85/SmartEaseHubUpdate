@@ -133,7 +133,7 @@ class IdentifiableDeviceAdapter extends DeviceAdapter {
 class CoolLEDUXAdapter extends IdentifiableDeviceAdapter {
   constructor(){
     super("trinka","TRINKA Devil Eyes",{offlineCompile:true});
-    // Owner screenshots establish this family, not a connection or pixel size.
+    // Owner screenshots establish CoolLEDUX-31B8, 16x96; connection capability remains separate.
     this.expectedFamily="coolledux";
     this.capturedInfo=null;
     this.link=new SmartEasePairing.MetadataTransport("trinka");
@@ -169,7 +169,7 @@ class CoolLEDUXAdapter extends IdentifiableDeviceAdapter {
     const info=SmartEaseCoolLEDUX.decodeInfo(SmartEaseCoolLEDUX.parseHex(text));
     this.capturedInfo={...info,selectedDeviceAtImport:{id:this.device?.id||this.identity?.id||null,name:this.device?.name||this.identity?.name||null},captureOriginVerified:false,importedAt:new Date().toISOString()};return this.capturedInfo;
   }
-  async upload(){throw Error("CoolLEDUX upload is not enabled: panel dimensions, exact GATT transport and on-device acceptance are still pending.");}
+  async upload(){throw Error("Selected-program CoolLEDUX upload is not enabled. Native offers a separately admitted owner-only static test for the known UX 16x96 target; physical acceptance is pending.");}
 }
 class CartSession {
   constructor(adapters) {

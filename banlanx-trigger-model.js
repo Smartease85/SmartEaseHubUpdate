@@ -1,0 +1,7 @@
+'use strict';
+(function(root){
+ function config(v){if(!v||!Number.isInteger(v.id)||v.id<0||v.id>3||typeof v.custom!=='boolean'||!Number.isInteger(v.channels)||v.channels<0||v.channels>255||!Number.isInteger(v.duration)||v.duration<0||v.duration>30)throw Error('Complete valid trigger configuration required');return {...v};}
+ function packet(v){const c=config(v);return Object.freeze([0x88,0x99,4,c.id,c.custom?1:0,c.channels,c.duration]);}
+ function model(v){if(!v||typeof v.identity!=='string'||!v.identity.trim()||!Number.isSafeInteger(v.generation)||v.generation<0||typeof v.enabled!=='boolean'||typeof v.proven!=='boolean'||!Array.isArray(v.channels)||v.channels.length!==8||v.channels.some(n=>typeof n!=='string')||!Array.isArray(v.triggers)||v.triggers.length!==4)throw Error('Complete device model required');for(let i=0;i<8;i++)if(!Object.prototype.hasOwnProperty.call(v.channels,i)||typeof v.channels[i]!=='string')throw Error('Eight explicit channel names required');for(let i=0;i<4;i++)if(!Object.prototype.hasOwnProperty.call(v.triggers,i))throw Error('Four explicit trigger slots required');const ts=v.triggers.map(t=>t===null?null:config(t));if(ts.some((t,i)=>t&&t.id!==i))throw Error('Four ordered trigger records required');if(v.proven&&ts.some(t=>!t))throw Error('Fresh proof requires four complete records');return {...v,channels:[...v.channels],triggers:ts};}
+ const api=Object.freeze({config,packet,model});if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SmartEaseBanlanXTriggerModel=api;
+})(globalThis);

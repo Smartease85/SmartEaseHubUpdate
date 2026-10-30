@@ -1,0 +1,18 @@
+{
+  "path": "assets/native-banlanx/timer-empty.png",
+  "size": [
+    693,
+    459
+  ],
+  "alphaBounds": [
+    0,
+    69,
+    693,
+    459
+  ],
+  "sha256": "b7c8952971a5b5f62792f5eae774202a2e771ebaefae07318f22447eb0105c01",
+  "generator": "tools/generate-banlanx-timer.py",
+  "origin": "independently authored geometry",
+  "meaning": "calendar and analog clock timer-empty illustration",
+  "difference": "Flat cool-blue geometric illustration replaces soft 3D-style rendering; original slot and transparent bounds retained."
+}

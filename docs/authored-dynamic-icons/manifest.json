@@ -1,0 +1,27 @@
+{
+  "basis": "Independently authored simple geometric UI symbols",
+  "files": [
+    {
+      "path": "native-coolled-dynamic/assets/ic_dynamic_text_bg.png",
+      "sha256": "3ca3019f581cf45bb79faa13c95a38428337c1c8d96a7528bcb11be903b89cc7",
+      "bytes": 4764,
+      "size": [
+        72,
+        72
+      ],
+      "mode": "RGBA",
+      "meaning": "Background landscape"
+    },
+    {
+      "path": "native-coolled-dynamic/assets/ic_dynamic_text_mode.png",
+      "sha256": "f9a9c184efc89bc32b485c93e8f64d7784229f2505473ab6c76f2a9b4defd731",
+      "bytes": 4875,
+      "size": [
+        72,
+        72
+      ],
+      "mode": "RGBA",
+      "meaning": "Dynamic text motion mode"
+    }
+  ]
+}

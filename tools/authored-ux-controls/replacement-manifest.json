@@ -1,0 +1,2852 @@
+[
+  {
+    "path": "assets/native-coolled/ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2",
+    "role": "add",
+    "sha256": "770ca80381dac9947dc5a46af15b1640eced0e31d245f54931e939d42fd4c098",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_add_clock_program.jpg",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "original_sha256": "ff24f3521c5af55d4323840dba65fa2c173d6059a316d3af02e78579f7779ce6",
+    "role": "clock",
+    "sha256": "f0b0f6a4a67650246429ea695af0f142c1dfcdb62dd4a3de7225788da0668ba1",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_animations_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "028ff37027fc6db18f5843837a3f0da58b2865832b735d38b03d9a025bd24b51",
+    "role": "animation",
+    "sha256": "a35fe1b2aa677533bccddd182aaf31f1d4eba4e69a2a220f7545335ab2c33915",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_copy_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da11d43369628d75ed377f90a923b8885c213cdbe8c8e726c49c45f3ee5b6b79",
+    "role": "copy",
+    "sha256": "ade6295fe1cbb5ed7b2845ccd30589d021e5d34a9cc0c749f22d6694c147ba2b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_decrease_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0de3edb6a4602d817babea816b7acc7eb5d12fabba7586f77b8317fa7d0a2ab3",
+    "role": "minus",
+    "sha256": "692eaf801df3ccb54d2e3539c9edc00c70baf13e2c6e262c8e76ce3a9901006b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_delete_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dc9b7ffb7c27de1e3fdc42796aa8c3fb53a2e5cac3209a9bf75ced9960c6d0ea",
+    "role": "trash",
+    "sha256": "4cd417e493e1afa39a6deecb43e4fdcbc3088d8ced9f69013aa4a793058f3369",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_device.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "361315d08f42539c84c6e67b5fd12a1b0e0d167d35e762e1fed7092c927854b4",
+    "role": "bluetooth",
+    "sha256": "94622b7a022877f01be3a4b94aefcd2f27e13d908ca85ae14c4dcb678202e13b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_dialog_cancel.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3b528887d2ce9358f4e43c1bd9ea9c8ac9ed60dab72a912d58bfacd79f40f267",
+    "role": "cancel",
+    "sha256": "fc08b95b82f45b2bc08bd6bdd18bad160623a0e6dceb73d56db603cc0bd50daf",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_dialog_confirm.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d381d0c19784aae527e3e5ed70947bb49c5507cc77d2a804f461a825c30423a",
+    "role": "check",
+    "sha256": "d92c39d2fe76d35742e072761e83c65417df66308c9c3744543448f97dc193b3",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_discover_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6cea19c78905611761dc6bc324b68e487f63800ea7dd86501b61683216e9b88c",
+    "role": "compass",
+    "sha256": "3986d1f01b56c3485276277d6ecbaeca9d907512d654c629222470899766e8ad",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_discover_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c1aa2a878ea16cd5e6c884d040d9b2e5cad8c630b440cf79356752058a5b640c",
+    "role": "compass",
+    "sha256": "7d84fe28c951e04931de9e04cc804b2453a737566383c3bccde0e0b9dbdcd806",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_dynamic_text.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c70864b331612e84ad9845ce1cf4a97cab39c97d7ef743a1ecf86e4c65c63fc7",
+    "role": "dynamic",
+    "sha256": "c199700c4dbcfebb1a7d6e05d72d6b666f2c20521f744db39570928b2a827b26",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_edit_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "32cb46b33f9ec6d76447a20e4cc9a1a99fdbd6bb1687cf996dc3045520ed0665",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751",
+    "role": "forward",
+    "sha256": "51fbd9e672684ce721f747c31c59ff4b8bd80461b1a5bb7b2c3b45ace5ba0c35",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1",
+    "role": "back",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_graffiti_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e6f20925bca8460872a414e26e46671b51f5e2b92cac6a4cff5e69d39c944466",
+    "role": "pencil",
+    "sha256": "a41c4a4a08b838b6c3c21fdb7717ba8303296ceb400856daed56ab320d49d85b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953",
+    "role": "import",
+    "sha256": "c602ad6b3b54e997e74d37a245d6def25cee5271b4f61cdb819b5fc17af7c02d",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_material_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b455552b9edf0d169faa625238e60c195fb2005b2b04731a2b165e00d54c2e49",
+    "role": "folder",
+    "sha256": "5f131ecd7f898ed695d5a45641a0b9ebc7ea1e966e84f6a656bdc81c9d6bb706",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_material_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "21256d4540f3721082a838e5936191602575b9c7ff22be719b5cfa2fe54b5530",
+    "role": "folder",
+    "sha256": "84c05e651c7d695a37106fb6bcb7f464121d7c507c1e7642014c6a38c1f4be28",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_material_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3c4642ded0587ba1e9ef19970a1abd50a54bcda6ba3a0561286cdc3202722316",
+    "role": "folder",
+    "sha256": "17a054e06ed2ac52bd2994314ddd0c853b1734b8b44d42c0352b783c971771b4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636",
+    "role": "grid",
+    "sha256": "d717772983e79d2dd000da734e7766ca65be5b3a0f5d0d01f3b277e53079160b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_no_content.png",
+    "size": [
+      1035,
+      933
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "38f08bd549c3712cd790ccd66add278b7a5ce341c0e745428cc573bc1b378a8d",
+    "role": "empty",
+    "sha256": "dc7bf2afd6a8c76a5255f7703c5c7afd630e741f7859bfe47c1e62e691e326b4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_power_off.png",
+    "size": [
+      132,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "411c0d9662604b095de28c5d7f27e4b5ef64bed6fcfec58d23bdccb3f5c4fd83",
+    "role": "power",
+    "sha256": "cf15aafce3fc75de0e8148244507a31dc51fc0666dfb83d0c646bef458f5ea69",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b",
+    "role": "save",
+    "sha256": "f68abc39da63e11bcbc6e923927c99bf97f46ef1ef864cf2ce29e351e90264b8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_settings_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "92c77b89a44fc251aafa8fc38e827a8565cc3ee82f69c8510e57a7623a08513f",
+    "role": "settings",
+    "sha256": "6d5a616879464528299996c64a74a69e7a7ec58a981311eb947e13a5ca228003",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_settings_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c6e99ebaed7cc76cc9d7fd3e7978f0f90424f0a169a4c70ea676c6f3128749da",
+    "role": "settings",
+    "sha256": "479e383289aac6a47c3f3f068ef824d946faa6c2095776b5bcb58b88aba60289",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_share.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba462335b59e5c949041b8809191963d9e2d24d407cb313f8c30455c1c047ecd",
+    "role": "share",
+    "sha256": "03fd7078bf8104773eb6e84371f27cf99a16ed1b1f0b2673d0bb69f61bf91ff2",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_sort_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d006dfa7afd55bd64c01a025d7bdf4cdcc808f332df4a43235dc8e8a6730d329",
+    "role": "sort",
+    "sha256": "39e8199e93ee62eaa363bff357e383a18a39d58703a60869f69eb2fbd84d3288",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_template.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "48e440a60e8ac4b1ff2bea5bfbbe9c7071421a890a170796208ccb27078c6eec",
+    "role": "layout",
+    "sha256": "b49f5d4d9bcf2fab6c1d29e597d0d04585de7df7eb56e40abfa7bfdb14bbf4e7",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "97c422232d9a1a3de9942b52e25c0af5a2a46aabb71746dc01f7209cb1a113c2",
+    "role": "document",
+    "sha256": "337806cdfcbeca0bfeac92ad3ed1874d5f62f17bf90b92a6a2a8c363435ce186",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_item_default.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8392ea371d82906194ce3786876b54e3df649b64c8049f6628369b26f9866f51",
+    "role": "radio",
+    "sha256": "fabb6b06383a3033ecb77e1bc57d9115f450d67ef24a7e724a5acac322f5cce8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_item_selected.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "eaef2d38c324cfca94dcf6253c05ae06e1ffea1a1eb198c9300aa1d4e12e60f0",
+    "role": "radio",
+    "sha256": "12aea08504919de2eaf42ae7a3cedbfc047fd8ba7de8c928cd4bdd98719ad3c1",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_program.png",
+    "size": [
+      144,
+      144
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "066434c85479597627f31e5d1c708cdea7ba11ce8120f1c5dae1ba9dea97ae7c",
+    "role": "text",
+    "sha256": "4e5449875234b226786bdf06433f3f586ba2b1d7b08c393a92382eb224c0856c",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_text_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c0949fbb0bb33e0b2325e642c3f368c696eee5317be72fd3a01b21ca7848a97",
+    "role": "document",
+    "sha256": "a0826ebde23635267fb571cff67a5b073e99019293024c7335e49be98ea77092",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_to_bottom_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1c3b4acddb0cf18ace04aae367a104cfc3d6a87a65fb7d60fcf979002d35ea63",
+    "role": "bottom",
+    "sha256": "e82595bcfbd533b359ed31f72fe3fcbb45cbb7ed183d1f803310ecb35d553479",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/ic_to_top_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "100fb3ef4ae153802aa782a3a6b8cdb811480a3829c21e8112bc48f709c31474",
+    "role": "top",
+    "sha256": "2a297918fed22f5e0aa3a5a9ba21f1ff805f99c9cb05faa42bed8988b3d8ffa5",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "assets/native-coolled/increase_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1586b98d1d0e509e40fc81bf05eb9daa2425d1ccbad5ae2bc2d8d0c0153dd25a",
+    "role": "plus",
+    "sha256": "0baf15d380a14ccc3b4aa1bb4c62377b753be4ce40f667e372ace12869ec3d01",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2",
+    "role": "add",
+    "sha256": "770ca80381dac9947dc5a46af15b1640eced0e31d245f54931e939d42fd4c098",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_arrow_dialog.png",
+    "size": [
+      75,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "284f5eef0734eb8b996f22a2de788f8872de8a7be38d79184a558af3fb11cf81",
+    "role": "triangle",
+    "sha256": "9828c4854afbfcced0f634fc19ab74f4c8cf546ebd858dd98a0afd685dcd47a1",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_choose_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "88b5bfcd2bfb77d26867bfc4ddc8304ffb62937ad7cc0a6e659be2c68ae2a673",
+    "role": "select",
+    "sha256": "dce5a5eec9339888f59983d091539f847f8d61ff7156e1e4a36af483e04f3d9a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_choose_area_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "fc243a7bd99815de8e10f8bbbbc4f9ab5765783ca2b6a4aa7b0559ba7fa3fdc8",
+    "role": "select",
+    "sha256": "221a5b87fafff83af4e5ffdc330503ca74c1ba05bb5f67bdacce45c56cad0b0a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_item_selected.png",
+    "size": [
+      18,
+      18
+    ],
+    "alpha_extrema": [
+      0,
+      127
+    ],
+    "original_sha256": "aa7e5d535759b3281c76ae83b5a7fc32b8d4a5c3de6d83369bf56f2747e77961",
+    "role": "dot",
+    "sha256": "9ac4256ec72b1753aca31f3d6093a6fb00abf440aa0492716b2841cb59612a5a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_picker.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "02e1806d25c5c35898f694c61470fe7aa385fb7443c12a412fba6aac3b1ba18b",
+    "role": "dropper",
+    "sha256": "72e8ba19dc35965f2f8f752c6a2b8e61a65fea6c633238e37c4440faac98eaa0",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_picker_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f877a4255e4030d41ceeb4df57ec1ae2ffd34c1cd5ad6723ecb5dbf43a1bee87",
+    "role": "dropper",
+    "sha256": "5074e346e079161323614d7c864f71ef7bc28045157c6ebf0ceb814764bf0041",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_color_thump.png",
+    "size": [
+      48,
+      48
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6a4c52509c6d223df2c95d7aedabfd32ede6a9cd28ecbcfe358ccd6f3f2ab513",
+    "role": "thumb",
+    "sha256": "bfe19709ada57e3cebf7bcc3ed78b8623f287f856e7fd68ccbc79571a725cdb8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_copy_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da11d43369628d75ed377f90a923b8885c213cdbe8c8e726c49c45f3ee5b6b79",
+    "role": "copy",
+    "sha256": "ade6295fe1cbb5ed7b2845ccd30589d021e5d34a9cc0c749f22d6694c147ba2b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_copy_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "31ab6740624e396f979ae78b4ea2abd09e284a7edfb1b1d7900f4102f21bbf18",
+    "role": "copy",
+    "sha256": "53176b8b49680bb8f44343b67ddee4fb1f5a5ec241eb03637acae5e67978064f",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_decrease_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0de3edb6a4602d817babea816b7acc7eb5d12fabba7586f77b8317fa7d0a2ab3",
+    "role": "minus",
+    "sha256": "692eaf801df3ccb54d2e3539c9edc00c70baf13e2c6e262c8e76ce3a9901006b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_delete_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dc9b7ffb7c27de1e3fdc42796aa8c3fb53a2e5cac3209a9bf75ced9960c6d0ea",
+    "role": "trash",
+    "sha256": "4cd417e493e1afa39a6deecb43e4fdcbc3088d8ced9f69013aa4a793058f3369",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_delete_all_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "631583181c3645e36dc9fb832027d3ad3520d39e34415f35d1f3b8c2295792c9",
+    "role": "broom",
+    "sha256": "bbd7697de3acba452722a477e4f4e3dc06bf1227e97e38347eb8bb5178926131",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_delete_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dbbc71f806089a1a5dfa33f7c70ad2edd5efe69451605ec4d3305a28c40cfeb6",
+    "role": "trash",
+    "sha256": "57f1c2ef48c918bd8e8fee85e3a4a4be028116365326105e3e5e5dc258c3e1c1",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_device.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "361315d08f42539c84c6e67b5fd12a1b0e0d167d35e762e1fed7092c927854b4",
+    "role": "bluetooth",
+    "sha256": "94622b7a022877f01be3a4b94aefcd2f27e13d908ca85ae14c4dcb678202e13b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_dialog_cancel.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3b528887d2ce9358f4e43c1bd9ea9c8ac9ed60dab72a912d58bfacd79f40f267",
+    "role": "cancel",
+    "sha256": "fc08b95b82f45b2bc08bd6bdd18bad160623a0e6dceb73d56db603cc0bd50daf",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_dialog_confirm.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d381d0c19784aae527e3e5ed70947bb49c5507cc77d2a804f461a825c30423a",
+    "role": "check",
+    "sha256": "d92c39d2fe76d35742e072761e83c65417df66308c9c3744543448f97dc193b3",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_discover_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6cea19c78905611761dc6bc324b68e487f63800ea7dd86501b61683216e9b88c",
+    "role": "compass",
+    "sha256": "3986d1f01b56c3485276277d6ecbaeca9d907512d654c629222470899766e8ad",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_discover_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c1aa2a878ea16cd5e6c884d040d9b2e5cad8c630b440cf79356752058a5b640c",
+    "role": "compass",
+    "sha256": "7d84fe28c951e04931de9e04cc804b2453a737566383c3bccde0e0b9dbdcd806",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_dragging.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e43bad8a42d496400bb7a7800ec50e0236055aacc20002635a6d01dec7a005e4",
+    "role": "move",
+    "sha256": "6972f50bd1c9ad3f7347c8ec7eb483a0ca65b2079a6069e169fcd8bcb93b361e",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_edit_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "32cb46b33f9ec6d76447a20e4cc9a1a99fdbd6bb1687cf996dc3045520ed0665",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751",
+    "role": "forward",
+    "sha256": "51fbd9e672684ce721f747c31c59ff4b8bd80461b1a5bb7b2c3b45ace5ba0c35",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_eraser_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5ca84b1e95f05821d95787a69dc2a2a5626e915622d86135cd3af31d1da751fd",
+    "role": "eraser",
+    "sha256": "3f980e033f70b1a5eb6c0da25484e9987762502580f110eb987aa3d99f6ec73e",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_eraser_unselected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8a79c7ac65ff70de9054d1a5a855bf1c7b32b4ee9c936e97f991afddeb36cd36",
+    "role": "eraser",
+    "sha256": "c6f191b65a365e28265f4675beecf284c6ab80df6d858a11528ae11f9ad921f9",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1",
+    "role": "back",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_fill_area_one.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1afce60ad45d9ab70d39bb6d74e5e9c9c0344899204ab4871b23786ab030ae1e",
+    "role": "bucket",
+    "sha256": "c8682cd9716d96e57761311a11e3940b881fed5e3518abb3f3c2333a5c190bc5",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_fill_area_two.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "724aa677428ab8efa7404006a76d471cd40af0572babcaff3e56e3dbd8601c3c",
+    "role": "target",
+    "sha256": "0549f5ab005ff348f25fd199b5ba2cedb836ab17c25e9940e9ea2a12edfdc09c",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953",
+    "role": "import",
+    "sha256": "c602ad6b3b54e997e74d37a245d6def25cee5271b4f61cdb819b5fc17af7c02d",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_input_area_text.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "43355aee4bb790f9fb369ee07c290e84a4bc940eb7c73f55f23fa62a35bb1ce1",
+    "role": "text",
+    "sha256": "240284f49b82919b646772d577b7c866997172d57004fee53fcbc561c196c43e",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_input_text_show_color.png",
+    "size": [
+      90,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "fa3c4b6e50a1c6fb5cd9fdf191f8c98470ad24cc6ba696ffb55b1cb5c6025873",
+    "role": "doubleforward",
+    "sha256": "5e86a19a60b7ea2c4d9096eac94f79fb741aff28ed5b1819185e676ab0124d4c",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_material_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b455552b9edf0d169faa625238e60c195fb2005b2b04731a2b165e00d54c2e49",
+    "role": "folder",
+    "sha256": "5f131ecd7f898ed695d5a45641a0b9ebc7ea1e966e84f6a656bdc81c9d6bb706",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_material_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3c4642ded0587ba1e9ef19970a1abd50a54bcda6ba3a0561286cdc3202722316",
+    "role": "folder",
+    "sha256": "17a054e06ed2ac52bd2994314ddd0c853b1734b8b44d42c0352b783c971771b4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_mirror_one.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "682990ecf62319af683160974e2a3d1ae803d8b159e45f8d06709e925120476f",
+    "role": "mirrorx",
+    "sha256": "d22dc4ecb2bc439ae1a6ee70968e0e172b48c07e15ad59b3864cf7da95bd1e0a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_mirror_two.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "521367f310b46c49da5f8fb55d234303d98ea77c7ba4549d2927f03099866242",
+    "role": "mirrory",
+    "sha256": "54763f20b0e8104137b171a7cfd4e2ad376caa9a9083c680f858e5444e2c0cb4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636",
+    "role": "grid",
+    "sha256": "d717772983e79d2dd000da734e7766ca65be5b3a0f5d0d01f3b277e53079160b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_no_content.png",
+    "size": [
+      1035,
+      933
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "38f08bd549c3712cd790ccd66add278b7a5ce341c0e745428cc573bc1b378a8d",
+    "role": "empty",
+    "sha256": "dc7bf2afd6a8c76a5255f7703c5c7afd630e741f7859bfe47c1e62e691e326b4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_painting_ing.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "322a152f8c89b6721c3695fbdabc0dfb51ce32cb5c6c0805652929cce103c2cd",
+    "role": "palette",
+    "sha256": "be530c2360ffe6ede361806eaa3545de7ff4c404a7ea5d507fcf5810b6b06b2b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_painting_un.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "46037b3db4714c9af31b5a6641fbf1a097181a831b4c0b81a3ce090a84dfd76e",
+    "role": "palette",
+    "sha256": "9c3a6fb36a47a337c772b6c649e9b272cd0e947b88a78fd826d41c5fe5202bf9",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_paste_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "a5df4b230c5863f9ea59bb9c4dcf62c63f6ee580ef7907dd8c4eec7a92a26626",
+    "role": "paste",
+    "sha256": "54d577552aadcee609830acd67457c54593415280fab30deb7ba7ec7ea25ab89",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_power_off.png",
+    "size": [
+      132,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "411c0d9662604b095de28c5d7f27e4b5ef64bed6fcfec58d23bdccb3f5c4fd83",
+    "role": "power",
+    "sha256": "cf15aafce3fc75de0e8148244507a31dc51fc0666dfb83d0c646bef458f5ea69",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_power_on.png",
+    "size": [
+      132,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b6036cfa0076c7acc99886cb61f71e0a86a4f53a41b743bb1a45e1431ffdc3ca",
+    "role": "power",
+    "sha256": "a3f5cb27b34c610b15780220b835c5fd229037631524fb2e7d958c61ac49c396",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_redo.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1b5d6f6ad60ea567dab6ddae4a1053f49fb8a957442b0a6128b8b902dcf80617",
+    "role": "redo",
+    "sha256": "81fc98e61dd3f7609804d289666bb613fe523d5b4d52fee26869e71facd9257f",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_rotate_area.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e2bc50cc623f1bf82a45b7cc8a7f3714de1e2e619f06d0c17310e67f2afb5ed1",
+    "role": "rotatebox",
+    "sha256": "456205efeeb14667b7ac62d6a4fa69ffd1209effd5b53d620a604f10f9178215",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b",
+    "role": "save",
+    "sha256": "f68abc39da63e11bcbc6e923927c99bf97f46ef1ef864cf2ce29e351e90264b8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_save_draw.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ed212e858f8cd858d5bc8168c8517f4380baf502bd14bcabbaee31e73ea9d6de",
+    "role": "check",
+    "sha256": "42cc556f5b265be763e246000427976edaaba798ef3801d342336226b0adf64b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_settings_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "92c77b89a44fc251aafa8fc38e827a8565cc3ee82f69c8510e57a7623a08513f",
+    "role": "settings",
+    "sha256": "6d5a616879464528299996c64a74a69e7a7ec58a981311eb947e13a5ca228003",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_settings_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c6e99ebaed7cc76cc9d7fd3e7978f0f90424f0a169a4c70ea676c6f3128749da",
+    "role": "settings",
+    "sha256": "479e383289aac6a47c3f3f068ef824d946faa6c2095776b5bcb58b88aba60289",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_share.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba462335b59e5c949041b8809191963d9e2d24d407cb313f8c30455c1c047ecd",
+    "role": "share",
+    "sha256": "03fd7078bf8104773eb6e84371f27cf99a16ed1b1f0b2673d0bb69f61bf91ff2",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_show_all_color.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8668bdb6fc41833436e2c0eefca1135d5a22807ea6f2f5f4da314418bfcd4112",
+    "role": "doubleforward",
+    "sha256": "3ad908109854fa92eb7d6e8164c74d2f3b57c9dd66dbbcb73926b4a259f4abae",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_sort_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d006dfa7afd55bd64c01a025d7bdf4cdcc808f332df4a43235dc8e8a6730d329",
+    "role": "sort",
+    "sha256": "39e8199e93ee62eaa363bff357e383a18a39d58703a60869f69eb2fbd84d3288",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_bold_default.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6cebeaac751a7d7102a52ab96b93ed759a63fe2b6a54f4a1b0511d5613c9eb8b",
+    "role": "bold",
+    "sha256": "16425838562501e6a62787d67abdd533b0f23453e672d1e42ff4c92e4c1f8dc4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_bold_selected.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "dc57c16269684f4d9be755287785053a2c9ff5f43543652630fdf45c578b35f4",
+    "role": "bold",
+    "sha256": "b9f1c17ad5da158a05a40988b77653b400d17b8b6a5cf98cd75b38d825e2f042",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_default.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "97c422232d9a1a3de9942b52e25c0af5a2a46aabb71746dc01f7209cb1a113c2",
+    "role": "document",
+    "sha256": "337806cdfcbeca0bfeac92ad3ed1874d5f62f17bf90b92a6a2a8c363435ce186",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_text_selected.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c0949fbb0bb33e0b2325e642c3f368c696eee5317be72fd3a01b21ca7848a97",
+    "role": "document",
+    "sha256": "a0826ebde23635267fb571cff67a5b073e99019293024c7335e49be98ea77092",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_thump_32.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4a1cfbe8511d8ae1d7b634f9d2a2c30600101227c24b506ba2c1dbe28e087e8e",
+    "role": "thumb",
+    "sha256": "f644c1b38f64816a786b0eb5fc22bfe08c390ca4d5ec8567594c6884925a20ef",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_to_bottom_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1c3b4acddb0cf18ace04aae367a104cfc3d6a87a65fb7d60fcf979002d35ea63",
+    "role": "bottom",
+    "sha256": "e82595bcfbd533b359ed31f72fe3fcbb45cbb7ed183d1f803310ecb35d553479",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_to_top_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "100fb3ef4ae153802aa782a3a6b8cdb811480a3829c21e8112bc48f709c31474",
+    "role": "top",
+    "sha256": "2a297918fed22f5e0aa3a5a9ba21f1ff805f99c9cb05faa42bed8988b3d8ffa5",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_tool_area_arrow.png",
+    "size": [
+      54,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f9c4f6354e0c08bf74793cc29a1bce54f9005177f3a5e4e8033e69e969b3a670",
+    "role": "downtriangle",
+    "sha256": "f48ba10dd9b908eb435947ae657a7e9c84d2362081a3cb3bf2a55f38f7b297ec",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_tools_bg.png",
+    "size": [
+      1125,
+      132
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba243592183510e030c7e8ee634efc01d51ab1afc53fd109aa25139855d24cdb",
+    "role": "toolsbg",
+    "sha256": "c1d706fc2b3f3df4c3dea7838eaa5cded9e6659030375e291952b59ebfa07c69",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_undo.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "36b6032a9940f6577cf0576f49ecb804a4eaecf8650978304387a401c3d44362",
+    "role": "undo",
+    "sha256": "d6499a46d6510b4c476c80ccb4c2ceb3b7a63b5a24505b44e7a43cf8a16c3629",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_undragging.png",
+    "size": [
+      96,
+      96
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "68863a8b4a76be5063f86eb2e3ee09b07c466d42f7ae684744f0b4e07b684425",
+    "role": "move",
+    "sha256": "7638f2ebc6bebd7642b0aa25b9a6d8250010575cb37ac120c511f21f0a1e639c",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_zoomin.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "126dd2dd5d3ca9dbe1cca800b2334933f240852da1ab3851cccafa30cacf2368",
+    "role": "zoomplus",
+    "sha256": "fb10f671212f45dcbde1cd6dcd11c00794aa6691779f8d2c84910117fe191142",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/ic_zoomout.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "efb28208aac850ce4c6c6b75c17e1ae5357286599c57cd24e066c08588225f36",
+    "role": "zoomminus",
+    "sha256": "b06102673dbbfdb58d8dda6bd7204bdfc883a09ee7ae17554609b314becea6c1",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-draw-assets/icons/increase_iv.png",
+    "size": [
+      66,
+      66
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "1586b98d1d0e509e40fc81bf05eb9daa2425d1ccbad5ae2bc2d8d0c0153dd25a",
+    "role": "plus",
+    "sha256": "0baf15d380a14ccc3b4aa1bb4c62377b753be4ce40f667e372ace12869ec3d01",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_about_us_32__410b8bad.png",
+    "size": [
+      72,
+      75
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "88ee90b55e53569c371b6a5690ec4e6ceeba8106dd7f2cad8dbe55f45fc6686e",
+    "role": "people",
+    "sha256": "5a46e776ed817b1977a4994931fb51f00ba085d8f53f0aa2bb2a42630821e6f4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_app_info__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2790a47fb26d93821fda9c72306d2af5a83ea3122cdf98fc2a7edd866e8b3302",
+    "role": "info",
+    "sha256": "d8eec804452f50625f1ee49689837ea8bc950a72662467cc4db0df468c4635fa",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_box_default__410b8bad.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "08e11b951585990748e9fafaab057d0ba7db2d5d9ad3b8e9f34e17b4d6cc5b29",
+    "role": "toggleoff",
+    "sha256": "1d6fb53ba3224b370e828c05e1b6a1c5bc63c62b111c559706bf98e630867408",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_box_selected__410b8bad.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ddd9aac921b6689bc7dd553ee2f688c85e121e9190e4099eb068eac7c3625ae4",
+    "role": "toggleon",
+    "sha256": "1d433caa04f2de1fbf38281cc2ff69d58a683eb9c061dd49db25c48bf96b30ec",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_email_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "0487860ca755c29862040454f80fb2945010f8150131cfc25bcf971a612a98b7",
+    "role": "mail",
+    "sha256": "048589ef0ce95dfc450b4e7a9a2ed2f74e2ed2209bae2c9112b82108f3ac58dd",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_enter_32__410b8bad.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751",
+    "role": "forward",
+    "sha256": "51fbd9e672684ce721f747c31c59ff4b8bd80461b1a5bb7b2c3b45ace5ba0c35",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_exit__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1",
+    "role": "back",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_hard_update_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4c45c3ae405d1960c46b17b5df9d61334e6e88b869901b9c19ebafbf60365136",
+    "role": "upload",
+    "sha256": "2292138c2c775ea95a21d3352f10a41d991ff1c2245ebd5481960bca5d995d78",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_help_32__410b8bad.png",
+    "size": [
+      72,
+      75
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "be7b489514366bc3983474650dbf30b98aeb295f1177f07e010561d2dabcebb6",
+    "role": "help",
+    "sha256": "64345a8d7fc3f13f6d5c706514b9ec1cd74a5d657bb1cd1082711736466021d7",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_language_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "60fa54367819f33c52cefae56c6af2d8669cef2e2215d6a3bc6149df05ba7e2c",
+    "role": "globe",
+    "sha256": "036c8263486ee457f6041a87a9361ecee945b4d71a22b278ddf6d1ec3f557960",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_language_selected__410b8bad.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6411aa1f1b1e89c22f4f567f6fdbb210170fb1f482298c76ffd7cfa5401f6daf",
+    "role": "check",
+    "sha256": "6a64a5ffcb5060ddcbf7c1c0036c80dc95161dce845b2048aa043ac7790352f0",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_remote__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "46eff6c605926cd5ab810a102bbd12b37fdecc100fc9867d4763490e7814df79",
+    "role": "remote",
+    "sha256": "873db73585df3eea9c5fd76f56837f5db1f0096606f9f786bef25b4085d66a93",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_rotate_show__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d5d7b5e564bb649a67fa02135f3763682bdfa7531028ebf4008f558e55d2b45a",
+    "role": "rotatebox",
+    "sha256": "af7c11e368bbe16888d2f3485d5a6882ccb24da1a4200dddb007dd0bd19dd64d",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_settings_page_bg__410b8bad.png",
+    "size": [
+      1125,
+      2436
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "original_sha256": "4508f8babe8be42ff069033326f0ae7e56174e893e124a1c67bef6d4999f6f7e",
+    "role": "pagebg",
+    "sha256": "81f47c0047d1169ee5aa539a8c6850e8b0d97e1842b6406c5b0558f5ab7a18d0",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_show_device_id__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "998933e16985ce2083caa362b8f7fbe8f58c5affc0a806b0938e6e56db9b148b",
+    "role": "id",
+    "sha256": "03e5b0c691d425567036948f8d5d3ed34e444b35a0f3fe4c372b4eeb6508c2b4",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-settings/assets/ic_version_32__410b8bad.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8452c6d8dc4c9ffd364654c11becabe73b8b9e37cd573072ea914acfba42d78b",
+    "role": "refresh",
+    "sha256": "cae6f6040a5860ce95fd385ee66f5324dcfcb28df9a42dee16824d9034308d08",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2",
+    "role": "add",
+    "sha256": "770ca80381dac9947dc5a46af15b1640eced0e31d245f54931e939d42fd4c098",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_animation_edit_empty.png",
+    "size": [
+      360,
+      288
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e6938af14711104ebdcbba256646d7a60e0bd01e2970403cf348123dbadd4478",
+    "role": "emptyanimation",
+    "sha256": "cbf8c8601ab8d0cdd32e73f8b90d7824219acc1b2e9b76c20178e0b522fe5c59",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_bold_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9bf7a6413e5e76d48b6ece25b9e397a0cb73623ea9686e73f28a4c9553cb29b6",
+    "role": "bold",
+    "sha256": "a6d816599032d91d698f62aabffd6798e63ce2405272ea5e00c0cbd17f825895",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_clear_all_animation.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f1dff8bd000fe0a42097ff31ccf5f8aa4e046c745c35668f40b178380f7b36e7",
+    "role": "broom",
+    "sha256": "13da1854d8a46430df0e5c51828799b9e2f78fec520eb7582965d08adf3ce2c7",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_click_to_add_animation.png",
+    "size": [
+      213,
+      213
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5d61d8378960f1f8bfeb15d484dc40eddb04d703c0f0b2a1c5018b4578aa9be7",
+    "role": "addtile",
+    "sha256": "38062716bb2c6f72b4bf82658dcc36d2c049be93541c85ff7113d8d392d3f6e0",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_color_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "367cc4903dc33eceb4854709b7eca22a8945149f9bcd90dd554d47b3e79e7ba2",
+    "role": "palette",
+    "sha256": "7d2e3b1840874af6190250b5bddc00f5ff735c49dd61b6f2add2feddc4a1879a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_confirm.png",
+    "size": [
+      82,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "916d57fa1851537eccad85a57652af177450a66d9da1c3f11829e805b0bc7bfd",
+    "role": "check",
+    "sha256": "318c9a4c01f601d038771413835d2a4236ad4080deef8ea792ca7ecfce8b7611",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_emoji.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b3ed0037d6d96c922e512ff3323a596dd1300c90e5b446cdea5f4730b0ee8f1b",
+    "role": "smiley",
+    "sha256": "f2dde11c3d6df7cff62918719df26149a6eb231f43a6427f2c1954e5e30544a6",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751",
+    "role": "forward",
+    "sha256": "51fbd9e672684ce721f747c31c59ff4b8bd80461b1a5bb7b2c3b45ace5ba0c35",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1",
+    "role": "back",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_font_type.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5e7917fa06e91c88803993ba09216ec9d23fc02673fa8319c75787a2d376c729",
+    "role": "font",
+    "sha256": "7b7b0659f0f77d41fd1e2803d011675d2523d2baeb35956f64adbeff7f0ef425",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_frame_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e61c116da055e26f97b785efebf26e851d253faabc1382848cd52411ac3bfd02",
+    "role": "framecontrol",
+    "sha256": "b92d66ab9ab952a3a3813eb343f810a27f9ac7be5b53403582297939bdd2b7d5",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_graffiti_edit_empty.png",
+    "size": [
+      360,
+      288
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9559c56235d42427d112418da2c3ccae8d7aaa3b89f0895d1d6c2028f8e5aab6",
+    "role": "emptydraw",
+    "sha256": "74b76eb7216acb02f4c2134e0bc7c8b37392e65999f5627aa1843eba02c6684a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953",
+    "role": "import",
+    "sha256": "c602ad6b3b54e997e74d37a245d6def25cee5271b4f61cdb819b5fc17af7c02d",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_keyboard.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "546890eab597dfc928408882884ca18dd82b042637dd250f1216f7e5e2fa2025",
+    "role": "keyboard",
+    "sha256": "b25d5d7a60443c711d37a0a55701f88cfef2d95c7cf10aa6af1d8b4c3fe1a1fc",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636",
+    "role": "grid",
+    "sha256": "d717772983e79d2dd000da734e7766ca65be5b3a0f5d0d01f3b277e53079160b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_moving_internal.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da223a64ffb931955db0381cf8f4e1b8171bec52a1f11509af4646c354fcb0ed",
+    "role": "spacingbars",
+    "sha256": "29e7e3fc7243c28071cacdb3f8c9369446fe3705b0681d68c368aab49deab4b0",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_rotate_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8fffdec5b54ae77dacd257e93c52cdd6dec072a0200b74646c3e9e0c506a256d",
+    "role": "rotate",
+    "sha256": "7ca194905e45b32087c9af7e5aed835ada20b81cf9af145d9446ef7a5d0d5f83",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b",
+    "role": "save",
+    "sha256": "f68abc39da63e11bcbc6e923927c99bf97f46ef1ef864cf2ce29e351e90264b8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_save_choose_pattern.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "37e64e7098176570d8f4a897367bf5aca36aa1bfb7d4fa5d2194d1ec91730651",
+    "role": "check",
+    "sha256": "42cc556f5b265be763e246000427976edaaba798ef3801d342336226b0adf64b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_switch_off.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "67fb87f3883c641e59cdbaf61c5b57bd55be2baf45b05d4c2b86edb974793c64",
+    "role": "toggleoff",
+    "sha256": "1d6fb53ba3224b370e828c05e1b6a1c5bc63c62b111c559706bf98e630867408",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_switch_on.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "593de8bd1e3ef1a2fe9c9c06c31d8ee912898f0db8a34a867eaacbf89e377205",
+    "role": "toggleon",
+    "sha256": "1d433caa04f2de1fbf38281cc2ff69d58a683eb9c061dd49db25c48bf96b30ec",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_template_image.png",
+    "size": [
+      216,
+      192
+    ],
+    "alpha_extrema": [
+      0,
+      209
+    ],
+    "original_sha256": "f5d8aec7dd1ecf7ef6113381effe52578b14403837278aa20338ef00b25155ff",
+    "role": "landscape",
+    "sha256": "f07047a4c60466acca4ba37e58b2f549cc5099a5c4258e5f38cc2bc3ec333dde",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_text_font_size.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c86ea1ee00b94a60917fe6083d712f158fbf71f8a9c65385a39c924c8de29ec",
+    "role": "size",
+    "sha256": "1255b42b18c6c30adbe57df421bfa33a0c2b5f1718344c6461d5a2762390c6bb",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_text_spacing.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2db65121b296c69a70185932266381e7a50267919cfe6133a456577021e5e12e",
+    "role": "spacing",
+    "sha256": "a32d8e36a2c0d450c54a46c22fb548b9a2eab5184e71c6c38037e0ae7fb69a90",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-template/assets/drawable__ic_thump_32.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4a1cfbe8511d8ae1d7b634f9d2a2c30600101227c24b506ba2c1dbe28e087e8e",
+    "role": "thumb",
+    "sha256": "f644c1b38f64816a786b0eb5fc22bfe08c390ca4d5ec8567594c6884925a20ef",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_bold_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9bf7a6413e5e76d48b6ece25b9e397a0cb73623ea9686e73f28a4c9553cb29b6",
+    "role": "bold",
+    "sha256": "a6d816599032d91d698f62aabffd6798e63ce2405272ea5e00c0cbd17f825895",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_color_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "367cc4903dc33eceb4854709b7eca22a8945149f9bcd90dd554d47b3e79e7ba2",
+    "role": "palette",
+    "sha256": "7d2e3b1840874af6190250b5bddc00f5ff735c49dd61b6f2add2feddc4a1879a",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_color_thumb.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ad13c3db49b91c7b983747347d423b52485e73934e84b99587d6584a19557828",
+    "role": "ring",
+    "sha256": "cfae24f755747d8a4599d5f2ff42245ec79bce4b95bacf3f614e0666e0611d9c",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_confirm.png",
+    "size": [
+      82,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "916d57fa1851537eccad85a57652af177450a66d9da1c3f11829e805b0bc7bfd",
+    "role": "check",
+    "sha256": "318c9a4c01f601d038771413835d2a4236ad4080deef8ea792ca7ecfce8b7611",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_dialog_cancel.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "3b528887d2ce9358f4e43c1bd9ea9c8ac9ed60dab72a912d58bfacd79f40f267",
+    "role": "cancel",
+    "sha256": "fc08b95b82f45b2bc08bd6bdd18bad160623a0e6dceb73d56db603cc0bd50daf",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_dialog_confirm.png",
+    "size": [
+      123,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d381d0c19784aae527e3e5ed70947bb49c5507cc77d2a804f461a825c30423a",
+    "role": "check",
+    "sha256": "d92c39d2fe76d35742e072761e83c65417df66308c9c3744543448f97dc193b3",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_emoji.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b3ed0037d6d96c922e512ff3323a596dd1300c90e5b446cdea5f4730b0ee8f1b",
+    "role": "smiley",
+    "sha256": "f2dde11c3d6df7cff62918719df26149a6eb231f43a6427f2c1954e5e30544a6",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_enter_32.png",
+    "size": [
+      60,
+      60
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2b8708b1d808591ed0b55a60e513c9578b877e186846663536b13ce6103b7751",
+    "role": "forward",
+    "sha256": "51fbd9e672684ce721f747c31c59ff4b8bd80461b1a5bb7b2c3b45ace5ba0c35",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1",
+    "role": "back",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_font_type.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "5e7917fa06e91c88803993ba09216ec9d23fc02673fa8319c75787a2d376c729",
+    "role": "font",
+    "sha256": "7b7b0659f0f77d41fd1e2803d011675d2523d2baeb35956f64adbeff7f0ef425",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_frame_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e61c116da055e26f97b785efebf26e851d253faabc1382848cd52411ac3bfd02",
+    "role": "framecontrol",
+    "sha256": "b92d66ab9ab952a3a3813eb343f810a27f9ac7be5b53403582297939bdd2b7d5",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_keyboard.png",
+    "size": [
+      78,
+      78
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "546890eab597dfc928408882884ca18dd82b042637dd250f1216f7e5e2fa2025",
+    "role": "keyboard",
+    "sha256": "b25d5d7a60443c711d37a0a55701f88cfef2d95c7cf10aa6af1d8b4c3fe1a1fc",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_left.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "89d02953c7f31884bc86ee3ae691d90eb66cda843b782c79c613b1a198b64d36",
+    "role": "lefttriangle",
+    "sha256": "33198ea78065681b3592afbafcc5d0e74ebdae664017e7fd44fe07fcaca30931",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_mode_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "b8743d0b17e1c0de3ba4804449bc00c764ffbea172c04bdc7d8bf9549c02b636",
+    "role": "grid",
+    "sha256": "d717772983e79d2dd000da734e7766ca65be5b3a0f5d0d01f3b277e53079160b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_moving_internal.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "da223a64ffb931955db0381cf8f4e1b8171bec52a1f11509af4646c354fcb0ed",
+    "role": "spacingbars",
+    "sha256": "29e7e3fc7243c28071cacdb3f8c9369446fe3705b0681d68c368aab49deab4b0",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_right.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "93755c119e6a1096d4ad67042d7e5d81bc1eb16f6c944442e25b8cf57491b5c1",
+    "role": "righttriangle",
+    "sha256": "b9484de58e7ce0564f172aa0ee1af1df1c42a41672c907e2ff94e834dab567aa",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_rotate_32.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8fffdec5b54ae77dacd257e93c52cdd6dec072a0200b74646c3e9e0c506a256d",
+    "role": "rotate",
+    "sha256": "7ca194905e45b32087c9af7e5aed835ada20b81cf9af145d9446ef7a5d0d5f83",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b",
+    "role": "save",
+    "sha256": "f68abc39da63e11bcbc6e923927c99bf97f46ef1ef864cf2ce29e351e90264b8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_select_all.png",
+    "size": [
+      120,
+      84
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "37896bc4fb3b4abfbb8ed8ce04cfb0c596502a53717433e20f1fa9a814769c2e",
+    "role": "selectall",
+    "sha256": "7be82b393b3a04a784ff84407ca87720a640c5bf73483b131c5ab5edfb26d953",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_switch_off.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "67fb87f3883c641e59cdbaf61c5b57bd55be2baf45b05d4c2b86edb974793c64",
+    "role": "toggleoff",
+    "sha256": "1d6fb53ba3224b370e828c05e1b6a1c5bc63c62b111c559706bf98e630867408",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_switch_on.png",
+    "size": [
+      120,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "593de8bd1e3ef1a2fe9c9c06c31d8ee912898f0db8a34a867eaacbf89e377205",
+    "role": "toggleon",
+    "sha256": "1d433caa04f2de1fbf38281cc2ff69d58a683eb9c061dd49db25c48bf96b30ec",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_text_font_size.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "9c86ea1ee00b94a60917fe6083d712f158fbf71f8a9c65385a39c924c8de29ec",
+    "role": "size",
+    "sha256": "1255b42b18c6c30adbe57df421bfa33a0c2b5f1718344c6461d5a2762390c6bb",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_text_spacing.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "2db65121b296c69a70185932266381e7a50267919cfe6133a456577021e5e12e",
+    "role": "spacing",
+    "sha256": "a32d8e36a2c0d450c54a46c22fb548b9a2eab5184e71c6c38037e0ae7fb69a90",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_thump_32.png",
+    "size": [
+      42,
+      42
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "4a1cfbe8511d8ae1d7b634f9d2a2c30600101227c24b506ba2c1dbe28e087e8e",
+    "role": "thumb",
+    "sha256": "f644c1b38f64816a786b0eb5fc22bfe08c390ca4d5ec8567594c6884925a20ef",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-coolled-text/assets/ic_un_select_all.png",
+    "size": [
+      120,
+      84
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f1561be42b83d0a4ad6e3fdf39ce7df9a759d4ae6f4ec5425b104f249f8c81da",
+    "role": "unselectall",
+    "sha256": "99fad8ce18d7b92e10a9ae11373885c63ca496cccc574ca4d5aa76089ccc0db9",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_add.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "db8500ef6ab16bee2f04364154237c96a075864eecdf4cb9c999051bd05fe4a2",
+    "role": "add",
+    "sha256": "770ca80381dac9947dc5a46af15b1640eced0e31d245f54931e939d42fd4c098",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_add_draw.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "6d719644dcd18e3ec4533653565912545592071c01ff34ecab62ad9136ee2a52",
+    "role": "add",
+    "sha256": "770ca80381dac9947dc5a46af15b1640eced0e31d245f54931e939d42fd4c098",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_animation_edit_empty.png",
+    "size": [
+      360,
+      288
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "e6938af14711104ebdcbba256646d7a60e0bd01e2970403cf348123dbadd4478",
+    "role": "emptyanimation",
+    "sha256": "cbf8c8601ab8d0cdd32e73f8b90d7824219acc1b2e9b76c20178e0b522fe5c59",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_animation_list_bg.png",
+    "size": [
+      1848,
+      126
+    ],
+    "alpha_extrema": [
+      96,
+      255
+    ],
+    "original_sha256": "0c98d4e6a1e90695238c6a57544278e1b39ccbd8a51b883cb198d51e3f81792f",
+    "role": "listbg",
+    "sha256": "07b7348de4eead68d8c3f28f3e5fdf9295597ecfb7fb72c243cfa3391134174b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_animation_number_bg.png",
+    "size": [
+      78,
+      60
+    ],
+    "alpha_extrema": [
+      16,
+      255
+    ],
+    "original_sha256": "a62db7f90bdf7d046c15aece24d5f2ac2f2c2f3c28a9b383bba6d1a00f7a71dc",
+    "role": "numberbg",
+    "sha256": "9ec71c3007c46b69a2fff2979ee1e3c7885df5c04ac3df319ed40a03471bc5d2",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_clear_all_animation.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "f1dff8bd000fe0a42097ff31ccf5f8aa4e046c745c35668f40b178380f7b36e7",
+    "role": "broom",
+    "sha256": "13da1854d8a46430df0e5c51828799b9e2f78fec520eb7582965d08adf3ce2c7",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_drag.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "d006dfa7afd55bd64c01a025d7bdf4cdcc808f332df4a43235dc8e8a6730d329",
+    "role": "sort",
+    "sha256": "39e8199e93ee62eaa363bff357e383a18a39d58703a60869f69eb2fbd84d3288",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "8c15b8d49157b2e3aad2c02d8296c8cba7ad8f268143f0d4315acaced7611c86",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit_copy.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "c7da60f40851579603d903a592137bb6d4400fac799e962e424fea94fa3b1874",
+    "role": "copy",
+    "sha256": "ade6295fe1cbb5ed7b2845ccd30589d021e5d34a9cc0c749f22d6694c147ba2b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit_delete.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ced4ae043a49f1006de8398626f82f742dc241d1057e5118bf8a215b0a89c437",
+    "role": "trash",
+    "sha256": "4cd417e493e1afa39a6deecb43e4fdcbc3088d8ced9f69013aa4a793058f3369",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_edit_edit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "32cb46b33f9ec6d76447a20e4cc9a1a99fdbd6bb1687cf996dc3045520ed0665",
+    "role": "pencil",
+    "sha256": "e61f474009ae70518acfa74e68e3918bec743107508363e4bd339f91a7067f66",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_exit.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "bcdee3d3cdac2b9262b4fd3540d4d36b85efb1eaf10a519c62cf44be92d41fc1",
+    "role": "back",
+    "sha256": "24ac7ec97d53d558eeab53507f9696b5164cb84e4eda5ead975720825533def8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_import.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "021dae75d96522600e4375b2224f75133bb036c25cd122ea410742b261556953",
+    "role": "import",
+    "sha256": "c602ad6b3b54e997e74d37a245d6def25cee5271b4f61cdb819b5fc17af7c02d",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_save.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "acf9aad36e019c8e7005b9bd8487f058c1d6a98cb9e5da1e731483175cb1533b",
+    "role": "save",
+    "sha256": "f68abc39da63e11bcbc6e923927c99bf97f46ef1ef864cf2ce29e351e90264b8",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_share.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ba462335b59e5c949041b8809191963d9e2d24d407cb313f8c30455c1c047ecd",
+    "role": "share",
+    "sha256": "03fd7078bf8104773eb6e84371f27cf99a16ed1b1f0b2673d0bb69f61bf91ff2",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_to_bottom.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ab1456c5a27eabeac710ab17a8684f70dd8284ed6b860dfc460540cb5937d042",
+    "role": "bottom",
+    "sha256": "e82595bcfbd533b359ed31f72fe3fcbb45cbb7ed183d1f803310ecb35d553479",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-assets/ic_to_top.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ee0fb77f3a168906d37d119a8dfe397921370b7860e6ee176e410ebee0196da1",
+    "role": "top",
+    "sha256": "2a297918fed22f5e0aa3a5a9ba21f1ff805f99c9cb05faa42bed8988b3d8ffa5",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-media-assets/drawable__ic_back.png",
+    "size": [
+      90,
+      90
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "baf40e3962a4f2638dbb196bc534b0ec463613e074198ad2a6f4c0f95ef72c4d",
+    "role": "back",
+    "sha256": "b735e237af1fab1f9f3ba3168328809d900a8172e46182b9f099713418225e85",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  },
+  {
+    "path": "native-ux-animation-media-assets/drawable__ic_crop_confirm.png",
+    "size": [
+      72,
+      72
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "original_sha256": "ed5618e717d5bbbea7d8890ad8141b484f4f1ca4bebb84beb8f53d700e141c86",
+    "role": "check",
+    "sha256": "42cc556f5b265be763e246000427976edaaba798ef3801d342336226b0adf64b",
+    "origin": "Independently authored procedural geometry in generate.py; no raster inputs"
+  }
+]

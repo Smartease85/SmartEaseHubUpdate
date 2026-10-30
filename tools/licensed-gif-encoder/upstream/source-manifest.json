@@ -1,0 +1,42 @@
+[
+  {
+    "repo": "bumptech/glide",
+    "commit": "51725a9b86dda94fd988e4bffb461ad97e34fedc",
+    "path": "third_party/gif_encoder/LICENSE",
+    "url": "https://github.com/bumptech/glide/blob/51725a9b86dda94fd988e4bffb461ad97e34fedc/third_party/gif_encoder/LICENSE",
+    "local": "glide-LICENSE",
+    "sha256": "53c374ac74cd80ba7c5b751984b7f3ecfe1648090fa957b405c122c33b8a14c8"
+  },
+  {
+    "repo": "bumptech/glide",
+    "commit": "51725a9b86dda94fd988e4bffb461ad97e34fedc",
+    "path": "third_party/gif_encoder/src/main/java/com/bumptech/glide/gifencoder/NeuQuant.java",
+    "url": "https://github.com/bumptech/glide/blob/51725a9b86dda94fd988e4bffb461ad97e34fedc/third_party/gif_encoder/src/main/java/com/bumptech/glide/gifencoder/NeuQuant.java",
+    "local": "glide-NeuQuant.java",
+    "sha256": "d85fc385ad80f6e6f355774bda6778033c95e3d1f5d0d9c07814b37e6577c591"
+  },
+  {
+    "repo": "jnordberg/gif.js",
+    "commit": "92d27a02841339e202c75150dcf6fe5f4fa42ec5",
+    "path": "LICENSE",
+    "url": "https://github.com/jnordberg/gif.js/blob/92d27a02841339e202c75150dcf6fe5f4fa42ec5/LICENSE",
+    "local": "gif.js-LICENSE",
+    "sha256": "9a11e10f1864ed90c106d344eee7c20dd7170c4f0fbb8c45fe2e8a3b1fb821fe"
+  },
+  {
+    "repo": "jnordberg/gif.js",
+    "commit": "92d27a02841339e202c75150dcf6fe5f4fa42ec5",
+    "path": "src/NeuQuant.js",
+    "url": "https://github.com/jnordberg/gif.js/blob/92d27a02841339e202c75150dcf6fe5f4fa42ec5/src/NeuQuant.js",
+    "local": "gif.js-NeuQuant.js",
+    "sha256": "e7abdba0b4e4c2ec46dc29b30ba33533ad2cc96cac4f2f691fc2e908fe8d21fb"
+  },
+  {
+    "repo": "jnordberg/gif.js",
+    "commit": "92d27a02841339e202c75150dcf6fe5f4fa42ec5",
+    "path": "src/LZWEncoder.js",
+    "url": "https://github.com/jnordberg/gif.js/blob/92d27a02841339e202c75150dcf6fe5f4fa42ec5/src/LZWEncoder.js",
+    "local": "gif.js-LZWEncoder.js",
+    "sha256": "1f88e60b295321f2c1790938446759691c363343523561d0d16e65568a7729cd"
+  }
+]

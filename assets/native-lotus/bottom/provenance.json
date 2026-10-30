@@ -1,0 +1,246 @@
+{
+  "source": "Independently authored geometric UI artwork",
+  "generator": "tools/generate-lotus-controls.py",
+  "assets": [
+    {
+      "path": "assets/native-lotus/bottom/ic_bottom_off.png",
+      "size": [
+        186,
+        186
+      ],
+      "alphaBounds": [
+        5,
+        5,
+        181,
+        181
+      ],
+      "sha256": "6122084f626a7feb6fc36d562ef6e59654c9a4df1c9e3b9691799bdbade58718",
+      "meaning": "power button ic_bottom_off",
+      "origin": "independently authored geometry",
+      "name": "ic_bottom_off",
+      "src": "assets/native-lotus/bottom/ic_bottom_off.png",
+      "asset": "assets/native-lotus/bottom/ic_bottom_off.png",
+      "bytes": 12064
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_bottom_on.png",
+      "size": [
+        186,
+        186
+      ],
+      "alphaBounds": [
+        5,
+        5,
+        181,
+        181
+      ],
+      "sha256": "e6144def7bf46c06e27a3208b197902e7601b47d251e561e0dfcb0df1a5180c2",
+      "meaning": "power button ic_bottom_on",
+      "origin": "independently authored geometry",
+      "name": "ic_bottom_on",
+      "src": "assets/native-lotus/bottom/ic_bottom_on.png",
+      "asset": "assets/native-lotus/bottom/ic_bottom_on.png",
+      "bytes": 10225
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_mode_l.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        13,
+        11,
+        86,
+        83
+      ],
+      "sha256": "75da2c38feef92aea741db5549d96e42800502e82be37ba99665880a0a2adc91",
+      "meaning": "sliders gray",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_mode_l",
+      "src": "assets/native-lotus/bottom/ic_tab_mode_l.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_mode_l.png",
+      "bytes": 4428
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_mode_s.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        13,
+        11,
+        86,
+        83
+      ],
+      "sha256": "3bb89be90a5328f4cf5d0141744bcb7e535611494bf34b0a59986cd5b209323f",
+      "meaning": "sliders gradient",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_mode_s",
+      "src": "assets/native-lotus/bottom/ic_tab_mode_s.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_mode_s.png",
+      "bytes": 4748
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_music_l.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        11,
+        9,
+        83,
+        85
+      ],
+      "sha256": "203072b97ccb1b8a21f25e209f7fb8d067bff3319392a3befcc7016d714df1c6",
+      "meaning": "note gray",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_music_l",
+      "src": "assets/native-lotus/bottom/ic_tab_music_l.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_music_l.png",
+      "bytes": 4539
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_music_s.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        82,
+        88
+      ],
+      "sha256": "75229d78d6d5f9ab4bd81cb6bae10dbd11c242345e1236d87c85614ee8cf4f63",
+      "meaning": "note gradient",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_music_s",
+      "src": "assets/native-lotus/bottom/ic_tab_music_s.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_music_s.png",
+      "bytes": 4942
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_palette_l.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        7,
+        7,
+        91,
+        91
+      ],
+      "sha256": "914b2ce597970defc5d5a3d4048dddaa63db8e951f5fb633f639e9e1545b240f",
+      "meaning": "palette gray",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_palette_l",
+      "src": "assets/native-lotus/bottom/ic_tab_palette_l.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_palette_l.png",
+      "bytes": 7396
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_palette_s.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        7,
+        7,
+        91,
+        91
+      ],
+      "sha256": "3cad12d0b110ce2aff2d172ab41fb96762e72d44027d0d715a3fd406e66bc037",
+      "meaning": "palette gradient",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_palette_s",
+      "src": "assets/native-lotus/bottom/ic_tab_palette_s.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_palette_s.png",
+      "bytes": 8135
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_scene_l.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        12,
+        11,
+        84,
+        85
+      ],
+      "sha256": "ab3dae09f97eb0a519cd7a8a266db29d4341260cfff98589ec0667d41c449043",
+      "meaning": "clapper gray",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_scene_l",
+      "src": "assets/native-lotus/bottom/ic_tab_scene_l.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_scene_l.png",
+      "bytes": 3654
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_scene_s.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        12,
+        11,
+        84,
+        85
+      ],
+      "sha256": "5cba822471e9809dc7d4baa443f0df27775515875ab3ac6bf6697f1ef3e488f3",
+      "meaning": "clapper gradient",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_scene_s",
+      "src": "assets/native-lotus/bottom/ic_tab_scene_s.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_scene_s.png",
+      "bytes": 4770
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_timing_l.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        84,
+        84
+      ],
+      "sha256": "0ee7e2e3db0d22ddde07a939c0392abd90fdcf3bc38fad455abb9e03febd54e4",
+      "meaning": "clock gray",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_timing_l",
+      "src": "assets/native-lotus/bottom/ic_tab_timing_l.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_timing_l.png",
+      "bytes": 5081
+    },
+    {
+      "path": "assets/native-lotus/bottom/ic_tab_timing_s.png",
+      "size": [
+        96,
+        96
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        84,
+        84
+      ],
+      "sha256": "1cfa4126dca1ef8cc4962acabf2de9c96f0398160599979c3a993891387a95f0",
+      "meaning": "clock gradient",
+      "origin": "independently authored geometry",
+      "name": "ic_tab_timing_s",
+      "src": "assets/native-lotus/bottom/ic_tab_timing_s.png",
+      "asset": "assets/native-lotus/bottom/ic_tab_timing_s.png",
+      "bytes": 5823
+    }
+  ]
+}

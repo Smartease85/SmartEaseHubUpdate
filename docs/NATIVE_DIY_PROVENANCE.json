@@ -1,0 +1,526 @@
+{
+  "status": "staged reimplementation, not lost source recovery or hardware/iOS verification",
+  "sources": [
+    {
+      "path": "native-recovery/next-diy/SymphonyScenesActivity.java",
+      "sha256": "7efde36994b91600c1cf5379538b7adb85fb520a495ed2a33ef2410d994d0815"
+    },
+    {
+      "path": "native-recovery/next-diy/CircleView.java",
+      "sha256": "7be770b9ca718b9e2d75cd1f70a586c996ff6d03e5a1ddda5387827159d4700b"
+    },
+    {
+      "path": "native-recovery/next-diy/LGT.xml.txt",
+      "sha256": "a33671177462f859469abefe85ce1e7414c9628214845409ecfa572aa5600be7"
+    },
+    {
+      "path": "lotusx-protocol-research/AppConstant.java",
+      "sha256": "8705ca452ad395bc2bb85715b6b2afc7440a1e15b34604c7e1722a2510685c3f"
+    },
+    {
+      "path": "lotusx-protocol-research/LPBleHelper.java",
+      "sha256": "275dbeb0e867e562c685e58c1c4c9c8cfd3bb0571269a4925985f77ced9b184c"
+    },
+    {
+      "path": "lotusx-protocol-research/BleExtKt.java",
+      "sha256": "94d8774d3a4fe4af2ea0c0f5e95b8f0e143ccbd0fe70830cb084f6c3daec83f7"
+    },
+    {
+      "path": "native-recovery/evidence/color/RainbowRingPalette.java",
+      "sha256": "d9051f04e900998b8af5fc3165f1eb1b1f81046bbd2c2e34bc7ae0df6aaf09ec"
+    },
+    {
+      "path": "native-rebuild-worktree/assets/native-lotus/color/ic_palette_bg.png",
+      "sha256": "7f6232933153b91518a7349d07bce141f4d9b3213195a985e01e5f08165b2ee5"
+    }
+  ],
+  "resources": [
+    {
+      "id": "0x7f030002",
+      "name": "add_scenes_item_name_array",
+      "resourceType": "array",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "name": 16777217,
+          "type": 1,
+          "data": 2131952983
+        },
+        {
+          "name": 16777218,
+          "type": 1,
+          "data": 2131952961
+        },
+        {
+          "name": 16777219,
+          "type": 1,
+          "data": 2131952984
+        },
+        {
+          "name": 16777220,
+          "type": 1,
+          "data": 2131952975
+        },
+        {
+          "name": 16777221,
+          "type": 1,
+          "data": 2131952979
+        },
+        {
+          "name": 16777222,
+          "type": 1,
+          "data": 2131952962
+        },
+        {
+          "name": 16777223,
+          "type": 1,
+          "data": 2131952974
+        }
+      ]
+    },
+    {
+      "id": "0x7f060089",
+      "name": "color_blue",
+      "resourceType": "color",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 28,
+          "data": 4278190335
+        }
+      ]
+    },
+    {
+      "id": "0x7f0600a6",
+      "name": "color_green",
+      "resourceType": "color",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 28,
+          "data": 4278255360
+        }
+      ]
+    },
+    {
+      "id": "0x7f0600a9",
+      "name": "color_orange",
+      "resourceType": "color",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 28,
+          "data": 4294934272
+        }
+      ]
+    },
+    {
+      "id": "0x7f0600ab",
+      "name": "color_red",
+      "resourceType": "color",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 28,
+          "data": 4294901760
+        }
+      ]
+    },
+    {
+      "id": "0x7f0600ad",
+      "name": "color_yellow",
+      "resourceType": "color",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 28,
+          "data": 4294967040
+        }
+      ]
+    },
+    {
+      "id": "0x7f13053f",
+      "name": "string_diy_add",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5607,
+          "string": "Add"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130540",
+      "name": "string_diy_add_scene",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5611,
+          "string": "Add Scene"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130541",
+      "name": "string_diy_breathe",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5745,
+          "string": "Breathe"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130542",
+      "name": "string_diy_closing_flow",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5814,
+          "string": "Closing Flow"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130543",
+      "name": "string_diy_dark_light_dark",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5932,
+          "string": "Dark Light Dark"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130544",
+      "name": "string_diy_dialog_scene_name",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6629,
+          "string": "Scene Name"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130545",
+      "name": "string_diy_edit",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5990,
+          "string": "Edit"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130546",
+      "name": "string_diy_forwardChasingLight",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6084,
+          "string": "Forward Lighting"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130547",
+      "name": "string_diy_forward_stack",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6089,
+          "string": "Forward Stack"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130548",
+      "name": "string_diy_gradient",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6121,
+          "string": "Gradient"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130549",
+      "name": "string_diy_light_dark",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6227,
+          "string": "Light Dark"
+        }
+      ]
+    },
+    {
+      "id": "0x7f13054a",
+      "name": "string_diy_monochromeStacking",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6313,
+          "string": "Monochrome Stacking"
+        }
+      ]
+    },
+    {
+      "id": "0x7f13054b",
+      "name": "string_diy_multiColorStacking",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6328,
+          "string": "Multi-color Stacking"
+        }
+      ]
+    },
+    {
+      "id": "0x7f13054c",
+      "name": "string_diy_name",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6336,
+          "string": "Name"
+        }
+      ]
+    },
+    {
+      "id": "0x7f13054d",
+      "name": "string_diy_none",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6366,
+          "string": "None"
+        }
+      ]
+    },
+    {
+      "id": "0x7f13054e",
+      "name": "string_diy_opening_flow",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6394,
+          "string": "Opening Flow"
+        }
+      ]
+    },
+    {
+      "id": "0x7f13054f",
+      "name": "string_diy_positive_flow",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6465,
+          "string": "Positive Flow"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130550",
+      "name": "string_diy_preview",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6468,
+          "string": "Preview"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130551",
+      "name": "string_diy_remove",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6579,
+          "string": "Remove"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130552",
+      "name": "string_diy_reverseChasingLight",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6592,
+          "string": "Reverse Lighting"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130553",
+      "name": "string_diy_reverse_flow",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6589,
+          "string": "Reverse Flow"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130554",
+      "name": "string_diy_reverse_stack",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6597,
+          "string": "Reverse Stack"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130555",
+      "name": "string_diy_save",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6619,
+          "string": "Save"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130556",
+      "name": "string_diy_scene_name",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5928,
+          "string": "DIY Scene Name"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130557",
+      "name": "string_diy_static",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6769,
+          "string": "Static"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130558",
+      "name": "string_diy_strobe",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 6783,
+          "string": "Strobe"
+        }
+      ]
+    },
+    {
+      "id": "0x7f130559",
+      "name": "string_diy_want_to_remove_this_scene",
+      "resourceType": "string",
+      "config": "40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "defaultLocale": true,
+      "values": [
+        {
+          "type": 3,
+          "data": 5662,
+          "string": "Are you sure you want to remove this scene?"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "ic_music_loop",
+    "asset": "assets/native-lotus/rhythm/ic_music_loop.png",
+    "sha256": "e63fc523dbd0f256cb122fed0c023557774e77d81ec3d8cb0b24f94f0f6d7101",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "ic_music_shuffle",
+    "asset": "assets/native-lotus/rhythm/ic_music_shuffle.png",
+    "sha256": "9cf408189b79b2af1b7d29f360b3eb182b5df2fedebd9ef81cf93a3a332e9386",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "ic_music_one",
+    "asset": "assets/native-lotus/rhythm/ic_music_one.png",
+    "sha256": "9f1852857f5ae19ae19347946aff7d2c22380f4e338df861ea37610ac6377947",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "ic_music_stop",
+    "asset": "assets/native-lotus/rhythm/ic_music_stop.png",
+    "sha256": "16f2cae52044d56bb5b27909b451dcfa8a9dc610decbeae4bcbb9bb04ca15fdb",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "ic_music_fill",
+    "asset": "assets/native-lotus/rhythm/ic_music_fill.png",
+    "sha256": "a7e008464a417776ecb15ac06f339d6c68ee9db1ff94fd802258c0d5d6d5d306",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "ic_music_prev",
+    "asset": "assets/native-lotus/rhythm/ic_music_prev.png",
+    "sha256": "bffb9c64fb8e9441e9b00d63451dc69b108f647a89ace4a24b12c47852390e54",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "ic_music_next",
+    "asset": "assets/native-lotus/rhythm/ic_music_next.png",
+    "sha256": "2ad368fe4b69f54369fcc7721fac98abb3e69f684cf0197c3b52713d1b09dea9",
+    "origin": "independently authored geometry"
+  },
+  {
+    "name": "music_list",
+    "asset": "assets/native-lotus/rhythm/music_list.png",
+    "sha256": "ce347b2d4a0f82acdf62053dd87dfa38ba9aa4a49fffa1b8227341bbc7f8f8fa",
+    "origin": "independently authored geometry"
+  }
+]

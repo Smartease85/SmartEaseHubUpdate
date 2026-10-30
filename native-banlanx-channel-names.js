@@ -1,0 +1,13 @@
+/* Native channel names are local metadata, never a physical device rename. */
+'use strict';
+(()=>{
+ const store=SmartEaseBanlanXChannelNameStore.create({getItem:k=>localStorage.getItem(k),setItem:(k,v)=>localStorage.setItem(k,v)});let component=null,section=null,bridge=null,bound=null;
+ function name(id,index){if(typeof id!=='string'||!id)return 'Channel '+(index+1);try{return store.get(id,index);}catch{return 'Channel '+(index+1);}}
+ function leave(){component?.dispose();component=null;section?.remove();section=null;bridge=null;bound=null;}
+ function enter(host,adapter){leave();bridge=adapter;bound=adapter.identity();section=document.createElement('section');section.className='bx-channel-name-host';host.append(section);if(!bound.id)return;
+ const owner=bound;component=SmartEaseBanlanXChannelNames.create(section,{store,valid:()=>bridge===adapter&&bound===owner&&adapter.valid()&&nativeAppState.screen==='channels'&&adapter.identity().id===owner.id&&adapter.identity().session===owner.session,onSaved:()=>window.SmartEaseNativeSP?.namesChanged()});component.enter({identity:owner.id,generation:owner.session,ordinary:true});
+ const state=component.snapshot();if(state.revoked){const notice=document.createElement('p');notice.className='small-note bx-channel-name-error';notice.setAttribute('role','status');notice.textContent='Saved channel names are unavailable: '+state.notice+'. Original data was preserved.';section.append(notice);}}
+ function admit(){if(!component||!bridge||!bound||!bridge.valid()||nativeAppState.screen!=='channels')return false;const now=bridge.identity();if(now.id!==bound.id||now.session!==bound.session)return false;if(component.snapshot().revoked)component.enter({identity:bound.id,generation:bound.session,ordinary:true});const ready=!component.snapshot().revoked;if(ready)section?.querySelector('.bx-channel-name-error')?.remove();return ready;}
+ function bind(card,i){if(!component)return;const owner=component,connection=bound;const fresh=e=>{if(component!==owner||bound!==connection||!card.isConnected)return;if(e.type==='pointerdown'&&e.button!==0)return;if(e.type==='keydown'&&!(e.key==='F2'||e.shiftKey&&e.key==='F10'))return;if(e.target.closest('button,input,select,textarea')&&!e.target.closest('[data-channel-name-gesture]'))return;admit();};for(const type of ['pointerdown','contextmenu','keydown'])card.addEventListener(type,fresh);const detach=component.bind(card,i);return()=>{for(const type of ['pointerdown','contextmenu','keydown'])card.removeEventListener(type,fresh);detach();};}
+ window.SmartEaseNativeSPChannelNames={enter,leave,name,bind,rename:i=>admit()?component.rename(i):false,state:()=>component?.snapshot()||null};
+})();

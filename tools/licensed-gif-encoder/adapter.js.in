@@ -1,0 +1,80 @@
+// Authored fixed-geometry API adapter. Quantization/compression are upstream-derived above.
+const WIDTH = 96, HEIGHT = 16, MAX_FRAMES = @MAX@;
+function pixelFrame(frame) {
+  const input = frame?.pixels ?? frame;
+  if (!(Array.isArray(input) || ArrayBuffer.isView(input)) || input.length !== WIDTH * HEIGHT)
+    throw new Error('GIF frame must contain exactly96×16 integer RGB/ARGB pixels');
+  const result = new Uint32Array(input.length);
+  for (let i = 0; i < input.length; i++) {
+    if (!Number.isInteger(input[i]) || input[i] < -2147483648 || input[i] > 4294967295)
+      throw new Error('Invalid GIF pixel');
+    result[i] = input[i] & 0xffffff;
+  }
+  return result;
+}
+function quantize(frame) {
+  const rgb = pixelFrame(frame), bgr = new Uint8Array(rgb.length * 3);
+  for (let i = 0; i < rgb.length; i++) {
+    bgr[i * 3] = rgb[i] & 255;
+    bgr[i * 3 + 1] = (rgb[i] >>> 8) & 255;
+    bgr[i * 3 + 2] = (rgb[i] >>> 16) & 255;
+  }
+  const quantizer = new LicensedNeuQuant(bgr, 1);
+  quantizer.buildColormap();
+  const colors = quantizer.getColormap(), palette = new Uint8Array(768);
+  for (let i = 0; i < 256; i++) {
+    palette[i * 3] = colors[i * 3 + 2];
+    palette[i * 3 + 1] = colors[i * 3 + 1];
+    palette[i * 3 + 2] = colors[i * 3];
+  }
+  const indices = new Uint8Array(rgb.length);
+  for (let i = 0; i < rgb.length; i++) {
+    const index = quantizer.lookupRGB(bgr[i * 3], bgr[i * 3 + 1], bgr[i * 3 + 2]);
+    if (index < 0) throw new Error('GIF quantizer could not map pixel');
+    indices[i] = index;
+  }
+  return {palette, indices};
+}
+function lzw(indices) {
+  if (!(indices instanceof Uint8Array) || !indices.length || indices.length > MAX_FRAMES * WIDTH * HEIGHT)
+    throw new Error('Invalid indexed pixel stream');
+  const bytes = [];
+  new LicensedLZWEncoder(indices.length, 1, indices, 8).encode({
+    writeByte(value) { bytes.push(value & 255); },
+    writeBytes(values, offset, length) { for (let i = offset; i < offset + length; i++) bytes.push(values[i]); }
+  });
+  return Uint8Array.from(bytes);
+}
+function encode(frames, options = {}) {
+  if (!Array.isArray(frames) || !frames.length || frames.length > MAX_FRAMES)
+    throw new Error(@DYNAMIC@ ? 'Dynamic GIF needs1–52 frames (browser raw allocation bound)' : 'GIF export needs1–40 frames');
+  const validDelay = n => Number.isInteger(n) && n >= 0 && n <= 655350;
+  let delays;
+  if (@DYNAMIC@) {
+    if (!Array.isArray(options.delays) || options.delays.length !== frames.length || !options.delays.every(validDelay))
+      throw new Error('Explicit per-frame GIF delays0–655350 required');
+    delays = options.delays.slice();
+  } else {
+    if (!validDelay(options.delayMs)) throw new Error('Explicit integer GIF delayMs0–655350 required');
+    delays = frames.map(() => options.delayMs);
+  }
+  const copies = frames.map(pixelFrame), bytes = [];
+  const byte = n => bytes.push(n & 255);
+  const word = n => { byte(n); byte(n >>> 8); };
+  const ascii = value => { for (const c of value) byte(c.charCodeAt(0)); };
+  ascii('GIF89a'); word(WIDTH); word(HEIGHT); byte(0xf7); byte(0); byte(0);
+  for (let i = 0; i < copies.length; i++) {
+    const {palette, indices} = quantize(copies[i]);
+    if (i === 0) {
+      bytes.push(...palette);
+      bytes.push(0x21, 0xff, 11); ascii('NETSCAPE2.0'); bytes.push(3, 1); word(0); byte(0);
+    }
+    bytes.push(0x21, 0xf9, 4, 0); word(Math.floor(delays[i] / 10)); bytes.push(0, 0, 0x2c);
+    word(0); word(0); word(WIDTH); word(HEIGHT); byte(i === 0 ? 0 : 0x87);
+    if (i !== 0) bytes.push(...palette);
+    bytes.push(...lzw(indices));
+  }
+  byte(0x3b);
+  return Uint8Array.from(bytes);
+}
+return Object.freeze({encode, quantize, lzw, WIDTH, HEIGHT, MAX_FRAMES});

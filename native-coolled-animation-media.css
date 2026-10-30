@@ -1,0 +1,13 @@
+/* Fixed viewport is an intentional browser adaptation, avoiding offscreen landscape dialogs. */
+#app .uxa-crop,.uxa-crop{position:fixed;inset:0;z-index:10000;background:#1c1c1c;color:#fff;overflow:auto;overscroll-behavior:contain;padding:max(8px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));box-sizing:border-box;}
+#app .uxa-crop header,.uxa-crop header{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:8px;}
+#app .uxa-crop h2,.uxa-crop h2{font-size:18px;text-align:center;margin:0;color:#fff;}
+#app .uxa-crop button,.uxa-crop button{min-width:44px;min-height:44px;padding:8px;background:transparent;border:0;color:#fff;}
+#app .uxa-crop button:focus-visible,.uxa-crop button:focus-visible{outline:2px solid #0877cd;outline-offset:2px;}
+.uxa-crop button img{width:28px;height:28px;object-fit:contain;}
+.uxa-crop canvas{display:block;width:min(100%,720px,110dvh);height:auto;object-fit:contain;margin:auto;background:#222;touch-action:none;}
+#app .uxa-crop p,.uxa-crop p{color:#fff;margin:8px 0;font-size:13px;}
+.uxa-crop label{display:block;margin:8px 0;}.uxa-crop [hidden]{display:none!important;}.uxa-crop input[type=range]{width:min(70%,500px);}.uxa-crop .uxa-limits{font-size:12px;}
+#app dialog.uxa-choice,dialog.uxa-choice{background:#fff;color:#333;border:0;border-radius:8px;width:min(calc(100vw - 60px),480px);max-height:calc(100dvh - 32px);overflow:auto;padding:0;}
+#app .uxa-choice button,.uxa-choice button{display:block;width:100%;font-size:16px;color:#333;background:#fff;border:0;border-bottom:1px solid #ddd;padding:14px;min-height:44px;}
+#app .uxa-choice p,.uxa-choice p{color:#333;font-size:12px;padding:12px;}.uxa-choice::backdrop{background:#0008;}

@@ -1,0 +1,15 @@
+# Animation selected-media integration — internal candidate
+
+Integrates the independently reviewed isolated Animation media implementation into the existing editor. No agent opened a file picker, user media, platform share or BLE. No release/publication approval is implied.
+
+Owner flow: Import → Material / Phone album / Cancel. Material remains honestly unavailable without actual remote catalog metadata. Phone album is browser-selected PNG/JPEG/GIF, not broad album access. Crop uses original Back/Save assets, source #1c1c1c background,6:1 crop, pan/pinch, max10 zoom, no rotation. Keyboard controls, explicit truncation, accessible title/status and fixed viewport are browser adaptations. Save crop appends only to the working draft; editor Save separately persists the local program. Remote transmission remains separate.
+
+Lifecycle: import/share locks all editor mutations; owner identity, route epoch and local draft revision bind the whole media transaction. Explicit append increments and rebinds only its own revision. Navigation/hide/leave invalidates the transaction, closes dialogs and cancels exporter. Closed-crop latch blocks stale selected-file callbacks before arrayBuffer access and detached Save handlers. Late share completion cannot clear/revive a new editor. Host callbacks are guarded immediately before mutation.
+
+Source timing: both original Save-to-album and Share use the same GIF generated at1000−slider milliseconds (750→250ms), while persisted controller speed is950−slider (750→200ms). Encoder floors centiseconds, loops0, quality1 NeuQuant, no transparency. Frame metadata and unknown properties remain unchanged by export. GIF source byte identity is not claimed; independent Pillow decoding validated encoder semantics offline.
+
+Semitransparent pixels: original crop converter retains full signedARGB. `fromItems` now accepts the full signed32-bit integer range instead of incorrectly stopping positive values atRGB24. Existing sourceItems/unknown fields are preserved; new imported positive-alpha colors roundtrip without rewriting metadata. No saved-data migration.
+
+Safety bounds:8MiB inputs,4MP sourcecanvas,16MP decoded work,40retained frames/1024parsed. Malformed discarded frames also reject atomically. Current slider wins over imported GIF delays. Source combined first40 policy requires explicit truncation acknowledgment. PNG/JPEG decoding+EXIF delegates to browser createImageBitmap; deterministic crop sampler follows source two-stage geometry but is not a verified Android Skia pixel match. Browser capability failure is displayed and draft retained. Save-to-phone is clearly labeled as browser download, not camera-roll insertion; sharing availability is detected.
+
+Review evidence and test separation: isolated source contract and encoder fallback evidence are in the private development archive, not runtime dependencies. The main suite runs portable pure/DOM vectors and lifecycle tests; existing Pillow oracle tests remain in the isolated development stage. Program row animated previews and remote Material listing remain separate outstanding work; no wholeNative/pixel/hardware equivalence claim.

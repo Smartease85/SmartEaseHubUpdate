@@ -1,0 +1,6 @@
+{
+  "artworkVersion": "smartease-authored-clock-1",
+  "basis": "Independent authored geometry and bitmaps; docs/authored-clock/README.md. Original source layout/timing evidence retained privately, not copied artwork.",
+  "resourcesManifest": "docs/authored-clock/resources.json",
+  "scope": "18 meaningful replacement styles, 152 background frames, 54 glyph tables, 18 previews and2controls. No hardware or pixel parity claim."
+}

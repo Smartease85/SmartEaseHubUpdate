@@ -1,0 +1,17 @@
+/* Original three-row SelectDialogView; local preference only. */
+'use strict';
+(()=>{
+ const names=['Default','GIF','Text'],store=window.SmartEaseNativeModeStyleStore,host=document.createElement('section');host.id='nativeLotusModeStyle';host.hidden=true;
+ host.innerHTML='<dialog id="nmsDialog" aria-label="Mode Style"><div id="nmsOptions"></div><p id="nmsResult" role="status"></p><button id="nmsCancel" type="button">Cancel</button></dialog>';ui('nativeAppScreen').after(host);
+ let bound=null,dismissed=false,closing=false,ignored=0;
+ const route=()=>page==='native'&&nativeAppState.device==='nokins'&&nativeAppState.screen==='settings'&&nativeAppState.detail==='mode-style',stamp=()=>JSON.stringify([cartDevices[2].identity?.id||'',cartDevices[2].ownerLink.generation,cartDevices[2].ownerEpoch]),active=()=>route()&&!host.hidden&&ui('nmsDialog').open&&bound===stamp()&&!dismissed&&!closing&&!window.SmartEaseNative?.pendingBack&&document.visibilityState==='visible';
+ function hide(){host.hidden=true;bound=null;if(ui('nmsDialog').open){ignored++;ui('nmsDialog').close();}}
+ function leave(){hide();dismissed=false;closing=false;}
+ function requestOpen(){if(closing||window.SmartEaseNative?.pendingBack)return false;dismissed=false;return true;}
+ function paint(){if(!host.hidden&&(!route()||bound!==stamp()||document.visibilityState!=='visible')){dismissed=true;hide();return;}for(const b of ui('nmsOptions').children){b.setAttribute('aria-pressed',String(Number(b.dataset.modeStyle)===store.get()));b.disabled=of21Busy||!active();}}
+ function enter(){if(dismissed||closing||window.SmartEaseNative?.pendingBack)return;if(!route()||document.visibilityState!=='visible'){hide();return;}if(!host.hidden&&bound===stamp()){paint();return;}hide();host.hidden=false;bound=stamp();ui('nmsResult').textContent='Local browser preference only; selecting a style sends no command.';ui('nmsDialog').showModal();paint();}
+ function back(){if(!active())return false;closing=true;dismissed=true;hide();window.SmartEaseNative.settingsBack();return true;}
+ function select(value){if(!active()||of21Busy)return false;try{const saved=store.set(value,active);ui('nmsResult').textContent=saved?'Style saved locally.':'Unassigned preview only; it will not bind to a device automatically.';back();return true;}catch(e){ui('nmsResult').textContent='Not saved: '+e.message;paint();return false;}}
+ for(const [i,label]of names.entries()){const b=document.createElement('button');b.type='button';b.dataset.modeStyle=i;const image=document.createElement('img');image.src='assets/native-lotus/mode-style/ic_mode_style_'+['default','gif','text'][i]+'.png';image.alt='';const text=document.createElement('span');text.textContent=label;b.append(image,text);b.onclick=()=>select(i);ui('nmsOptions').append(b);}
+ ui('nmsCancel').onclick=back;ui('nmsDialog').addEventListener('cancel',e=>{e.preventDefault();back();});ui('nmsDialog').addEventListener('close',()=>{if(ignored){ignored--;return;}if(!host.hidden){closing=true;dismissed=true;hide();window.SmartEaseNative.settingsBack();}});window.addEventListener('smartease-of21-state',paint);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){dismissed=true;hide();}});window.addEventListener('pagehide',()=>{dismissed=true;hide();});window.SmartEaseNativeModeStyle={names,get:store.get,enter,leave,paint,select,requestOpen,back};if(route())enter();
+})();

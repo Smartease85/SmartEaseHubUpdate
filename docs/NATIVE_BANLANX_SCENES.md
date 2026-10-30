@@ -1,0 +1,28 @@
+# Isolated ordinary SP608E Scenes checkpoint
+
+Not integrated, not published, no BLE, no rendered/iOS/physical parity claim. Source: official BanlanX 3.3.5 static AOT; reviewed contracts in ../scenes-screen and ../scenes-gesture-entry-closure. This is newly authored browser implementation, not recovered original source.
+
+## Integration contract
+Load scene-name-store.js, scenes.js, scenes.css; supply a dedicated host and original device headerHost. `create(host,{headerHost,store,valid,onCommand,onRenameDevice})`; call explicit `enter({identity,generation,enabled,ordinary,loop})`. `enabled` is current-session consent/readiness, NOT channel power. `loop` boolean is established state or null unknown. No inherited all-outputs-ON requirement. Group/shared controllers are deliberately unavailable; ordinary single-device route proof alone is closed.
+
+`onCommand(action,context)` must validate context immediately before its guarded queue/write and return true only for completed transport. It receives source 8E recall/90 loop/8C save bytes. This component never accesses BLE, automatically reads, retries, or claims retention. Recall sets local loop=false with NO extra90. Explicit leave/route transition must occur synchronously before asynchronous browser Back. Never call update to automatically reopen a hidden/left route; containing router owns genuine reentry and identity status proof.
+
+Header source e404 menu has Rename device (delegated; disabled if absent) and Save effects to scene. Save uses separate nine-slot chooser and overwrite OK, never per-card save/longpress overwrite. Longpress500ms with18px preaccept movement cancellation opens Rename scene. Document-level pointer listeners cover movement/release outside original card.
+
+Local scene names are device-identity+slot scoped, not controller storage. Name store reads fresh before atomic writes, preserves unknown root/device/slot metadata and other devices, validates backups without mutation, rejects future/malformed JSON unchanged. Host backup/startup integration is still required before production. No implicit migration or group aliases.
+
+## Source fidelity and deliberate browser adaptations
+Nine100-high/radius15 cards,20 spacing/insets, original wave_3 art, source20/16 weight500 text, Material e404/e0c1 and loop27 blue/#888. Name width280*(viewportWidth/375) represented74.6666667vw with containment maximum; original single-line ellipsis retained. Shadow source RGBA(.2,.2,.2,.2), offset0, blur12; CSS Gaussian rasterization not proven identical to Flutter. Native image fit/paint composition and pressed/card animation are not completely closed; center/cover is an explicit browser adaptation, NOT pixel-parity proof.
+
+Popup workflows and labels are source-backed, but generic browser dialog dimensions/typography are not claimed source-exact. Header icon24 and fallback header placement require containing source header integration. F2/ShiftF10/context-menu access and focus rings are browser accessibility additions. Input max20 uses UTF-16 browser maxlength; native exact grapheme formatter has not been traced. No source-exact Unicode edge-case claim.
+
+Tests use JSDOM and fake timers; they establish guards/packets/storage, not visual appearance, radio acceptance, controller save retention or iOS layout. Test dependency comes from existing native-rebuild-worktree/node_modules/jsdom.
+
+## Integrated internal checkpoint
+`native-banlanx-scenes.js` now supplies ordinary identity/session/route/operation guards and explicit parked consent, with shared Native SP explicit-read provenance. The local name key is allowlisted and validated before restore mutation; reading malformed startup bytes never repairs/rewrites them or enables writes. Native scene names remain separate from cart sceneNames/calibration. Header tabs and timer navigation are present; Rename device remains unavailable until its separate original local workflow is integrated.
+
+Loop observed projection uses corrected parser KVb CID694 (not encoder WWb644):142+7*timerCount, count at89. Consumer pXb+13 is original Scenes c870fc. Full tail and boolean bytes are necessary; >5 timer count is deliberately rejected as unknown against SP608E five-slot inventory, rather than imitating native parser's arbitrarycount acceptance. Missing tail does not prevent an explicitly authorized recall/save, but loop toggle remains disabled. Own recall sets localfalse without90; successful actions invalidate shared observed status and mark loop provenance local. A new explicit Read, external write, identity/session change, route exit or visibility loss cancels old operations and consent. Own operation bytes are exempt only from self-cancellation, never from current guarded queue validation.
+
+Verified integrated checkpoint: aggregate719/719, independent69/69 focused, isolated component21/21, integrated focused38/38, diff clean and368service-worker assets present. Reviewer additionally verified restore quota rollback. No published mutation or physical acceptance claim. Logs: /tmp/banlanx-scenes-full.log and /tmp/banlanx-scenes-integrated-focused.log.
+
+Shared header update: one source-backed parent header now owns title/wave/tabs/timer/overflow across Channels, Scenes, Triggers and Groups. The same save chooser and overwrite confirmation open in place without navigating to Scenes. Menu-only coordinators have no hidden scene-list layout footprint; actual Scenes geometry is preserved. Tab navigation synchronously cancels old dialog/queued intent even for the same device. Rename device and the Triggers/Groups bodies remain explicitly unavailable; this does not establish complete app parity.

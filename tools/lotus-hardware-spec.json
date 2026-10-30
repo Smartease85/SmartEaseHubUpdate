@@ -1,0 +1,665 @@
+[
+  {
+    "index": 0,
+    "resourceId": "0x7f08056d",
+    "name": "ic_colorful3_s",
+    "key": "ic_colorful3_s",
+    "src": "assets/native-lotus/icons/ic_colorful3_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      13,
+      9,
+      127,
+      132
+    ]
+  },
+  {
+    "index": 1,
+    "resourceId": "0x7f080571",
+    "name": "ic_colorful4_s",
+    "key": "ic_colorful4_s",
+    "src": "assets/native-lotus/icons/ic_colorful4_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      13,
+      9,
+      127,
+      132
+    ]
+  },
+  {
+    "index": 2,
+    "resourceId": "0x7f080575",
+    "name": "ic_colorful5_s",
+    "key": "ic_colorful5_s",
+    "src": "assets/native-lotus/icons/ic_colorful5_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      13,
+      9,
+      127,
+      132
+    ]
+  },
+  {
+    "index": 3,
+    "resourceId": "0x7f0806fe",
+    "name": "ic_symphony3_s",
+    "key": "ic_symphony3_s",
+    "src": "assets/native-lotus/icons/ic_symphony3_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      17,
+      6,
+      129,
+      127
+    ]
+  },
+  {
+    "index": 4,
+    "resourceId": "0x7f080702",
+    "name": "ic_symphony4_s",
+    "key": "ic_symphony4_s",
+    "src": "assets/native-lotus/icons/ic_symphony4_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      17,
+      6,
+      129,
+      127
+    ]
+  },
+  {
+    "index": 5,
+    "resourceId": "0x7f080706",
+    "name": "ic_symphony5_s",
+    "key": "ic_symphony5_s",
+    "src": "assets/native-lotus/icons/ic_symphony5_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      17,
+      6,
+      129,
+      127
+    ]
+  },
+  {
+    "index": 6,
+    "resourceId": "0x7f080634",
+    "name": "ic_icons1",
+    "key": "ic_icons1",
+    "src": "assets/native-lotus/icons/ic_icons1.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      4,
+      49,
+      61
+    ]
+  },
+  {
+    "index": 7,
+    "resourceId": "0x7f08063c",
+    "name": "ic_icons2",
+    "key": "ic_icons2",
+    "src": "assets/native-lotus/icons/ic_icons2.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      4,
+      49,
+      61
+    ]
+  },
+  {
+    "index": 8,
+    "resourceId": "0x7f08063d",
+    "name": "ic_icons3",
+    "key": "ic_icons3",
+    "src": "assets/native-lotus/icons/ic_icons3.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      4,
+      49,
+      61
+    ]
+  },
+  {
+    "index": 9,
+    "resourceId": "0x7f08063e",
+    "name": "ic_icons4",
+    "key": "ic_icons4",
+    "src": "assets/native-lotus/icons/ic_icons4.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      4,
+      49,
+      61
+    ]
+  },
+  {
+    "index": 10,
+    "resourceId": "0x7f08063f",
+    "name": "ic_icons5",
+    "key": "ic_icons5",
+    "src": "assets/native-lotus/icons/ic_icons5.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      4,
+      49,
+      61
+    ]
+  },
+  {
+    "index": 11,
+    "resourceId": "0x7f080640",
+    "name": "ic_icons6",
+    "key": "ic_icons6",
+    "src": "assets/native-lotus/icons/ic_icons6.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      4,
+      49,
+      61
+    ]
+  },
+  {
+    "index": 12,
+    "resourceId": "0x7f080746",
+    "name": "ic_two_wire_s",
+    "key": "ic_two_wire_s",
+    "src": "assets/native-lotus/icons/ic_two_wire_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      12,
+      6,
+      139,
+      138
+    ]
+  },
+  {
+    "index": 13,
+    "resourceId": "0x7f08057a",
+    "name": "ic_colorful_light_s",
+    "key": "ic_colorful_light_s",
+    "src": "assets/native-lotus/icons/ic_colorful_light_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      0,
+      9,
+      144,
+      135
+    ]
+  },
+  {
+    "index": 14,
+    "resourceId": "0x7f080710",
+    "name": "ic_symphony_one_todd_s",
+    "key": "ic_symphony_one_todd_s",
+    "src": "assets/native-lotus/icons/ic_symphony_one_todd_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      21,
+      2,
+      123,
+      140
+    ]
+  },
+  {
+    "index": 15,
+    "resourceId": "0x7f08057e",
+    "name": "ic_colorful_sync_light_s",
+    "key": "ic_colorful_sync_light_s",
+    "src": "assets/native-lotus/icons/ic_colorful_sync_light_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      16,
+      13,
+      129,
+      131
+    ]
+  },
+  {
+    "index": 16,
+    "resourceId": "0x7f08054f",
+    "name": "ic_br_colorful_sync_light_s",
+    "key": "ic_br_colorful_sync_light_s",
+    "src": "assets/native-lotus/icons/ic_br_colorful_sync_light_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      6,
+      24,
+      138,
+      123
+    ]
+  },
+  {
+    "index": 17,
+    "resourceId": "0x7f08059a",
+    "name": "ic_curtain_lamp_s",
+    "key": "ic_curtain_lamp_s",
+    "src": "assets/native-lotus/icons/ic_curtain_lamp_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      9,
+      15,
+      135,
+      133
+    ]
+  },
+  {
+    "index": 18,
+    "resourceId": "0x7f08060d",
+    "name": "ic_fires_lamp_s",
+    "key": "ic_fires_lamp_s",
+    "src": "assets/native-lotus/icons/ic_fires_lamp_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      31,
+      1,
+      112,
+      143
+    ]
+  },
+  {
+    "index": 19,
+    "resourceId": "0x7f080604",
+    "name": "ic_fan_lamp_s",
+    "key": "ic_fan_lamp_s",
+    "src": "assets/native-lotus/icons/ic_fan_lamp_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      16,
+      16,
+      128,
+      128
+    ]
+  },
+  {
+    "index": 20,
+    "resourceId": "0x7f080641",
+    "name": "ic_icons7",
+    "key": "ic_icons7",
+    "src": "assets/native-lotus/icons/ic_icons7.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      14,
+      6,
+      52,
+      60
+    ]
+  },
+  {
+    "index": 21,
+    "resourceId": "0x7f080757",
+    "name": "ic_xmas_s",
+    "key": "ic_xmas_s",
+    "src": "assets/native-lotus/icons/ic_xmas_s.png",
+    "size": [
+      420,
+      420
+    ],
+    "alphaBounds": [
+      88,
+      33,
+      332,
+      390
+    ]
+  },
+  {
+    "index": 22,
+    "resourceId": "0x7f0806f1",
+    "name": "ic_stair_lamp_s",
+    "key": "ic_stair_lamp_s",
+    "src": "assets/native-lotus/icons/ic_stair_lamp_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      8,
+      24,
+      135,
+      124
+    ]
+  },
+  {
+    "index": 23,
+    "resourceId": "0x7f080609",
+    "name": "ic_fires_flag_lamp_s",
+    "key": "ic_fires_flag_lamp_s",
+    "src": "assets/native-lotus/icons/ic_fires_flag_lamp_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      13,
+      12,
+      135,
+      133
+    ]
+  },
+  {
+    "index": 24,
+    "resourceId": "0x7f080642",
+    "name": "ic_icons8",
+    "key": "ic_icons8",
+    "src": "assets/native-lotus/icons/ic_icons8.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      11,
+      7,
+      53,
+      57
+    ]
+  },
+  {
+    "index": 25,
+    "resourceId": "0x7f080643",
+    "name": "ic_icons9",
+    "key": "ic_icons9",
+    "src": "assets/native-lotus/icons/ic_icons9.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      6,
+      9,
+      58,
+      54
+    ]
+  },
+  {
+    "index": 26,
+    "resourceId": "0x7f080635",
+    "name": "ic_icons10",
+    "key": "ic_icons10",
+    "src": "assets/native-lotus/icons/ic_icons10.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      2,
+      9,
+      62,
+      56
+    ]
+  },
+  {
+    "index": 27,
+    "resourceId": "0x7f080636",
+    "name": "ic_icons11",
+    "key": "ic_icons11",
+    "src": "assets/native-lotus/icons/ic_icons11.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      4,
+      9,
+      60,
+      56
+    ]
+  },
+  {
+    "index": 28,
+    "resourceId": "0x7f080637",
+    "name": "ic_icons12",
+    "key": "ic_icons12",
+    "src": "assets/native-lotus/icons/ic_icons12.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      4,
+      7,
+      60,
+      56
+    ]
+  },
+  {
+    "index": 29,
+    "resourceId": "0x7f080638",
+    "name": "ic_icons13",
+    "key": "ic_icons13",
+    "src": "assets/native-lotus/icons/ic_icons13.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      9,
+      7,
+      55,
+      57
+    ]
+  },
+  {
+    "index": 30,
+    "resourceId": "0x7f080639",
+    "name": "ic_icons14",
+    "key": "ic_icons14",
+    "src": "assets/native-lotus/icons/ic_icons14.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      1,
+      13,
+      63,
+      51
+    ]
+  },
+  {
+    "index": 31,
+    "resourceId": "0x7f08063a",
+    "name": "ic_icons15",
+    "key": "ic_icons15",
+    "src": "assets/native-lotus/icons/ic_icons15.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      3,
+      11,
+      61,
+      54
+    ]
+  },
+  {
+    "index": 32,
+    "resourceId": "0x7f08063b",
+    "name": "ic_icons16",
+    "key": "ic_icons16",
+    "src": "assets/native-lotus/icons/ic_icons16.png",
+    "size": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      16,
+      64,
+      49
+    ]
+  },
+  {
+    "index": 33,
+    "resourceId": "0x7f08073b",
+    "name": "ic_tv_group_s",
+    "key": "ic_tv_group_s",
+    "src": "assets/native-lotus/icons/ic_tv_group_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      0,
+      7,
+      144,
+      142
+    ]
+  },
+  {
+    "index": 34,
+    "resourceId": "0x7f080742",
+    "name": "ic_two_line_point_lamp_s",
+    "key": "ic_two_line_point_lamp_s",
+    "src": "assets/native-lotus/icons/ic_two_line_point_lamp_s.png",
+    "size": [
+      144,
+      144
+    ],
+    "alphaBounds": [
+      18,
+      10,
+      126,
+      134
+    ]
+  },
+  {
+    "index": 35,
+    "resourceId": "0x7f0805d2",
+    "name": "ic_eave_lamp_s",
+    "key": "ic_eave_lamp_s",
+    "src": "assets/native-lotus/icons/ic_eave_lamp_s.png",
+    "size": [
+      96,
+      96
+    ],
+    "alphaBounds": [
+      6,
+      7,
+      90,
+      81
+    ]
+  },
+  {
+    "index": 36,
+    "resourceId": "0x7f080662",
+    "name": "ic_mesh_lamp_s",
+    "key": "ic_mesh_lamp_s",
+    "src": "assets/native-lotus/icons/ic_mesh_lamp_s.png",
+    "size": [
+      96,
+      96
+    ],
+    "alphaBounds": [
+      6,
+      25,
+      90,
+      71
+    ]
+  },
+  {
+    "index": 37,
+    "resourceId": "0x7f080669",
+    "name": "ic_motor_l",
+    "key": "ic_motor_l",
+    "src": "assets/native-lotus/icons/ic_motor_l.png",
+    "size": [
+      96,
+      96
+    ],
+    "alphaBounds": [
+      12,
+      15,
+      84,
+      81
+    ]
+  },
+  {
+    "index": 38,
+    "resourceId": "0x7f080615",
+    "name": "ic_flowing_light_l",
+    "key": "ic_flowing_light_l",
+    "src": "assets/native-lotus/icons/ic_flowing_light_l.png",
+    "size": [
+      96,
+      96
+    ],
+    "alphaBounds": [
+      13,
+      9,
+      80,
+      87
+    ]
+  }
+]

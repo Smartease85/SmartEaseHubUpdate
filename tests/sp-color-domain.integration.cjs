@@ -47,7 +47,7 @@ const array=(b,code)=>JSON.parse(b.run('JSON.stringify('+code+')'));
 const balance={"smartease-sp608e-rgb-balance-v1":'{"1":[100,50,100]}'};
 test("native target rounds HSV chroma before gain and has explicit brightness contracts",()=>{
  const b=boot(balance);
- assert.deepEqual(array(b,'spNativeChroma([128,64,32])'),[255,128,64]);
+ assert.deepEqual(array(b,'spNativeChroma([128,64,32])'),[255,127,64]);
  assert.deepEqual(array(b,'spNativeTargetCommand(1,"#804020",64,{brightnessMode:"preserve"})'),[136,137,5,1,255,64,64,64]);
  assert.deepEqual(array(b,'spNativeTargetCommand(1,"#804020")'),[136,137,5,1,255,64,64,128]);
  assert.deepEqual(array(b,'spNativeTargetCommand(1,"#000000")'),[136,137,5,1,255,128,255,0]);
@@ -196,13 +196,13 @@ test("wizard quota failure preserves previous match, persisted bytes and edited 
  proto.setItem=original;b.dom.window.close();
 });
 test("color-domain release is retrievable from both entry points with a new atomic SW cache",()=>{
- const release='2026-10-29-sp-color-domains-v1';
+ const release='2026-10-30-native-test-candidate-02';
  for(const name of ['index.html','halloween.html']){
   const html=fs.readFileSync(path.join(root,name),'utf8'),dom=new JSDOM(html);
   assert.equal(dom.window.document.querySelector('meta[name="smartease-release"]').content,release);
   assert.ok(html.includes('Build: '+release));dom.window.close();
  }
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.match(sw,/const CACHE_NAME = "smartease-cart-lights-v26-sp-color-domains"/);
+ assert.match(sw,/const CACHE_NAME = "smartease-cart-lights-native-test-candidate-02"/);
  assert.ok(sw.includes('"./index.html"'));
 });

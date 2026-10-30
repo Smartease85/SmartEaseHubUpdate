@@ -1,0 +1,48 @@
+/* Original Android 2.7.6 resources/dimensions, viewport-safe browser adaptation. */
+#app .nux-settings{color:#fff;background-color:#151515;background-size:100% auto;font-family:Arial,sans-serif;box-sizing:border-box;max-height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#app .nux-settings[hidden],#app .nux-settings [hidden]{display:none!important}
+#app .nux-settings header{position:relative;flex:none;padding:10px 48px;margin-top:min(44px,6vh);text-align:center}
+#app .nux-settings h2{font:400 16px/1.4 Arial,sans-serif;color:#fff;margin:0;padding:0}
+#app .nux-settings[data-page=flip] h2{font-size:18px}
+#app .nux-settings button,#app .nux-settings select,#app .nux-settings input{font:400 16px/1.4 Arial,sans-serif;color:#fff;box-sizing:border-box}
+#app .nux-settings button{border:0;border-radius:0;box-shadow:none;text-transform:none;letter-spacing:normal;cursor:pointer}
+#app .nux-settings button:disabled,#app .nux-settings select:disabled,#app .nux-settings input:disabled{opacity:.5;cursor:default}
+#app .nux-settings button:focus-visible,#app .nux-settings select:focus-visible,#app .nux-settings input:focus-visible{outline:2px solid #9b8eff;outline-offset:2px}
+#app .nux-settings-back{position:absolute;left:8px;top:0;background:transparent;padding:10px;min-height:44px;min-width:44px}
+#app .nux-settings-icon{width:24px;height:24px;flex:none;object-fit:contain}
+#app .nux-settings-scroll{overflow-y:auto;overscroll-behavior:contain;min-height:0;flex:1;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+#app .nux-settings-banner{display:block;width:100%;height:154px;object-fit:contain;margin-bottom:16px}
+#app .nux-settings-row{display:flex;align-items:center;padding:15px;background:#212121;gap:16px;min-width:0;flex:1;text-align:left}
+#app .nux-settings-main>.nux-settings-row{border-bottom:1px solid #303137}
+#app .nux-settings-rowbody{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+#app .nux-settings-label{font-size:16px;color:#fff;line-height:1.4}
+#app .nux-settings-warning{font:400 12px/1.4 Arial,sans-serif;color:#828282}
+#app .nux-settings-value{font-size:12px;color:#aaa;overflow-wrap:anywhere}
+#app .nux-settings-route{display:flex;align-items:center;width:100%;padding:0;background:#212121;color:#fff;text-align:left;border-bottom:1px solid #303137}
+#app .nux-settings-chevron{width:12px;height:12px;margin-right:15px;object-fit:contain}
+#app .nux-settings-choice{max-width:135px;background:#303137;border:1px solid #666;border-radius:4px;padding:6px;font-size:13px}
+#app .nux-settings-brightness{background:#212121;margin-top:10px;padding:15px}
+#app .nux-settings-brightness label{font-size:16px;display:block;color:#fff}
+#app .nux-settings-brightness input{display:block;width:100%;margin:8px 0 0;height:20px;accent-color:#7a6aee;background:#364866}
+#app .nux-settings-menu{margin-top:10px}
+#app .nux-settings-admission{margin:8px 15px 12px;padding:10px;border:1px solid #665e8e;border-radius:4px;min-width:0}
+#app .nux-settings-admission legend{font-size:13px;color:#d6d0ff}
+#app .nux-settings-admission label{display:flex;gap:8px;font-size:13px;margin-bottom:8px;align-items:flex-start;color:#fff}
+#app .nux-settings-admission input{flex:none}
+#app .nux-settings-note,#app .nux-settings-device,#app .nux-settings-status{font-size:12px;line-height:1.45;color:#c6c6ce;margin:8px 0;overflow-wrap:anywhere}
+#app .nux-settings-read{background:#6c5acf;color:#fff;padding:8px 12px;border-radius:4px}
+#app .nux-settings-flip{padding:15px 15px 40px}
+#app .nux-settings-flip-choice{display:flex;align-items:center;justify-content:space-between;width:100%;margin:0 0 16px;padding:9px 8px;background:#212121;color:#fff;text-align:left;min-height:44px}
+#app .nux-settings-check{width:20px;height:20px;object-fit:contain}
+@media(max-height:450px){#app .nux-settings header{margin-top:0}#app .nux-settings-banner{height:100px}}
+@media(max-width:360px){#app .nux-settings-row{padding:12px;gap:10px}#app .nux-settings-choice{max-width:95px}}
+#app .nux-settings-toggle{width:40px;height:24px;object-fit:contain;flex:none}
+@media(max-width:360px){#app .nux-settings-toggle{width:30px;height:18px}}
+/* Browser-only explicit On/Off selector moves below the original label/toggle on narrow screens. */
+@media(max-width:520px){
+ #app .nux-settings-main>.nux-settings-row{display:grid;grid-template-columns:24px minmax(0,1fr) 40px;column-gap:12px;row-gap:8px;align-items:center}
+ #app .nux-settings-main>.nux-settings-row>.nux-settings-icon{grid-column:1;grid-row:1}
+ #app .nux-settings-main>.nux-settings-row>.nux-settings-rowbody{grid-column:2;grid-row:1}
+ #app .nux-settings-main>.nux-settings-row>.nux-settings-toggle{grid-column:3;grid-row:1;justify-self:end}
+ #app .nux-settings-main>.nux-settings-row>.nux-settings-choice{grid-column:2/4;grid-row:2;justify-self:end;width:100%;max-width:180px;min-height:44px}
+}

@@ -1,0 +1,49 @@
+{
+  "resource": "native-coolled-dynamic/assets/masks.json",
+  "sha256": "7c6066b17b2ef3222d24e1ea294c626d820ed242e67767453e076db9ee8feff8",
+  "basis": "Independently authored geometric RGBA overlays; no original pixel data read",
+  "generator": "tools/authored-dynamic-masks/generate.py",
+  "families": {
+    "five": [
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      9
+    ],
+    "six": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "seven": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "eight": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "dimensions": [
+    100,
+    100
+  ],
+  "stagesPerFamily": 7
+}
