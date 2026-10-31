@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="smartease-release" content="2026-10-30-native-test-candidate-04-compat-01">
+<meta name="smartease-release" content="2026-10-31-native-test-candidate-04-ux-01">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071216">
@@ -112,7 +112,7 @@
  </header>
  <section class="hero"><div><div class="tag">SmartEase / Golf cart</div><h1>Make the lights yours.</h1><p>Pick lights. Choose a look. Enjoy the show. Five real cart zones, one Bluetooth controller.</p></div><div class="hero-art" aria-hidden="true"></div></section>
   <div class="connection-banner" id="connectionBanner" role="status" hidden><b>Connection lost.</b> Your live show has stopped. Reconnect to continue.</div>
- <div class="notice"><span aria-hidden="true">!</span><div><b>Decorative lighting only.</b> Use while parked. Keep brake lights, turn signals, and other road-safety lighting independent of this app.</div></div>
+ <div class="notice"><span aria-hidden="true">!</span><div><b>Decorative lighting only.</b> Keep brake lights, turn signals, and other road-safety lighting independent of this app.</div></div>
  <div class="subnav" role="tablist" aria-label="Lighting app sections">
   <button type="button" class="active" role="tab" aria-selected="true" data-tab="control">Lights</button>
   <button type="button" role="tab" aria-selected="false" data-tab="effects">Effects</button>
@@ -180,7 +180,7 @@
       <div class="panel-head"><div><h2>🎃 Halloween · Haunted Surge</h2><p>SmartEase custom sequence: green → purple → orange sweeping front-to-back, with twinkling starbursts.</p></div><span class="badge">Live Bluetooth</span></div>
       <div class="haunted-colors"><i style="background:#46ef77"></i><i style="background:#a24aec"></i><i style="background:#ff751e"></i><span>Green · Purple · Orange</span></div>
       <div class="haunted-preview" aria-label="Animated five-zone Halloween preview"><span style="--hdelay:0s"></span><span style="--hdelay:-.36s"></span><span style="--hdelay:-.72s"></span><span style="--hdelay:-1.08s"></span><span style="--hdelay:-1.44s"></span></div>
-      <p class="small muted">This runs live in Bluefy, not in the nine onboard SP608E scene slots. Keep Bluefy in front while parked. Your existing stored scene is not overwritten.</p>
+      <p class="small muted">This runs live in Bluefy, not in the nine onboard SP608E scene slots. Keep Bluefy in front. Your existing stored scene is not overwritten.</p>
       <div class="field"><label for="hauntedOrder">Output order, front to back</label><input class="control" id="hauntedOrder" inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" value="1,5,2,3,4"><p class="small muted">Enter connected SP608E outputs in physical order. Example: 3,1,4,2. Omit unused channels.</p></div>
       <div class="field" id="hauntedBrightnessControl">
        <label for="hauntedBrightness">Halloween brightness <span class="value" id="hauntedBrightnessLabel">45%</span></label>
@@ -191,7 +191,7 @@
         <div class="field"><label for="hauntedSteps">Fade smoothness</label><select class="control" id="hauntedSteps"><option value="1">Fast (1 step)</option><option value="2" selected>Balanced (2 steps)</option><option value="3">Smooth (3 steps)</option></select></div>
         <div class="field"><label for="hauntedStarTime">Starburst duration</label><select class="control" id="hauntedStarTime"><option value="1200">1.2 seconds</option><option value="2300" selected>2.3 seconds</option><option value="3500">3.5 seconds</option></select></div>
         <div class="actions"><select class="control" id="hauntedIdentifyChannel" style="flex:1;min-width:110px" aria-label="Channel to identify"><option value="1">Output 1</option><option value="2">Output 2</option><option value="3">Output 3</option><option value="4">Output 4</option><option value="5">Output 5</option><option value="6">Output 6</option><option value="7">Output 7</option><option value="8">Output 8</option></select><button class="button" type="button" id="hauntedIdentify">Identify output (green)</button></div>
-        <p class="small muted">Identify each channel with the cart parked, then enter the correct order above. Testing temporarily changes the selected channel.</p>
+        <p class="small muted">Identify each channel, then enter the correct order above. Testing temporarily changes the selected channel.</p>
       </details>
 
       <details class="haunted-settings" id="hauntedRgbCalibration">
@@ -225,12 +225,12 @@
           <button class="button" type="button" id="hauntedCalAll">Same RGB swap → all outputs</button>
           <button class="button ghost" type="button" id="hauntedCalReset">Reset RGB swap</button>
         </div>
-        <p class="small muted" role="status" id="hauntedCalStatus">Uncalibrated: standard RGB commands. Test one output at a time while parked.</p>
+        <p class="small muted" role="status" id="hauntedCalStatus">Uncalibrated: standard RGB commands. Test one output at a time.</p>
       </details>
 
       <details class="haunted-settings" id="hauntedManualMixer">
         <summary>🎛 Match any color manually · RGB mixer</summary>
-        <p class="small muted">Select a desired color, then change the three raw R/G/B values until the physical LEDs look right. This is a visual test—not an automatic measurement. Try one channel first while parked.</p>
+        <p class="small muted">Select a desired color, then change the three raw R/G/B values until the physical LEDs look right. This is a visual test—not an automatic measurement. Try one channel first.</p>
         <div class="field"><label for="hauntedManualChannel">Physical output</label><select class="control" id="hauntedManualChannel"><option value="1">Output 1</option><option value="2">Output 2</option><option value="3">Output 3</option><option value="4">Output 4</option><option value="5">Output 5</option><option value="6">Output 6</option><option value="7">Output 7</option><option value="8">Output 8</option></select></div>
         <div class="field"><label for="hauntedManualTarget">Color to match</label><select class="control" id="hauntedManualTarget">
           <option value="#46ef77">Halloween · Toxic green</option>
@@ -259,7 +259,6 @@
         <p class="small muted">Only your three saved Halloween color matches are used in Haunted Surge, with fading between their raw RGB values. White, teal, and custom targets are available for testing but do not change the Halloween palette. Saved locally in this browser. If even the raw sliders cannot make a color look correct, we need to diagnose the LED protocol or hardware.</p>
         <div class="command-line" id="hauntedManualStatus" role="status" aria-live="polite">Adjust RGB, then tap Test color on LEDs. The preview is the transmitted RGB mix, not a camera measurement.</div>
       </details>
-      <div class="switchrow" style="margin:14px 0"><label class="switch" for="hauntedVerified"><input type="checkbox" id="hauntedVerified"> I verified the cart's channel order</label></div>
       <div class="actions"><button class="button primary" type="button" id="hauntedPlay" disabled>▶ Play Halloween</button><button class="button danger" type="button" id="hauntedStop" disabled>Stop</button></div>
       <div class="actions" style="margin-top:10px"><select class="control" id="hauntedRestoreIndex" style="flex:1;min-width:120px" aria-label="Saved scene to restore"><option value="0">Stored scene 1</option><option value="1">Stored scene 2</option><option value="2">Stored scene 3</option><option value="3">Stored scene 4</option><option value="4">Stored scene 5</option><option value="5">Stored scene 6</option><option value="6">Stored scene 7</option><option value="7">Stored scene 8</option><option value="8">Stored scene 9</option></select><button class="button soft" type="button" id="hauntedRestore">Restore stored scene</button></div>
       <div class="command-line" role="status" aria-live="polite" id="hauntedStatus">Ready. Connect to SP608E and verify front-to-back channel order before playing.</div>
@@ -327,7 +326,7 @@
        <div class="cz-section-head"><div><h3 id="czZoneTitle">Front bumper</h3><p id="czZoneHint">Tap an area to map it</p></div><span class="cz-chip" id="czSelectedChannels">Not mapped</span></div>
        <div class="field"><label for="czZoneLabel">Zone name</label><div class="actions"><input class="control" id="czZoneLabel" maxlength="32" placeholder="Front bumper" style="flex:2;min-width:130px"><button class="button" type="button" id="czZoneLabelSave">Rename</button></div></div>
        <div class="field"><label>Active SP608E outputs for this physical location</label><div class="cz-channel-grid" id="czChannelCheckboxes" aria-label="Assign only connected controller outputs"></div><p class="small muted" id="czInactiveMappings" hidden></p></div>
-       <div class="cz-info"><strong>Find the wiring:</strong> With the cart parked, select an SP608E output and briefly light it teal. See where it appears on the cart, then check that output in this zone. This identification changes the current live look but does not alter saved scenes.</div>
+       <div class="cz-info"><strong>Find the wiring:</strong> Select an SP608E output and briefly light it teal. See where it appears on the cart, then check that output in this zone. This identification changes the current live look but does not alter saved scenes.</div>
        <div class="field"><label for="czIdentifyOutput">Identify an SP608E output</label><select class="control" id="czIdentifyOutput">
         <option value="1">Controller output 1</option><option value="2">Controller output 2</option>
         <option value="3">Controller output 3</option><option value="4">Controller output 4</option>
@@ -397,7 +396,7 @@
      <details class="panel live-builder" id="liveBuilder">
       <summary><span class="summary-top">Live choreography <span class="badge amber">Experimental</span></span><span class="small muted">Advanced timed sequences across lighting zones. More Bluetooth-intensive than controller-powered looks.</span></summary>
       <div class="divider"></div>
-      <p class="small muted">For parked demonstrations. This sends repeated commands from the phone and stops if the page is hidden or Bluetooth drops. Smooth pixel-level animation isn't available through these commands.</p>
+      <p class="small muted">This sends repeated commands from the phone and stops if the page is hidden or Bluetooth drops. Smooth pixel-level animation isn't available through these commands.</p>
       <div class="field"><label for="sequenceType">Chase pattern</label><select class="control" id="sequenceType"><option value="chase">Orbit: one light at a time</option><option value="pairs">Paired: two lights together</option><option value="alternating">Alternating: odd / even zones</option></select></div>
       <div class="field"><label for="sequenceDelay">Step duration <span class="value" id="delayValue">2400 ms</span></label><input type="range" id="sequenceDelay" min="1800" max="6000" step="200" value="2400"><p class="small muted">Stability-first timing. Each change is sent separately over Bluetooth.</p></div>
       <div class="field"><label for="sequenceColor">Chase color</label><input type="color" value="#49e3d2" id="sequenceColor"></div>
@@ -803,7 +802,7 @@ function packetsForLook(look){
  }
  return jobs;
 }
-async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}if(!confirm('Apply "'+look.name+'" to all eight SP608E channels? This sends many BLE commands and will change your current lighting.'))return;stopStudio();
+async function restoreLook(look){if(!canSend()){notify('Connect first.');return;}stopStudio();
  let jobs;try{jobs=packetsForLook(look);}catch(error){notify(error.message);return false;}
  // A captured snapshot restores its own chip order, never current calibration.
  const session=bleSession;
@@ -943,7 +942,7 @@ $('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>{i
  $('saveCustomLook').onclick=saveCustomDesign;
  $('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();renderStudioZones();renderLookPreview();renderDesigns();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
 window.addEventListener('pagehide',()=>{stopStudio();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')stopStudio('Studio stopped when page became hidden.');});
-renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-30-native-test-candidate-04-compat-01. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
+renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-31-native-test-candidate-04-ux-01. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
 
 /* Haunted Surge uses the main app's serialized BLE queue and existing characteristic.
    All animations are host-driven; no scene-store or firmware-write opcode is used. */
@@ -1388,7 +1387,7 @@ function hauntedCalibrationInit(){
 function hauntedInfo(t){$('hauntedStatus').textContent=t;}
 function hauntedButtons(){
  if(!$('hauntedPlay'))return;
- $('hauntedPlay').disabled=hauntedRunning||!$('hauntedVerified').checked||!canSend();
+ $('hauntedPlay').disabled=hauntedRunning||!canSend();
  $('hauntedStop').disabled=!hauntedRunning;
  $('hauntedIdentify').disabled=hauntedRunning||!canSend();
  $('hauntedRestore').disabled=!canSend();
@@ -1412,11 +1411,9 @@ async function hauntedPackets(jobs,name,guard){
 async function hauntedStart(){
  if(hauntedRunning)return;
  if(!canSend()){notify('Connect to your SP608E.');return;}
- if(!$('hauntedVerified').checked){notify('Verify the channel order first.');return;}
  if(document.visibilityState==='hidden'){notify('Keep Bluefy open to play.');return;}
  let order;
  try{order=hauntedOrders();}catch(e){hauntedInfo(e.message);return;}
- if(!confirm('Run Halloween on outputs '+order.join(', ')+'? Park the cart. This does not save to SP608E memory.'))return;
  stopStudio('Switched to Halloween');
  clearTimeout(pendingRefresh);pendingRefresh=null;
  const m=hauntedMask(order),brightness=cap(Number($('hauntedBrightness').value)*255/100,0,255);
@@ -1460,7 +1457,6 @@ async function hauntedStart(){
 async function hauntedIdentify(){
  if(hauntedRunning||!canSend())return;
  const n=Number($('hauntedIdentifyChannel').value),m=maskFor(n-1);
- if(!confirm('Turn SP608E output '+n+' green to identify its position?'))return;
  const ok=await enqueuePackets([
   packet(0x83,[m,25]),
   hauntedColorCommand(n,'#46ef77',100),
@@ -1485,7 +1481,7 @@ function installHaunted(){
   steps:$('hauntedSteps').value,star:$('hauntedStarTime').value
  }));}catch{}};
  $('hauntedOrder').addEventListener('input',()=>{
-  $('hauntedVerified').checked=false;store();hauntedButtons();
+  store();hauntedButtons();
  });
  $('hauntedBrightnessLabel').textContent=$('hauntedBrightness').value+'%';
  $('hauntedBrightness').addEventListener('input',()=>{
@@ -1504,7 +1500,6 @@ function installHaunted(){
   }).then(ok=>{if(ok)hauntedInfo('Brightness '+percent+'% applied; Halloween continues.');});
  });
  for(const id of ['hauntedSteps','hauntedStarTime'])$(id).addEventListener('change',store);
- $('hauntedVerified').addEventListener('change',hauntedButtons);
  $('hauntedPlay').onclick=hauntedStart;
  $('hauntedStop').onclick=()=>hauntedEnd('Halloween stopped. Restore an onboard scene to resume normal lighting.');
  $('hauntedIdentify').onclick=hauntedIdentify;
@@ -1597,6 +1592,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventLi
 <script src="native-lotus-bottom.js"></script>
 <script src="native-lotus-functions.js"></script>
 <script src="native-lotus-setup.js"></script>
+<script src="native-lotus-palette.js"></script>
 <script src="native-lotus-color.js"></script>
 <script src="native-lotus-timers.js"></script>
 <script src="native-lotus-catalog-data.js"></script>

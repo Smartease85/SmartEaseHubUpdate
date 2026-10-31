@@ -13,12 +13,12 @@ ui("nativeWorkspace1").append(of21Workspace);
 function of21Render(){
  const adapter=cartDevices[2],ready=!!adapter.of21.profile;ui("of21Prepare").disabled=!ready;
  ui("of21Status").textContent=ready?"MELK-OF21 selected. Offline examples are available; physical acceptance remains outstanding.":"Select the exact MELK-OF21 device first. OA10 and unknown models cannot use this encoder.";
- if(!adapter.connected&&ui("of21Parked"))ui("of21Parked").checked=false;
+
  if(ui("of21LiveStatus")){
-  ui("of21LiveStatus").textContent=adapter.profile==="melk-of21"&&adapter.connected?(adapter.controlReady?"Connected. Source-derived controls ready; check the real lights while parked.":adapter.ownerUncertainGeneration===adapter.ownerLink.generation?"Connected, but the last command outcome is uncertain. Disconnect and reconnect before sending more commands.":"Connected, but writable FFF3 is unavailable. Inspect browser Bluetooth permissions."):"Connect your exact MELK-OF21 above to use ordinary controls.";
+  ui("of21LiveStatus").textContent=adapter.profile==="melk-of21"&&adapter.connected?(adapter.controlReady?"Connected. Source-derived controls ready.":adapter.ownerUncertainGeneration===adapter.ownerLink.generation?"Connected, but the last command outcome is uncertain. Disconnect and reconnect before sending more commands.":"Connected, but writable FFF3 is unavailable. Inspect browser Bluetooth permissions."):"Connect your exact MELK-OF21 above to use ordinary controls.";
   const current=adapter.connected&&adapter.of21.geometryGeneration===adapter.ownerLink.generation;
   ui("of21Nodes").textContent=current&&adapter.of21.totalNodes?"Reported total LED nodes: "+adapter.of21.totalNodes+". Partial readback from this connection; DIY still requires an explicit send action.":"Total LED count is unknown on this connection. Read it before sending a DIY pattern.";
-  for(const button of of21Live.querySelectorAll("button"))button.disabled=of21Busy||adapter.profile!=="melk-of21"||!adapter.controlReady||!ui("of21Parked").checked||document.visibilityState!=="visible";
+  for(const button of of21Live.querySelectorAll("button"))button.disabled=of21Busy||adapter.profile!=="melk-of21"||!adapter.controlReady||document.visibilityState!=="visible";
  }
 }
 ui("of21Prepare").onclick=()=>{
@@ -31,7 +31,7 @@ ui("of21Prepare").onclick=()=>{
 const of21IdentityObserver=new MutationObserver(of21Render);of21IdentityObserver.observe(ui("nativeLotusInfo"),{childList:true});of21Render();
 let of21Busy=false;
 const of21Live=document.createElement("div");of21Live.innerHTML=`<h4>MELK-OF21 original functions</h4><p id="of21LiveStatus" class="inline-status" role="status"></p>
- <label class="switchline"><input type="checkbox" id="of21Parked"> Cart parked; this is the decorative RGB controller.</label>
+
  <div class="row-actions"><button class="secondary" type="button" data-of21="on">Power on</button><button class="secondary" type="button" data-of21="off">Power off</button></div>
  <div class="display-settings"><label>Solid color <input id="of21LiveColor" type="color" value="#49e3d2"></label><label>Brightness (%) <input class="input" id="of21Level" type="number" min="0" max="100" value="45"></label></div>
  <button class="primary" type="button" data-of21="color">Apply solid color</button>
@@ -43,7 +43,7 @@ const of21Live=document.createElement("div");of21Live.innerHTML=`<h4>MELK-OF21 o
  <p id="of21Nodes" class="small-note"></p><p id="of21LiveResult" class="inline-status" role="status">Connecting alone sends no lighting commands.</p>`;
 of21Workspace.prepend(of21Live);
 async function of21Run(kind){
- const a=cartDevices[2],generation=a.ownerLink.generation,picked=a.device,epoch=a.ownerEpoch||0,guard=()=>a.profile==="melk-of21"&&a.controlReady&&a.ownerLink.generation===generation&&a.device===picked&&(a.ownerEpoch||0)===epoch&&ui("of21Parked").checked&&document.visibilityState==="visible";
+ const a=cartDevices[2],generation=a.ownerLink.generation,picked=a.device,epoch=a.ownerEpoch||0,guard=()=>a.profile==="melk-of21"&&a.controlReady&&a.ownerLink.generation===generation&&a.device===picked&&(a.ownerEpoch||0)===epoch&&document.visibilityState==="visible";
  if(of21Busy||!guard())return false;
  const percent=id=>{const n=Number(ui(id).value);if(!Number.isInteger(n)||n<0||n>100)throw Error("Brightness and speed must be whole percentages from 0 to 100.");return n;};
  of21Busy=true;of21Render();
@@ -65,6 +65,6 @@ async function of21Run(kind){
  }catch(error){ui("of21LiveResult").textContent=error.message;return false;}finally{of21Busy=false;of21Render();}
 }
 of21Live.addEventListener("click",event=>{const kind=event.target.dataset.of21;if(kind)of21Run(kind);});
-ui("of21Parked").onchange=of21Render;
+
 window.addEventListener("smartease-of21-state",of21Render);
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")ui("of21Parked").checked=false;of21Render();});of21Render();
+document.addEventListener("visibilitychange",()=>{of21Render();});of21Render();

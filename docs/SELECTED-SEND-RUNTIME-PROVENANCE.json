@@ -12,16 +12,18 @@
     "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
   },
   "ux-experimental-uploader.js": {
-    "sha256": "18d37f0e4833c6a694dc65e6fa946327386d64149d0ea9c5f42febf67a89aba1",
+    "sha256": "1e5eb2863328e0d8aa1af329553a173372929307297aede4b55e49c4f6a10f9a",
     "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive.",
     "previousSha256": "26ccbd338c9550860fdcc90124bb990221d32be3bcff29bf511d693061cbf570",
-    "change": "Candidate04 UUID canonicalization and live discovery association; capability gates retained."
+    "change": "Routine action acknowledgement booleans removed at explicit owner request. Current identity/session, capability, serialization and cancellation protections retained; no protocol byte changes.",
+    "candidate04CompatSha256": "18d37f0e4833c6a694dc65e6fa946327386d64149d0ea9c5f42febf67a89aba1"
   },
   "ux-owner-send.js": {
-    "sha256": "a13af438c8dfb2832f47e548944118a3837e988f547c19b357a96a7bf973aed8",
+    "sha256": "3cfbd0f5c8eba1f4f6cf687a7165f095bf48d5853adafe36ac00b08930192df1",
     "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive.",
     "previousSha256": "31cd03a611f0b18b6893f2e35e107a02b465221f07a1c8d23c0ae2cc5c09fa55",
-    "change": "Candidate04 UUID canonicalization and live discovery association; capability gates retained."
+    "change": "Routine action acknowledgement booleans removed at explicit owner request. Current identity/session, capability, serialization and cancellation protections retained; no protocol byte changes.",
+    "candidate04CompatSha256": "a13af438c8dfb2832f47e548944118a3837e988f547c19b357a96a7bf973aed8"
   },
   "native-coolled-text-model.js": {
     "sha256": "ea7c8308de0e736409caf5f9c62dadca92530edd014ee1bf00095d7627572c14",

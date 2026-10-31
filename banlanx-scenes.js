@@ -49,12 +49,9 @@
   }
   function chooseSlot(){const d=openDialog('Select A Scene');if(!d)return false;names.forEach((name,i)=>action(d,name,()=>confirmSave(i)));return true;}
   function saveChooser(){
-   if(typeof options.authorizeSave!=='function')return chooseSlot();
    if(!menuReady())return false;
-   invalidate();options.onDismiss?.();
-   const d=openDialog('Save effects to scene',true);if(!d)return false;
-   const label=doc.createElement('label'),ack=doc.createElement('input');ack.type='checkbox';ack.dataset.sceneSaveConsent='';label.append(ack,doc.createTextNode('I am parked and ready to save this controller’s current effects to a scene.'));d.body.append(label);
-   const next=action(d,'Continue',()=>{if(!ack.checked||!current(d))return;if(options.authorizeSave()===true)chooseSlot();});next.disabled=true;ack.onchange=()=>{if(current(d))next.disabled=!ack.checked;};return true;
+   if(typeof options.authorizeSave==='function'&&options.authorizeSave()!==true)return false;
+   return chooseSlot();
   }
   function confirmSave(index){if(!validIndex(index))return false;const d=openDialog('Want to cover ['+names[index]+']?');if(!d)return false;action(d,'OK',()=>command('save',index));return true;}
   function deviceMenu(){const d=openDialog('',true);if(!d)return false;const rename=action(d,'Rename device',()=>{if(typeof options.onRenameDevice==='function'){invalidate();options.onRenameDevice();}});rename.disabled=typeof options.onRenameDevice!=='function';rename.title=rename.disabled?'Device rename is provided by the containing original-device header.':'';action(d,'Save effects to scene',saveChooser);return true;}

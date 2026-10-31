@@ -13,7 +13,7 @@
  }
  function create(host,options={}){
   if(!host?.ownerDocument)throw Error('DOM host required');
-  const doc=host.ownerDocument;let current=null,epoch=0,operation=0,active=false,busy=false,consent=false,status='';
+  const doc=host.ownerDocument;let current=null,epoch=0,operation=0,active=false,busy=false,status='';
   const assetBase=options.assetBase||'assets/';
   let cardCleanups=[];const clearCards=()=>{for(const f of cardCleanups)f();cardCleanups=[];};
   const section=doc.createElement('section');section.className='bx-channels';section.hidden=true;host.append(section);
@@ -30,9 +30,9 @@
    return emit('onOpen',Object.freeze({route:'/sp601e/control',name,device:current.identity,light_channel_count:8,channel_id:mask,trigger_id:null,generation:current.generation}));
   }
   async function power(mask,on,stamp){
-   if(!valid(stamp)||busy||!consent||!current.connected||typeof options.onPower!=='function')return false;
+   if(!valid(stamp)||busy||!current.connected||typeof options.onPower!=='function')return false;
    const token=++operation,identity=current.identity,generation=current.generation;
-   const guard=()=>valid(stamp)&&operation===token&&consent&&current.connected&&current.identity===identity&&current.generation===generation;
+   const guard=()=>valid(stamp)&&operation===token&&current.connected&&current.identity===identity&&current.generation===generation;
    busy=true;status='';paint();
    try{
     const result=await options.onPower(Object.freeze({mask,on,identity,generation}),Object.freeze({valid:guard}));
@@ -56,20 +56,17 @@
    const all=doc.createElement('article');all.className='bx-all';wave(all,'wave_3.png');
    all.append(button('ALL','bx-open bx-all-open',()=>request(255,'ALL')));
    const actions=doc.createElement('div');actions.className='bx-all-actions';
-   for(const [label,on]of [['ON',true],['OFF',false]]){const stamp=epoch,b=button(label,'bx-power',()=>power(255,on,stamp));b.dataset.power=label;b.disabled=busy||!consent||!current.connected||typeof options.onPower!=='function';actions.append(b);}all.append(actions);body.append(all);
+   for(const [label,on]of [['ON',true],['OFF',false]]){const stamp=epoch,b=button(label,'bx-power',()=>power(255,on,stamp));b.dataset.power=label;b.disabled=busy||!current.connected||typeof options.onPower!=='function';actions.append(b);}all.append(actions);body.append(all);
    const grid=doc.createElement('div');grid.className='bx-grid';
    current.channels.forEach((channel,i)=>{
     const card=doc.createElement('article');card.className='bx-channel';card.dataset.power=channel.lightingOn===null?'unknown':channel.lightingOn?'on':'off';wave(card,'wave_1.png');
     const open=button(channel.name,'bx-open bx-channel-open',()=>request(1<<i,String(i+1)));open.dataset.channel=String(i+1);open.disabled=channel.lightingOn!==true;card.append(open);if(typeof options.bindChannelName==='function'){card.tabIndex=0;open.dataset.channelNameGesture='true';open.setAttribute('aria-label',channel.name);card.setAttribute('aria-label',channel.name+'; hold to rename');const cleanup=options.bindChannelName(card,i);if(typeof cleanup==='function')cardCleanups.push(cleanup);}
     const stamp=epoch,toggle=button(channel.lightingOn===null?'Unknown':channel.lightingOn?'ON':'OFF','bx-toggle',()=>power(1<<i,!channel.lightingOn,stamp));toggle.dataset.toggle=String(i+1);toggle.setAttribute('role','switch');toggle.setAttribute('aria-label',channel.name+' power');if(channel.lightingOn!==null)toggle.setAttribute('aria-checked',String(channel.lightingOn));
-    toggle.disabled=channel.lightingOn===null||busy||!consent||!current.connected||typeof options.onPower!=='function';card.append(toggle);grid.append(card);
+    toggle.disabled=channel.lightingOn===null||busy||!current.connected||typeof options.onPower!=='function';card.append(toggle);grid.append(card);
    });body.append(grid);section.append(body);
-   const safety=doc.createElement('fieldset');safety.className='bx-safety';const legend=doc.createElement('legend');legend.textContent='Browser safety adaptation';safety.append(legend);
-   const label=doc.createElement('label'),check=doc.createElement('input');check.type='checkbox';check.checked=consent;check.dataset.parked='true';const stamp=epoch;check.addEventListener('change',()=>{if(valid(stamp)){consent=check.checked;if(!consent){operation++;busy=false;}paint();}});label.append(check,doc.createTextNode(' Cart parked; these outputs are decorative lights.'));safety.append(label);
-   const note=doc.createElement('p');note.textContent='Changing this confirmation sends nothing. Unknown controller state is not assumed ON.';safety.append(note);section.append(safety);
    const output=doc.createElement('p');output.className='bx-status';output.setAttribute('role','status');output.textContent=status;section.append(output);
   }
-  function invalidate(){epoch++;operation++;busy=false;consent=false;}
+  function invalidate(){epoch++;operation++;busy=false;}
   function leave(){clearCards();invalidate();active=false;section.hidden=true;}
   const hidden=()=>{if(doc.visibilityState==='hidden')leave();};doc.addEventListener('visibilitychange',hidden);
   return Object.freeze({
@@ -77,7 +74,7 @@
    update(input){const next=model(input);invalidate();current=next;status='';if(active)paint();},
    leave,
    dispose(){leave();doc.removeEventListener('visibilitychange',hidden);section.remove();},
-   snapshot(){return {active,busy,consent,epoch,model:current?JSON.parse(JSON.stringify(current)):null,status};}
+   snapshot(){return {active,busy,epoch,model:current?JSON.parse(JSON.stringify(current)):null,status};}
   });
  }
  const api=Object.freeze({create,tabs:TABS});if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SmartEaseBanlanXChannels=api;

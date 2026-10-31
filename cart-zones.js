@@ -168,7 +168,7 @@ function czCheckHalloweenOrder(){
  const input=czId('hauntedOrder');if(!input)return;
  const nums=input.value.split(/[\s,]+/).filter(Boolean).map(Number);
  if(nums.some(n=>!czState.activeOutputs.includes(n))){
-  czId('hauntedVerified').checked=false;hauntedButtons();
+  hauntedButtons();
   log('Halloween references ports marked unwired in Golf Cart Zones. Update front-to-back order.','warn');
  }
 }
@@ -243,8 +243,7 @@ function czIdentifyOutput(){
  const n=Number(czId('czIdentifyOutput').value);
  if(!Number.isInteger(n)||!czState.activeOutputs.includes(n)){czStatus('Choose one of the physically connected outputs.',true);return;}
  const mask=maskFor(n-1);
- if(!confirm('Temporarily turn SP608E output '+n+' solid teal at 45% to identify its cart location? This changes its current lighting.'))return;
- czStatus('Identifying CH'+n+'… watch which part of the parked cart illuminates.');
+ czStatus('Identifying CH'+n+'… watch which part of the cart illuminates.');
  const jobs=[packet(0x83,[mask,25]),packet(0x85,[mask,115]),packet(0x82,[mask,1]),hauntedColorCommand(n,'#49e3d2',115)];
  enqueuePackets(jobs,'Golf cart identify output '+n).then(ok=>{
   czStatus(ok?'CH'+n+' identification sent. Select the matching cart zone and check Output '+n+'. Restore your saved scene afterward.':'Identification interrupted. Check Bluefy Bluetooth diagnostics.',!ok);
@@ -327,7 +326,6 @@ async function czApplySceneRows(rows,name){
  if(document.visibilityState==='hidden'){czStatus('Keep Bluefy in the foreground while the scene starts.',true);return false;}
  const outputs=czUniqueOutputs();
  if(!outputs.length){czStatus('Choose at least one mapped decorative light first.',true);return false;}
- if(!confirm('Play "'+name+'" across '+outputs.length+' mapped lighting outputs?'))return false;
  czApplying=true;czId('czApplyDraft').disabled=true;
  try{
   czStatus('Preparing calibrated colors for '+name+'…');
@@ -398,10 +396,10 @@ function czUseHalloween(){
  if(hauntedRunning){czStatus('Stop the live Halloween show before changing its output order.',true);return;}
  czId('hauntedOrder').value=order.join(',');
  czId('hauntedOrder').dispatchEvent(new Event('input',{bubbles:true}));
- czId('hauntedVerified').checked=false;
+
  hauntedButtons();
  switchTab('scenes');
- czStatus('Copied front-to-back mapped outputs '+order.join(', ')+' to Haunted Surge. Verify positions and check the safety box before Play.');
+ czStatus('Copied front-to-back mapped outputs '+order.join(', ')+' to Haunted Surge. Review the order, then choose Play.');
  czId('hauntedCard').scrollIntoView({behavior:'smooth',block:'start'});
  notify('Cart zone order copied to Halloween. Verify outputs before playing.');
 }

@@ -36,8 +36,8 @@ function create({plan,current,valid,acquireExclusive,scheduler={setTimeout,clear
   const buffered=early;early=[];for(const b of buffered){if(!live(e)||tx.snapshot.actions!==a.token)break;actions(tx.receive(b,tx.snapshot.context));}
  }
  function start(consent){if(state!=='idle')throw Error('Uploader is single use; create a new explicitly admitted session');
-  if(!consent||['experimental','parked','backupReady','overwriteAccepted','ackAmbiguityAccepted'].some(k=>consent[k]!==true))throw Error('Explicit owner experimental/parked/backup/overwrite/ACK-risk confirmations required');
-  const s=current();mode=capability(s);if(consent.deviceId!==s.deviceId||consent.generation!==s.generation)throw Error('Consent belongs to another identity/session');if(valid()!==true)throw Error('Owner context unavailable');
+  if(!consent)throw Error('Current device/session token required');
+  const s=current();mode=capability(s);if(consent.deviceId!==s.deviceId||consent.generation!==s.generation)throw Error('Send belongs to another identity/session');if(valid()!==true)throw Error('Owner context unavailable');
   owner=Object.freeze({...s});tx=createTransaction(plan,{deviceId:s.deviceId,generation:s.generation,transferId:consent.transferId},{attemptsPerPacket:1,restarts:1});
   const begin=tx.start(tx.snapshot.context);lease=acquireExclusive();if(!lease||typeof lease.valid!=='function'||typeof lease.release!=='function'||lease.valid()!==true){try{lease?.release?.();}catch{}lease=null;throw Error('Exclusive connection writer lease required');}
   state='starting';done=new Promise(resolve=>doneResolve=resolve);const e=++epoch;notify();if(!live(e))return done;listener=event=>{if(event.target!==owner.characteristic||!live(e))return;const v=event.target.value;if(!(v instanceof DataView))return finish('failed','Notification value is not a DataView');receive(Array.from(new Uint8Array(v.buffer,v.byteOffset,v.byteLength)));};owner.characteristic.addEventListener('characteristicvaluechanged',listener);

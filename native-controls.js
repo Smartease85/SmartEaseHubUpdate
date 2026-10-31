@@ -9,7 +9,6 @@ spPanel.innerHTML=`
  <div class="display-settings"><label>Speed (1–10) <input class="input" id="nativeSpSpeed" type="number" min="1" max="10" value="5"></label><label>Effect length (pixels) <input class="input" id="nativeSpLength" type="number" min="1" max="240" value="32"></label></div>
  <label class="field-label" for="nativeSpDirection">Direction</label><select class="input" id="nativeSpDirection"><option value="1">Forward</option><option value="0">Reverse</option></select>
  <label class="field-label" for="nativeSpGain">Music sensitivity (1–16)</label><input class="input" id="nativeSpGain" type="number" min="1" max="16" value="8">
- <label class="switchline"><input id="nativeSpParked" type="checkbox"> Cart parked; selected outputs are decorative lights.</label>
  <div class="row-actions"><button class="primary" id="nativeSpApply" type="button">Apply effect + settings</button><button class="secondary" id="nativeSpOn" type="button">Selected on</button><button class="secondary" id="nativeSpOff" type="button">Selected off</button><button class="secondary" id="nativeSpRead" type="button">Read controller status</button></div>
  <label class="field-label" for="nativeSpSlot">Onboard scene</label><select class="input" id="nativeSpSlot">${Array.from({length:9},(_,i)=>`<option value="${i}">Scene ${i+1}</option>`).join("")}</select>
  <div class="row-actions"><button class="secondary" id="nativeSpRecall" type="button">Recall onboard scene</button><button class="secondary" id="nativeSpLoopOn" type="button">Scene auto on</button><button class="secondary" id="nativeSpLoopOff" type="button">Scene auto off</button></div>
@@ -20,7 +19,7 @@ ui("nativeSpEffect").value="25";
 for(const input of spPanel.querySelectorAll("[data-native-output]"))input.checked=czUniqueOutputs().includes(Number(input.dataset.nativeOutput));
 let nativeSpBusy=false;
 function nativeSpMask(){return [...spPanel.querySelectorAll("[data-native-output]:checked")].reduce((mask,input)=>mask|maskFor(Number(input.dataset.nativeOutput)-1),0);}
-function nativeSpReady(){return canSend()&&!!nativeSpMask()&&ui("nativeSpParked").checked&&document.visibilityState==="visible"&&!nativeSpBusy&&!applying&&!nativeLotusBusy&&!nokinsTestBusy&&!liveName;}
+function nativeSpReady(){return canSend()&&!!nativeSpMask()&&document.visibilityState==="visible"&&!nativeSpBusy&&!applying&&!nativeLotusBusy&&!nokinsTestBusy&&!liveName;}
 function nativeSpRender(){
  const fx=fxById.get(Number(ui("nativeSpEffect").value));
  for(const [id,key] of [["Color","color"],["Speed","speed"],["Length","length"],["Direction","direction"]])ui("nativeSp"+id).disabled=!fx?.[key]||nativeSpBusy;
@@ -30,11 +29,11 @@ function nativeSpRender(){
 }
 async function nativeSpSend(action){
  const status=ui("nativeSpStatus");
- if(!nativeSpReady()){status.textContent="Connect SP608E, select decorative outputs and confirm parked before sending.";return false;}
+ if(!nativeSpReady()){status.textContent="Connect SP608E and select the outputs to control.";return false;}
  const mask=nativeSpMask(),session=bleSession;nativeSpBusy=true;nativeSpRender();
  cancelPlayback();
  const generation=applyGeneration;
- const guard=()=>generation===applyGeneration&&session===bleSession&&canSend()&&ui("nativeSpParked").checked&&document.visibilityState==="visible"&&!applying&&!liveName;
+ const guard=()=>generation===applyGeneration&&session===bleSession&&canSend()&&document.visibilityState==="visible"&&!applying&&!liveName;
  try{
   let ok;
   if(action==="apply"){
@@ -59,12 +58,10 @@ async function nativeSpSend(action){
   }else if(action==="on"||action==="off")ok=await sendPower(mask,action==="on",{guard});
   else if(action==="recall"){
    // Onboard recall is controller-wide, including outputs outside this selection.
-   if(!confirm("Recall onboard scene "+(Number(ui("nativeSpSlot").value)+1)+"? It can change all eight SP608E outputs, including unselected outputs."))return false;
    if(!guard())return false;
    ok=await enqueuePackets(packet(0x8e,[Number(ui("nativeSpSlot").value)]),"Native onboard scene",{guard});
    if(ok)ok=await spEnsureChipColors(czUniqueOutputs(),guard,{force:true});
   }else if(action==="loop-on"||action==="loop-off"){
-   if(!confirm("Change scene auto for the whole SP608E? Onboard scenes can affect all eight outputs."))return false;
    ok=await enqueuePackets(packet(0x90,[action==="loop-on"?1:0]),"Native scene auto",{guard});
   }
   status.textContent=ok?(transport==="demo"?"Demo updated. No Bluetooth commands sent.":"Commands sent. Check the real lights; controller status may follow."):"Operation stopped or failed. Reconnect and check controller status.";
@@ -76,17 +73,17 @@ ui("nativeSpRead").onclick=async()=>{const ok=await queryState();ui("nativeSpSta
 spPanel.addEventListener("change",nativeSpRender);
 // Connection/readback changes originate in the retained transport, not this panel.
 const nativeSpObserver=new MutationObserver(nativeSpRender);nativeSpObserver.observe(ui("connectionText"),{childList:true,characterData:true,subtree:true});
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")ui("nativeSpParked").checked=false;nativeSpRender();});
+document.addEventListener("visibilitychange",()=>{nativeSpRender();});
 nativeSpRender();
 
 // Independent solid-color control uses the existing, exact-model Lotus adapter.
 const lotusSolid=document.createElement("div");
-lotusSolid.innerHTML=`<label class="field-label" for="nativeLotusColor">Solid color</label><input type="color" id="nativeLotusColor" value="#49e3d2"><div class="row-actions"><button class="secondary" id="nativeLotusSolid" type="button">Apply solid color + brightness</button><button class="secondary" id="nativeLotusDim" type="button">Decorative lights off / dim to zero</button></div><p class="small-note">Uses the same parked confirmation above. MELK off is zero brightness; hardware power framing remains unverified.</p>`;
+lotusSolid.innerHTML=`<label class="field-label" for="nativeLotusColor">Solid color</label><input type="color" id="nativeLotusColor" value="#49e3d2"><div class="row-actions"><button class="secondary" id="nativeLotusSolid" type="button">Apply solid color + brightness</button><button class="secondary" id="nativeLotusDim" type="button">Decorative lights off / dim to zero</button></div><p class="small-note">MELK off is zero brightness; hardware power framing remains unverified.</p>`;
 ui("nativeLotusStatus").before(lotusSolid);
 async function nativeLotusSolid(on){
  const adapter=cartDevices[2],status=ui("nativeLotusStatus");
- const ready=()=>adapter.connected&&["bledob","melk-oa10"].includes(adapter.profile)&&ui("nativeLotusParked").checked&&document.visibilityState==="visible"&&transport!=="demo"&&!applying&&!liveName&&!nokinsTestBusy&&!nativeSpBusy;
- if(!ready()||nativeLotusBusy){status.textContent=adapter.profile==="melk-of21"?"Use the dedicated MELK-OF21 controls below.":"Connect a supported exact Lotus profile and confirm parked first.";return false;}
+ const ready=()=>adapter.connected&&["bledob","melk-oa10"].includes(adapter.profile)&&document.visibilityState==="visible"&&transport!=="demo"&&!applying&&!liveName&&!nokinsTestBusy&&!nativeSpBusy;
+ if(!ready()||nativeLotusBusy){status.textContent=adapter.profile==="melk-of21"?"Use the dedicated MELK-OF21 controls below.":"Connect a supported exact Lotus profile first.";return false;}
  nativeLotusBusy=true;renderNativeLibrary();
  try{
   const ok=await adapter.write(SmartEaseLotus.commands(adapter.profile,{on,color:ui("nativeLotusColor").value,brightness:Number(ui("nativeLotusBrightness").value)}),ready);
@@ -96,10 +93,9 @@ async function nativeLotusSolid(on){
 ui("nativeLotusSolid").onclick=()=>nativeLotusSolid(true);ui("nativeLotusDim").onclick=()=>nativeLotusSolid(false);
 function nativeLotusSolidRender(){
  lotusSolid.hidden=cartDevices[2].profile==="melk-of21";
- const adapter=cartDevices[2],ready=adapter.connected&&["bledob","melk-oa10"].includes(adapter.profile)&&ui("nativeLotusParked").checked&&document.visibilityState==="visible"&&transport!=="demo"&&!applying&&!liveName&&!nokinsTestBusy&&!nativeSpBusy&&!nativeLotusBusy;
+ const adapter=cartDevices[2],ready=adapter.connected&&["bledob","melk-oa10"].includes(adapter.profile)&&document.visibilityState==="visible"&&transport!=="demo"&&!applying&&!liveName&&!nokinsTestBusy&&!nativeSpBusy&&!nativeLotusBusy;
  ui("nativeLotusSolid").disabled=ui("nativeLotusDim").disabled=!ready;
 }
-ui("nativeLotusParked").addEventListener("change",nativeLotusSolidRender);
 const nativeLotusObserver=new MutationObserver(nativeLotusSolidRender);nativeLotusObserver.observe(ui("nativeLotusInfo"),{childList:true});
 document.addEventListener("visibilitychange",nativeLotusSolidRender);nativeLotusSolidRender();
 

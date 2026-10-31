@@ -140,8 +140,8 @@ test("native SP608E editor sends calibrated packets only to explicitly selected 
  const b=boot({"smartease-haunted-rgb-fix-v1":'{"2":["r","g","b"]}',"smartease-sp608e-rgb-balance-v1":'{"2":[100,50,100]}'}),d=b.w.document;
  b.run('enterDemo();globalThis.nativePackets=[];spEnsureChipColors=async(outputs)=>{globalThis.nativePorts=[...outputs];spChipRecord(2);spChipApplied[2]={session:bleSession,order:0};return true};enqueuePackets=async(jobs,label,options)=>{if(options?.guard&&!options.guard())return false;globalThis.nativePackets.push(...(typeof jobs[0]==="number"?[jobs]:jobs));return true}');
  for(const input of d.querySelectorAll("[data-native-output]"))input.checked=input.dataset.nativeOutput==="2";
- assert.equal(await b.run('nativeSpSend("apply")'),false);assert.equal(b.run("nativePackets.length"),0);
- d.getElementById("nativeSpParked").checked=true;d.getElementById("nativeSpColor").value="#a24aec";d.getElementById("nativeSpBrightness").value="30";
+ assert.equal(d.getElementById("nativeSpParked"),null);
+ d.getElementById("nativeSpColor").value="#a24aec";d.getElementById("nativeSpBrightness").value="30";
  assert.equal(await b.run('nativeSpSend("apply")'),true);
  assert.equal(b.run("JSON.stringify(nativePorts)"),"[2]");
  assert.equal(b.run("JSON.stringify(nativePackets)"),JSON.stringify([[136,131,2,2,25],[136,133,2,2,77],[136,130,2,2,1],[136,137,5,2,162,37,236,77]]));
@@ -168,7 +168,7 @@ test("native SP Apply restores per-output calibrated RGB after firmware resets c
    }return true;
   }`);
  for(const input of d.querySelectorAll("[data-native-output]"))input.checked=["2","5"].includes(input.dataset.nativeOutput);
- d.getElementById("nativeSpParked").checked=true;d.getElementById("nativeSpColor").value="#a24aec";
+ d.getElementById("nativeSpColor").value="#a24aec";
  for(const effect of [25,7,102,1]){
   b.run("nativeResetWrites=[]");d.getElementById("nativeSpEffect").value=String(effect);
   const untouched=b.run("JSON.stringify(nativeHardware.filter((_,i)=>![1,4].includes(i)))");
@@ -188,20 +188,20 @@ test("native SP Apply restores per-output calibrated RGB after firmware resets c
 test("native SP608E queued settings cancel when a new scene takes over",async()=>{
  const b=boot(),d=b.w.document;
  b.run('enterDemo();globalThis.nativePackets=[];spEnsureChipColors=async()=>{applyGeneration++;return true};enqueuePackets=async(jobs,label,opts)=>{if(!opts.guard())return false;nativePackets.push(...jobs);return true}');
- d.getElementById("nativeSpParked").checked=true;
+
  assert.equal(await b.run('nativeSpSend("apply")'),false);assert.equal(b.run("nativePackets.length"),0);assert.equal(b.run("nativeSpBusy"),false);b.dom.window.close();
 });
 
-test("native SP608E global recall requires explicit whole-controller confirmation",async()=>{
- const b=boot(),d=b.w.document;let confirmations=0;b.w.confirm=message=>{confirmations++;assert.match(message,/all eight/);return false;};
- b.run('enterDemo();globalThis.recalls=0;recallScene=async()=>{recalls++;return true}');d.getElementById("nativeSpParked").checked=true;
- assert.equal(await b.run('nativeSpSend("recall")'),false);assert.equal(b.run("recalls"),0);assert.equal(confirmations,1);b.dom.window.close();
+test("native SP608E global recall is an explicit action without a permission dialog",async()=>{
+ const b=boot();let confirmations=0;b.w.confirm=()=>{confirmations++;return false;};
+ b.run('enterDemo();globalThis.recallPackets=[];enqueuePackets=async(bytes,label,options)=>{if(!options.guard())return false;recallPackets.push(bytes);return true};spEnsureChipColors=async()=>true');
+ assert.equal(await b.run('nativeSpSend("recall")'),true);assert.equal(b.run('JSON.stringify(recallPackets)'),JSON.stringify([[136,142,1,0]]));assert.equal(confirmations,0);b.dom.window.close();
 });
 
 test("native Lotus solid control keeps OF21 blocked and uses existing exact-profile packets",async()=>{
  const b=boot(),d=b.w.document;installLotusMock(b);await b.run("cartDevices[2].connect()");
- assert.equal(await b.run("nativeLotusSolid(true)"),false);assert.equal(b.run("lotusWrites.length"),0);
- d.getElementById("nativeLotusParked").checked=true;d.getElementById("nativeLotusColor").value="#ff751e";d.getElementById("nativeLotusBrightness").value="33";
+ assert.equal(b.run("lotusWrites.length"),0,"connection does not send");assert.equal(d.getElementById("nativeLotusParked"),null);
+ d.getElementById("nativeLotusColor").value="#ff751e";d.getElementById("nativeLotusBrightness").value="33";
  assert.equal(await b.run("nativeLotusSolid(true)"),true);assert.equal(b.run("JSON.stringify(lotusWrites[1])"),"[126,7,5,3,255,117,30,16,239]");
  b.run('cartDevices[2].profile=null;cartDevices[2].identity={name:"MELK-OF21 1D"}');const count=b.run("lotusWrites.length");assert.equal(await b.run("nativeLotusSolid(true)"),false);assert.equal(b.run("lotusWrites.length"),count);b.dom.window.close();
 });
@@ -290,7 +290,7 @@ test("gradient chase lab remembers palettes, speed and canopy reversal without t
  assert.equal(b.w.document.getElementById("gradientColorCanopy").value,"#a24aec");
  assert.equal(b.w.document.getElementById("gradientColorRear").value,"#ff751e");
  assert.equal(b.w.document.getElementById("gradientReverseCanopy").checked,true);
- assert.equal(b.w.document.getElementById("gradientParked").checked,false,"safety acknowledgment never persisted");
+ assert.equal(b.w.document.getElementById("gradientParked"),null,"safety acknowledgment never persisted");
  b.w.document.getElementById("gradientColorRear").value="#ff9933";
  b.w.document.getElementById("gradientColorRear").dispatchEvent(new b.w.Event("input"));
  const reverse=b.w.document.getElementById("gradientReverseCanopy");
@@ -306,7 +306,7 @@ test("gradient chase lab remembers palettes, speed and canopy reversal without t
  const again=boot(store);
  assert.equal(again.w.document.getElementById("gradientColorRear").value,"#ff9933");
  assert.equal(again.w.document.getElementById("gradientReverseCanopy").checked,false);
- assert.equal(again.w.document.getElementById("gradientParked").checked,false);
+ assert.equal(again.w.document.getElementById("gradientParked"),null);
  assert.equal(again.w.document.getElementById("gradientNativeSpeed").value,"8");
  assert.equal(again.errors.length,0);
  again.dom.window.close();
@@ -317,7 +317,7 @@ test("gradient chase refuses unsafe or disconnected starts with zero controller 
  b.run('cartDevices[0].apply=async()=>{globalThis.writesSent=(globalThis.writesSent||0)+1;return true;}');
  assert.equal(await b.run("gradientRunNative()"),false,"requires explicit parked agreement");
  assert.equal(await b.run("startGradientLive(1)"),false);
- b.w.document.getElementById("gradientParked").checked=true;
+
  assert.equal(await b.run("gradientRunNative()"),false,"requires real or demo SP608E connection");
  assert.equal(b.run("globalThis.writesSent||0"),0);
  assert.equal(b.w.localStorage.getItem("smartease-golf-cart-zones-v2"),null,"no scenes saved by test");
@@ -326,7 +326,7 @@ test("gradient chase refuses unsafe or disconnected starts with zero controller 
 test("native chase writes calibrated five-zone colors and only documented per-output direction packets", async () => {
  const b=boot();
  b.run("enterDemo()");
- b.w.document.getElementById("gradientParked").checked=true;
+
  b.run('cartDevices[0].apply=async(rows)=>{globalThis.appliedGradientRows=rows;return true;};enqueuePackets=async(jobs)=>{globalThis.nativeGradientDir=jobs;return true;};');
  assert.equal(await b.run("gradientRunNative()"),true);
  assert.equal(b.run('appliedGradientRows["front-bumper"].color'),"#46ef77");
@@ -346,9 +346,7 @@ test("native chase writes calibrated five-zone colors and only documented per-ou
 test("canopy direction test sends exactly one mapped 0x8a packet, and toggle can restore forward", async () => {
  const b=boot();
  b.run("enterDemo()");
- const parked=b.w.document.getElementById("gradientParked");
- assert.equal(await b.run("gradientFlipCanopy()"),false);
- parked.checked=true;
+ assert.equal(b.w.document.getElementById("gradientParked"),null);
  b.run('enqueuePackets=async(jobs)=>{globalThis.canopyDirectionJobs=jobs;return true;}');
  assert.equal(await b.run("gradientFlipCanopy()"),true);
  assert.deepEqual(JSON.parse(b.run('JSON.stringify(canopyDirectionJobs)')),[ [136,138,2,16,0] ]);
@@ -362,7 +360,7 @@ test("canopy direction test sends exactly one mapped 0x8a packet, and toggle can
 test("traveling gradient sweeps front canopy both undercarriages rear; completes without saving firmware scenes", async () => {
  const b=boot();
  b.run("enterDemo()");
- b.w.document.getElementById("gradientParked").checked=true;
+
  b.run('cartDevices[0].apply=async(rows)=>{globalThis.initialSweepRows=rows;return true;};enqueuePackets=async(jobs,label)=>{(globalThis.gradientFrames??=[]).push({jobs,label});return true;};');
  assert.equal(await b.run("startGradientLive(1,0)"),true);
  assert.equal(b.run("gradientFrames.length"),36,"one cycle is three colors times four groups times three fades");
@@ -651,17 +649,16 @@ function installLotusMock(b, name = "ELK-BLEDOB") {
     `globalThis.lotusWrites=[];globalThis.mockLotus=new EventTarget();mockLotus.name=${JSON.stringify(name)};mockLotus.id='lotus-test';globalThis.lotusConnects=0;mockLotus.gatt={connected:false,connect:async()=>{lotusConnects++;mockLotus.gatt.connected=true;return {getPrimaryService:async uuid=>{if(uuid!=='0000fff0-0000-1000-8000-00805f9b34fb')throw Error('unexpected service');return {getCharacteristic:async id=>{if(id!=='0000fff3-0000-1000-8000-00805f9b34fb')throw Error('unexpected characteristic');return {properties:{writeWithoutResponse:true},writeValueWithoutResponse:async bytes=>lotusWrites.push(Array.from(bytes))};}};}};},disconnect:()=>{mockLotus.gatt.connected=false;mockLotus.dispatchEvent(new Event('gattserverdisconnected'));}};navigator.bluetooth={requestDevice:async()=>mockLotus};`,
   );
 }
-test("NOKINS on-cart test is gated by connection and parked acknowledgment and leaves SP608E untouched", async () => {
+test("NOKINS explicit color test needs a connection, no acknowledgement, and leaves SP608E untouched", async () => {
  const b=boot();
  const red=b.w.document.getElementById("nokinsTestRed");
  assert.equal(red.disabled,true,"never test before identification");
  installLotusMock(b,"ELK-BLEDOB");
  await b.run("cartDevices[2].connect()");
  b.run("renderDevices()");
- assert.equal(red.disabled,true,"connected alone cannot write");
+ assert.equal(red.disabled,false,"explicit color action is available after connection");
  assert.equal(b.run("lotusWrites.length"),0,"connecting must not actuate lights");
- const parked=b.w.document.getElementById("nokinsParked");
- parked.checked=true;parked.dispatchEvent(new b.w.Event("change"));
+ assert.equal(b.w.document.getElementById("nokinsParked"),null);
  assert.equal(red.disabled,false);
  assert.equal(await b.run('testNokinsColor("#ff0000","red")'),true);
  assert.equal(b.run("lotusWrites.length"),3);
@@ -673,7 +670,7 @@ test("NOKINS on-cart test is gated by connection and parked acknowledgment and l
  b.run("cartDevices[2].disconnect()");
  b.run("renderDevices()");
  assert.equal(red.disabled,true);
- assert.equal(parked.checked,false);
+
  assert.equal(b.errors.length,0);
  b.dom.window.close();
 });
@@ -684,8 +681,8 @@ test("unknown Lotus controller identity cannot activate NOKINS RGB test buttons"
  b.run("renderDevices()");
  assert.match(b.w.document.getElementById("nokinsControllerInfo").textContent,/UNVERIFIED-NOKINS-RGB/);
  assert.match(b.w.document.getElementById("nokinsControllerInfo").textContent,/No RGB commands will be sent/);
- b.w.document.getElementById("nokinsParked").checked=true;
- b.w.document.getElementById("nokinsParked").dispatchEvent(new b.w.Event("change"));
+
+
  assert.equal(b.w.document.getElementById("nokinsTestRed").disabled,true);
  assert.equal(await b.run('testNokinsColor("#ff0000","red")'),false);
  assert.equal(b.run("lotusWrites.length"),0);
@@ -698,7 +695,7 @@ test("individual-device library exposes SP608E advanced control and gates MELK e
  assert.ok(box,"Devices must provide a discoverable original-function panel");
  assert.equal(b.w.document.getElementById("nativeLotusMode").options.length,47);
  assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
- assert.equal(b.w.document.getElementById("nativeLotusParked").checked,false);
+ assert.equal(b.w.document.getElementById("nativeLotusParked"),null);
  b.w.document.getElementById("nativeSpEffects").click();
  assert.equal(b.w.document.body.classList.contains("advanced-open"),true);
  assert.equal(b.w.document.getElementById("tab-effects").getAttribute("aria-hidden"),"false");
@@ -722,20 +719,20 @@ test("individual-device library exposes SP608E advanced control and gates MELK e
  assert.equal(again.w.document.getElementById("nativeLotusCategory").value,"flow");
  assert.equal(again.w.document.getElementById("nativeLotusMode").value,"157");
  assert.equal(again.w.document.getElementById("nativeLotusSpeed").value,"29");
- assert.equal(again.w.document.getElementById("nativeLotusParked").checked,false);
+ assert.equal(again.w.document.getElementById("nativeLotusParked"),null);
  assert.equal(again.errors.length,0);
  again.dom.window.close();
 });
-test("Lotus native MELK mode only writes with recognized hardware and parked consent", async () => {
+test("Lotus native MELK mode writes on explicit action with recognized hardware", async () => {
  const b=boot();
- const park=b.w.document.getElementById("nativeLotusParked");
+ assert.equal(b.w.document.getElementById("nativeLotusParked"),null);
  assert.equal(await b.run("applyNativeLotusMode()"),false);
  installLotusMock(b,"MELK-OA10   5F");
  await b.run("cartDevices[2].connect()");
  b.run("renderDevices()");
- assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
+ assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,false);
  assert.equal(b.run("lotusWrites.length"),0,"connection alone should not act");
- park.checked=true;park.dispatchEvent(new b.w.Event("change"));
+
  assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,false);
  const cat=b.w.document.getElementById("nativeLotusCategory");
  cat.value="flow";cat.dispatchEvent(new b.w.Event("change"));
@@ -756,7 +753,7 @@ test("Lotus native MELK mode only writes with recognized hardware and parked con
  assert.equal(b.run("cartDevices[1].capabilities.pixelUpload"),false);
  b.run("cartDevices[2].disconnect()");
  b.run("renderDevices()");
- assert.equal(park.checked,false,"disconnect clears parked approval");
+
  assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
  assert.equal(b.errors.length,0);
  b.dom.window.close();
@@ -766,8 +763,8 @@ test("ELK-BLEDOB profile never inherits MELK native effects or sends unverified 
  installLotusMock(b,"ELK-BLEDOB");
  await b.run("cartDevices[2].connect()");
  b.run("renderDevices()");
- const park=b.w.document.getElementById("nativeLotusParked");
- park.checked=true;park.dispatchEvent(new b.w.Event("change"));
+ assert.equal(b.w.document.getElementById("nativeLotusParked"),null);
+
  assert.equal(b.w.document.getElementById("nativeLotusApply").disabled,true);
  assert.match(b.w.document.getElementById("nativeLotusInfo").textContent,/not verified/);
  assert.equal(await b.run("applyNativeLotusMode()"),false);
@@ -1103,7 +1100,7 @@ test("fine-tune sends corrected-order RGB and saves matches without double-swapp
 test("custom scene effects are not replaced with solid colors on apply", async () => {
  const b=boot();
  b.run("enterDemo()");
- b.w.document.getElementById("studioParked").checked=true;
+
  b.w.document.getElementById("studioEyesInclude").checked=false;
  b.run('cartDevices[0].apply=async(rows)=>{globalThis.sentEffects=Object.values(rows).map(x=>x.effect);return true;}');
  b.w.document.getElementById("designerEffect").value="7";
@@ -1205,7 +1202,7 @@ test('first UX connection remains usable when assignment storage is unavailable'
 });
 
 test('OF21 mic UI maps all eight choices to hexadecimal native rhythm bytes',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
  const select=b.w.document.getElementById('of21MicMode');assert.deepEqual([...select.options].map(o=>Number(o.value)),Array.from({length:8},(_,i)=>0x80+i));
  for(let i=0;i<8;i++){select.value=String(0x80+i);assert.equal(await b.run('of21Run("mic")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[0x7e,7,3,0x80+i,4,255,255,0,0xef]);}
  assert.equal(b.errors.length,0);b.dom.window.close();
@@ -1329,7 +1326,7 @@ test('assignments survive reload, restore only exact granted IDs, and preserve s
 
 test('OF21 discovered write properties drive source controls, serialized writes and cancellation guards',async()=>{
  const b=boot(),m=installThreeDeviceMock(b,{writeWithoutResponse:true});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.equal(b.run('cartDevices[2].ownerLink.report.writeMethod'),'writeValueWithoutResponse');
- assert.equal(await b.run('of21Run("color")'),false);assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;b.w.document.getElementById('of21Level').value='50';b.w.document.getElementById('of21LiveColor').value='#ff0000';
+ assert.equal(m.state.writes.nokins.length,0);assert.equal(b.w.document.getElementById("of21Parked"),null);b.w.document.getElementById('of21Level').value='50';b.w.document.getElementById('of21LiveColor').value='#ff0000';
  assert.equal(await b.run('of21Run("color")'),true);assert.deepEqual(m.state.writes.nokins,[[126,7,4,255,0,1,2,1,239],[126,4,1,50,1,255,2,1,239],[126,7,5,3,255,0,0,16,239]]);
  b.w.document.getElementById('of21Effects').value='233';assert.equal(await b.run('of21Run("effect")'),true);assert.deepEqual(m.state.writes.nokins.at(-3),[126,7,3,233,6,255,255,0,239]);assert.deepEqual(m.state.writes.nokins.at(-1),[126,4,1,50,0,255,2,1,239]);
  assert.equal(b.w.document.getElementById('of21Effects').options.length,234);assert.equal(b.w.document.getElementById('of21Scenes').options.length,33);assert.equal([...b.w.document.getElementById('of21Scenes').options].some(x=>x.value==='100'),false);
@@ -1339,18 +1336,18 @@ test('OF21 discovered write properties drive source controls, serialized writes 
 });
 
 test('OF21 LED-count read uses discovered notify characteristic, validates markers and bounds retries',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;m.state.notifyOnQuery=true;
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');m.state.notifyOnQuery=true;
  assert.equal(await b.run('of21Run("nodes")'),true);assert.equal(b.run('cartDevices[2].of21.totalNodes'),96);assert.equal(m.state.writes.nokins.length,1);assert.equal(b.run('cartDevices[2].of21.prepareExamples().diyExample.uploadEnabled'),false);
  m.state.notifyOnQuery=false;const before=m.state.writes.nokins.length;assert.equal(await b.run('of21Run("nodes")'),false);assert.equal(m.state.writes.nokins.length-before,3);assert.match(b.w.document.getElementById('of21LiveResult').textContent,/at most three/);b.dom.window.close();
 });
 
 test('a genuine GATT connection is reported even when its control characteristic is unavailable',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);m.state.omitWriter.nokins=true;await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;assert.equal(await b.run('of21Run("on")'),false);b.dom.window.close();
+ const b=boot(),m=installThreeDeviceMock(b);m.state.omitWriter.nokins=true;await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.equal(m.state.writes.nokins.length,0);assert.equal(await b.run('of21Run("on")'),false);b.dom.window.close();
 });
 
 test('OF21 native timer editor reads both slots, preserves the other slot and compares requested versus returned state',async()=>{
  const b=boot(),m=installThreeDeviceMock(b,{read:true});for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);
- assert.equal(m.state.writes.nokins.length,0);b.w.document.getElementById('of21Parked').checked=true;
+ assert.equal(m.state.writes.nokins.length,0);
  assert.equal(await b.run('of21NativeRun("timer")'),false);assert.equal(m.state.writes.nokins.length,0);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/Read both timer slots/);
  assert.equal(await b.run('of21NativeRun("read-timers")'),true);assert.deepEqual(m.state.reads,[0,1]);assert.deepEqual(m.state.writes.nokins.map(bytes=>Buffer.from(bytes).toString('hex')),['7e0782ffffff0000ef','7e0782ffffff0100ef']);assert.ok(m.state.delays.filter(ms=>ms===300).length>=4);
  assert.match(b.w.document.getElementById('of21TimerReturned').textContent,/07:30.*Mon Tue Wed Thu Fri.*22:15.*Sat Sun/);
@@ -1364,26 +1361,26 @@ test('OF21 native timer editor reads both slots, preserves the other slot and co
 
 test('OF21 timer readback rejects echoes, missing slot and old connection state without resetting unknown timers',async()=>{
  for(const variant of ['echo','missing','reconnect']){
-  const b=boot(),m=installThreeDeviceMock(b,{timerNotify:true,timerEcho:variant==='echo'});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+  const b=boot(),m=installThreeDeviceMock(b,{timerNotify:true,timerEcho:variant==='echo'});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
   if(variant==='missing')delete m.state.timers[1];
   assert.equal(await b.run('of21NativeRun("read-timers")'),variant==='reconnect');
-  if(variant==='reconnect'){b.run('cartDevices[2].disconnect()');await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;}
+  if(variant==='reconnect'){b.run('cartDevices[2].disconnect()');await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');}
   m.emitTimer([126,7,130,22,15,0,1,224,239]);const before=m.state.writes.nokins.length;
   assert.equal(await b.run('of21NativeRun("timer")'),false);assert.equal(m.state.writes.nokins.length,before);assert.equal(b.errors.length,0);b.dom.window.close();
  }
 });
 
 test('OF21 returned timer mismatch is disclosed without retrying or claiming device acceptance',async()=>{
- const b=boot(),m=installThreeDeviceMock(b,{read:true,ignoreTimerWrites:true});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ const b=boot(),m=installThreeDeviceMock(b,{read:true,ignoreTimerWrites:true});await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
  await b.run('of21NativeRun("read-timers")');b.w.document.getElementById('of21TimerTime').value='09:15';
  const before=m.state.writes.nokins.length;assert.equal(await b.run('of21NativeRun("timer")'),true);assert.equal(m.state.writes.nokins.length-before,4);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/differ/);b.dom.window.close();
 });
 
 test('OF21 setup is explicit, keeps requested count/order separate from returned geometry and never changes other devices',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
  b.w.document.getElementById('of21Count').value='300';b.w.document.getElementById('of21Order').value='GRB';
- assert.equal(await b.run('of21NativeRun("count")'),false);assert.equal(await b.run('of21NativeRun("order")'),false);assert.equal(m.state.writes.nokins.length,0);
- b.w.document.getElementById('of21Topology').checked=true;m.state.notifyOnQuery=true;
+ assert.equal(m.state.writes.nokins.length,0);assert.equal(b.w.document.getElementById("of21Topology"),null);
+ m.state.notifyOnQuery=true;
  assert.equal(await b.run('of21NativeRun("count")'),true);assert.deepEqual(m.state.writes.nokins[0],[126,7,33,44,1,0,255,0,239]);assert.equal(b.run('cartDevices[2].of21.totalNodes'),300);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/matches returned/);
  assert.equal(await b.run('of21NativeRun("order")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,129,2,1,3,255,0,239]);
  b.w.document.getElementById('of21Collapse').checked=true;assert.equal(await b.run('of21NativeRun("collapse")'),true);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,34,1,255,255,255,0,239]);
@@ -1401,38 +1398,38 @@ test('OF21 local pattern editor saves, reloads and deletes without commands or r
  assert.equal(await again.run('of21NativeRun("delete")'),true);assert.equal(again.run('of21Local.scenes.length'),1);assert.equal(n.state.requests.length,0);assert.deepEqual(n.state.writes,{sp608e:[],nokins:[],trinka:[]});assert.equal(again.errors.length,0);again.dom.window.close();
 });
 
-test('OF21 DIY upload requires current returned geometry and explicit consent, then serializes all nine-byte packets',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;
- assert.equal(await b.run('of21NativeRun("upload")'),false);b.w.document.getElementById('of21BulkConsent').checked=true;assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,0);
+test('OF21 DIY upload requires current returned geometry without checkbox consent, then serializes all nine-byte packets',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
+ assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,0);
  m.state.notifyOnQuery=true;assert.equal(await b.run('of21Run("nodes")'),true);assert.equal(await b.run('of21NativeRun("use-geometry")'),true);assert.equal(b.w.document.getElementById('of21DiyTotal').value,'96');
  const before=m.state.writes.nokins.length;const expected=JSON.parse(b.run('JSON.stringify(SmartEaseOF21.diy(of21Draft()).packets)'));
  const bulk=b.run('of21NativeRun("upload")'),ordinary=b.run('cartDevices[2].ownerCommand("speed",50)');assert.equal(await bulk,true);assert.equal(await ordinary,true);
  assert.deepEqual(m.state.writes.nokins.slice(before,before+expected.length),expected);assert.deepEqual(m.state.writes.nokins.at(-1),[126,7,2,50,255,255,255,0,239]);assert.equal(m.state.peak,1);assert.equal(m.state.delays.filter(d=>d===75).length,expected.length);
- assert.match(b.w.document.getElementById('of21NativeResult').textContent,/No device ACK/);assert.equal(b.w.document.getElementById('of21BulkConsent').checked,false);
- b.run('cartDevices[2].disconnect()');await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;b.w.document.getElementById('of21BulkConsent').checked=true;
+ assert.match(b.w.document.getElementById('of21NativeResult').textContent,/No device ACK/);assert.equal(b.w.document.getElementById('of21BulkConsent'),null);
+ b.run('cartDevices[2].disconnect()');await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
  assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,before+expected.length+1);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test('OF21 cancellation of an in-flight DIY packet returns immediately, blocks unsafe follow-up and keeps other links',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('of21Parked').checked=true;m.state.notifyOnQuery=true;await b.run('of21Run("nodes")');await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);m.state.notifyOnQuery=true;await b.run('of21Run("nodes")');await b.run('of21NativeRun("use-geometry")');
  const before=m.state.writes.nokins.length;let started;const start=new Promise(resolve=>{started=resolve;});m.chars.nokins.writer.writeValueWithResponse=bytes=>{m.state.writes.nokins.push(Array.from(bytes));started();return new Promise(()=>{});};
  const pending=b.run('of21NativeRun("upload")');await start;b.w.document.getElementById('of21CancelNative').onclick();assert.equal(await pending,false);assert.equal(m.state.writes.nokins.length,before+1);assert.equal(b.run('of21Busy'),false);assert.equal(b.run('cartDevices[2].connected'),true);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.throws(()=>b.run('cartDevices[2].ownerCommand("speed",50)'),/writable/);
  assert.equal(b.run('isLive()&&cartDevices[1].connected'),true);assert.deepEqual(m.state.writes.sp608e,[]);assert.deepEqual(m.state.writes.trinka,[]);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test('OF21 failed bulk packet stops once with no automatic retry and leaves acceptance uncertain',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;m.state.notifyOnQuery=true;await b.run('of21Run("nodes")');await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');m.state.notifyOnQuery=true;await b.run('of21Run("nodes")');await b.run('of21NativeRun("use-geometry")');
  let writes=0;const original=m.chars.nokins.writer.writeValueWithResponse;m.chars.nokins.writer.writeValueWithResponse=async bytes=>{writes++;if(writes===2)throw Error('packet failed');return original(bytes);};
  assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(writes,2);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/partial pattern.*No retry/);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
-test('OF21 uncertain write timeout requires reconnect and consent is cleared across connection changes',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;b.run('SmartEasePairing.stageTimeoutMs=20');
+test('OF21 uncertain write timeout requires reconnect without a bypass checkbox',async()=>{
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.run('SmartEasePairing.stageTimeoutMs=20');
  const original=m.chars.nokins.writer.writeValueWithResponse;m.chars.nokins.writer.writeValueWithResponse=()=>new Promise(()=>{});
  assert.equal(await b.run('of21NativeRun("sensitivity")'),false);assert.equal(b.run('cartDevices[2].controlReady'),false);assert.match(b.w.document.getElementById('of21LiveStatus').textContent,/uncertain.*reconnect/);
- b.w.document.getElementById('of21Topology').checked=true;b.w.document.getElementById('of21BulkConsent').checked=true;
+
  b.run('cartDevices[2].disconnect()');m.chars.nokins.writer.writeValueWithResponse=original;await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');
- assert.equal(b.run('cartDevices[2].controlReady'),true);assert.equal(b.w.document.getElementById('of21Topology').checked,false);assert.equal(b.w.document.getElementById('of21BulkConsent').checked,false);assert.equal(b.errors.length,0);b.dom.window.close();
+ assert.equal(b.run('cartDevices[2].controlReady'),true);assert.equal(b.w.document.getElementById('of21Topology'),null);assert.equal(b.w.document.getElementById('of21BulkConsent'),null);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test('OF21 offline library preserves unreadable storage and rolls back failed local saves',async()=>{
@@ -1442,10 +1439,10 @@ test('OF21 offline library preserves unreadable storage and rolls back failed lo
 });
 
 test('OF21 returned geometry outside native bounds is surfaced and cannot enable bulk send',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');b.w.document.getElementById('of21Parked').checked=true;m.emitGeometry(2000);await new Promise(resolve=>setTimeout(resolve,0));
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("nokins",{toggle:false})');m.emitGeometry(2000);await new Promise(resolve=>setTimeout(resolve,0));
  assert.equal(b.run('cartDevices[2].of21.totalNodes'),2000,b.run('JSON.stringify({profile:cartDevices[2].profile,connected:cartDevices[2].connected,generation:cartDevices[2].ownerLink.generation,geometry:cartDevices[2].of21.geometryGeneration,parse:SmartEaseOF21.parseGeometry([126,7,55,208,7,255,0,136,239])})'));
  assert.equal(b.run('cartDevices[2].of21.geometryGeneration'),b.run('cartDevices[2].ownerLink.generation'));assert.equal(b.errors.length,0,b.errors.map(e=>e.stack).join('\n'));
- assert.match(b.w.document.getElementById('of21Nodes').textContent,/2000/);await b.run('of21NativeRun("use-geometry")');b.w.document.getElementById('of21BulkConsent').checked=true;
+ assert.match(b.w.document.getElementById('of21Nodes').textContent,/2000/);await b.run('of21NativeRun("use-geometry")');
  assert.equal(await b.run('of21NativeRun("upload")'),false);assert.equal(m.state.writes.nokins.length,0);assert.match(b.w.document.getElementById('of21NativeResult').textContent,/10–1000/);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
@@ -1482,14 +1479,14 @@ test('Devices Edit actions allow independent offline editing and save complete s
 });
 
 test('whole-cart legacy48x12 rejects before all writes; excluding display retains lights-only submission',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioParked').checked=true;
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);
  b.run('cartDevices[0].apply=async(rows,guard)=>{globalThis.coordinatedSP=rows;return guard();}');b.w.document.getElementById('studioNKind').value='effect';b.w.document.getElementById('of21Effects').value='233';
  const result=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(result.complete,false);assert.deepEqual(Array.from(result.results,r=>r.status),['failed']);assert.match(result.results[0].detail,/exact96×16.*Exclude Devil Eyes/);assert.equal(b.run('typeof coordinatedSP'),'undefined');assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});
  b.w.document.getElementById('studioEyesInclude').checked=false;const lights=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(lights.complete,true);assert.equal(lights.results.at(-1).status,'excluded');assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test('individual native SP drafts keep per-output settings and reapply calibrated RGB after power-on',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("sp608e",{toggle:false})');b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioSPMode').value='outputs';
+ const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("sp608e",{toggle:false})');b.w.document.getElementById('studioSPMode').value='outputs';
  b.run('for(const r of Object.values(studioChannels))r.include=false;studioChannels[1].include=true;studioChannels[1].effect=25;studioChannels[1].color="#123456";studioRenderPort();enqueuePackets=async packets=>{globalThis.studioPackets=packets;return true;}');
  const result=await b.w.document.getElementById('studioApplySP').onclick();assert.equal(result.complete,true);const packets=JSON.parse(b.run('JSON.stringify(studioPackets)'));const power=packets.findIndex(p=>p[1]===0x82),rgb=packets.findIndex(p=>p[1]===0x89);assert.ok(power>=0&&rgb>power);assert.ok(packets.every(p=>p[3]===1));assert.equal(m.state.writes.nokins.length,0);assert.equal(m.state.writes.trinka.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
 });
@@ -1506,14 +1503,14 @@ test('complete-build import validates locally and an older slow import cannot ov
 });
 
 test('whole-cart partial failure and cancellation never report all included devices complete',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioEyesInclude').checked=false;b.run('cartDevices[0].apply=async()=>false');
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioEyesInclude').checked=false;b.run('cartDevices[0].apply=async()=>false');
  const failed=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(failed.complete,false);assert.equal(failed.results[0].status,'failed');assert.equal(failed.results[1].status,'submitted');assert.equal(failed.results[2].status,'excluded');
  let release;b.w.holdSP=new Promise(resolve=>{release=resolve;});b.run('cartDevices[0].apply=async(rows,guard)=>{await holdSP;return guard();}');const pending=b.w.document.getElementById('studioApplyAll').onclick();await Promise.resolve();b.w.document.getElementById('studioStop').onclick();release();const stopped=await pending;assert.equal(stopped.complete,false);assert.equal(stopped.results.some(r=>r.status==='cancelled'),true);assert.match(b.w.document.getElementById('studioResults').textContent,/incomplete/);assert.equal(m.state.writes.trinka.length,0);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test('new complete Apply invalidates delayed ordinary Apply and live playback before it can overwrite the newer revision',async()=>{
  const b=boot();b.run('enterDemo()');let release;b.w.oldOrdinaryWait=new Promise(resolve=>{release=resolve;});b.run('globalThis.playbackCalls=0;globalThis.playbackWrites=[];cartDevices[0].apply=async(rows,guard)=>{if(++playbackCalls===1)await oldOrdinaryWait;if(!guard())return false;playbackWrites.push(rows["front-bumper"].color);return true;};');
- const old=b.run('applyScene(E.presets[1])');await Promise.resolve();b.run('liveName="old-live";liveToken=100;draft["front-bumper"].color="#112233";');b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioNInclude').checked=false;b.w.document.getElementById('studioEyesInclude').checked=false;
+ const old=b.run('applyScene(E.presets[1])');await Promise.resolve();b.run('liveName="old-live";liveToken=100;draft["front-bumper"].color="#112233";');b.w.document.getElementById('studioNInclude').checked=false;b.w.document.getElementById('studioEyesInclude').checked=false;
  const next=await b.w.document.getElementById('studioApplyAll').onclick();assert.equal(next.complete,true);assert.equal(b.run('liveName'),'');assert.ok(b.run('liveToken')>100);release();assert.equal(await old,false);assert.deepEqual(JSON.parse(b.run('JSON.stringify(playbackWrites)')),['#112233']);assert.match(b.w.document.getElementById('playState').textContent,/INCLUDED COMMANDS/);assert.equal(b.run('applying'),false);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
@@ -1548,14 +1545,14 @@ test('full backup restore includes validated OF21 native patterns and requested-
 });
 
 test('Advanced saved complete-scene Apply uses shared coordination and exposes all device outcomes',async()=>{
- const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioNKind').value='effect';b.w.document.getElementById('of21Effects').value='233';
+ const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.w.document.getElementById('studioNKind').value='effect';b.w.document.getElementById('of21Effects').value='233';
  b.run('cartDevices[0].apply=async(rows,guard)=>guard();const advancedScene=studioCurrentScene();advancedScene.id="cart-advanced";advancedScene.name="Advanced complete";czState.scenes.push(advancedScene);czRenderSaved();');
  const apply=[...b.w.document.querySelectorAll('#czSavedScenes button')].find(button=>button.textContent==='Apply');assert.equal(await apply.onclick(),false);assert.equal(b.w.document.querySelector('[data-page="home"]').hidden,false);assert.equal(m.state.writes.nokins.length,0);assert.equal(m.state.writes.trinka.length,0);assert.match(b.w.document.getElementById('sceneSaveStatus').textContent,/exact96×16/);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
 test('Stop during the final real SP transport write remains cancelled after GATT resolves',async()=>{
  const b=boot(),m=installThreeDeviceMock(b);await b.run('SmartEaseConnections.connectOne("sp608e",{toggle:false})');
- b.w.document.getElementById('studioParked').checked=true;b.w.document.getElementById('studioSPMode').value='outputs';
+ b.w.document.getElementById('studioSPMode').value='outputs';
  b.run('for(const row of Object.values(studioChannels))row.include=false;studioChannels[1].include=true;studioChannels[1].on=false;studioRenderPort()');
  let started,release;const entered=new Promise(resolve=>{started=resolve;});m.chars.sp608e.writer.writeValueWithResponse=bytes=>{m.state.writes.sp608e.push(Array.from(bytes));started();return new Promise(resolve=>{release=resolve;});};
  const pending=b.w.document.getElementById('studioApplySP').onclick();await entered;assert.equal(m.state.writes.sp608e.length,1,'only the final power-off packet is pending');
@@ -1563,7 +1560,7 @@ test('Stop during the final real SP transport write remains cancelled after GATT
  release();const result=await pending;assert.equal(result.complete,false);assert.equal(result.cancelled,true);assert.equal(result.results[0].status,'cancelled');assert.equal(b.w.document.getElementById('studioResults').textContent,stoppedResults);assert.equal(b.w.document.getElementById('homeStudioResults').textContent,stoppedHome);assert.equal(b.w.document.getElementById('playState').textContent,stoppedState);assert.match(stoppedState,/CANCELLED/);assert.equal(b.run('applying'),false);assert.equal(b.errors.length,0);b.dom.window.close();
 });
 
-async function studioUXFixture(){const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.run('go("create");displayProject=SmartEaseDisplay.create(96,16);studioOwnsDisplay=true;globalThis.wholeOrder=[];cartDevices[0].apply=async(rows,guard)=>{if(!guard())return false;wholeOrder.push("sp608e");return true;};');b.w.document.getElementById('studioParked').checked=true;const ch=m.chars.trinka.writer,codec=b.w.SmartEaseUXSourceCodec;const parser=codec.streamParser({maxFrame:codec.MAX_FRAME});ch.service={uuid:'0000fff0-0000-1000-8000-00805f9b34fb'};ch.properties.notify=true;ch.startNotifications=async()=>{m.state.subscriptions.push('ux');};const write=ch.writeValueWithResponse;ch.writeValueWithResponse=async bytes=>{await write(bytes);b.run('wholeOrder.push("trinka")');for(const p of parser.push(Array.from(bytes))){const ack=codec.envelope(p[0]===2?[2,1]:[3,0,p[6],p[7],0]);ch.value=new b.w.DataView(b.w.Uint8Array.from(ack).buffer);ch.dispatchEvent(new b.w.Event('characteristicvaluechanged'));}};return{b,m,ch};}
+async function studioUXFixture(){const b=boot(),m=installThreeDeviceMock(b);for(const id of ['sp608e','nokins','trinka'])await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`);b.run('go("create");displayProject=SmartEaseDisplay.create(96,16);studioOwnsDisplay=true;globalThis.wholeOrder=[];cartDevices[0].apply=async(rows,guard)=>{if(!guard())return false;wholeOrder.push("sp608e");return true;};');const ch=m.chars.trinka.writer,codec=b.w.SmartEaseUXSourceCodec;const parser=codec.streamParser({maxFrame:codec.MAX_FRAME});ch.service={uuid:'0000fff0-0000-1000-8000-00805f9b34fb'};ch.properties.notify=true;ch.startNotifications=async()=>{m.state.subscriptions.push('ux');};const write=ch.writeValueWithResponse;ch.writeValueWithResponse=async bytes=>{await write(bytes);b.run('wholeOrder.push("trinka")');for(const p of parser.push(Array.from(bytes))){const ack=codec.envelope(p[0]===2?[2,1]:[3,0,p[6],p[7],0]);ch.value=new b.w.DataView(b.w.Uint8Array.from(ack).buffer);ch.dispatchEvent(new b.w.Event('characteristicvaluechanged'));}};return{b,m,ch};}
 const studioFlush=async()=>{for(let i=0;i<180;i++)await Promise.resolve();};
 function studioConfirm(b){const dialog=b.w.document.querySelector('#studioSendRoot dialog');for(const input of dialog.querySelectorAll('input')){input.checked=true;input.onchange();}return dialog;}
 test('whole-cart actual-index exact96 display-first owner admission then captured light queues',async()=>{const{b,m}=await studioUXFixture();const before=b.run('JSON.stringify(studioCurrentScene())'),p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();assert.equal(b.run('SmartEaseStudio.displaySendState().phase'),'ready');assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});assert.equal(m.state.subscriptions.includes('ux'),false);const dialog=studioConfirm(b);dialog.querySelector('button').click();await studioFlush();const result=await p;assert.equal(result.complete,true);assert.equal(result.displayComplete,true);const order=JSON.parse(b.run('JSON.stringify(wholeOrder)'));assert.equal(order.at(-1),'sp608e');assert.ok(order.slice(0,-1).every(x=>x==='trinka'));assert.ok(m.state.writes.nokins.length>0);assert.equal(b.run('JSON.stringify(studioCurrentScene())'),before);assert.equal(b.errors.length,0,b.errors.map(x=>x.message).join('\n'));b.dom.window.close();});
@@ -1575,17 +1572,17 @@ test('whole-cart actual-index admitted Apply invalidates older pending full-back
 test('whole-cart actual-index unchanged device UI refresh preserves fresh ready consent',async()=>{const{b,m}=await studioUXFixture(),p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();const dialog=studioConfirm(b);b.run('updateCartDeviceUI()');assert.equal(b.run('SmartEaseStudio.displaySendState().phase'),'ready');assert.ok([...dialog.querySelectorAll('input')].every(x=>x.checked));assert.equal(m.state.writes.trinka.length,0);b.run('SmartEaseStudio.stop()');await p;b.dom.window.close();});
 test('whole-cart actual-index late display import cannot replace a newly admitted captured build',async()=>{const{b,m}=await studioUXFixture(),input=b.w.document.getElementById('displayImport');let release;const project=JSON.parse(b.run('JSON.stringify(displayProject)'));project.programs[0].name='Late import';Object.defineProperty(input,'files',{configurable:true,value:[{size:100,text:()=>new Promise(r=>release=r)}]});const importing=input.onchange(),sending=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();release(JSON.stringify(project));await importing;assert.notEqual(b.run('displayProject.programs[0].name'),'Late import');assert.equal(b.run('SmartEaseStudio.displaySendState().phase'),'ready');assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});b.run('SmartEaseStudio.stop()');await sending;b.dom.window.close();});
 test('whole-cart actual-index starting display import revokes admission before asynchronous file read',async()=>{const{b,m}=await studioUXFixture(),p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();studioConfirm(b);const input=b.w.document.getElementById('displayImport');let release;Object.defineProperty(input,'files',{configurable:true,value:[{size:100,text:()=>new Promise(r=>release=r)}]});const importing=input.onchange();assert.equal((await p).complete,false);release('{}');await importing;assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});b.dom.window.close();});
-test('whole-cart actual-index Home parked revoke then recheck cannot revive captured consent',async()=>{const{b,m}=await studioUXFixture();b.run('go("home")');const p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();const dialog=studioConfirm(b),send=dialog.querySelector('button').onclick,parked=b.w.document.getElementById('homeSceneParked');parked.checked=false;parked.onchange();parked.checked=true;parked.onchange();assert.equal(send(),false);assert.equal((await p).cancelled,true);assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});b.dom.window.close();});
+test('whole-cart actual-index Stop cannot revive captured Send',async()=>{const{b,m}=await studioUXFixture();b.run('go("home")');const p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();const dialog=studioConfirm(b),send=dialog.querySelector('button').onclick;b.w.document.getElementById('studioStop').click();assert.equal(send(),false);assert.equal((await p).cancelled,true);assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});b.dom.window.close();});
 test('whole-cart actual-index UX continuity remains mandatory after display completion during SP await',async()=>{for(const mutate of ['cartDevices[1].link.generation++','cartDevices[1].link.characteristic={...cartDevices[1].link.characteristic}','cartDevices[1].link={...cartDevices[1].link}','cartDevices[1].link.device={id:"replacement",name:"Replacement"}','Object.defineProperty(cartDevices[1],"profile",{configurable:true,value:"unknown"})']){const{b,m}=await studioUXFixture();let release,started=false;b.w.pendingSP=()=>new Promise(r=>{started=true;release=r;});b.run('cartDevices[0].apply=async(rows,guard)=>{await pendingSP();return guard();}');const p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();studioConfirm(b).querySelector('button').click();await studioFlush();assert.equal(started,true,mutate);assert.ok(m.state.writes.trinka.length>0);b.run(mutate+';updateCartDeviceUI()');release();await studioFlush();const r=await p;assert.equal(r.complete,false,mutate);assert.equal(r.displayComplete,true,mutate);assert.equal(r.partialRemote,true,mutate);assert.equal(m.state.writes.nokins.length,0,mutate);b.dom.window.close();}});
 test('whole-cart actual-index UX rebind immediately after display ACK never enters lights',async()=>{const{b,m,ch}=await studioUXFixture();const original=b.w.SmartEaseStudioDisplaySend.create;b.w.SmartEaseStudioDisplaySend.create=(root,options)=>original(root,{...options,onState:s=>{options.onState?.(s);if(s.phase==='lights'){b.run('cartDevices[1].link.generation++;updateCartDeviceUI()');}}});const p=b.w.document.getElementById('studioApplyAll').onclick();await studioFlush();studioConfirm(b).querySelector('button').click();await studioFlush();const r=await p;assert.equal(r.complete,false);assert.equal(r.displayComplete,true);assert.equal(m.state.writes.nokins.length,0);assert.equal(b.run('wholeOrder.includes("sp608e")'),false);b.dom.window.close();});
-test('whole-cart individual Devil Eyes copy accurately distinguishes experimental Send from physical verification',async()=>{const{b}=await studioUXFixture();b.run('renderNativeLibrary()');const text=b.w.document.getElementById('nativeEyesInfo').textContent;assert.match(text,/experimental owner-confirmed Send/);assert.match(text,/physically unverified/);assert.doesNotMatch(text,/Upload remains disabled/);b.dom.window.close();});
+test('whole-cart individual Devil Eyes copy accurately distinguishes experimental Send from physical verification',async()=>{const{b}=await studioUXFixture();b.run('renderNativeLibrary()');const text=b.w.document.getElementById('nativeEyesInfo').textContent;assert.match(text,/experimental Send/);assert.match(text,/physically unverified/);assert.doesNotMatch(text,/Upload remains disabled/);b.dom.window.close();});
 
 test('real short-UUID Devices connections enable Native power and one-off/selected Send admissions without commands',async()=>{
  const value={format:'smartease-native-coolledux-library',version:1,libraries:{'coolledux:16x96':{family:'coolledux',rows:16,columns:96,records:[{id:'a',kind:'graffiti',repeat:1,graffiti:{width:96,height:16,pixels:Array(1536).fill(0),mask:Array(1536).fill(true),mode:1,speed:15,stay:3}}],selection:['a']}},preferences:{}};
  const b=boot({'smartease-native-coolledux-v1':JSON.stringify(value)}),m=installThreeDeviceMock(b,{shortUUIDs:true,uxNotify:true}),d=b.w.document;
  try{
   for(const id of ['nokins','trinka'])assert.equal(await b.run(`SmartEaseConnections.connectOne('${id}',{toggle:false})`),true);
-  b.run("go('native/nokins/color')");assert.equal(b.w.SmartEaseNativeBottom.open(),true);const on=d.querySelector('[name=nlbChoice][value=on]');on.checked=true;on.dispatchEvent(new b.w.Event('change'));d.getElementById('nlbParked').checked=true;d.getElementById('nlbParked').dispatchEvent(new b.w.Event('change'));assert.equal(d.getElementById('nlbApply').disabled,false);d.getElementById('nlbCancel').click();
+  b.run("go('native/nokins/color')");assert.equal(b.w.SmartEaseNativeBottom.open(),true);const on=d.querySelector('[name=nlbChoice][value=on]');on.checked=true;on.dispatchEvent(new b.w.Event('change'));assert.equal(d.getElementById('nlbApply').disabled,false);d.getElementById('nlbCancel').click();
   b.run("go('native/coolled/program')");assert.equal(b.w.SmartEaseNativeUX.openRecord('a'),true);assert.equal(await b.w.SmartEaseNativeUX.sendEditor('graffiti'),true);let dialog=d.querySelector('.nux-selected-send');assert.equal(dialog.open,true);for(const i of dialog.querySelectorAll('input')){assert.equal(i.disabled,false);i.checked=true;i.dispatchEvent(new b.w.Event('change'));}assert.equal(dialog.querySelector('button').disabled,false);[...dialog.querySelectorAll('button')].find(x=>/Cancel/.test(x.textContent)).click();
   b.run("go('native/coolled/program')");assert.equal(await b.w.SmartEaseNativeUX.sendSelected(),true);dialog=[...d.querySelectorAll('.nux-selected-send')].find(x=>x.open);assert.ok(dialog);assert.ok([...dialog.querySelectorAll('input')].every(x=>!x.disabled&&!x.checked));[...dialog.querySelectorAll('button')].find(x=>/Cancel/.test(x.textContent)).click();
   assert.deepEqual(m.state.writes,{sp608e:[],nokins:[],trinka:[]});assert.equal(m.state.subscriptions.includes('ux'),false);assert.equal(b.errors.length,0);

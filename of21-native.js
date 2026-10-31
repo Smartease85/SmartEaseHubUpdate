@@ -33,7 +33,7 @@ try{
  }
 }catch{of21LocalLoadError="Saved pattern data could not be loaded. The original storage was preserved; export a full backup before saving new patterns.";}
 of21Native.innerHTML=`<hr><h4>Timers & controller setup</h4>
- <p class="small-note">These controls use the OF21 source protocol. Apply changes while parked, then check the controller. Saved requests are local history; returned values are partial device readback. Neither proves power-cycle retention.</p>
+ <p class="small-note">These controls use the OF21 source protocol. Apply changes, then check the controller. Saved requests are local history; returned values are partial device readback. Neither proves power-cycle retention.</p>
  <div class="row-actions"><button class="secondary" data-native-of="read-timers">Read both timers</button><button class="secondary" data-native-of="clock">Sync local clock now</button></div>
  <p id="of21TimerReturned" class="small-note">Both timer slots are unknown.</p>
  <div class="display-settings"><label>Timer slot<select class="input" id="of21TimerKind"><option value="0">Turn on</option><option value="1">Turn off</option></select></label><label>Time<input class="input" id="of21TimerTime" type="time" value="07:30"></label></div>
@@ -43,7 +43,7 @@ of21Native.innerHTML=`<hr><h4>Timers & controller setup</h4>
  <div class="display-settings"><label>RGB wire order<select class="input" id="of21Order"><option value="">Choose an order</option>${["RGB","RBG","GRB","GBR","BRG","BGR"].map(o=>`<option>${o}</option>`).join("")}</select></label><button class="secondary" data-native-of="order">Apply wire order</button></div>
  <div class="display-settings"><label>Total LED count (10–1000)<input class="input" id="of21Count" type="number" min="10" max="1000" step="1" placeholder="Enter intended total"></label><button class="secondary" data-native-of="count">Apply LED count & read back</button></div>
  <p class="small-note">Changing LED count changes strip topology. The range is accepted by the native app; controller capacity is not independently measured.</p>
- <label class="switchline"><input id="of21Topology" type="checkbox">I intend to change this controller's wiring, LED count or collapse setting.</label>
+
  <label class="switchline"><input id="of21Collapse" type="checkbox">Collapse enabled</label><button class="secondary" data-native-of="collapse">Apply collapse setting</button>
  <label>Mic sensitivity (%)<input class="input" id="of21Sensitivity" type="number" min="0" max="100" value="50"></label><button class="secondary" data-native-of="sensitivity">Apply mic sensitivity</button>
  <p class="small-note" id="of21Requested"></p>
@@ -62,7 +62,7 @@ of21Native.innerHTML=`<hr><h4>Timers & controller setup</h4>
  <p class="small-note">Dynamic preview illustrates motion and color; native visual equivalence and gradient direction need a physical check. A blank brightness preserves raw per-node RGB. Numeric brightness replaces HSV value while preserving hue and saturation; black becomes gray when value is raised.</p>
  <div class="row-actions"><button class="secondary" data-native-of="save">Save local pattern</button><button class="secondary" data-native-of="export">Export local patterns</button><button class="secondary" data-native-of="compile">Export offline packets</button></div>
  <label>Saved pattern<select class="input" id="of21DiySaved"></select></label><div class="row-actions"><button class="secondary" data-native-of="load">Load local pattern</button><button class="secondary" data-native-of="delete">Delete local pattern</button></div>
- <label class="switchline"><input id="of21BulkConsent" type="checkbox">Send this pattern now. No device ACK or automatic retry; cancellation can leave a partial pattern.</label>
+
  <button class="primary" data-native-of="upload">Send pattern to selected OF21</button>
  <button class="secondary" id="of21CancelNative">Cancel OF21 operation</button><p id="of21NativeResult" class="inline-status" role="status">Local edits never send commands.</p>`;
 of21Workspace.append(of21Native);
@@ -87,12 +87,12 @@ function of21NativePreview(){
 function of21NativeRender(){
  const a=cartDevices[2],current=!!a.connected&&a.profile==="melk-of21",generation=a.ownerLink.generation;
  const selection=JSON.stringify([a.identity?.id||null,generation,current]);
- if(selection!==of21NativeSelection){of21NativeSelection=selection;ui("of21Topology").checked=false;ui("of21BulkConsent").checked=false;}
+ if(selection!==of21NativeSelection){of21NativeSelection=selection;}
  const timers=a.of21.timers||{};ui("of21TimerReturned").textContent=[0,1].map(kind=>{const t=timers[kind];return (kind?"OFF: ":"ON: ")+(current&&t?.generation===generation?`${String(t.hour).padStart(2,"0")}:${String(t.minute).padStart(2,"0")}, ${t.enabled?"enabled":"disabled"}, ${t.days===0?"once":t.days===127?"daily":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].filter((_,i)=>t.days&(1<<i)).join(" ")} (returned)`:"unknown on this connection");}).join(" · ");
  const requested=of21Local.requested[a.identity?.id];ui("of21Requested").textContent=requested?"Local last requests (not readback): "+Object.entries(requested).map(([k,v])=>k+" "+(typeof v==="object"?JSON.stringify(v):v)).join("; "):"No local configuration request saved for this device.";
  for(const button of of21Native.querySelectorAll("[data-native-of]")){
   const local=["save","load","delete","export","compile","use-geometry","repeat-colors"].includes(button.dataset.nativeOf);
-  button.disabled=of21Busy||(!local&&(!current||!a.controlReady||!ui("of21Parked").checked||document.visibilityState!=="visible"));
+  button.disabled=of21Busy||(!local&&(!current||!a.controlReady||document.visibilityState!=="visible"));
  }
  ui("of21CancelNative").disabled=!of21Busy;
 }
@@ -100,7 +100,7 @@ function of21LibraryRender(){const select=ui("of21DiySaved"),previous=select.val
 function of21Download(value,name){const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:"application/json"})),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 async function of21NativeRun(kind){
  const a=cartDevices[2],result=ui("of21NativeResult"),generation=a.ownerLink.generation,picked=a.device,epoch=a.ownerEpoch||0,selectedId=a.identity?.id;
- const guard=()=>a.profile==="melk-of21"&&a.controlReady&&a.ownerLink.generation===generation&&a.device===picked&&(a.ownerEpoch||0)===epoch&&ui("of21Parked").checked&&document.visibilityState==="visible";
+ const guard=()=>a.profile==="melk-of21"&&a.controlReady&&a.ownerLink.generation===generation&&a.device===picked&&(a.ownerEpoch||0)===epoch&&document.visibilityState==="visible";
  if(of21Busy)return false;
  const local=["save","load","delete","export","compile","use-geometry","repeat-colors"].includes(kind);
  if(!local&&!guard())return false;
@@ -136,11 +136,11 @@ async function of21NativeRun(kind){
    ok=await a.ownerWriteTimers(timer,guard);requested={timers:pair.map(t=>({kind:t.kind,hour:t.hour,minute:t.minute,days:t.days,enabled:t.enabled}))};
    if(ok){const returned=await a.ownerReadTimers(guard),matches=returned&&pair.every(t=>["kind","hour","minute","days","enabled"].every(k=>a.of21.timers[t.kind][k]===t[k]));result.textContent=matches?"Both returned timer slots match the submitted pair. Firing and retention still need a physical test.":returned?"Returned timer slots differ from the submitted pair. Check both values before applying again.":"Timer pair submitted; readback incomplete. Device acceptance is unconfirmed.";}
   }else if(kind==="upload"){
-   if(!ui("of21BulkConsent").checked)throw Error("Acknowledge this upload before sending.");ok=await a.ownerUploadDIY(of21Draft(),guard);ui("of21BulkConsent").checked=false;
+   ok=await a.ownerUploadDIY(of21Draft(),guard);
    result.textContent=ok?"Pattern packets submitted once. No device ACK; check the actual lights. Power-cycle retention is unverified.":"Transfer stopped; controller may hold a partial pattern. No retry was sent.";
   }else{
    let command,value;
-   if(["order","count","collapse"].includes(kind)&&!ui("of21Topology").checked)throw Error("Explicitly acknowledge this controller configuration change first.");
+
    if(kind==="order"){command="wire-order";value=ui("of21Order").value;}
    else if(kind==="count"){command="point-count";value=Number(ui("of21Count").value);if(!ui("of21Count").value.trim())throw Error("Enter the total LED count.");}
    else if(kind==="collapse"){command="collapse";value=ui("of21Collapse").checked;}
@@ -158,8 +158,7 @@ async function of21NativeRun(kind){
 of21Native.addEventListener("click",event=>{if(event.target.dataset.nativeOf)of21NativeRun(event.target.dataset.nativeOf);});
 of21Native.addEventListener("input",of21NativePreview);
 ui("of21CancelNative").onclick=()=>{cartDevices[2].cancelOwner();ui("of21NativeResult").textContent="Cancellation requested. An in-flight command cannot be recalled; partial changes may remain. Reconnect if its outcome is uncertain.";};
-ui("of21Parked").addEventListener("change",()=>{if(!ui("of21Parked").checked){cartDevices[2].cancelOwner();ui("of21Topology").checked=false;ui("of21BulkConsent").checked=false;}of21NativeRender();});
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"){cartDevices[2].cancelOwner();ui("of21Topology").checked=false;ui("of21BulkConsent").checked=false;}of21NativeRender();});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"){cartDevices[2].cancelOwner();}of21NativeRender();});
 new MutationObserver(of21NativeRender).observe(ui("nativeLotusInfo"),{childList:true});of21LibraryRender();of21NativePreview();of21NativeRender();
 window.addEventListener("smartease-of21-state",of21NativeRender);
 if(of21LocalLoadError)ui("of21NativeResult").textContent=of21LocalLoadError;

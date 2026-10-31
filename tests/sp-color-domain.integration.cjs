@@ -153,7 +153,7 @@ test("standalone Halloween fade, stars and identification preserve their request
  for(const script of w.document.querySelectorAll('script'))run(script.textContent);
  run('connected=true;window.sent=[];send=async p=>{sent.push(p);return true}');await run('testOne()');
  assert.equal(JSON.parse(run('JSON.stringify(sent.find(p=>p[1]===0x89))')).at(-1),100);
- w.document.getElementById('verified').checked=true;w.document.getElementById('brightness').value='45';
+ assert.equal(w.document.getElementById('verified'),null);w.document.getElementById('brightness').value='45';
  run('sent=[];safeSend=async(p,label)=>{sent.push(p);if(label==="Stars color")live=false;return true}');await run('runHalloween()');
  const colors=JSON.parse(run('JSON.stringify(sent.filter(p=>p[1]===0x89))'));
  assert.ok(colors.length>2);assert.ok(colors.every(p=>p.at(-1)===115));
@@ -172,7 +172,7 @@ test("colorable music exposes explicit brightness rather than sending a disabled
  b.run('enterDemo();window.jobs=[];enqueuePackets=async p=>{jobs.push(...p);return true}');
  d.getElementById('nativeSpEffect').value=String(b.run('effects.find(f=>f.type==="Music"&&f.color).id'));b.run('nativeSpRender()');
  assert.equal(d.getElementById('nativeSpBrightness').disabled,false);
- d.getElementById('nativeSpBrightness').value='30';d.getElementById('nativeSpParked').checked=true;
+ d.getElementById('nativeSpBrightness').value='30';
  assert.equal(await b.run('nativeSpSend("apply")'),true);assert.equal(b.run('jobs.filter(p=>p[1]===0x89).every(p=>p.at(-1)===77)'),true);
  assert.equal(b.run('jobs.some(p=>p[1]===0x85)'),false);
  d.getElementById('nativeSpEffect').value=String(b.run('effects.find(f=>f.type==="Music"&&!f.color).id'));b.run('nativeSpRender()');assert.equal(d.getElementById('nativeSpBrightness').disabled,true);b.dom.window.close();
@@ -196,13 +196,13 @@ test("wizard quota failure preserves previous match, persisted bytes and edited 
  proto.setItem=original;b.dom.window.close();
 });
 test("color-domain release is retrievable from both entry points with a new atomic SW cache",()=>{
- const release='2026-10-30-native-test-candidate-04-compat-01';
+ const release='2026-10-31-native-test-candidate-04-ux-01';
  for(const name of ['index.html','halloween.html']){
   const html=fs.readFileSync(path.join(root,name),'utf8'),dom=new JSDOM(html);
   assert.equal(dom.window.document.querySelector('meta[name="smartease-release"]').content,release);
   assert.ok(html.includes('Build: '+release));dom.window.close();
  }
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.match(sw,/const CACHE_NAME = "smartease-cart-lights-native-test-candidate-04-compat-01"/);
+ assert.match(sw,/const CACHE_NAME = "smartease-cart-lights-native-test-candidate-04-ux-01"/);
  assert.ok(sw.includes('"./index.html"'));
 });
