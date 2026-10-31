@@ -3,7 +3,7 @@
 'use strict';
 
 const eq=(a,b)=>a&&b&&a.deviceId===b.deviceId&&a.generation===b.generation&&a.transferId===b.transferId;
-function createTransaction(plan,context,{attemptsPerPacket=3,restarts=3,maxActions=4096}={}){
+function createTransaction(plan,context,{attemptsPerPacket=3,restarts=3,maxActions=4096,onDiagnostic=()=>{}}={}){
  if(!context||typeof context.deviceId!=='string'||!context.deviceId||!Number.isSafeInteger(context.generation)||context.generation<0||typeof context.transferId!=='string'||!context.transferId)throw Error('Explicit identity/generation/transfer required');
  if(!plan||plan.format!=='smartease-ux-source-offline'||plan.version!==2||plan.uploadEnabled!==false||!Array.isArray(plan.packets)||!plan.packets.length||plan.packets.length>2048)throw Error('Offline plan required');
  const begin=plan.begin.slice(),packets=plan.packets.map(x=>x.slice());const header=C.decodeFrame(begin);if(header.length!==12||header[0]!==2||header[10]<1||header[10]>99||header[9]>=header[10])throw Error('Invalid begin header');
@@ -18,21 +18,23 @@ function createTransaction(plan,context,{attemptsPerPacket=3,restarts=3,maxActio
   start(ctx){if(!valid(ctx))return {type:'ignored',reason:'Stale context'};if(state!=='idle')throw Error('Transfer already started');state='begin';return action();},
   markDispatched(token,ctx){if(!valid(ctx)||token!==actions||!['begin','data'].includes(state))return false;dispatched=true;return true;},
   writeFailed(token,ctx){if(!valid(ctx)||token!==actions||!['begin','data'].includes(state))return {type:'ignored',reason:'Stale write failure'};return fail('Fragment write failed');},
-  receive(input,ctx){if(!valid(ctx))return [{type:'ignored',reason:'Stale context'}];if(!['begin','data'].includes(state))return [{type:'ignored',reason:'Inactive transfer'}];if(!dispatched)return [{type:'ignored',reason:'Frame not dispatched'}];let payloads;try{payloads=parser.push(input);}catch(e){return [fail(e.message)];}const result=[];
+  receive(input,ctx){if(!valid(ctx))return [{type:'ignored',reason:'Stale context'}];if(!['begin','data'].includes(state))return [{type:'ignored',reason:'Inactive transfer'}];if(!dispatched)return [{type:'ignored',reason:'Frame not dispatched'}];let payloads;try{payloads=parser.push(input);}catch(e){try{onDiagnostic({phase:state,opcode:null,length:input?.length??null,index:null,status:null,disposition:'malformed',cached:null});}catch{}return [fail(e.message)];}const result=[];
    // At most one acceptance in a callback. Further frames cannot acknowledge an
    // action that the caller has not yet had the opportunity to dispatch.
-   let accepted=false;
-   for(const p of payloads){if(accepted){result.push({type:'ignored',reason:'Unsolicited coalesced ACK'});continue;}
+   let accepted=false;const ackPhase=state;
+   function record(p,result){try{onDiagnostic({phase:ackPhase,opcode:p[0]??null,length:p.length,index:p.length===5&&p[0]===3?p[2]*256+p[3]:null,status:p.length===2?p[1]:p.length===5?p[4]:null,disposition:result.type,cached:result.type==='complete'?result.cached:null});}catch{}resultListPush(result);}
+   const resultListPush=x=>result.push(x);
+   for(const p of payloads){if(accepted){record(p,{type:'ignored',reason:'Unsolicited coalesced ACK'});continue;}
     if(state==='begin'){
-     if(p.length!==2||![2,26].includes(p[0])){result.push({type:'ignored',reason:'Unexpected begin ACK'});continue;}
-     if(p[1]===1){state='complete';parser.reset();result.push({type:'complete',cached:true,retentionVerified:false});accepted=true;}
-     else if(p[1]===0){state='data';index=0;attempt=0;result.push(action());accepted=true;}
-     else {result.push(fail('Begin status '+p[1]));accepted=true;}
+     if(p.length!==2||![2,26].includes(p[0])){record(p,{type:'ignored',reason:'Unexpected begin ACK'});continue;}
+     if(p[1]===1){state='complete';parser.reset();record(p,{type:'complete',cached:true,retentionVerified:false});accepted=true;}
+     else if(p[1]===0){state='data';index=0;attempt=0;record(p,action());accepted=true;}
+     else {record(p,fail('Begin status '+p[1]));accepted=true;}
     }else if(state==='data'){
-     if(p.length!==5||p[0]!==3){result.push({type:'ignored',reason:'Unexpected data ACK'});continue;}
-     const acknowledged=p[2]*256+p[3];if(acknowledged!==index){result.push({type:'ignored',reason:'Unexpected packet index'});continue;}
-     if(p[4]!==0){result.push(fail('Data status '+p[4]));accepted=true;continue;}
-     accepted=true;attempt=0;if(index===packets.length-1){state='complete';parser.reset();result.push({type:'complete',cached:false,retentionVerified:false});}else{index++;result.push(action());}
+     if(p.length!==5||p[0]!==3){record(p,{type:'ignored',reason:'Unexpected data ACK'});continue;}
+     const acknowledged=p[2]*256+p[3];if(acknowledged!==index){record(p,{type:'ignored',reason:'Unexpected packet index'});continue;}
+     if(p[4]!==0){record(p,fail('Data status '+p[4]));accepted=true;continue;}
+     accepted=true;attempt=0;if(index===packets.length-1){state='complete';parser.reset();record(p,{type:'complete',cached:false,retentionVerified:false});}else{index++;record(p,action());}
     }
    }if(accepted)parser.reset();return result;
   },

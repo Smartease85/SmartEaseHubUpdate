@@ -1,12 +1,19 @@
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./ux-experimental-uploader.js'),require('./owner-test-plan.js'));else root.SmartEaseUXOwnerSend=factory(root.SmartEaseUXExperimentalUploader,root.SmartEaseUXOwnerTestPlan);})(globalThis,function(Uploader,Plan){
 'use strict';
 // All future UX writers must use this same link-scoped lease. No connection/discovery here.
-const leases=new WeakMap();
+const leases=new WeakMap(),packetReports=new WeakMap();
+// OEM logical-packet policy is distinct from 20-byte ATT fragmentation.
+// Reports are memory-only and may originate only from an accepted explicit 1f read.
+const samePacketOwner=(a,b)=>!!a&&!!b&&a.deviceId===b.deviceId&&a.generation===b.generation&&a.characteristic===b.characteristic;
+const packetFallback=()=>Object.freeze({packageSize:1004,measured:false,provenance:'source-fallback-unmeasured'});
 function binding(adapter){
  const link=adapter?.link;if(!link)throw Error('UX transport unavailable');
- function current(){const device=link.device;return {deviceId:device?.id||link.identity?.id,deviceName:device?.name||link.identity?.name||'Unnamed display',geometrySource:'explicit-owner-target-profile',generation:link.generation,connected:adapter.link===link&&link.connected===true,characteristic:link.characteristic,discovery:typeof link.discoveryProof==='function'?link.discoveryProof():null,model:adapter.profile==='coolledux'?'CoolLEDUX':'unknown',width:96,height:16};}
+ function current(){const device=link.device;const result={deviceId:device?.id||link.identity?.id,deviceName:device?.name||link.identity?.name||'Unnamed display',geometrySource:'explicit-owner-target-profile',generation:link.generation,connected:adapter.link===link&&link.connected===true,characteristic:link.characteristic,discovery:typeof link.discoveryProof==='function'?link.discoveryProof():null,model:adapter.profile==='coolledux'?'CoolLEDUX':'unknown',width:96,height:16};const cached=packetReports.get(link);if(cached&&(!result.connected||result.model!=='CoolLEDUX'||!samePacketOwner(cached.owner,result)))packetReports.delete(link);return result;}
  function acquireExclusive(){const prior=leases.get(link);if(prior)throw Error('Previous display write has not settled. Wait before another test.');const s=current(),token={};leases.set(link,token);let released=false;return {valid(){const now=current();return !released&&leases.get(link)===token&&now.connected&&s.deviceId===now.deviceId&&s.generation===now.generation&&s.characteristic===now.characteristic;},release(){if(released)return;released=true;if(leases.get(link)===token)leases.delete(link);}};}
- return Object.freeze({current,acquireExclusive,busy:()=>leases.has(link)});
+ function clearDeviceInfo(){packetReports.delete(link);}
+ function recordDeviceInfo(owner,info){const now=current();if(!now.connected||now.model!=='CoolLEDUX'||!samePacketOwner(owner,now))throw Error('Stale device-info packet report');if(info?.format!=='coolledux-device-info1f'||info.version!==1||info.identity?.deviceId!==now.deviceId||info.identity?.generation!==now.generation||!Number.isSafeInteger(info.ticket)||info.ticket<1||info.association!=='explicit-pending-same-source-not-wire-authenticated')throw Error('Accepted explicit device-info read required');const f=info.logicalPacketMax;if(!f||!(f.raw===null||Number.isInteger(f.raw)))throw Error('Malformed logical packet-size report');packetReports.set(link,{owner:{deviceId:now.deviceId,generation:now.generation,characteristic:now.characteristic},raw:f.raw,known:f.known===true,measured:f.measured===true,value:f.value,provenance:f.provenance});}
+ function logicalPacketPolicy(){current();const r=packetReports.get(link);if(!r||r.raw===null)return packetFallback();if(!r.known||!r.measured||r.provenance!=='reply'||r.value!==r.raw||r.raw<1||r.raw>1024)throw Error('Reported logical packet size '+r.raw+' is unsupported (supported 1–1024); nothing sent.');return Object.freeze({packageSize:r.raw,measured:true,provenance:'explicit-same-session-device-info'});}
+ return Object.freeze({current,acquireExclusive,busy:()=>leases.has(link),clearDeviceInfo,recordDeviceInfo,logicalPacketPolicy});
 }
 const confirmations=Object.freeze([]);
 function create(host,{adapter,valid=()=>false,scheduler,onState=()=>{}}){
