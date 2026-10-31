@@ -196,13 +196,13 @@ test("wizard quota failure preserves previous match, persisted bytes and edited 
  proto.setItem=original;b.dom.window.close();
 });
 test("color-domain release is retrievable from both entry points with a new atomic SW cache",()=>{
- const release='2026-10-31-native-test-candidate-04-ux-03';
+ const release='2026-10-31-native-test-candidate-05-ai-01';
  for(const name of ['index.html','halloween.html']){
   const html=fs.readFileSync(path.join(root,name),'utf8'),dom=new JSDOM(html);
   assert.equal(dom.window.document.querySelector('meta[name="smartease-release"]').content,release);
   assert.ok(html.includes('Build: '+release));dom.window.close();
  }
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.match(sw,/const CACHE_NAME = "smartease-cart-lights-native-test-candidate-04-ux-03"/);
+ assert.match(sw,/const CACHE_NAME = "smartease-cart-lights-native-test-candidate-05-ai-01"/);
  assert.ok(sw.includes('"./index.html"'));
 });

@@ -221,6 +221,7 @@ notify = function (message) {
   toast(known.find(([pattern]) => pattern.test(message))?.[1] || message);
 };
 function go(next, mode = "auto") {
+  if(String(next||"home").replace(/^#/,"")!=="ai")window.SmartEaseAICart?.leave();
   if(String(next||"home").replace(/^#/,"")!==page)window.SmartEaseStudio?.stop();
   next = String(next || "home").replace(/^#/, "");
   if (next === "native" || next.startsWith("native/")) {
@@ -231,7 +232,7 @@ function go(next, mode = "auto") {
     return;
   }
   window.SmartEaseNative?.leave();
-  if (next !== "calibrate" && next !== "map" && !Object.hasOwn(icons, next)) next = "home";
+  if (next !== "ai" && next !== "calibrate" && next !== "map" && !Object.hasOwn(icons, next)) next = "home";
   page = next;
   document
     .querySelectorAll("#app [data-page]")
@@ -243,6 +244,7 @@ function go(next, mode = "auto") {
   });
   document.body.classList.remove("advanced-open");
   if (mode !== "pop" || location.hash !== "#" + next) history.replaceState(null, "", "#" + next);
+  if (next === "ai") window.SmartEaseAICart?.enter();
   if (next === "home") renderScenesUI();
   if (next === "create") renderDesigner();
   if (next === "create") window.SmartEaseStudio?.enter();
@@ -728,6 +730,7 @@ async function applyScene(scene) {
 }
 function beginScenePlayback(){cancelPlayback();applying=true;return applyGeneration;}
 function cancelPlayback() {
+  window.SmartEaseAICart?.stop("Another cart action or page lifecycle stopped the AI scene");
   window.SmartEaseStudio?.stop();
   applyGeneration++;
   applying = false;
@@ -1503,6 +1506,7 @@ async function restoreBackup(file) {
   // Cancel radio admissions synchronously, without blanking unrelated Native editors.
   // Capture our epoch AFTER that hook so its own cancellation cannot stale this restore.
   window.SmartEaseStudio?.stop();
+  window.SmartEaseAICart?.stop("Backup restore started");
   window.SmartEaseNativeUX?.cancelForBackupRestore();
   const restoreEpoch = ++backupRestoreEpoch;
   const restoreCurrent = () => restoreEpoch === backupRestoreEpoch;
@@ -1550,6 +1554,7 @@ async function restoreBackup(file) {
       "smartease-of21-native-v1",
       "smartease.native.lotus.groups.v1",
       "smartease-scene-draft-v1",
+      "smartease-ai-scene-library-v1",
     ]);
     const entries = Object.entries(data.values).filter(([k]) => allowed.has(k));
     if (!entries.length) throw Error("This backup has no restorable settings.");
@@ -1561,6 +1566,7 @@ async function restoreBackup(file) {
       if (key === "smartease-golf-cart-zones-v2") czSanitize(JSON.parse(value));
       if (key === "smartease-golf-cart-zones-v2" || key === "smartease-golf-cart-zones-v1") {const parsed=JSON.parse(value);if(parsed.scenes!==undefined&&(!Array.isArray(parsed.scenes)||parsed.scenes.length>24))throw Error("A scene library supports at most 24 scenes.");for(const scene of parsed.scenes||[])if(scene.composition?.version===1)SmartEaseStudio.validate(scene.composition);}
       if(key==="smartease.native.lotus.groups.v1")LotusGroups.validate(JSON.parse(value));
+      if(key==="smartease-ai-scene-library-v1") SmartEaseAICartStudio.validateStore(JSON.parse(value),SmartEaseAICartRecipe);
       if(key==="smartease-of21-native-v1"){const parsed=JSON.parse(value);if(parsed.version!==1||!Array.isArray(parsed.scenes)||parsed.scenes.length>32||!parsed.requested||typeof parsed.requested!=="object"||Array.isArray(parsed.requested))throw Error("Invalid OF21 pattern library.");for(const scene of parsed.scenes){if(typeof scene.name!=="string"||!scene.name.trim()||scene.name.length>70)throw Error("Invalid OF21 pattern name.");SmartEaseOF21.diy(scene.project);}of21ValidateNativeMetadata(parsed);}
       if (key === "smartease-display-project-v1") SmartEaseDisplay.validate(JSON.parse(value));
       if (key === "smartease-native-coolledux-v1") SmartEaseNativeUXStore.validate(JSON.parse(value));
@@ -2297,6 +2303,7 @@ if (!preferences.onboarded)
   setTimeout(() => ui("welcomeDialog").showModal(), 300);
 
 window.updateCartDeviceUI = () => {
+  window.SmartEaseAICart?.refresh();
   updateHeader();
   window.SmartEaseNativeUX?.refresh();
   window.SmartEaseStudio?.refresh();

@@ -1,6 +1,12 @@
 /* Complete releases cache atomically. An update never interrupts a live BLE session. */
-const CACHE_NAME = "smartease-cart-lights-native-test-candidate-04-ux-03";
+const CACHE_NAME = "smartease-cart-lights-native-test-candidate-05-ai-01";
 const ASSETS = [
+  "./ai-cart-recipe.js",
+  "./ai-cart-runtime.js",
+  "./ai-cart-device-bridge.js",
+  "./ai-cart-ui.js",
+  "./ai-cart-ui.css",
+  "./ai-cart-app.js",
   './native-coolled-text/assets/authored-frame-color-provenance.json',
   "./native-coolled-template-bundle.js",
   "./native-coolled-template-host.js",
