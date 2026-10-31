@@ -12,10 +12,10 @@
     "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive."
   },
   "ux-experimental-uploader.js": {
-    "sha256": "1e5eb2863328e0d8aa1af329553a173372929307297aede4b55e49c4f6a10f9a",
+    "sha256": "4acfbcc1b3196144c7176452d1ce24d2c0b6fb5cd9b7e4f75460a1343d91a859",
     "note": "Reviewed runtime; wire/compiler CommonJS paths adapted mechanically to existing main modules. Original static-source evidence retained in development archive.",
-    "previousSha256": "26ccbd338c9550860fdcc90124bb990221d32be3bcff29bf511d693061cbf570",
-    "change": "Routine action acknowledgement booleans removed at explicit owner request. Current identity/session, capability, serialization and cancellation protections retained; no protocol byte changes.",
+    "previousSha256": "1e5eb2863328e0d8aa1af329553a173372929307297aede4b55e49c4f6a10f9a",
+    "change": "Bind browser timer receivers; preserve packet bytes,15ms fragment pacing,5000ms ACK timeout and session/cancellation checks.",
     "candidate04CompatSha256": "18d37f0e4833c6a694dc65e6fa946327386d64149d0ea9c5f42febf67a89aba1"
   },
   "ux-owner-send.js": {

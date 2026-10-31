@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="smartease-release" content="2026-10-31-native-test-candidate-04-ux-01">
+<meta name="smartease-release" content="2026-10-31-native-test-candidate-04-ux-02">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071216">
@@ -942,7 +942,7 @@ $('quickPresets').querySelectorAll('[data-quickfx]').forEach(b=>b.onclick=()=>{i
  $('saveCustomLook').onclick=saveCustomDesign;
  $('clearLog').onclick=()=>{$('debugLog').textContent='';};$('copyLog').onclick=async()=>{try{await navigator.clipboard.writeText($('debugLog').textContent);notify('Log copied.');}catch{notify('Could not copy. Select the text manually.');}};$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({format:'SmartEaseCartLights-v1',settings},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='smartease-cart-lights-backup.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);};$('importBackup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>250000)throw Error('File too large');const data=JSON.parse(await f.text());if(data.format!=='SmartEaseCartLights-v1'||!data.settings||!Array.isArray(data.settings.names))throw Error('Not a SmartEase v1 backup');if(!confirm('Replace your local names, groups, and looks with this backup?'))return;settings=data.settings;saveSettings();settings=loadSettings();renderZones();renderRenames();renderGroups();renderScenes();renderLooks();renderStudioZones();renderLookPreview();renderDesigns();updateSelected();notify('Backup restored.');}catch(err){notify('Import failed: '+err.message);}finally{e.target.value='';}};
 window.addEventListener('pagehide',()=>{stopStudio();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')stopStudio('Studio stopped when page became hidden.');});
-renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-31-native-test-candidate-04-ux-01. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
+renderZones();renderGroups();renderRenames();renderScenes();renderLooks();buildEffects();renderStudioZones();renderLookPreview();renderDesigns();renderPreview(0);updateSelected();updateTransport();updateCounters();log('Build: 2026-10-31-native-test-candidate-04-ux-02. Protocol: SP608E / UniLED BanlanX60X commands; scene index 0-8.');}
 
 /* Haunted Surge uses the main app's serialized BLE queue and existing characteristic.
    All animations are host-driven; no scene-store or firmware-write opcode is used. */

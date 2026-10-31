@@ -16,7 +16,7 @@ function capability(s){
  if(p.writeWithoutResponse===true&&typeof c.writeValueWithoutResponse==='function')return 'without-response';
  throw Error('Explicit supported write method/property required; no guessed legacy write mode');
 }
-function create({plan,current,valid,acquireExclusive,scheduler={setTimeout,clearTimeout},onState=()=>{}}){
+function create({plan,current,valid,acquireExclusive,scheduler={setTimeout:(fn,ms)=>globalThis.setTimeout(fn,ms),clearTimeout:id=>globalThis.clearTimeout(id)},onState=()=>{}}){
  if(typeof current!=='function'||typeof valid!=='function'||typeof acquireExclusive!=='function')throw Error('Identity, validity and exclusive lease adapters required');
  let state='idle',epoch=0,owner=null,mode=null,lease=null,tx=null,timeout=null,pace=null,releasePace=null,listener=null,tail=Promise.resolve(),writePhase=false,acceptEarly=false,early=[],doneResolve=null,done=null,reason=null,writes=0,inflight=0,releaseWhenQuiet=false;
  const notify=()=>{try{onState(snapshot());}catch{}};
